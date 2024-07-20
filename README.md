@@ -24,7 +24,7 @@
 ### RootLayout 레이아웃 만들기 
 - 상단에 헤더 추가 
 - 하단에 자식 요소들이 들어감
-#### 다른 팀원이 만든 Header 적용 
+#### 준현님이 만든 Header 적용 
 ##### troubleshooting react-cookie module or type error 
 ![image](https://github.com/user-attachments/assets/f4e0801e-cc13-491f-8691-27425f1cbbea)
 해결 
@@ -38,5 +38,6 @@
 추가 문제 
 추가한 코드를 주석처리해도 문제가 다시 나타나지 않음 
 
+#### 준현님이 만든 로그인, 회원가입 및 채팅 추가
 
 
