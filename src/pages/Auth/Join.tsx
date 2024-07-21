@@ -13,7 +13,6 @@ function Join() {
   async function postInfo(e: any) {
     e.preventDefault();
 
-    // spring
     const url = baseURL + "/join";
 
     await axios
