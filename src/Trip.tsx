@@ -5,8 +5,22 @@ import Chat from "pages/Chat/Chat";
 import Login from "pages/Auth/Login";
 import Normal from "pages/Auth/Normal";
 import Join from "pages/Auth/Join";
+import { useEffect } from "react";
+import refreshAPI from "./utilities/TokenRefresher";
 
 const Trip = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await refreshAPI.get("");
+      } catch (err) {
+        console.log("에러확인 : ", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <Chat />
