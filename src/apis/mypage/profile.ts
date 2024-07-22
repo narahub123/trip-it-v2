@@ -82,3 +82,33 @@ export const updatePasswordAPI = async (password: string) => {
     }
   }
 };
+
+// 프로필 변경
+export const updateProfileAPI = async (profile: {
+  userpic?: string;
+  nickname?: string;
+  userIntro?: string;
+}) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/mypage/profile/profileUpdate`,
+      {
+        value: profile,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json", // 요청 본문 타입을 JSON으로 설정
+          Access: `${localStorage.getItem("access")}`, // 액세스 토큰 헤더 설정
+          Refresh: `${getCookie("refresh")}`, // 리프레시 토큰 헤더 설정
+        },
+        withCredentials: true, // 쿠키를 요청에 포함
+      }
+    );
+
+    console.log(response);
+
+    return response; // 서버 응답 반환
+  } catch (error) {
+    console.log(error);
+  }
+};

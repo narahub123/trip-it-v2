@@ -3,7 +3,8 @@ import "./profile.css";
 import {
   checkPassordAPI, // 비밀번호 확인 API
   fetchProfileAPI, // 프로필 정보 가져오기 API
-  updatePasswordAPI, // 비밀번호 업데이트 API
+  updatePasswordAPI,
+  updateProfileAPI, // 비밀번호 업데이트 API
 } from "apis/mypage/profile";
 import { UserType } from "types/users";
 import { convertDataToDate, handleImageUpload } from "utilities/profile";
@@ -31,11 +32,11 @@ const Profile = () => {
   const [profile, setProfile] = useState<{
     userpic: string;
     nickname: string;
-    intro: string;
+    userIntro: string;
   }>({
     userpic: user ? user.userpic : "",
     nickname: user ? user.nickname : "",
-    intro: user ? user.intro : "",
+    userIntro: user ? user.userIntro : "",
   });
   // 프로필 수정 버튼 상태
   const [isShowing, setIsShowing] = useState(false);
@@ -46,6 +47,11 @@ const Profile = () => {
       .then((res) => {
         console.log(res.data); // 서버로부터 받은 사용자 데이터 로그
         setUser(res.data); // 사용자 상태 업데이트
+        setProfile({
+          userpic: res.data.userpic,
+          nickname: res.data.nickname,
+          userIntro: res.data.userIntro,
+        });
       })
       .catch((err) => console.log(err)); // 오류 발생 시 로그
   }, []);
@@ -62,6 +68,22 @@ const Profile = () => {
       );
     }
   }, [image]);
+
+  // profile 내용이 기존과 다른 경우 수정 버튼이 보이게 하기
+  useEffect(() => {
+    if (
+      (profile.userpic.length !== 0 ||
+        profile.userIntro.length !== 0 ||
+        user?.nickname !== profile.nickname) &&
+      (user?.userpic !== profile.userpic ||
+        user?.nickname !== profile.nickname ||
+        user?.userIntro !== profile.userIntro)
+    ) {
+      setIsShowing(true);
+    } else {
+      setIsShowing(false);
+    }
+  }, [profile]);
 
   // 모달창을 열기 위한 핸들러
   const handleModal = () => {
@@ -127,6 +149,49 @@ const Profile = () => {
     const result = pwRegex.test(value);
     console.log(result); // 유효성 검사 결과 로그
     return result; // 유효성 검사 결과 반환
+  };
+
+  // 프로필 입력 필드의 값이 변경될 때 호출되는 핸들러
+  const handleProfileChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setProfile({
+      ...profile,
+      [e.currentTarget.id]: e.currentTarget.value,
+    });
+  };
+
+  // 프로필 수정하기
+  const handleProfile = () => {
+    if (!window.confirm("프로필을 수정하시겠습니까?")) {
+      return false;
+    }
+
+    updateProfileAPI(profile)
+      .then((res) => {
+        if (!res) return;
+
+        if (res.data.code === "ok") {
+          window.alert("프로필 업데이트가 완료되었습니다.");
+          setIsShowing(false);
+          setUser((prevUser) => ({
+            userpic: profile.userpic,
+            nickname: profile.nickname,
+            userIntro: profile.userIntro,
+            birth: prevUser?.birth ?? "",
+            email: prevUser?.email ?? "",
+            gender: prevUser?.gender ?? "m",
+            password: prevUser?.password ?? "",
+            regdate: prevUser?.regdate ?? "",
+            _id: prevUser?._id ?? "", // 기본값을 추가하여 undefined 방지
+            reportCount: prevUser?.reportCount ?? 0,
+            role: prevUser?.role ?? "user",
+            userId: prevUser?.userId ?? "",
+            username: prevUser?.username ?? "",
+          }));
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   console.log(user); // 사용자 정보 로그
@@ -200,20 +265,35 @@ const Profile = () => {
                 </p>
               </td>
               <td className="mypage-profile-body-td">
-                <input type="text" value={user?.nickname || ""} />
+                <input
+                  type="text"
+                  id="nickname"
+                  value={profile.nickname}
+                  onChange={(e) => handleProfileChange(e)}
+                />
               </td>
               <td className="mypage-profile-body-td" rowSpan={2}>
-                {isShowing && <button>수정</button>}
+                {isShowing && (
+                  <button type="button" onClick={handleProfile}>
+                    프로필 수정
+                  </button>
+                )}
               </td>
             </tr>
             <tr className="mypage-profile-body-row">
               <td className="mypage-profile-body-td">
                 <textarea
                   name=""
-                  id=""
-                  value={user?.intro || ""}
-                  placeholder="소개글을 작성해주세요"
-                />
+                  id="userIntro"
+                  placeholder={
+                    profile.userIntro.length === 0
+                      ? "소개글을 작성해주세요"
+                      : profile.userIntro
+                  }
+                  onChange={(e) => handleProfileChange(e)}
+                >
+                  {profile.userIntro}
+                </textarea>
               </td>
             </tr>
             <tr className="mypage-profile-body-row">
