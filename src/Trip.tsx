@@ -7,6 +7,8 @@ import Normal from "pages/Auth/Normal";
 import Join from "pages/Auth/Join";
 import { useEffect } from "react";
 import refreshAPI from "./utilities/TokenRefresher";
+import MyPage from "pages/mypage/MyPage";
+import Profile from "pages/mypage/profile/Profile";
 
 const Trip = () => {
   useEffect(() => {
@@ -29,6 +31,9 @@ const Trip = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/login/normal" element={<Normal />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/mypage" element={<MyPage />}>
+            <Route path="/mypage/profile" element={<Profile />} />
+          </Route>
         </Route>
         <Route path="/planner" element={<PlanLayout />}></Route>
       </Routes>

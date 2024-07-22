@@ -1,4 +1,5 @@
 .root-layout {
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 80px; /* 헤더 높이 만큼 마진을 줌 */
 }

@@ -1,0 +1,12 @@
+.mypage {
+  /* 기본 속성 제거 */
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  a {
+    text-decoration: none;
+  }
+}

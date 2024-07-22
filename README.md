@@ -52,5 +52,18 @@
 <details>
 <summary>2024년 7월 21일</summary>
 
-### 백엔드와 연결해서 로그인 회원가입 access 토큰, refresh 토큰 구현 
+### 백엔드와 연결해서 로그인 회원가입 access 토큰, refresh 토큰 구현
+
+</details>
+<details>
+<summary>2024년 7월 22일</summary>
+
+### 마이페이지 기본 레이아웃 구현
+
+#### 마이페이지를 라우터에 추가
+
+#### 마이페이지 헤더 적용
+
+#### 마이페이지의 active 페이지 표시하기
+
 </details>
