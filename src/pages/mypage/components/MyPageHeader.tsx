@@ -20,6 +20,7 @@ const MyPageHeader = () => {
             className={({ isActive }) =>
               isActive ? "mypage-header-item active" : "mypage-header-item"
             }
+            key={item.title}
           >
             {item.title}
           </NavLink>
