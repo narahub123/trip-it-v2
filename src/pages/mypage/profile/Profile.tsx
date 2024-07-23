@@ -10,9 +10,11 @@ import {
 import { ProfileType, UserType } from "types/users";
 import { convertDataToDate, handleImageUpload } from "utilities/profile";
 import { debounce } from "utilities/debounce";
+import { fetchProfileMsg, ProfileMsgType } from "data/profile";
 
 const Profile = () => {
   const renderCount = useRenderCount();
+  const [loading, setLoading] = useState(false);
   // 사용자 정보를 저장할 상태
   const [user, setUser] = useState<UserType>();
   // 비밀번호 입력 상태 (초기값으로 별표 문자열 설정)
@@ -43,19 +45,27 @@ const Profile = () => {
   // 포커스를 위한 참조
   const pwRef = useRef<HTMLInputElement>(null);
 
+  // 에러 정보 상태
+  const [message, setMessage] = useState<ProfileMsgType>();
+
   // 컴포넌트가 처음 렌더링될 때 사용자 프로필 정보를 가져옴
   useEffect(() => {
+    setLoading(true);
     fetchProfileAPI()
       .then((res) => {
-        console.log(res.data); // 서버로부터 받은 사용자 데이터 로그
-        setUser(res.data); // 사용자 상태 업데이트
+        console.log(res?.data); // 서버로부터 받은 사용자 데이터 로그
+        setUser(res?.data); // 사용자 상태 업데이트
         setProfile({
-          userpic: res.data.userpic,
-          nickname: res.data.nickname,
-          userIntro: res.data.userIntro,
+          userpic: res?.data.userpic,
+          nickname: res?.data.nickname,
+          userIntro: res?.data.userIntro,
         });
+        setLoading(false);
       })
-      .catch((err) => console.log(err)); // 오류 발생 시 로그
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      }); // 오류 발생 시 로그
   }, []);
 
   // 이미지에 변화가 있으면 업데이트
@@ -102,12 +112,12 @@ const Profile = () => {
       console.log(password);
       checkPassordAPI(password)
         .then((res) => {
-          console.log(res?.data); // 서버로부터 받은 응답 데이터 로그
-          if (res?.data.code === "ok") {
+          console.log(res); // 서버로부터 받은 응답 데이터 로그
+          if (res?.status === 200) {
             setPassword(""); // 비밀번호 입력 필드 초기화
             setOpenModal(false); // 모달 닫기
             setDisabled(false); // 비밀번호 입력 필드 활성화
-            window.alert("비밀번호가 확인되었습니다.");
+            setMessage(fetchProfileMsg(2));
             if (pwRef.current) {
               console.log(pwRef.current);
 
@@ -117,7 +127,10 @@ const Profile = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          // 에러 메시지를 message 상태에 저장
+          if (!err.msgId) return;
+          const msg = fetchProfileMsg(err.msgId);
+          setMessage(msg);
         }); // 오류 발생 시 로그
 
       e.preventDefault();
@@ -141,7 +154,7 @@ const Profile = () => {
   const changePassword = () => {
     const validation = ValidatePw(password); // 비밀번호 유효성 검사
     if (!validation) {
-      window.alert("잘못된 형식의 비밀번호입니다. 다시 작성해주세요."); // 유효성 검사 실패 시 알림
+      setMessage(fetchProfileMsg(7));
       return;
     }
 
@@ -150,22 +163,28 @@ const Profile = () => {
     }
 
     // 비밀번호 업데이트 API 호출
-    updatePasswordAPI(password).then((res) => {
-      if (!res) {
-        return;
-      }
-
-      if (res.data.code === "ok") {
-        setDisabled(true); // 비밀번호 입력 필드 비활성화
-        setPassword(`***********************************`); // 비밀번호 입력 필드 초기화
-        window.alert("비밀번호가 업데이트 되었습니다."); // 업데이트 성공 알림
-        if (pwRef.current) {
-          console.log(pwRef.current);
-
-          pwRef.current.value = "***********************************";
+    updatePasswordAPI(password)
+      .then((res) => {
+        if (!res) {
+          return;
         }
-      }
-    });
+
+        console.log(res);
+
+        if (res.status === 200) {
+          setDisabled(true); // 비밀번호 입력 필드 비활성화
+          setPassword(`***********************************`); // 비밀번호 입력 필드 초기화
+          setMessage(fetchProfileMsg(4)); // 업데이트 성공 알림
+          if (pwRef.current) {
+            console.log(pwRef.current);
+
+            pwRef.current.value = "***********************************";
+          }
+        }
+      })
+      .catch((err) => {
+        setMessage(fetchProfileMsg(err.msgId));
+      });
   };
 
   // 비밀번호 유효성 검사 함수
@@ -178,13 +197,9 @@ const Profile = () => {
   };
 
   // 프로필 입력 필드의 값이 변경될 때 호출되는 핸들러
-  const handleProfileChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const id = e.currentTarget ? e.currentTarget.id : e.target.id;
-    const value = e.currentTarget
-      ? e.currentTarget.value
-      : e.target.defaultValue;
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const id = e.target.id;
+    const value = e.target.value.trim();
 
     setProfile({
       ...profile,
@@ -207,8 +222,8 @@ const Profile = () => {
       .then((res) => {
         if (!res) return;
 
-        if (res.data.code === "ok") {
-          window.alert("프로필 업데이트가 완료되었습니다.");
+        if (res.status === 200) {
+          setMessage(fetchProfileMsg(8));
           setIsShowing(false);
           setUser((prevUser) => ({
             userpic: profile.userpic,
@@ -225,9 +240,12 @@ const Profile = () => {
             userId: prevUser?.userId ?? "",
             username: prevUser?.username ?? "",
           }));
+          setImagePercent(0);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setMessage(fetchProfileMsg(err.msgId));
+      });
   };
 
   console.log("user", user); // 사용자 정보 로그
@@ -238,7 +256,7 @@ const Profile = () => {
   console.log("런더링", renderCount);
 
   // 모달창이 열리면 스크롤이 안되게 조정
-  if (openModal) {
+  if (openModal || message) {
     document.body.style.overflow = "hidden";
   } else {
     document.body.style.overflow = "auto";
@@ -270,6 +288,45 @@ const Profile = () => {
           </div>
         </div>
       )}
+      {message && (
+        <div className="mypage-profile-message-modal">
+          <div className="mypage-profile-message-modal-container">
+            <div className="mypage-profile-message-modal-main">
+              <p className="mypage-profile-message-modal-header">
+                {message.msgs.header}
+              </p>
+              <p className="mypage-profile-message-modal-message">
+                {message.msgs.main}
+              </p>
+              <div className="mypage-profile-message-modal-btns">
+                <button
+                  type="button"
+                  className="mypage-profile-message-modal-cancel"
+                  onClick={() => {
+                    setMessage(undefined);
+                  }}
+                  disabled={
+                    message.type === 1 || message.type === 2 ? true : false
+                  }
+                  autoFocus
+                >
+                  {message.type === 1 || message.type === 2 ? "" : "취소"}
+                </button>
+                <button
+                  type="button"
+                  className="mypage-profile-message-modal-confirm"
+                  onClick={() => {
+                    setMessage(undefined);
+                  }}
+                  autoFocus
+                >
+                  확인
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mypage-profile-container">
         <table className="mypage-profile-table">
           <thead>
@@ -284,6 +341,15 @@ const Profile = () => {
               </td>
             </tr>
           </thead>
+          {loading && (
+            <tbody className="mypage-profile-body">
+              <tr className="mypage-profile-body-row">
+                <td className="mypage-profile-body-td" colSpan={3}>
+                  loading...
+                </td>
+              </tr>
+            </tbody>
+          )}
           <tbody className="mypage-profile-body">
             <tr className="mypage-profile-body-row">
               <td className="mypage-profile-body-td" rowSpan={2}>
@@ -329,7 +395,7 @@ const Profile = () => {
                 <input
                   type="text"
                   id="nickname"
-                  value={profile.nickname}
+                  defaultValue={profile.nickname}
                   onChange={debouncedProfileChange}
                 />
               </td>
@@ -343,18 +409,24 @@ const Profile = () => {
             </tr>
             <tr className="mypage-profile-body-row">
               <td className="mypage-profile-body-td">
-                <textarea
+                {/* <textarea
                   name=""
                   id="userIntro"
                   maxLength={100}
                   defaultValue={profile.userIntro}
                   onChange={debouncedProfileChange}
-                ></textarea>
+                ></textarea> */}
+                <input
+                  type="text"
+                  id="userIntro"
+                  defaultValue={profile.userIntro}
+                  onChange={debouncedProfileChange}
+                />
               </td>
             </tr>
             <tr className="mypage-profile-body-row">
               <th className="mypage-profile-body-th">이름</th>
-              <td className="mypage-profile-body-td" colSpan={2}>
+              <td className="mypage-profile-body-td">
                 <input
                   type="text"
                   value={user?.username || ""}
@@ -362,6 +434,7 @@ const Profile = () => {
                   disabled
                 />
               </td>
+              <td className="mypage-profile-body-td"></td>
             </tr>
             <tr className="mypage-profile-body-row">
               <th className="mypage-profile-body-th">비밀번호</th>
@@ -384,7 +457,7 @@ const Profile = () => {
             </tr>
             <tr className="mypage-profile-body-row">
               <th className="mypage-profile-body-th">이메일</th>
-              <td className="mypage-profile-body-td" colSpan={2}>
+              <td className="mypage-profile-body-td">
                 <input
                   type="text"
                   value={user?.email || ""}
@@ -392,10 +465,11 @@ const Profile = () => {
                   disabled
                 />
               </td>
+              <td className="mypage-profile-body-td"></td>
             </tr>
             <tr className="mypage-profile-body-row">
               <th className="mypage-profile-body-th">성별</th>
-              <td className="mypage-profile-body-td" colSpan={2}>
+              <td className="mypage-profile-body-td">
                 <input
                   type="text"
                   value={user?.gender === "m" ? "남성" : "여성"}
@@ -403,10 +477,11 @@ const Profile = () => {
                   disabled
                 />
               </td>
+              <td className="mypage-profile-body-td"></td>
             </tr>
             <tr className="mypage-profile-body-row">
               <th className="mypage-profile-body-th">생년월일</th>
-              <td className="mypage-profile-body-td" colSpan={2}>
+              <td className="mypage-profile-body-td">
                 <input
                   type="text"
                   value={user ? convertDataToDate(user?.birth) : ""}
@@ -414,10 +489,11 @@ const Profile = () => {
                   disabled
                 />
               </td>
+              <td className="mypage-profile-body-td"></td>
             </tr>
             <tr className="mypage-profile-body-row">
               <th className="mypage-profile-body-th">가입일</th>
-              <td className="mypage-profile-body-td" colSpan={2}>
+              <td className="mypage-profile-body-td">
                 <input
                   type="text"
                   value={user?.regdate || ""}
@@ -425,10 +501,11 @@ const Profile = () => {
                   disabled
                 />
               </td>
+              <td className="mypage-profile-body-td"></td>
             </tr>
             <tr className="mypage-profile-body-row">
               <th className="mypage-profile-body-th">신고당한 횟수</th>
-              <td className="mypage-profile-body-td" colSpan={2}>
+              <td className="mypage-profile-body-td">
                 <input
                   type="text"
                   value={user?.reportCount || 0}
@@ -436,10 +513,11 @@ const Profile = () => {
                   disabled
                 />
               </td>
+              <td className="mypage-profile-body-td"></td>
             </tr>
             <tr className="mypage-profile-body-row">
               <th className="mypage-profile-body-th">등급</th>
-              <td className="mypage-profile-body-td" colSpan={2}>
+              <td className="mypage-profile-body-td">
                 <input
                   type="text"
                   value={user?.role === "ROLE_USER" ? "사용자" : "관리자"}
@@ -447,6 +525,7 @@ const Profile = () => {
                   disabled
                 />
               </td>
+              <td className="mypage-profile-body-td"></td>
             </tr>
           </tbody>
         </table>

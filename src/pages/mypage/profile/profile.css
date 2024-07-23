@@ -20,6 +20,7 @@
       transform: translate(-50%, -50%);
       width: 400px;
       height: 200px;
+      border-radius: 10px;
       .mypage-profile-modal-main {
         margin-top: 55px;
         input {
@@ -31,8 +32,69 @@
         .mypage-profile-modal-btns {
           display: flex;
           padding: 10px;
-
           justify-content: space-evenly;
+        }
+      }
+    }
+  }
+
+  /* 메시지 모달 */
+  .mypage-profile-message-modal {
+    position: fixed;
+    /* background-color: rgba(0, 0, 0, 0.7); */
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+
+    .mypage-profile-message-modal-container {
+      background-color: #fff;
+      text-align: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 200px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      padding: 20px;
+
+      .mypage-profile-message-modal-main {
+        padding-top: 5px;
+        text-align: center;
+        .mypage-profile-message-modal-header {
+          padding: 10px 0;
+          font-weight: bold;
+          font-size: 18px;
+        }
+        .mypage-profile-message-modal-message {
+          padding-top: 15px;
+        }
+        .mypage-profile-message-modal-btns {
+          display: flex;
+          padding: 15px;
+
+          justify-content: space-between;
+          .mypage-profile-message-modal-cancel {
+            border: 0px;
+            background-color: transparent;
+            font-size: 16px;
+            outline: 0px;
+            color: red;
+            cursor: pointer;
+          }
+          .mypage-profile-message-modal-confirm {
+            border: 0px;
+            background-color: transparent;
+            font-size: 16px;
+            outline: 0px;
+            color: aquamarine;
+            cursor: pointer;
+          }
         }
       }
     }
