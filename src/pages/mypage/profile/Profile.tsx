@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRenderCount } from "@uidotdev/usehooks";
 import "./profile.css";
 import {
   checkPassordAPI, // 비밀번호 확인 API
@@ -6,15 +7,17 @@ import {
   updatePasswordAPI,
   updateProfileAPI, // 비밀번호 업데이트 API
 } from "apis/mypage/profile";
-import { UserType } from "types/users";
+import { ProfileType, UserType } from "types/users";
 import { convertDataToDate, handleImageUpload } from "utilities/profile";
+import { debounce } from "utilities/debounce";
 
 const Profile = () => {
+  const renderCount = useRenderCount();
   // 사용자 정보를 저장할 상태
   const [user, setUser] = useState<UserType>();
   // 비밀번호 입력 상태 (초기값으로 별표 문자열 설정)
   const [password, setPassword] = useState(
-    `***********************************`
+    "***********************************"
   );
   // 모달 열기 상태
   const [openModal, setOpenModal] = useState(false);
@@ -29,17 +32,16 @@ const Profile = () => {
   // 이미지 업로드 에러 상태
   const [imageError, setImageError] = useState(false);
   // 프로필 정보 상태
-  const [profile, setProfile] = useState<{
-    userpic: string;
-    nickname: string;
-    userIntro: string;
-  }>({
+  const [profile, setProfile] = useState<ProfileType>({
     userpic: user ? user.userpic : "",
     nickname: user ? user.nickname : "",
     userIntro: user ? user.userIntro : "",
   });
   // 프로필 수정 버튼 상태
   const [isShowing, setIsShowing] = useState(false);
+
+  // 포커스를 위한 참조
+  const pwRef = useRef<HTMLInputElement>(null);
 
   // 컴포넌트가 처음 렌더링될 때 사용자 프로필 정보를 가져옴
   useEffect(() => {
@@ -95,26 +97,45 @@ const Profile = () => {
   };
 
   // 입력한 비밀번호를 서버에서 확인하는 함수
-  const checkPassword = () => {
-    checkPassordAPI(password)
-      .then((res) => {
-        console.log(res?.data); // 서버로부터 받은 응답 데이터 로그
-        if (res?.data.code === "ok") {
-          setPassword(""); // 비밀번호 입력 필드 초기화
-          setOpenModal(false); // 모달 닫기
-          setDisabled(false); // 비밀번호 입력 필드 활성화
-        }
-      })
-      .catch((err) => console.log(err)); // 오류 발생 시 로그
-  };
+  const checkPassword = useCallback(
+    (e: any) => {
+      console.log(password);
+      checkPassordAPI(password)
+        .then((res) => {
+          console.log(res?.data); // 서버로부터 받은 응답 데이터 로그
+          if (res?.data.code === "ok") {
+            setPassword(""); // 비밀번호 입력 필드 초기화
+            setOpenModal(false); // 모달 닫기
+            setDisabled(false); // 비밀번호 입력 필드 활성화
+            window.alert("비밀번호가 확인되었습니다.");
+            if (pwRef.current) {
+              console.log(pwRef.current);
+
+              pwRef.current.value = "";
+              pwRef.current.focus();
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        }); // 오류 발생 시 로그
+
+      e.preventDefault();
+    },
+    [password]
+  );
 
   // 비밀번호 입력 필드의 값이 변경될 때 호출되는 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const currentPassword = e.currentTarget.value;
-    console.log(currentPassword); // 입력된 비밀번호 로그
+    const value = e.target ? e.target.value : e.currentTarget.value;
 
-    setPassword(currentPassword); // 비밀번호 상태 업데이트
+    setPassword(value); // 비밀번호 상태 업데이트
   };
+
+  const debouncedhandleChange = debounce<typeof handleChange>(
+    handleChange,
+    500
+  );
 
   // 비밀번호를 변경하는 함수
   const changePassword = () => {
@@ -138,6 +159,11 @@ const Profile = () => {
         setDisabled(true); // 비밀번호 입력 필드 비활성화
         setPassword(`***********************************`); // 비밀번호 입력 필드 초기화
         window.alert("비밀번호가 업데이트 되었습니다."); // 업데이트 성공 알림
+        if (pwRef.current) {
+          console.log(pwRef.current);
+
+          pwRef.current.value = "***********************************";
+        }
       }
     });
   };
@@ -155,11 +181,21 @@ const Profile = () => {
   const handleProfileChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    const id = e.currentTarget ? e.currentTarget.id : e.target.id;
+    const value = e.currentTarget
+      ? e.currentTarget.value
+      : e.target.defaultValue;
+
     setProfile({
       ...profile,
-      [e.currentTarget.id]: e.currentTarget.value,
+      [id]: value,
     });
   };
+
+  const debouncedProfileChange = debounce<typeof handleProfileChange>(
+    handleProfileChange,
+    500
+  );
 
   // 프로필 수정하기
   const handleProfile = () => {
@@ -183,7 +219,7 @@ const Profile = () => {
             gender: prevUser?.gender ?? "m",
             password: prevUser?.password ?? "",
             regdate: prevUser?.regdate ?? "",
-            _id: prevUser?._id ?? "", // 기본값을 추가하여 undefined 방지
+            _id: prevUser?._id ?? "",
             reportCount: prevUser?.reportCount ?? 0,
             role: prevUser?.role ?? "user",
             userId: prevUser?.userId ?? "",
@@ -194,23 +230,43 @@ const Profile = () => {
       .catch((err) => console.log(err));
   };
 
-  console.log(user); // 사용자 정보 로그
-  console.log(password); // 비밀번호 상태 로그
-  console.log(imagePercent); // 이미지 업로드 진행 상태 로그
-  console.log(profile); // 프로필 정보 로그
+  console.log("user", user); // 사용자 정보 로그
+  console.log("password", password);
+
+  console.log("imagePercent", imagePercent); // 이미지 업로드 진행 상태 로그
+  console.log("profile", profile); // 프로필 정보 로그
+  console.log("런더링", renderCount);
+
+  // 모달창이 열리면 스크롤이 안되게 조정
+  if (openModal) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
 
   return (
     <div className="mypage-profile">
       {openModal && (
         <div className="mypage-profile-modal">
           <div className="mypage-profile-modal-container">
-            <div className="mypage-profile-modal-main">
-              <p>현재 비밀번호를 입력해주세요.</p>
-              <input type="password" onChange={(e) => handleChange(e)} />
-              <button type="button" onClick={checkPassword}>
-                확인
-              </button>
-            </div>
+            <form onSubmit={checkPassword}>
+              <div className="mypage-profile-modal-main">
+                <p>현재 비밀번호를 입력해주세요.</p>
+                <input
+                  type="password"
+                  onChange={debouncedhandleChange}
+                  autoFocus
+                />
+                <div className="mypage-profile-modal-btns">
+                  <button type="button" onClick={() => setOpenModal(false)}>
+                    취소
+                  </button>
+                  <button type="button" onClick={checkPassword}>
+                    확인
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       )}
@@ -220,6 +276,11 @@ const Profile = () => {
             <tr>
               <td colSpan={3}>
                 <h3>개인정보</h3>
+              </td>
+            </tr>
+            <tr className="mypage-profile-body-row">
+              <td className="mypage-profile-body-td" rowSpan={3}>
+                렌더링 횟수 : {renderCount}
               </td>
             </tr>
           </thead>
@@ -269,7 +330,7 @@ const Profile = () => {
                   type="text"
                   id="nickname"
                   value={profile.nickname}
-                  onChange={(e) => handleProfileChange(e)}
+                  onChange={debouncedProfileChange}
                 />
               </td>
               <td className="mypage-profile-body-td" rowSpan={2}>
@@ -285,15 +346,10 @@ const Profile = () => {
                 <textarea
                   name=""
                   id="userIntro"
-                  placeholder={
-                    profile.userIntro.length === 0
-                      ? "소개글을 작성해주세요"
-                      : profile.userIntro
-                  }
-                  onChange={(e) => handleProfileChange(e)}
-                >
-                  {profile.userIntro}
-                </textarea>
+                  maxLength={100}
+                  defaultValue={profile.userIntro}
+                  onChange={debouncedProfileChange}
+                ></textarea>
               </td>
             </tr>
             <tr className="mypage-profile-body-row">
@@ -312,9 +368,10 @@ const Profile = () => {
               <td className="mypage-profile-body-td">
                 <input
                   type="password"
-                  value={password}
+                  defaultValue={password}
                   disabled={disabled}
-                  onChange={(e) => handleChange(e)}
+                  onChange={debouncedhandleChange}
+                  ref={pwRef}
                 />
               </td>
               <td>

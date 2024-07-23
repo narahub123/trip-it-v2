@@ -79,6 +79,7 @@ export const updatePasswordAPI = async (password: string) => {
     } else if (err.response.data.code === 6) {
       // 현재 비밀번호와 동일한 비밀번호를 입력한 경우
       window.alert("현재 비밀번호와 동일한 비밀번호입니다."); // 사용자에게 오류 메시지 알림
+      return { data: { code: 6 } };
     }
   }
 };

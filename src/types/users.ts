@@ -13,3 +13,9 @@ export interface UserType {
   userpic: string; // 사용자 프로필 사진 URL (예: "")
   _id: string; // MongoDB 문서 ID (예: "669cb8b6955638cc128c0782")
 }
+
+export interface ProfileType {
+  userpic: string;
+  nickname: string;
+  userIntro: string;
+}
