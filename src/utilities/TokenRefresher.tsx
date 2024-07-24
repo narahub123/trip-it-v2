@@ -6,7 +6,7 @@ const baseURL = process.env.REACT_APP_SERVER_URL;
 console.log(process.env.REACT_APP_SERVER_URL);
 
 const refreshAPI = axios.create({
-  baseURL: `${baseURL}/reissue`,
+  baseURL: `${baseURL}`,
   headers: {
     "Content-Type": "application/json",
     Access: `${localStorage.getItem("access")}`,
