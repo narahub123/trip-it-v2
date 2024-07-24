@@ -33,10 +33,13 @@ const Blocks = () => {
       .then((res) => {
         console.log(res.data);
 
-        const blocks = res.data.content ? res.data.content : res.data;
+        const blocks = res.data.content;
         const total = res.data.totalElements;
+
+        console.log(blocks, total);
+
         setItems(blocks);
-        // setTotalElements(total);
+        setTotalElements(total);
       })
       .catch((err) => console.log(err));
   }, [page, size, sort, search]);
