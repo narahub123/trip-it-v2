@@ -1,3 +1,5 @@
+import { debounce } from "utilities/debounce";
+
 // 정렬 함수
 export const handleSort = (
   e: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>,
@@ -21,4 +23,18 @@ export const handleSort = (
   setSort([sortKey, sortValue]);
 };
 
+// 페이지 사이즈 조절 함수
+const handleSizeChange = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  setSize: (value: number) => void
+) => {
+  const value = Number(e.target.value);
 
+  setSize(value);
+};
+
+export const debouncedHandleSizeChange = (setSize: (value: number) => void) => {
+  return debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSizeChange(e, setSize);
+  }, 200);
+};

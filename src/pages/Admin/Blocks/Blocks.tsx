@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { debounce } from "utilities/debounce";
-import { handleSort } from "./utils/block";
+import { debouncedHandleSizeChange, handleSort } from "./utils/block";
 
 // 관리자 페이지 차단
 const Blocks = () => {
@@ -45,6 +45,8 @@ const Blocks = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
+    console.log(value);
+
     setSearch(value);
   };
 
@@ -60,7 +62,18 @@ const Blocks = () => {
         <section className="admin-blocks-title">
           <h3>내 차단 목록 </h3>
         </section>
-        <section className="admin-blocks-panels">차단 목록 패널들</section>
+        <section className="admin-blocks-panels">
+          <div className="admin-blocks-panels-sizeController">
+            <input
+              type="range"
+              min={1}
+              max={5}
+              step={1}
+              onChange={debouncedHandleSizeChange(setSize)}
+            />
+            <span>{size}</span>
+          </div>
+        </section>
         <section className="admin-blocks-main">
           <table className="admin-blocks-main-table">
             <thead className="admin-blocks-main-table-head">
