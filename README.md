@@ -89,3 +89,15 @@
 #### textarea 최대 글자 수 제한 
 
 </details>
+
+<details>
+
+<summary>2024년 7월 24일</summary>
+
+## 차단 페이지 구현하기 
+### 부목표 : 템플렛 만들기
+
+### 차단 라우터 추가하기 
+
+
+</details>

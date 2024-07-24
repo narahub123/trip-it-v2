@@ -9,6 +9,9 @@ import { useEffect } from "react";
 import refreshAPI from "./utilities/TokenRefresher";
 import MyPage from "pages/mypage/MyPage";
 import Profile from "pages/mypage/profile/Profile";
+import Block from "pages/mypage/block/Block";
+import Blocks from "pages/Admin/Blocks/Blocks";
+import Admin from "pages/Admin/Admin";
 
 const Trip = () => {
   useEffect(() => {
@@ -33,6 +36,10 @@ const Trip = () => {
           <Route path="/join" element={<Join />} />
           <Route path="/mypage" element={<MyPage />}>
             <Route path="/mypage/profile" element={<Profile />} />
+            <Route path="/mypage/blocks" element={<Block />} />
+          </Route>
+          <Route path="/admin" element={<Admin />}>
+            <Route path="/admin/blocks" element={<Blocks />} />
           </Route>
         </Route>
         <Route path="/planner" element={<PlanLayout />}></Route>
