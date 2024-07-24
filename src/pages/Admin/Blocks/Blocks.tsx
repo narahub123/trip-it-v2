@@ -31,12 +31,12 @@ const Blocks = () => {
     const sortValue = sort[1];
     fetchBlocksAPI(sortKey, sortValue, page, size, search)
       .then((res) => {
-        console.log(res?.data);
+        console.log(res.data);
 
-        const blocks = res?.data.content;
+        const blocks = res.data.content ? res.data.content : res.data;
         const total = res.data.totalElements;
         setItems(blocks);
-        setTotalElements(total);
+        // setTotalElements(total);
       })
       .catch((err) => console.log(err));
   }, [page, size, sort, search]);

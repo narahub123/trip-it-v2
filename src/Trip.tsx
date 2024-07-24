@@ -12,6 +12,7 @@ import Profile from "pages/mypage/profile/Profile";
 import Block from "pages/mypage/block/Block";
 import Blocks from "pages/Admin/Blocks/Blocks";
 import Admin from "pages/Admin/Admin";
+import Test from "test/Test";
 
 const Trip = () => {
   useEffect(() => {
@@ -41,6 +42,7 @@ const Trip = () => {
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/blocks" element={<Blocks />} />
           </Route>
+          <Route path="/test" element={<Test />} />
         </Route>
         <Route path="/planner" element={<PlanLayout />}></Route>
       </Routes>
