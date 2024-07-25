@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import Template from "templates/Template";
 import "./block.css";
 import { blockArray } from "./test";
-import { fetchBlockAPI } from "apis/block";
+import { fetchBlockAPI, unBlockAPI } from "apis/block";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
-import { handleFieldChange, handleSort } from "../utils/block";
+import { handleFieldChange, handleSort, handleUnblock } from "../utils/block";
 import {
   FiChevronLeft,
   FiChevronsLeft,
@@ -35,8 +35,6 @@ const Block = () => {
   useEffect(() => {
     fetchBlockAPI()
       .then((res) => {
-        console.log(res?.data);
-
         const block = res?.data;
         setItems(block);
         setTotal(block.length);
@@ -135,7 +133,13 @@ const Block = () => {
                       {item.blockDate}
                     </td>
                     <td className="mypage-block-main-table-body-td">
-                      <button id={item.blockId}>차단 해제</button>
+                      <button
+                        id={item.blockId}
+                        data-nickname={item.nickname}
+                        onClick={(e) => handleUnblock(e, items, setItems)}
+                      >
+                        차단 해제
+                      </button>
                     </td>
                   </tr>
                 ))}

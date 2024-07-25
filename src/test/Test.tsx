@@ -15,7 +15,7 @@ const Test = () => {
 
   return (
     <div className="test">
-      <p onClick={() => addBlock("669f7683a538b8fe9c70ad92")}>차단</p>
+      <p onClick={() => addBlock("669f76aca538b8fe9c70ad97")}>차단</p>
     </div>
   );
 };

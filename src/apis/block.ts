@@ -45,26 +45,29 @@ export const fetchBlocksAPI = async (
   return block;
 };
 
-// 차단 해제
+// 차단 해제 API 호출 함수
 export const unBlockAPI = async (blockId: string | number) => {
   try {
+    // 서버에 차단 해제 요청을 POST 방식으로 전송
     const response = await axios.post(
-      `${baseURL}/block/delete`,
+      `${baseURL}/block/delete`, // 요청을 보낼 서버의 URL
       {
-        blockId,
+        blockId, // 요청 본문에 포함될 차단 해제할 ID
       },
       {
         headers: {
-          "Content-Type": "application/json",
-          Access: `${localStorage.getItem("access")}`,
-          Refresh: `${getCookie("refresh")}`,
+          "Content-Type": "application/json", // 요청 본문이 JSON 형식임을 지정
+          Access: `${localStorage.getItem("access")}`, // 액세스 토큰을 요청 헤더에 포함
+          Refresh: `${getCookie("refresh")}`, // 리프레시 토큰을 요청 헤더에 포함
         },
-        withCredentials: true,
+        withCredentials: true, // 쿠키와 자격 증명을 포함하여 요청
       }
     );
 
+    // 서버로부터의 응답 반환
     return response;
   } catch (error) {
+    // 요청 중 오류 발생 시, 오류를 콘솔에 출력
     console.log(error);
   }
 };
