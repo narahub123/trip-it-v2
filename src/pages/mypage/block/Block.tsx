@@ -19,16 +19,16 @@ import {
 
 const Block = () => {
   const renderCount = useRenderCount();
-  const [items, setItems] = useState<any[]>(blockArray); // 차단 목록 상태
+  const [items, setItems] = useState<any[]>([]); // 차단 목록 상태
   const [sort, setSort] = useState<string[]>(["blockDate", "desc"]); // 정렬 상태
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(3);
   const [search, setSearch] = useState("");
   const [field, setField] = useState("nickname");
+  const [total, setTotal] = useState(1);
 
   // 페이징
   const offset = (page - 1) * size;
-  const total = items ? items.length : 0;
   const numPages = Math.ceil(total / size);
 
   // 차단 목록 불러오기
@@ -39,6 +39,7 @@ const Block = () => {
 
         const block = res?.data;
         setItems(block);
+        setTotal(block.length);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -148,7 +149,13 @@ const Block = () => {
           </select>
           <input
             type="text"
-            onChange={debouncedHandleSearchChange(setSearch)}
+            onChange={debouncedHandleSearchChange(
+              setSearch,
+              setPage,
+              items,
+              field,
+              setTotal
+            )}
           />
         </section>
         <section className="mypage-block-pagination">
