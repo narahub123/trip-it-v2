@@ -1,6 +1,6 @@
 import { useRenderCount } from "@uidotdev/usehooks";
 import "./blocks.css";
-import { fetchBlocksAPI } from "apis/block";
+import { fetchBlocksAPI, unBlockByAdminAPI } from "apis/block";
 import { blockArray } from "pages/mypage/block/test";
 import React, { useEffect, useState } from "react";
 import Template from "templates/Template";
@@ -12,7 +12,11 @@ import {
 } from "react-icons/fi";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { debounce } from "utilities/debounce";
-import { debouncedHandleSizeChange, handleSort } from "./utils/block";
+import {
+  debouncedHandleSizeChange,
+  handleSort,
+  handleUnBlockByAdmin,
+} from "./utils/block";
 
 // 관리자 페이지 차단
 const Blocks = () => {
@@ -153,7 +157,12 @@ const Blocks = () => {
                     {item.blockDate}
                   </td>
                   <td className="admin-blocks-main-table-body-td">
-                    <button id={item.blockId}>차단 해제</button>
+                    <button
+                      id={item.blockId}
+                      onClick={(e) => handleUnBlockByAdmin(e)}
+                    >
+                      차단 해제
+                    </button>
                   </td>
                 </tr>
               ))}

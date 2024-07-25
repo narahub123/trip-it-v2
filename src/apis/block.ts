@@ -72,6 +72,42 @@ export const unBlockAPI = async (blockId: string | number) => {
   }
 };
 
+// 관리자 차단 해제 API 호출 함수
+export const unBlockByAdminAPI = async (blockId: string | number) => {
+  try {
+    // 서버에 차단 해제 요청을 POST 방식으로 전송
+    const response = await axios.post(
+      `${baseURL}/admin/block/unblock`, // 요청을 보낼 서버의 URL
+      {
+        blockId, // 요청 본문에 포함될 차단 해제할 ID
+      },
+      {
+        headers: {
+          "Content-Type": "application/json", // 요청 본문이 JSON 형식임을 지정
+          Access: `${localStorage.getItem("access")}`, // 액세스 토큰을 요청 헤더에 포함
+          Refresh: `${getCookie("refresh")}`, // 리프레시 토큰을 요청 헤더에 포함
+        },
+        withCredentials: true, // 쿠키와 자격 증명을 포함하여 요청
+      }
+    );
+
+    // 서버로부터의 응답 반환
+    return response;
+  } catch (error: any) {
+    // 요청 중 오류 발생 시, 오류를 콘솔에 출력
+    console.log(error);
+    console.log(error.response.data.code); // 오류 응답 코드 로그 출력
+
+    const code = error.response.data.code; // 오류 응답 코드 추출
+
+    // 응답 코드가 1인 경우, 차단 해제 요청 권한이 없음을 알림
+    if (code === 1) {
+      alert("차단 해제를 요청할 권한이 없습니다.");
+    }
+  }
+};
+
+
 // 차단 추가 하기
 export const blockUserAPI = async (value: string) => {
   try {

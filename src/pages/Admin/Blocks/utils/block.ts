@@ -1,3 +1,4 @@
+import { unBlockByAdminAPI } from "apis/block";
 import { debounce } from "utilities/debounce";
 
 // 정렬 함수
@@ -76,4 +77,21 @@ export const debouncedHandleSearchChange = (
     // 디바운스된 함수에서 검색 입력 변경 핸들러 호출
     handleSearchChange(e, setSearch, setPage, items, field, setTotal);
   }, 500); // 500밀리초 지연
+};
+
+// 관리자 차단 해제 버튼 클릭 핸들러 함수
+export const handleUnBlockByAdmin = (
+  e: React.MouseEvent<HTMLButtonElement, MouseEvent> // 마우스 클릭 이벤트 객체
+) => {
+  // 사용자가 차단 해제를 확인하는지 묻는 확인 대화상자 표시
+  if (!window.confirm("차단을 해제하시겠습니까?")) {
+    return; // 사용자가 확인하지 않으면 함수 종료
+  }
+
+  const blockId = e.currentTarget.id; // 클릭된 버튼의 ID에서 차단 ID 추출
+
+  // 관리자 차단 해제 API 호출
+  unBlockByAdminAPI(blockId)
+    .then() // API 호출 성공 시 별도의 동작을 정의하지 않음
+    .catch((err) => console.log(err)); // 오류 발생 시 오류 메시지 출력
 };
