@@ -1,6 +1,6 @@
 import { useRenderCount } from "@uidotdev/usehooks";
 import "./blocks.css";
-import { fetchBlocksAPI, unBlockByAdminAPI } from "apis/block";
+import { fetchBlocksAPI } from "apis/block";
 import { blockArray } from "pages/mypage/block/test";
 import React, { useEffect, useState } from "react";
 import Template from "templates/Template";
@@ -17,6 +17,7 @@ import {
   handleSort,
   handleUnBlockByAdmin,
 } from "./utils/block";
+import { convertYYYYMMDDToDate1 } from "utilities/date";
 
 // 관리자 페이지 차단
 const Blocks = () => {
@@ -154,7 +155,7 @@ const Blocks = () => {
                     {item.nickname}
                   </td>
                   <td className="admin-blocks-main-table-body-td">
-                    {item.blockDate}
+                    {convertYYYYMMDDToDate1(item.blockDate)}
                   </td>
                   <td className="admin-blocks-main-table-body-td">
                     <button

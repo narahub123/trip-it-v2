@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Template from "templates/Template";
 import "./block.css";
 import { blockArray } from "./test";
-import { fetchBlockAPI, unBlockAPI } from "apis/block";
+import { fetchBlockAPI } from "apis/block";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { handleFieldChange, handleSort, handleUnblock } from "../utils/block";
 import {
@@ -16,6 +16,7 @@ import {
   debouncedHandleSearchChange,
   debouncedHandleSizeChange,
 } from "pages/Admin/Blocks/utils/block";
+import { convertYYYYMMDDToDate1 } from "utilities/date";
 
 const Block = () => {
   const renderCount = useRenderCount();
@@ -130,7 +131,7 @@ const Block = () => {
                       {item.nickname}
                     </td>
                     <td className="mypage-block-main-table-body-td">
-                      {item.blockDate}
+                      {convertYYYYMMDDToDate1(item.blockDate)}
                     </td>
                     <td className="mypage-block-main-table-body-td">
                       <button
