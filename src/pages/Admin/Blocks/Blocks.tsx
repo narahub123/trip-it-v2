@@ -1,3 +1,4 @@
+import { useRenderCount } from "@uidotdev/usehooks";
 import "./blocks.css";
 import { fetchBlocksAPI } from "apis/block";
 import { blockArray } from "pages/mypage/block/test";
@@ -15,6 +16,7 @@ import { debouncedHandleSizeChange, handleSort } from "./utils/block";
 
 // 관리자 페이지 차단
 const Blocks = () => {
+  const renderCount = useRenderCount();
   const [items, setItems] = useState<any[]>(blockArray); // 차단 목록 상태
   const [sort, setSort] = useState<string[]>(["blockDate", "desc"]); // 정렬 상태
   const [page, setPage] = useState(1);
@@ -57,6 +59,8 @@ const Blocks = () => {
     handleSearchChange,
     500
   );
+
+  console.log("렌더링 횟수", renderCount);
 
   return (
     <>
@@ -115,7 +119,7 @@ const Blocks = () => {
                 <th
                   className="admin-blocks-main-table-head-th"
                   data-key="blockDate"
-                  data-value="desc"
+                  data-value="asc"
                   onClick={(e) => handleSort(e, setSort)}
                 >
                   차단 날짜{" "}

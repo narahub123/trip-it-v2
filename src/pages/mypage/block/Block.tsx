@@ -1,11 +1,16 @@
+import { useRenderCount } from "@uidotdev/usehooks";
 import React, { useEffect, useState } from "react";
 import Template from "templates/Template";
 import "./block.css";
 import { blockArray } from "./test";
 import { fetchBlockAPI } from "apis/block";
+import { LuChevronDown, LuChevronUp } from "react-icons/lu";
+import { handleSort } from "../utils/block";
 
 const Block = () => {
+  const renderCount = useRenderCount();
   const [items, setItems] = useState<any[]>(blockArray); // 차단 목록 상태
+  const [sort, setSort] = useState<string[]>(["blockDate", "desc"]); // 정렬 상태
 
   // 차단 목록 불러오기
   useEffect(() => {
@@ -18,6 +23,8 @@ const Block = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  console.log("렌더링 횟수", renderCount);
 
   return (
     <>
@@ -32,10 +39,48 @@ const Block = () => {
             <thead className="mypage-block-main-table-head">
               <tr className="mypage-block-main-table-head-tr">
                 <th className="mypage-block-main-table-head-th">번호</th>
-                <th className="mypage-block-main-table-head-th">
-                  차단 당한 유저
+                <th
+                  className="mypage-block-main-table-head-th"
+                  data-key="nickname"
+                  data-value="desc"
+                  onClick={(e) => handleSort(e, items, setItems, setSort)}
+                >
+                  차단 당한 유저{" "}
+                  <span
+                    title={
+                      sort[0] === "nickname" && sort[1] === "asc"
+                        ? "오름차순"
+                        : "내림차순"
+                    }
+                  >
+                    {sort[0] === "nickname" && sort[1] === "desc" ? (
+                      <LuChevronDown />
+                    ) : (
+                      <LuChevronUp />
+                    )}
+                  </span>
                 </th>
-                <th className="mypage-block-main-table-head-th">차단 날짜</th>
+                <th
+                  className="mypage-block-main-table-head-th"
+                  data-key="blockDate"
+                  data-value="asc"
+                  onClick={(e) => handleSort(e, items, setItems, setSort)}
+                >
+                  차단 날짜{" "}
+                  <span
+                    title={
+                      sort[0] === "blockDate" && sort[1] === "asc"
+                        ? "오름차순"
+                        : "내림차순"
+                    }
+                  >
+                    {sort[0] === "blockDate" && sort[1] === "asc" ? (
+                      <LuChevronUp />
+                    ) : (
+                      <LuChevronDown />
+                    )}
+                  </span>
+                </th>
                 <th className="mypage-block-main-table-head-th">차단 해제</th>
               </tr>
             </thead>
