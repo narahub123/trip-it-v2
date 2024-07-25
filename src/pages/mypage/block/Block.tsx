@@ -6,11 +6,25 @@ import { blockArray } from "./test";
 import { fetchBlockAPI } from "apis/block";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { handleSort } from "../utils/block";
+import {
+  FiChevronLeft,
+  FiChevronsLeft,
+  FiChevronsRight,
+  FiChevronRight,
+} from "react-icons/fi";
+import { debouncedHandleSizeChange } from "pages/Admin/Blocks/utils/block";
 
 const Block = () => {
   const renderCount = useRenderCount();
   const [items, setItems] = useState<any[]>(blockArray); // 차단 목록 상태
   const [sort, setSort] = useState<string[]>(["blockDate", "desc"]); // 정렬 상태
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(3);
+
+  const offset = (page - 1) * size;
+  const total = items ? items.length : 0;
+
+  const numPages = Math.ceil(total / size);
 
   // 차단 목록 불러오기
   useEffect(() => {
@@ -33,7 +47,19 @@ const Block = () => {
         <section className="mypage-block-title">
           <h3>내 차단 목록 </h3>
         </section>
-        <section className="mypage-block-panels">차단 목록 패널들</section>
+        <section className="mypage-block-panels">
+          <div className="admin-blocks-panels-sizeController">
+            <input
+              type="range"
+              min={1}
+              max={5}
+              step={1}
+              defaultValue={size}
+              onChange={debouncedHandleSizeChange(setSize)}
+            />
+            <span>{size}</span>
+          </div>
+        </section>
         <section className="mypage-block-main">
           <table className="mypage-block-main-table">
             <thead className="mypage-block-main-table-head">
@@ -85,7 +111,7 @@ const Block = () => {
               </tr>
             </thead>
             <tbody className="mypage-block-main-table-body">
-              {items.map((item, index) => (
+              {items.slice(offset, offset + size).map((item, index) => (
                 <tr
                   className="mypage-block-main-table-body-tr"
                   key={item.blockId}
@@ -108,7 +134,49 @@ const Block = () => {
           </table>
         </section>
         <section className="mypage-block-search"></section>
-        <section className="mypage-block-pagination">차단 페이징</section>
+        <section className="mypage-block-pagination">
+          <nav className="pagination">
+            <button
+              onClick={() => setPage(1)}
+              disabled={page === 1}
+              className="pageController"
+            >
+              <FiChevronsLeft />
+            </button>
+            <button
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              className="pageController"
+            >
+              <FiChevronLeft />
+            </button>
+            {Array(numPages)
+              .fill("_")
+              .map((_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => setPage(i + 1)}
+                  className={page === i + 1 ? "pageNum active" : "pageNum"}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            <button
+              onClick={() => setPage(page + 1)}
+              disabled={page === numPages}
+              className="pageController"
+            >
+              <FiChevronRight />
+            </button>
+            <button
+              onClick={() => setPage(numPages)}
+              disabled={page === numPages}
+              className="pageController"
+            >
+              <FiChevronsRight />
+            </button>
+          </nav>
+        </section>
       </div>
     </>
   );
