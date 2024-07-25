@@ -38,3 +38,23 @@ export const debouncedHandleSizeChange = (setSize: (value: number) => void) => {
     handleSizeChange(e, setSize);
   }, 200);
 };
+
+// 검색 입력 변경 핸들러 함수
+const handleSearchChange = (
+  e: React.ChangeEvent<HTMLInputElement>, // 이벤트 객체
+  setSearch: (value: string) => void // 검색 상태를 설정하는 함수
+) => {
+  const value = e.target.value; // 입력 필드의 현재 값
+
+  setSearch(value); // 검색 상태를 현재 값으로 설정
+};
+
+// 디바운스된 검색 입력 변경 핸들러 함수
+export const debouncedHandleSearchChange = (
+  setSearch: (value: string) => void // 검색 상태를 설정하는 함수
+) => {
+  // 디바운스를 적용한 함수 반환
+  return debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSearchChange(e, setSearch); // 검색 입력 변경 함수 호출
+  }, 500); // 500밀리초 지연
+};

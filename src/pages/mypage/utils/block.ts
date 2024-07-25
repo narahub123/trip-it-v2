@@ -1,63 +1,3 @@
-// // 정렬 함수
-// export const handleSort = (
-//   e: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>,
-//   items: any[],
-//   setItems: (value: any[]) => void,
-//   setSort: (value: string[]) => void
-// ) => {
-//   // 데이터 키와 값을 가져옴
-//   const sortKey = e.currentTarget.dataset.key;
-//   const sortValue = e.currentTarget.dataset.value;
-
-//   // 키와 값이 없으면 함수 종료
-//   if (!sortKey || !sortValue) return;
-
-//   let sortedItems;
-//   // 현재 아이템 목록 복사
-//   const currentItems = [...items];
-
-//   // 아이템 목록을 정렬
-//   sortedItems = currentItems.sort((item1, item2) => {
-//     // 아이템이 없으면 -1 반환
-//     if (!item1 || !item2) return -1;
-
-//     // 정렬할 값 쌍을 만듦
-//     const pairs = [item1[sortKey], item2[sortKey]];
-
-//     // 내림차순 정렬인 경우
-//     if (sortValue === "desc") {
-//       // 다음 정렬을 오름차순으로 설정
-//       e.currentTarget.dataset.value = "asc";
-//       // 값 쌍을 역순으로
-//       pairs.reverse();
-//     } else {
-//       // 다음 정렬을 내림차순으로 설정
-//       e.currentTarget.dataset.value = "desc";
-//       // 값 쌍을 정렬
-//       pairs.sort();
-//     }
-
-//     let result = 0;
-
-//     // 값이 문자열인 경우 localeCompare를 사용해 비교
-//     if (typeof pairs[0] === "string" && typeof pairs[1] === "string") {
-//       result = (pairs[0] as string).localeCompare(pairs[1] as string);
-//     }
-//     // 값이 숫자인인 경우
-//     else if (typeof pairs[0] === "number" && typeof pairs[1] === "number") {
-//       result = (pairs[0] as number) - (pairs[1] as number);
-//     }
-
-//     return result;
-//   });
-
-//   // 정렬된 아이템 목록을 상태로 설정
-//   setItems(sortedItems);
-
-//   // 정렬 상태를 업데이트
-//   setSort([sortKey, sortValue]);
-// };
-
 // 정렬 함수
 export const handleSort = (
   e: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>, // 이벤트 객체
@@ -107,4 +47,14 @@ export const handleSort = (
 
   // 정렬 상태를 업데이트
   setSort([sortKey, sortValue]);
+};
+
+// 필드 변경 핸들러 함수
+export const handleFieldChange = (
+  e: React.ChangeEvent<HTMLSelectElement>, // 이벤트 객체
+  setField: (value: string) => void // 필드 상태를 설정하는 함수
+) => {
+  const field = e.currentTarget.value; // 선택된 필드 값
+
+  setField(field); // 필드 상태를 선택된 값으로 설정
 };

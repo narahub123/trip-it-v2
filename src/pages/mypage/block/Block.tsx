@@ -5,14 +5,17 @@ import "./block.css";
 import { blockArray } from "./test";
 import { fetchBlockAPI } from "apis/block";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
-import { handleSort } from "../utils/block";
+import { handleFieldChange, handleSort } from "../utils/block";
 import {
   FiChevronLeft,
   FiChevronsLeft,
   FiChevronsRight,
   FiChevronRight,
 } from "react-icons/fi";
-import { debouncedHandleSizeChange } from "pages/Admin/Blocks/utils/block";
+import {
+  debouncedHandleSearchChange,
+  debouncedHandleSizeChange,
+} from "pages/Admin/Blocks/utils/block";
 
 const Block = () => {
   const renderCount = useRenderCount();
@@ -20,10 +23,12 @@ const Block = () => {
   const [sort, setSort] = useState<string[]>(["blockDate", "desc"]); // 정렬 상태
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(3);
+  const [search, setSearch] = useState("");
+  const [field, setField] = useState("nickname");
 
+  // 페이징
   const offset = (page - 1) * size;
   const total = items ? items.length : 0;
-
   const numPages = Math.ceil(total / size);
 
   // 차단 목록 불러오기
@@ -111,29 +116,41 @@ const Block = () => {
               </tr>
             </thead>
             <tbody className="mypage-block-main-table-body">
-              {items.slice(offset, offset + size).map((item, index) => (
-                <tr
-                  className="mypage-block-main-table-body-tr"
-                  key={item.blockId}
-                >
-                  <td className="mypage-block-main-table-body-td">
-                    {index + 1}
-                  </td>
-                  <td className="mypage-block-main-table-body-td">
-                    {item.nickname}
-                  </td>
-                  <td className="mypage-block-main-table-body-td">
-                    {item.blockDate}
-                  </td>
-                  <td className="mypage-block-main-table-body-td">
-                    <button id={item.blockId}>차단 해제</button>
-                  </td>
-                </tr>
-              ))}
+              {items
+                .filter((item) => item[field].includes(search))
+                .slice(offset, offset + size)
+                .map((item, index) => (
+                  <tr
+                    className="mypage-block-main-table-body-tr"
+                    key={item.blockId}
+                  >
+                    <td className="mypage-block-main-table-body-td">
+                      {index + 1}
+                    </td>
+                    <td className="mypage-block-main-table-body-td">
+                      {item.nickname}
+                    </td>
+                    <td className="mypage-block-main-table-body-td">
+                      {item.blockDate}
+                    </td>
+                    <td className="mypage-block-main-table-body-td">
+                      <button id={item.blockId}>차단 해제</button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </section>
-        <section className="mypage-block-search"></section>
+        <section className="mypage-block-search">
+          <select id="field" onChange={(e) => handleFieldChange(e, setField)}>
+            <option value="nickname">유저</option>
+            <option value="blockDate">날짜</option>
+          </select>
+          <input
+            type="text"
+            onChange={debouncedHandleSearchChange(setSearch)}
+          />
+        </section>
         <section className="mypage-block-pagination">
           <nav className="pagination">
             <button
