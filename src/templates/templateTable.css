@@ -14,6 +14,23 @@
       .mypage-template-main-table-body-td {
         padding: 8px;
         text-align: center;
+
+        .mypage-template-main-table-body-td-loading-icon {
+          transform-origin: 50% 50%;
+          transform: rotate(360deg);
+        }
+
+        p {
+          padding: 10px;
+        }
+      }
+      .mypage-template-main-table-body-td.block-btn {
+        border: 0px;
+        background-color: transparent;
+        cursor: pointer;
+      }
+      .mypage-template-main-table-body-td.block-btn:hover {
+        color: red;
       }
     }
   }

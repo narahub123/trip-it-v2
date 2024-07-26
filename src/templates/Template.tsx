@@ -13,6 +13,7 @@ export interface TemplateProps {
 }
 
 const Template = ({ pageName, fetchAPI }: TemplateProps) => {
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]); // 목록 상태
   const [sort, setSort] = useState<string[]>(["blockDate", "desc"]); // 정렬 상태
   const [page, setPage] = useState(1); // 페이지 상태
@@ -25,6 +26,7 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
 
   // 목록 불러오기
   useEffect(() => {
+    setLoading(true);
     fetchAPI()
       .then((res) => {
         if (!res) return;
@@ -32,8 +34,11 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
         const length = res?.data.length;
         setItems(receivedItems);
         setTotal(length);
+        setLoading(false);
       })
-      .catch();
+      .catch((err) => {
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -42,13 +47,20 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
         <h3>타이틀</h3>
       </section>
       <section className={`mypage-template-panels ${pageName}-panels`}>
-        <div className="mypage-template-panels-left">
-          <TemplatePaginationSizeController size={size} setSize={setSize} />
+        <div className={`mypage-template-panels-left ${pageName}-panels-left`}>
+          <TemplatePaginationSizeController
+            size={size}
+            setSize={setSize}
+            pageName={pageName}
+          />
         </div>
-        <div className="mypage-template-panels-right"></div>
+        <div
+          className={`mypage-template-panels-right ${pageName}-panels-right`}
+        ></div>
       </section>
       <section className={`mypage-template-main ${pageName}-main`}>
         <TemplateTable
+          pageName={pageName}
           items={items}
           setItems={setItems}
           sort={sort}
@@ -58,9 +70,11 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
           search={search}
           field={field}
           tempArray={blockArray}
+          loading={loading}
         />
       </section>
       <TemplateSearch
+        pageName={pageName}
         items={items}
         field={field}
         setField={setField}

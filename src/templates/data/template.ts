@@ -1,5 +1,8 @@
 import { TemplateArrayType } from "types/template";
 
+// 목록 사이즈 크기 목록 
+export const sizeArray = [1, 2, 3, 4, 5];
+
 export const blockArray: TemplateArrayType[] = [
   {
     field: "index",

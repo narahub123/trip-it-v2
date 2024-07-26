@@ -1,0 +1,57 @@
+.mypage-template-panels-size-controller {
+  .mypage-template-panels-size-controller-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    span {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 0px 10px;
+      position: relative;
+      box-sizing: border-box;
+      ul {
+        margin-top: 5px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        position: absolute;
+        background-color: #fff;
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        transition: max-height 0.2s ease-in-out, visibility 0.2s ease-in-out,
+          opacity 0.2s ease-in-out;
+
+        li {
+          padding: 2px 0;
+        }
+      }
+      ul.active {
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        position: absolute;
+        visibility: visible;
+        max-height: 250px;
+        opacity: 1;
+        left: 0;
+        right: 0;
+        transition: max-height 0.2s ease-in-out, visibility 0.2s ease-in-out,
+          opacity 0.2s ease-in-out;
+
+        li:hover {
+          color: aquamarine;
+        }
+
+        li.active {
+          color: aquamarine;
+        }
+      }
+    }
+  }
+}
