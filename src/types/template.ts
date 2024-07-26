@@ -1,4 +1,6 @@
-export interface TemplateHeaderArrayType {
+export interface TemplateArrayType {
+  field: string;
+  type: string;
   title: string; // header 제목
   sort: {
     key: string; // 정렬 key 정렬을 하지 않는 경우에는 빈문자열

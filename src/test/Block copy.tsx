@@ -2,10 +2,10 @@ import { useRenderCount } from "@uidotdev/usehooks";
 import React, { useEffect, useState } from "react";
 import Template from "templates/Template";
 import "./block.css";
-import { blockArray } from "./test";
+import { blockArray } from "../pages/mypage/block/test";
 import { fetchBlockAPI } from "apis/block";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
-import { handleFieldChange, handleSort, handleUnblock } from "../utils/block";
+import { handleFieldChange, handleSort, handleUnblock } from "../pages/mypage/utils/block";
 import {
   FiChevronLeft,
   FiChevronsLeft,
@@ -50,6 +50,9 @@ const Block = () => {
     <>
       <Template pageName={"block"} fetchAPI={fetchBlockAPI} />
       <div className="mypage-block">
+        <section className="mypage-block-title">
+          <h3>내 차단 목록 </h3>
+        </section>
         <section className="mypage-block-panels">
           <div className="admin-blocks-panels-sizeController">
             <input
@@ -62,6 +65,88 @@ const Block = () => {
             />
             <span>{size}</span>
           </div>
+        </section>
+        <section className="mypage-block-main">
+          <table className="mypage-block-main-table">
+            <thead className="mypage-block-main-table-head">
+              <tr className="mypage-block-main-table-head-tr">
+                <th className="mypage-block-main-table-head-th">번호</th>
+                <th
+                  className="mypage-block-main-table-head-th"
+                  data-key="nickname"
+                  data-value="desc"
+                  onClick={(e) => handleSort(e, items, setItems, setSort)}
+                >
+                  차단 당한 유저{" "}
+                  <span
+                    title={
+                      sort[0] === "nickname" && sort[1] === "asc"
+                        ? "오름차순"
+                        : "내림차순"
+                    }
+                  >
+                    {sort[0] === "nickname" && sort[1] === "desc" ? (
+                      <LuChevronDown />
+                    ) : (
+                      <LuChevronUp />
+                    )}
+                  </span>
+                </th>
+                <th
+                  className="mypage-block-main-table-head-th"
+                  data-key="blockDate"
+                  data-value="asc"
+                  onClick={(e) => handleSort(e, items, setItems, setSort)}
+                >
+                  차단 날짜{" "}
+                  <span
+                    title={
+                      sort[0] === "blockDate" && sort[1] === "asc"
+                        ? "오름차순"
+                        : "내림차순"
+                    }
+                  >
+                    {sort[0] === "blockDate" && sort[1] === "asc" ? (
+                      <LuChevronUp />
+                    ) : (
+                      <LuChevronDown />
+                    )}
+                  </span>
+                </th>
+                <th className="mypage-block-main-table-head-th">차단 해제</th>
+              </tr>
+            </thead>
+            <tbody className="mypage-block-main-table-body">
+              {items
+                .filter((item) => item[field].includes(search))
+                .slice(offset, offset + size)
+                .map((item, index) => (
+                  <tr
+                    className="mypage-block-main-table-body-tr"
+                    key={item.blockId}
+                  >
+                    <td className="mypage-block-main-table-body-td">
+                      {index + 1}
+                    </td>
+                    <td className="mypage-block-main-table-body-td">
+                      {item.nickname}
+                    </td>
+                    <td className="mypage-block-main-table-body-td">
+                      {convertYYYYMMDDToDate1(item.blockDate)}
+                    </td>
+                    <td className="mypage-block-main-table-body-td">
+                      <button
+                        id={item.blockId}
+                        data-nickname={item.nickname}
+                        onClick={(e) => handleUnblock(e, items, setItems)}
+                      >
+                        차단 해제
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </section>
         <section className="mypage-block-search">
           <select id="field" onChange={(e) => handleFieldChange(e, setField)}>

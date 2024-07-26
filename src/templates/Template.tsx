@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import "./template.css";
 import TemplateTable from "./TemplateTable";
 import { useEffect, useState } from "react";
-import { blockHeaders } from "./data/template";
+import { blockArray } from "./data/template";
 
 export interface TemplateProps {
   pageName: string;
@@ -22,7 +22,8 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
   useEffect(() => {
     fetchAPI()
       .then((res) => {
-        const receivedItems = res?.data;
+        if (!res) return;
+        const receivedItems = res.data;
         const length = res?.data.length;
         setItems(receivedItems);
         setTotal(length);
@@ -48,7 +49,8 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
           size={size}
           search={search}
           field={field}
-          headerArray={blockHeaders}
+          tempArray={blockArray}
+          
         />
       </section>
       <section className={`mypage-template-search ${pageName}-search`}>

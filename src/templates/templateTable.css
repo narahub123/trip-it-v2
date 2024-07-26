@@ -1,17 +1,17 @@
-.template-table {
+.mypage-template-main-table {
   border: 1px solid #ccc;
   width: 100%;
 
-  .template-table-head {
-    .template-table-head-tr {
-      .template-table-head-th {
+  .mypage-template-main-table-head {
+    .mypage-template-main-table-head-tr {
+      .mypage-template-main-table-head-th {
         padding: 8px;
       }
     }
   }
-  .template-table-body {
-    .template-table-body-tr {
-      .template-table-body-td {
+  .mypage-template-main-table-body {
+    .mypage-template-main-table-body-tr {
+      .mypage-template-main-table-body-td {
         padding: 8px;
         text-align: center;
       }

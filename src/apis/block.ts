@@ -1,12 +1,13 @@
 import axios from "axios";
 import { getCookie } from "utilities/Cookie";
+import { convertYYYYMMDDToDate1 } from "utilities/date";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
 // 마이 페이지 차단 목록
 export const fetchBlockAPI = async () => {
   try {
-    const block = axios.get(`${baseURL}/mypage/block`, {
+    const block = await axios.get(`${baseURL}/mypage/block`, {
       headers: {
         "Content-Type": "application/json",
         Access: `${localStorage.getItem("access")}`,
@@ -30,7 +31,7 @@ export const fetchBlocksAPI = async (
   search?: string
   // keyword?: string
 ) => {
-  const block = axios.get(
+  const block = await axios.get(
     `${baseURL}/block/all?sortKey=${sortKey}&sortValue=${sortValue}&page=${page}&size=${size}&search=${search}`,
     {
       headers: {
@@ -106,7 +107,6 @@ export const unBlockByAdminAPI = async (blockId: string | number) => {
     }
   }
 };
-
 
 // 차단 추가 하기
 export const blockUserAPI = async (value: string) => {
