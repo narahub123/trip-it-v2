@@ -1,12 +1,17 @@
-.pageName {
-  .pageName-title {
+.mypage-template {
+  padding: 5px;
+
+  .mypage-template-title {
+    text-align: center;
   }
-  .pageName-panels {
+  .mypage-template-panels {
   }
-  .pageName-list {
+
+  .mypage-template-main {
   }
-  .pageName-search {
+
+  .mypage-template-search {
   }
-  .pageName-pagination {
+  .mypage-template-pagination {
   }
 }

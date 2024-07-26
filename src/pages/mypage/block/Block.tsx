@@ -47,7 +47,7 @@ const Block = () => {
 
   return (
     <>
-      {/* <Template pageName="mypage-block" /> */}
+      <Template pageName={"block"} fetchAPI={fetchBlockAPI} />
       <div className="mypage-block">
         <section className="mypage-block-title">
           <h3>내 차단 목록 </h3>
