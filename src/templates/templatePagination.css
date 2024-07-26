@@ -1,0 +1,28 @@
+.mypage-template-pagination {
+  margin-top: 10px;
+  .mypage-template-pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      border: none;
+      background-color: transparent;
+    }
+    .mypage-template-pagination-pageController {
+      padding: 10px;
+    }
+    .mypage-template-pagination-pageNum {
+      padding: 10px;
+    }
+    .mypage-template-pagination-pageNum.active {
+      color: red;
+      font-weight: bold;
+      cursor: revert;
+      transform: revert;
+    }
+    .mypage-template-pagination-pageNum:hover {
+      font-weight: bold;
+    }
+  }
+}

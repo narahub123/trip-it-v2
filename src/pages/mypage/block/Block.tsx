@@ -50,19 +50,6 @@ const Block = () => {
     <>
       <Template pageName={"block"} fetchAPI={fetchBlockAPI} />
       <div className="mypage-block">
-        <section className="mypage-block-panels">
-          <div className="admin-blocks-panels-sizeController">
-            <input
-              type="range"
-              min={1}
-              max={5}
-              step={1}
-              defaultValue={size}
-              onChange={debouncedHandleSizeChange(setSize)}
-            />
-            <span>{size}</span>
-          </div>
-        </section>
         <section className="mypage-block-search">
           <select id="field" onChange={(e) => handleFieldChange(e, setField)}>
             <option value="nickname">유저</option>
@@ -78,49 +65,6 @@ const Block = () => {
               setTotal
             )}
           />
-        </section>
-        <section className="mypage-block-pagination">
-          <nav className="pagination">
-            <button
-              onClick={() => setPage(1)}
-              disabled={page === 1}
-              className="pageController"
-            >
-              <FiChevronsLeft />
-            </button>
-            <button
-              onClick={() => setPage(page - 1)}
-              disabled={page === 1}
-              className="pageController"
-            >
-              <FiChevronLeft />
-            </button>
-            {Array(numPages)
-              .fill("_")
-              .map((_, i) => (
-                <button
-                  key={i + 1}
-                  onClick={() => setPage(i + 1)}
-                  className={page === i + 1 ? "pageNum active" : "pageNum"}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            <button
-              onClick={() => setPage(page + 1)}
-              disabled={page === numPages}
-              className="pageController"
-            >
-              <FiChevronRight />
-            </button>
-            <button
-              onClick={() => setPage(numPages)}
-              disabled={page === numPages}
-              className="pageController"
-            >
-              <FiChevronsRight />
-            </button>
-          </nav>
         </section>
       </div>
     </>

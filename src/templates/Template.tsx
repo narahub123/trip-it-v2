@@ -3,6 +3,8 @@ import "./template.css";
 import TemplateTable from "./TemplateTable";
 import { useEffect, useState } from "react";
 import { blockArray } from "./data/template";
+import TemplatePagination from "./TemplatePagination";
+import TemplatePaginationSizeController from "./TemplatePaginationSizeController";
 
 export interface TemplateProps {
   pageName: string;
@@ -17,6 +19,8 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
   const [total, setTotal] = useState(1); // 총 아이템 수 상태
   const [search, setSearch] = useState(""); // 검색어 상태
   const [field, setField] = useState("nickname"); // 검색 필드 상태
+
+  const numPages = Math.ceil(total / size); // 총 페이지 개수
 
   // 목록 불러오기
   useEffect(() => {
@@ -37,7 +41,10 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
         <h3>타이틀</h3>
       </section>
       <section className={`mypage-template-panels ${pageName}-panels`}>
-        패널
+        <div className="mypage-template-panels-left">
+          <TemplatePaginationSizeController size={size} setSize={setSize} />
+        </div>
+        <div className="mypage-template-panels-right"></div>
       </section>
       <section className={`mypage-template-main ${pageName}-main`}>
         <TemplateTable
@@ -50,15 +57,17 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
           search={search}
           field={field}
           tempArray={blockArray}
-          
         />
       </section>
       <section className={`mypage-template-search ${pageName}-search`}>
         검색
       </section>
-      <section className={`mypage-template-pagination ${pageName}-pagination`}>
-        페이징
-      </section>
+      <TemplatePagination
+        pageName={pageName}
+        page={page}
+        setPage={setPage}
+        numPages={numPages}
+      />
     </div>
   );
 };
