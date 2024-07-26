@@ -10,17 +10,26 @@ import TemplateSearch from "./TemplateSearch";
 export interface TemplateProps {
   pageName: string;
   fetchAPI: () => Promise<AxiosResponse<any, any> | undefined>;
+  defaultSort: string[];
+  defaultSize: number;
+  defaultField: string;
 }
 
-const Template = ({ pageName, fetchAPI }: TemplateProps) => {
+const Template = ({
+  pageName,
+  fetchAPI,
+  defaultSort,
+  defaultSize,
+  defaultField,
+}: TemplateProps) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]); // 목록 상태
-  const [sort, setSort] = useState<string[]>(["blockDate", "desc"]); // 정렬 상태
+  const [sort, setSort] = useState<string[]>(defaultSort); // 정렬 상태
   const [page, setPage] = useState(1); // 페이지 상태
-  const [size, setSize] = useState(3); // 페이지 수 상태
+  const [size, setSize] = useState(defaultSize); // 페이지 수 상태
   const [total, setTotal] = useState(1); // 총 아이템 수 상태
   const [search, setSearch] = useState(""); // 검색어 상태
-  const [field, setField] = useState("nickname"); // 검색 필드 상태
+  const [field, setField] = useState(defaultField); // 검색 필드 상태
 
   const numPages = Math.ceil(total / size); // 총 페이지 개수
 

@@ -5,11 +5,12 @@
     gap: 5px;
 
     span {
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      /* border: 1px solid #ccc;
+      border-radius: 5px; */
       padding: 0px 10px;
       position: relative;
       box-sizing: border-box;
+      cursor: pointer;
       ul {
         margin-top: 5px;
         box-sizing: border-box;

@@ -28,27 +28,17 @@ const Block = () => {
   const [field, setField] = useState("nickname");
   const [total, setTotal] = useState(1);
 
-  // 페이징
-  const offset = (page - 1) * size;
-  const numPages = Math.ceil(total / size);
-
-  // 차단 목록 불러오기
-  useEffect(() => {
-    fetchBlockAPI()
-      .then((res) => {
-        if (!res) return;
-        const block = res.data;
-        setItems(block);
-        setTotal(block.length);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   console.log("렌더링 횟수", renderCount);
 
   return (
     <>
-      <Template pageName={"block"} fetchAPI={fetchBlockAPI} />
+      <Template
+        pageName={"block"}
+        fetchAPI={fetchBlockAPI}
+        defaultSort={["blockDate", "desc"]}
+        defaultSize={3}
+        defaultField={"nickname"}
+      />
     </>
   );
 };

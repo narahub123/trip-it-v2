@@ -5,7 +5,11 @@ import "./block.css";
 import { blockArray } from "../pages/mypage/block/test";
 import { fetchBlockAPI } from "apis/block";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
-import { handleFieldChange, handleSort, handleUnblock } from "../pages/mypage/utils/block";
+import {
+  handleFieldChange,
+  handleSort,
+  handleUnblock,
+} from "../pages/mypage/utils/block";
 import {
   FiChevronLeft,
   FiChevronsLeft,
@@ -48,7 +52,13 @@ const Block = () => {
 
   return (
     <>
-      <Template pageName={"block"} fetchAPI={fetchBlockAPI} />
+      <Template
+        pageName={"block"}
+        fetchAPI={fetchBlockAPI}
+        defaultSort={["blockDate", "desc"]}
+        defaultSize={3}
+        defaultField={"nickname"}
+      />
       <div className="mypage-block">
         <section className="mypage-block-title">
           <h3>내 차단 목록 </h3>

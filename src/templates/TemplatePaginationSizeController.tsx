@@ -1,7 +1,7 @@
 import { debouncedHandleSizeChange } from "pages/Admin/Blocks/utils/block";
 import "./templatePaginationSizeController.css";
 import { sizeArray } from "./data/template";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface TemplatePaginationSizeControllerProps {
   size: number;
@@ -23,9 +23,9 @@ const TemplatePaginationSizeController = ({
       <div
         className={`mypage-template-panels-size-controller-container ${pageName}-panels-size-controller-container`}
       >
-        항목수
-        <span onClick={() => setOpen(!open)}>
-          {`${size}`}
+        {open && <div className="cover" onClick={() => setOpen(false)} />}
+        <span className="size" onClick={() => setOpen(!open)}>
+          {`항목수`}
           <ul className={open ? "active" : undefined}>
             {sizeArray.map((s, i) => (
               <li

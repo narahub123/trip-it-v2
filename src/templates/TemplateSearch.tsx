@@ -29,6 +29,7 @@ const TemplateSearch = ({
   return (
     <section className={`mypage-template-search`}>
       <div className={`mypage-template-search-container`}>
+        {open && <div className="cover" onClick={() => setOpen(false)} />}
         <span id="field" onClick={() => setOpen(!open)}>
           {tempArray.find((item) => item.field === field)?.title}
           <ul className={open ? "active" : undefined}>

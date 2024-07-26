@@ -1,8 +1,10 @@
 .mypage-template-main-table {
   border: 1px solid #ccc;
   width: 100%;
+  border-collapse: collapse;
 
   .mypage-template-main-table-head {
+    border-bottom: 1px solid #ccc;
     .mypage-template-main-table-head-tr {
       .mypage-template-main-table-head-th {
         padding: 8px;
