@@ -49,24 +49,6 @@ const Block = () => {
   return (
     <>
       <Template pageName={"block"} fetchAPI={fetchBlockAPI} />
-      <div className="mypage-block">
-        <section className="mypage-block-search">
-          <select id="field" onChange={(e) => handleFieldChange(e, setField)}>
-            <option value="nickname">유저</option>
-            <option value="blockDate">날짜</option>
-          </select>
-          <input
-            type="text"
-            onChange={debouncedHandleSearchChange(
-              setSearch,
-              setPage,
-              items,
-              field,
-              setTotal
-            )}
-          />
-        </section>
-      </div>
     </>
   );
 };

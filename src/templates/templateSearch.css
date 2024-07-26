@@ -1,0 +1,14 @@
+.mypage-template-search {
+  .mypage-template-search-container {
+    padding-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    select {
+      padding: 5px;
+      border-radius: 10px;
+      outline: none;
+    }
+  }
+}

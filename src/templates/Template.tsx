@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { blockArray } from "./data/template";
 import TemplatePagination from "./TemplatePagination";
 import TemplatePaginationSizeController from "./TemplatePaginationSizeController";
+import TemplateSearch from "./TemplateSearch";
 
 export interface TemplateProps {
   pageName: string;
@@ -59,9 +60,14 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
           tempArray={blockArray}
         />
       </section>
-      <section className={`mypage-template-search ${pageName}-search`}>
-        검색
-      </section>
+      <TemplateSearch
+        items={items}
+        field={field}
+        setField={setField}
+        setSearch={setSearch}
+        setPage={setPage}
+        setTotal={setTotal}
+      />
       <TemplatePagination
         pageName={pageName}
         page={page}
