@@ -1,6 +1,7 @@
 import "./templateSearch.css";
 import { debouncedHandleSearchChange } from "pages/Admin/Blocks/utils/block";
 import { handleFieldChange } from "pages/mypage/utils/block";
+import { TemplateArrayType } from "types/template";
 
 interface TemplateSearchProps {
   items: any[];
@@ -9,6 +10,7 @@ interface TemplateSearchProps {
   setSearch: (value: string) => void;
   setPage: (value: number) => void;
   setTotal: (value: number) => void;
+  tempArray: TemplateArrayType[];
 }
 
 const TemplateSearch = ({
@@ -18,13 +20,17 @@ const TemplateSearch = ({
   items,
   field,
   setTotal,
+  tempArray,
 }: TemplateSearchProps) => {
   return (
     <section className={`mypage-template-search`}>
       <div className={`mypage-template-search-container`}>
         <select id="field" onChange={(e) => handleFieldChange(e, setField)}>
-          <option value="nickname">유저</option>
-          <option value="blockDate">날짜</option>
+          {tempArray
+            .filter((item) => item.search === true)
+            .map((item) => (
+              <option value={item.field}>{item.title}</option>
+            ))}
         </select>
         <input
           type="text"

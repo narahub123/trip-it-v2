@@ -67,6 +67,7 @@ const Template = ({ pageName, fetchAPI }: TemplateProps) => {
         setSearch={setSearch}
         setPage={setPage}
         setTotal={setTotal}
+        tempArray={blockArray}
       />
       <TemplatePagination
         pageName={pageName}
