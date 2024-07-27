@@ -115,7 +115,11 @@ const TemplateTable = ({
                         result = index + 1;
                         break;
                       case "normal":
-                        result = item[body.field || ""];
+                        result = (
+                          <p className="mypage-template-main-table-body-td-text">
+                            {item[body.field] || "내용 없음"}
+                          </p>
+                        );
                         break;
 
                       case "date":

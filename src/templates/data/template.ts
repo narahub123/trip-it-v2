@@ -1,6 +1,6 @@
 import { TemplateArrayType } from "types/template";
 
-// 목록 사이즈 크기 목록 
+// 목록 사이즈 크기 목록
 export const sizeArray = [1, 2, 3, 4, 5];
 
 export const blockArray: TemplateArrayType[] = [
@@ -31,5 +31,50 @@ export const blockArray: TemplateArrayType[] = [
     title: "차단 해제",
     sort: { key: "", value: "" },
     search: false,
+  },
+];
+
+export const reportArray: TemplateArrayType[] = [
+  {
+    field: "index",
+    type: "index",
+    title: "번호",
+    sort: { key: "", value: "" },
+    search: false,
+  },
+  {
+    field: "postId",
+    type: "normal",
+    title: "모집글",
+    sort: { key: "postId", value: "asc" },
+    search: true,
+  },
+  {
+    field: "reportType",
+    type: "normal",
+    title: "신고유형",
+    sort: { key: "reportType", value: "asc" },
+    search: true,
+  },
+  {
+    field: "reportDetail",
+    type: "normal",
+    title: "신고 상세",
+    sort: { key: "reportDetail", value: "asc" },
+    search: true,
+  },
+  {
+    field: "reportDate",
+    type: "date",
+    title: "신고 날짜",
+    sort: { key: "reportDate", value: "desc" },
+    search: true,
+  },
+  {
+    field: "reportFalse",
+    type: "normal",
+    title: "신고처리여부",
+    sort: { key: "reportFalse", value: "asc" },
+    search: true,
   },
 ];

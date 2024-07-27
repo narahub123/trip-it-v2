@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getCookie } from "utilities/Cookie";
-import { convertYYYYMMDDToDate1 } from "utilities/date";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
@@ -42,6 +41,8 @@ export const fetchBlocksAPI = async (
       withCredentials: true,
     }
   );
+
+  
 
   return block;
 };

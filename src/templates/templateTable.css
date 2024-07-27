@@ -25,6 +25,14 @@
         p {
           padding: 10px;
         }
+
+        .mypage-template-main-table-body-td-text {
+          margin: 0 auto;
+          max-width: 100px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
       .mypage-template-main-table-body-td.block-btn {
         border: 0px;

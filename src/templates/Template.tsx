@@ -2,25 +2,29 @@ import { AxiosResponse } from "axios";
 import "./template.css";
 import TemplateTable from "./TemplateTable";
 import { useEffect, useState } from "react";
-import { blockArray } from "./data/template";
 import TemplatePagination from "./TemplatePagination";
 import TemplatePaginationSizeController from "./TemplatePaginationSizeController";
 import TemplateSearch from "./TemplateSearch";
+import { TemplateArrayType } from "types/template";
 
 export interface TemplateProps {
   pageName: string;
+  title: string;
   fetchAPI: () => Promise<AxiosResponse<any, any> | undefined>;
   defaultSort: string[];
   defaultSize: number;
   defaultField: string;
+  tempArray: TemplateArrayType[];
 }
 
 const Template = ({
   pageName,
+  title,
   fetchAPI,
   defaultSort,
   defaultSize,
   defaultField,
+  tempArray,
 }: TemplateProps) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]); // 목록 상태
@@ -38,7 +42,10 @@ const Template = ({
     setLoading(true);
     fetchAPI()
       .then((res) => {
-        if (!res) return;
+        if (!res) {
+          setLoading(false);
+          return;
+        }
         const receivedItems = res.data;
         const length = res?.data.length;
         setItems(receivedItems);
@@ -53,7 +60,7 @@ const Template = ({
   return (
     <div className={`mypage-template ${pageName}`}>
       <section className={`mypage-template-title ${pageName}-title`}>
-        <h3>타이틀</h3>
+        <h3>{title}</h3>
       </section>
       <section className={`mypage-template-panels ${pageName}-panels`}>
         <div className={`mypage-template-panels-left ${pageName}-panels-left`}>
@@ -78,7 +85,7 @@ const Template = ({
           size={size}
           search={search}
           field={field}
-          tempArray={blockArray}
+          tempArray={tempArray}
           loading={loading}
         />
       </section>
@@ -90,7 +97,7 @@ const Template = ({
         setSearch={setSearch}
         setPage={setPage}
         setTotal={setTotal}
-        tempArray={blockArray}
+        tempArray={tempArray}
       />
       <TemplatePagination
         pageName={pageName}
