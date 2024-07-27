@@ -1,0 +1,38 @@
+.report-false {
+  cursor: pointer;
+  position: relative;
+  .report-false-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    visibility: hidden;
+    max-height: 0px;
+    opacity: 0;
+    .report-false-item {
+      padding: 5px 2px;
+    }
+  }
+}
+
+.report-false:hover {
+  .report-false-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    visibility: visible;
+    max-height: 200px;
+    opacity: 1;
+    z-index: 1;
+
+    .report-false-item {
+      padding: 5px 2px;
+    }
+    .report-false-item:hover {
+      color: aquamarine;
+    }
+  }
+}

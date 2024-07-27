@@ -78,3 +78,57 @@ export const reportArray: TemplateArrayType[] = [
     search: true,
   },
 ];
+
+// 관리자 페이지 신고 페이지
+export const reportsArray: TemplateArrayType[] = [
+  {
+    field: "index",
+    type: "index",
+    title: "번호",
+    sort: { key: "", value: "" },
+    search: false,
+  },
+  {
+    field: "userId",
+    type: "nested",
+    nested: ["userId", "nickname"],
+    title: "신고 유저",
+    sort: { key: "userId.nickname", value: "asc" },
+    search: true,
+  },
+  {
+    field: "postId",
+    type: "normal",
+    title: "모집글",
+    sort: { key: "postId", value: "asc" },
+    search: true,
+  },
+  {
+    field: "reportType",
+    type: "normal",
+    title: "신고유형",
+    sort: { key: "reportType", value: "asc" },
+    search: true,
+  },
+  {
+    field: "reportDetail",
+    type: "normal",
+    title: "신고 상세",
+    sort: { key: "reportDetail", value: "asc" },
+    search: true,
+  },
+  {
+    field: "reportDate",
+    type: "date",
+    title: "신고 날짜",
+    sort: { key: "reportDate", value: "desc" },
+    search: true,
+  },
+  {
+    field: "reportFalse",
+    type: "report",
+    title: "신고처리여부",
+    sort: { key: "reportFalse", value: "asc" },
+    search: true,
+  },
+];

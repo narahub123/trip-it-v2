@@ -4,7 +4,7 @@ import { handleSort, handleUnblock } from "pages/mypage/utils/block";
 import { LuChevronDown, LuChevronUp, LuRefreshCw } from "react-icons/lu";
 import { useRenderCount } from "@uidotdev/usehooks";
 import { TemplateArrayType } from "types/template";
-import { Link } from "react-router-dom";
+import { getResult } from "./utilities/template";
 
 export interface TemplateTableProps {
   items: any[];
@@ -108,44 +108,15 @@ const TemplateTable = ({
                   key={item._id}
                 >
                   {tempArray.map((body, i) => {
-                    let result;
-
-                    switch (body.type) {
-                      case "index":
-                        result = index + 1;
-                        break;
-                      case "normal":
-                        result = (
-                          <p className="mypage-template-main-table-body-td-text">
-                            {item[body.field] || "내용 없음"}
-                          </p>
-                        );
-                        break;
-
-                      case "date":
-                        result = convertYYYYMMDDToDate1(item[body.field || ""]);
-                        break;
-                      case "unBlock":
-                        result = (
-                          <button
-                            className="mypage-template-main-table-body-td block-btn"
-                            id={item.blockId}
-                            data-nickname={item.nickname}
-                            onClick={(e) => handleUnblock(e, items, setItems)}
-                          >
-                            차단 해제
-                          </button>
-                        );
-                        break;
-                    }
-
                     return (
-                      <td
-                        className="mypage-template-main-table-body-td"
-                        key={`${item._id}_${tempArray[i].field}_${index}`}
-                      >
-                        {result}
-                      </td>
+                      <>
+                        <td
+                          className="mypage-template-main-table-body-td"
+                          key={`${item._id}_${tempArray[i].field}_${i}`}
+                        >
+                          {getResult(body, item, index, items, setItems)}
+                        </td>
+                      </>
                     );
                   })}
                 </tr>

@@ -14,6 +14,7 @@ import Blocks from "pages/Admin/Blocks/Blocks";
 import Admin from "pages/Admin/Admin";
 import Test from "test/Test";
 import Report from "pages/mypage/Report/Report";
+import Reports from "pages/Admin/Reports/Reports";
 
 const Trip = () => {
   useEffect(() => {
@@ -43,6 +44,7 @@ const Trip = () => {
           </Route>
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/blocks" element={<Blocks />} />
+            <Route path="/admin/reports" element={<Reports />} />
           </Route>
           <Route path="/test" element={<Test />} />
         </Route>

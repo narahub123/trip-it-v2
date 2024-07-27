@@ -3,6 +3,52 @@ import { getCookie } from "utilities/Cookie";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
+// 관리자 페이지 신고 처리하기
+export const updateReportAPI = async (
+  reportId: string,
+  reportFalse: number
+) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/admin/reports/update`,
+      {
+        reportId,
+        reportFalse,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Access: `${localStorage.getItem("access")}`,
+          Refresh: `${getCookie("refresh")}`,
+        },
+        withCredentials: true,
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 관리자 페이지 신고 목록
+export const fetchReportsAPI = async () => {
+  try {
+    const report = await axios.get(`${baseURL}/admin/reports`, {
+      headers: {
+        "Content-Type": "application/json",
+        Access: `${localStorage.getItem("access")}`,
+        Refresh: `${getCookie("refresh")}`,
+      },
+      withCredentials: true,
+    });
+
+    return report;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // 신고하기
 export const addReportAPI = async (value: any) => {
   try {
