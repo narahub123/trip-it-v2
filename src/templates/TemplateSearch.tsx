@@ -1,6 +1,5 @@
 import "./templateSearch.css";
 import { debouncedHandleSearchChange } from "pages/Admin/Blocks/utils/block";
-import { handleFieldChange } from "pages/mypage/utils/block";
 import { useState } from "react";
 import { TemplateArrayType } from "types/template";
 
@@ -13,6 +12,7 @@ interface TemplateSearchProps {
   setTotal: (value: number) => void;
   tempArray: TemplateArrayType[];
   pageName: string;
+  search: string;
 }
 
 const TemplateSearch = ({
@@ -24,8 +24,32 @@ const TemplateSearch = ({
   setTotal,
   tempArray,
   pageName,
+  search,
 }: TemplateSearchProps) => {
   const [open, setOpen] = useState(false);
+  const [openSelect, setOpenSelect] = useState(false);
+
+  const type = tempArray.find((item) => item.field.name === field.name)?.search
+    ?.type;
+  // tempArray에서 field.name과 일치하는 항목을 찾고, 해당 항목의 search.enum을 가져옵니다.
+  const option = tempArray.find((item) => item.field.name === field.name)
+    ?.search.enum;
+
+  let options;
+  // option이 undefined가 아닐 경우에만 Object.entries를 사용합니다.
+  if (option) {
+    options = Object.entries(option);
+  }
+
+  const handleField = (field: any) => {
+    setField(field);
+    setSearch("");
+  };
+
+  const handleSearch = (search: string, select: string) => {
+    setSearch(select);
+  };
+
   return (
     <section className={`mypage-template-search`}>
       <div className={`mypage-template-search-container`}>
@@ -34,12 +58,12 @@ const TemplateSearch = ({
           {tempArray.find((item) => item.field.name === field.name)?.title}
           <ul className={open ? "active" : undefined}>
             {tempArray
-              .filter((item) => item.search === true)
+              .filter((item) => item.search.able === true)
               .map((item, i) => (
                 <li
                   key={i}
                   value={item.field.name}
-                  onClick={() => setField(item.field)}
+                  onClick={() => handleField(item.field)}
                 >
                   {item.title}
                 </li>
@@ -47,16 +71,33 @@ const TemplateSearch = ({
           </ul>
         </span>
 
-        <input
-          type="text"
-          onChange={debouncedHandleSearchChange(
-            setSearch,
-            setPage,
-            items,
-            field,
-            setTotal
-          )}
-        />
+        {type === "normal" && (
+          <input
+            type="text"
+            onChange={debouncedHandleSearchChange(
+              setSearch,
+              setPage,
+              items,
+              field,
+              setTotal
+            )}
+          />
+        )}
+        {type === "select" && (
+          <>
+            <span onClick={() => setOpenSelect(!openSelect)}>
+              <p>{search.length === 0 ? "선택해주세요" : search}</p>
+              <ul className={openSelect ? "active" : undefined}>
+                <li onClick={() => setSearch("")}>전체</li>
+                {options?.map((option) => (
+                  <li onClick={() => handleSearch(option[0], option[1])}>
+                    {option[1]}
+                  </li>
+                ))}
+              </ul>
+            </span>
+          </>
+        )}
       </div>
     </section>
   );

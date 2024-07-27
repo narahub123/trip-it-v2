@@ -43,6 +43,12 @@ const TemplateTable = ({
 
   const lengthOfColumn = tempArray.length;
 
+  const lengthOfItems = items.filter((item) => {
+    return field.nested
+      ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
+      : item[field.name].includes(search);
+  }).length;
+
   console.log("템플렛 테이블 렌더링 횟수", renderCount);
 
   return (
@@ -100,7 +106,8 @@ const TemplateTable = ({
             </td>
           </tr>
         )}
-        {items.length !== 0 && loading === false ? (
+        {items.length !== 0 &&
+          loading === false &&
           items
             .filter((item) => {
               return field.nested
@@ -128,8 +135,8 @@ const TemplateTable = ({
                   })}
                 </tr>
               );
-            })
-        ) : (
+            })}
+        {lengthOfItems === 0 && loading === false && (
           <tr className="mypage-template-main-table-body-tr">
             <td
               className="mypage-template-main-table-body-td"

@@ -98,6 +98,7 @@ const Template = ({
         setPage={setPage}
         setTotal={setTotal}
         tempArray={tempArray}
+        search={search}
       />
       <TemplatePagination
         pageName={pageName}
