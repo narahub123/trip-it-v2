@@ -13,7 +13,7 @@ export interface TemplateProps {
   fetchAPI: () => Promise<AxiosResponse<any, any> | undefined>;
   defaultSort: string[];
   defaultSize: number;
-  defaultField: string;
+  defaultField: { name: string; nested?: string[] };
   tempArray: TemplateArrayType[];
 }
 

@@ -46,13 +46,17 @@ const handleSearchChange = (
   setSearch: (value: string) => void, // 검색 상태를 설정하는 함수
   setPage: (value: number) => void, // 페이지 상태를 설정하는 함수
   items: any[], // 검색할 아이템 목록
-  field: string, // 검색할 항목의 필드 이름
+  field: { name: string; nested?: string[] }, // 검색할 항목의 필드 이름
   setTotal: (value: number) => void // 검색 결과의 총 개수를 설정하는 함수
 ) => {
   const value = e.target.value; // 입력 필드의 현재 값 (검색어)
 
   // 검색어를 포함하는 항목의 개수를 계산
-  const total = items.filter((item) => item[field].includes(value)).length;
+  const total = items.filter((item) => {
+    return field.nested
+      ? item[field.name][`${field.nested?.[1]}`]?.includes(value)
+      : item[field.name].includes(value);
+  }).length;
 
   // 검색어를 상태로 설정
   setSearch(value);
@@ -69,7 +73,7 @@ export const debouncedHandleSearchChange = (
   setSearch: (value: string) => void, // 검색 상태를 설정하는 함수
   setPage: (value: number) => void, // 페이지 상태를 설정하는 함수
   items: any[], // 검색할 아이템 목록
-  field: string, // 검색할 항목의 필드 이름
+  field: { name: string; nested?: string[] }, // 검색할 항목의 필드 이름
   setTotal: (value: number) => void // 검색 결과의 총 개수를 설정하는 함수
 ) => {
   // 디바운스를 적용하여 검색 입력 변경 핸들러 함수 반환

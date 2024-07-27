@@ -16,7 +16,7 @@ const Block = () => {
       fetchAPI={fetchBlockAPI}
       defaultSort={["blockDate", "desc"]}
       defaultSize={3}
-      defaultField={"nickname"}
+      defaultField={{ name: "nickname" }}
       tempArray={blockArray}
     />
   );

@@ -5,28 +5,28 @@ export const sizeArray = [1, 2, 3, 4, 5];
 
 export const blockArray: TemplateArrayType[] = [
   {
-    field: "index",
+    field: { name: "index" },
     type: "index",
     title: "번호",
     sort: { key: "", value: "" },
     search: false,
   },
   {
-    field: "nickname",
+    field: { name: "nickname" },
     type: "normal", // 값 그대로 적용
     title: "차단 당한 유저",
     sort: { key: "nickname", value: "asc" },
     search: true,
   },
   {
-    field: "blockDate",
+    field: { name: "blockDate" },
     type: "date", // 값 그대로 적용
     title: "차단 날짜",
     sort: { key: "blockDate", value: "desc" },
     search: true,
   },
   {
-    field: "unBlock",
+    field: { name: "unBlock" },
     type: "unBlock",
     title: "차단 해제",
     sort: { key: "", value: "" },
@@ -36,42 +36,42 @@ export const blockArray: TemplateArrayType[] = [
 
 export const reportArray: TemplateArrayType[] = [
   {
-    field: "index",
+    field: { name: "index" },
     type: "index",
     title: "번호",
     sort: { key: "", value: "" },
     search: false,
   },
   {
-    field: "postId",
+    field: { name: "postId" },
     type: "normal",
     title: "모집글",
     sort: { key: "postId", value: "asc" },
     search: true,
   },
   {
-    field: "reportType",
+    field: { name: "reportType" },
     type: "normal",
     title: "신고유형",
     sort: { key: "reportType", value: "asc" },
     search: true,
   },
   {
-    field: "reportDetail",
+    field: { name: "reportDetail" },
     type: "normal",
     title: "신고 상세",
     sort: { key: "reportDetail", value: "asc" },
     search: true,
   },
   {
-    field: "reportDate",
+    field: { name: "reportDate" },
     type: "date",
     title: "신고 날짜",
     sort: { key: "reportDate", value: "desc" },
     search: true,
   },
   {
-    field: "reportFalse",
+    field: { name: "reportFalse" },
     type: "normal",
     title: "신고처리여부",
     sort: { key: "reportFalse", value: "asc" },
@@ -82,50 +82,49 @@ export const reportArray: TemplateArrayType[] = [
 // 관리자 페이지 신고 페이지
 export const reportsArray: TemplateArrayType[] = [
   {
-    field: "index",
+    field: { name: "index" },
     type: "index",
     title: "번호",
     sort: { key: "", value: "" },
     search: false,
   },
   {
-    field: "userId",
+    field: { name: "userId", nested: ["userId", "nickname"] },
     type: "nested",
-    nested: ["userId", "nickname"],
     title: "신고 유저",
     sort: { key: "userId.nickname", value: "asc" },
     search: true,
   },
   {
-    field: "postId",
+    field: { name: "postId" },
     type: "normal",
     title: "모집글",
     sort: { key: "postId", value: "asc" },
     search: true,
   },
   {
-    field: "reportType",
+    field: { name: "reportType" },
     type: "normal",
     title: "신고유형",
     sort: { key: "reportType", value: "asc" },
     search: true,
   },
   {
-    field: "reportDetail",
+    field: { name: "reportDetail" },
     type: "normal",
     title: "신고 상세",
     sort: { key: "reportDetail", value: "asc" },
     search: true,
   },
   {
-    field: "reportDate",
+    field: { name: "reportDate" },
     type: "date",
     title: "신고 날짜",
     sort: { key: "reportDate", value: "desc" },
     search: true,
   },
   {
-    field: "reportFalse",
+    field: { name: "reportFalse" },
     type: "report",
     title: "신고처리여부",
     sort: { key: "reportFalse", value: "asc" },

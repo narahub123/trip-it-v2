@@ -20,7 +20,7 @@ export const getResult = (
     case "normal":
       return (
         <p className="mypage-template-main-table-body-td-text">
-          {item[body.field] || "내용 없음"}
+          {item[body.field.name] || "내용 없음"}
           {/* item에서 body.field에 해당하는 값이 있으면 표시, 없으면 "내용 없음" 표시 */}
         </p>
       );
@@ -29,22 +29,25 @@ export const getResult = (
       return (
         <NavLink
           to={
-            body.field === "userId"
-              ? `/admin/users/${item[body.field]?.[`${body?.nested?.[0]}`]}` // userId에 따라 링크 생성
-              : body.field === "postId"
-              ? `/post/${item[body.field]?.[`${body?.nested?.[0]}`]}` // postId에 따라 링크 생성
+            body.field.name === "userId"
+              ? `/admin/users/${
+                  item[body.field.name]?.[`${body.field.nested?.[0]}`]
+                }` // userId에 따라 링크 생성
+              : body.field.name === "postId"
+              ? `/post/${item[body.field]?.[`${body?.field.nested?.[0]}`]}` // postId에 따라 링크 생성
               : ""
           }
         >
           <p className="mypage-template-main-table-body-td-text">
-            {item[body.field]?.[`${body?.nested?.[1]}`] ?? "내용 없음"}
+            {item[body.field.name]?.[`${body?.field.nested?.[1]}`] ??
+              "내용 없음"}
             {/* nested 값에 따라 표시할 텍스트 결정 */}
           </p>
         </NavLink>
       );
 
     case "date":
-      return convertYYYYMMDDToDate1(item[body.field || ""]); // 날짜 형식 변환 후 반환
+      return convertYYYYMMDDToDate1(item[body.field.name || ""]); // 날짜 형식 변환 후 반환
 
     case "unBlock":
       return (
@@ -59,9 +62,9 @@ export const getResult = (
       );
 
     case "report":
-      return item[body.field] === "처리 전" ? ( // 신고 상태가 "처리 전"일 때
+      return item[body.field.name] === "처리 전" ? ( // 신고 상태가 "처리 전"일 때
         <div className="mypage-template-main-table-body-td report-false">
-          {item[body.field] || "내용 없음"}
+          {item[body.field.name] || "내용 없음"}
           <ul className="report-false-container">
             <li
               className="report-false-item"
@@ -79,7 +82,7 @@ export const getResult = (
         </div>
       ) : (
         <div className="mypage-template-main-table-body-td report-false-done">
-          {item[body.field] || "내용 없음"}
+          {item[body.field.name] || "내용 없음"}
           {/* 처리 완료 상태 표시 */}
         </div>
       );

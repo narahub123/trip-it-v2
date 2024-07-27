@@ -29,7 +29,7 @@ const Block = () => {
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(3);
   const [search, setSearch] = useState("");
-  const [field, setField] = useState("nickname");
+  const [field, setField] = useState({ name: "nickname" });
   const [total, setTotal] = useState(1);
 
   // 페이징
@@ -121,7 +121,7 @@ const Block = () => {
             </thead>
             <tbody className="mypage-block-main-table-body">
               {items
-                .filter((item) => item[field].includes(search))
+                .filter((item) => item[field.name].includes(search))
                 .slice(offset, offset + size)
                 .map((item, index) => (
                   <tr

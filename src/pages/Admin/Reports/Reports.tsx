@@ -11,7 +11,7 @@ const Reports = () => {
       fetchAPI={fetchReportsAPI}
       defaultSort={["reportDate", "desc"]}
       defaultSize={3}
-      defaultField={"reportType"}
+      defaultField={{ name: "reportType" }}
       tempArray={reportsArray}
     />
   );

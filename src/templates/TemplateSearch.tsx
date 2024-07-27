@@ -6,8 +6,8 @@ import { TemplateArrayType } from "types/template";
 
 interface TemplateSearchProps {
   items: any[];
-  field: string;
-  setField: (value: string) => void;
+  field: { name: string; nested?: string[] };
+  setField: (value: { name: string; nested?: string[] }) => void;
   setSearch: (value: string) => void;
   setPage: (value: number) => void;
   setTotal: (value: number) => void;
@@ -31,14 +31,14 @@ const TemplateSearch = ({
       <div className={`mypage-template-search-container`}>
         {open && <div className="cover" onClick={() => setOpen(false)} />}
         <span id="field" onClick={() => setOpen(!open)}>
-          {tempArray.find((item) => item.field === field)?.title}
+          {tempArray.find((item) => item.field.name === field.name)?.title}
           <ul className={open ? "active" : undefined}>
             {tempArray
               .filter((item) => item.search === true)
               .map((item, i) => (
                 <li
                   key={i}
-                  value={item.field}
+                  value={item.field.name}
                   onClick={() => setField(item.field)}
                 >
                   {item.title}

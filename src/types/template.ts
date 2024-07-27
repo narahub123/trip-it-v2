@@ -1,7 +1,6 @@
 export interface TemplateArrayType {
-  field: string;
+  field: { name: string; nested?: string[] };
   type: string;
-  nested?: string[];
   title: string; // header 제목
   sort: {
     key: string; // 정렬 key 정렬을 하지 않는 경우에는 빈문자열

@@ -14,7 +14,10 @@ export interface TemplateTableProps {
   page: number;
   size: number;
   search: string;
-  field: string;
+  field: {
+    name: string;
+    nested?: string[];
+  };
   tempArray: TemplateArrayType[];
   pageName: string;
   loading: boolean;
@@ -99,7 +102,11 @@ const TemplateTable = ({
         )}
         {items.length !== 0 && loading === false ? (
           items
-            .filter((item) => item[field].includes(search))
+            .filter((item) => {
+              return field.nested
+                ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
+                : item[field.name].includes(search);
+            })
             .slice(offset, offset + size)
             .map((item, index) => {
               return (

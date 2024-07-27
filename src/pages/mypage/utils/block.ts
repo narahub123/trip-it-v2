@@ -54,11 +54,11 @@ export const handleSort = (
 // 필드 변경 핸들러 함수
 export const handleFieldChange = (
   e: React.ChangeEvent<HTMLSelectElement>, // 이벤트 객체
-  setField: (value: string) => void // 필드 상태를 설정하는 함수
+  setField: (value: { name: string; nested?: string[] }) => void // 필드 상태를 설정하는 함수
 ) => {
   const field = e.currentTarget.value; // 선택된 필드 값
 
-  setField(field); // 필드 상태를 선택된 값으로 설정
+  setField({ name: field }); // 필드 상태를 선택된 값으로 설정
 };
 
 // 차단 해제 버튼 클릭 핸들러 함수
