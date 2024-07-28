@@ -3,7 +3,7 @@ import "./blocks.css";
 import { fetchBlocksAPI } from "apis/block";
 import { blockArray } from "pages/mypage/block/test";
 import React, { useEffect, useState } from "react";
-import Template from "templates/Template";
+import Template from "templates/mypage/Template";
 import {
   FiChevronLeft,
   FiChevronsLeft,

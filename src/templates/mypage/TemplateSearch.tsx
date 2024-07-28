@@ -2,7 +2,7 @@ import "./templateSearch.css";
 import { debouncedHandleSearchChange } from "pages/Admin/Blocks/utils/block";
 import { useState } from "react";
 import { TemplateArrayType } from "types/template";
-import { handleField, handleSearch } from "./utilities/template";
+import { handleField, handleSearch } from "../utilities/template";
 
 interface TemplateSearchProps {
   items: any[];

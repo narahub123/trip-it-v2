@@ -1,7 +1,7 @@
 import "./reports.css";
 import { fetchReportAPI, fetchReportsAPI } from "apis/report";
 import { reportsArray } from "templates/data/template";
-import Template from "templates/Template";
+import Template from "templates/mypage/Template";
 
 const Reports = () => {
   return (

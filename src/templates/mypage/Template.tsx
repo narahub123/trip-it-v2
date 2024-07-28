@@ -1,11 +1,11 @@
 import { AxiosResponse } from "axios";
 import "./template.css";
-import TemplateTable from "./TemplateTable";
 import { useEffect, useState } from "react";
-import TemplatePagination from "./TemplatePagination";
+import TemplateTable from "./TemplateTable";
+import { TemplateArrayType } from "types/template";
 import TemplatePaginationSizeController from "./TemplatePaginationSizeController";
 import TemplateSearch from "./TemplateSearch";
-import { TemplateArrayType } from "types/template";
+import TemplatePagination from "./TemplatePagination";
 
 export interface TemplateProps {
   pageName: string;

@@ -1,5 +1,5 @@
 import { useRenderCount } from "@uidotdev/usehooks";
-import Template from "templates/Template";
+import Template from "templates/mypage/Template";
 import "./report.css";
 import { fetchReportAPI } from "apis/report";
 import { reportArray } from "templates/data/template";

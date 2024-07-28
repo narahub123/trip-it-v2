@@ -1,5 +1,5 @@
 import { useRenderCount } from "@uidotdev/usehooks";
-import Template from "templates/Template";
+import Template from "templates/mypage/Template";
 import "./block.css";
 import { fetchBlockAPI } from "apis/block";
 import { blockArray } from "templates/data/template";

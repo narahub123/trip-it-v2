@@ -1,6 +1,6 @@
 import { useRenderCount } from "@uidotdev/usehooks";
 import React, { useEffect, useState } from "react";
-import Template from "templates/Template";
+import Template from "templates/mypage/Template";
 import "./block.css";
 import { blockArray } from "../pages/mypage/block/test";
 import { fetchBlockAPI } from "apis/block";

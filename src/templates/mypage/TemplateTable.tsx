@@ -4,7 +4,7 @@ import { handleSort, handleUnblock } from "pages/mypage/utils/block";
 import { LuChevronDown, LuChevronUp, LuRefreshCw } from "react-icons/lu";
 import { useRenderCount } from "@uidotdev/usehooks";
 import { TemplateArrayType } from "types/template";
-import { getResult } from "./utilities/template";
+import { getResult } from "../utilities/template";
 
 export interface TemplateTableProps {
   items: any[];
