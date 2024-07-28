@@ -8,3 +8,12 @@ export interface TemplateArrayType {
   };
   search: { able: boolean; type?: string; enum?: { [key: string]: string } };
 }
+
+export interface MessageType {
+  msgId: number;
+  type: string;
+  msgs: {
+    header: string;
+    main: string;
+  };
+}

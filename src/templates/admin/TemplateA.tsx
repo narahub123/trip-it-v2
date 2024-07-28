@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import "./templateA.css";
 import { AxiosResponse } from "axios";
-import { TemplateArrayType } from "types/template";
+import { MessageType, TemplateArrayType } from "types/template";
 import TemplateATable from "./TemplateATable";
 import TemplatePaginationSizeController from "templates/mypage/TemplatePaginationSizeController";
 
 import TemplatePagination from "templates/mypage/TemplatePagination";
 import TemplateASearch from "./TemplateASearch";
+import MessageModal from "templates/components/MessageModal";
+import { fetchMessage } from "templates/utilities/template";
 
 export interface TemplateAProps {
   pageName: string;
@@ -23,6 +25,7 @@ export interface TemplateAProps {
   defaultSize: number;
   defaultField: { name: string; nested?: string[] };
   tempArray: TemplateArrayType[];
+  msgArray: MessageType[];
 }
 
 const TemplateA = ({
@@ -33,6 +36,7 @@ const TemplateA = ({
   defaultSize,
   defaultField,
   tempArray,
+  msgArray,
 }: TemplateAProps) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]); // 목록 상태
@@ -42,7 +46,7 @@ const TemplateA = ({
   const [total, setTotal] = useState(1); // 총 아이템 수 상태
   const [search, setSearch] = useState(""); // 검색어 상태
   const [field, setField] = useState(defaultField); // 검색 필드 상태
-
+  const [message, setMessage] = useState<MessageType>();
   const numPages = Math.ceil(total / size); // 총 페이지 개수
 
   // 목록 불러오기
@@ -68,63 +72,70 @@ const TemplateA = ({
       })
       .catch((err) => {
         setLoading(false);
+        console.log(err);
+
+        setMessage(fetchMessage(err.msgId, msgArray));
       });
   }, [page, size, sort, search]);
 
   return (
-    <div className={`admin-template ${pageName}`}>
-      <section className={`admin-template-title ${pageName}-title`}>
-        <h3>{title}</h3>
-      </section>
-      <section className={`admin-template-panels ${pageName}-panels`}>
-        <div className={`admin-template-panels-left ${pageName}-panels-left`}>
-          <div
-            className={`mypage-template-panels-left ${pageName}-panels-left`}
-          >
-            <TemplatePaginationSizeController
-              size={size}
-              setSize={setSize}
-              pageName={pageName}
-            />
+    <>
+      {message && <MessageModal message={message} setMessage={setMessage} />}
+      <div className={`admin-template ${pageName}`}>
+        <section className={`admin-template-title ${pageName}-title`}>
+          <h3>{title}</h3>
+        </section>
+        <section className={`admin-template-panels ${pageName}-panels`}>
+          <div className={`admin-template-panels-left ${pageName}-panels-left`}>
+            <div
+              className={`mypage-template-panels-left ${pageName}-panels-left`}
+            >
+              <TemplatePaginationSizeController
+                size={size}
+                setSize={setSize}
+                pageName={pageName}
+              />
+            </div>
           </div>
-        </div>
-        <div
-          className={`admin-template-panels-right ${pageName}-panels-right`}
-        ></div>
-      </section>
-      <section className={`admin-template-main ${pageName}-main`}>
-        <TemplateATable
+          <div
+            className={`admin-template-panels-right ${pageName}-panels-right`}
+          ></div>
+        </section>
+        <section className={`admin-template-main ${pageName}-main`}>
+          <TemplateATable
+            pageName={pageName}
+            items={items}
+            setItems={setItems}
+            sort={sort}
+            setSort={setSort}
+            page={page}
+            size={size}
+            search={search}
+            field={field}
+            tempArray={tempArray}
+            loading={loading}
+            setMessage={setMessage}
+          />
+        </section>
+        <TemplateASearch
           pageName={pageName}
           items={items}
-          setItems={setItems}
-          sort={sort}
-          setSort={setSort}
-          page={page}
-          size={size}
-          search={search}
           field={field}
+          setField={setField}
+          setSearch={setSearch}
+          setPage={setPage}
+          setTotal={setTotal}
           tempArray={tempArray}
-          loading={loading}
+          search={search}
         />
-      </section>
-      <TemplateASearch
-        pageName={pageName}
-        items={items}
-        field={field}
-        setField={setField}
-        setSearch={setSearch}
-        setPage={setPage}
-        setTotal={setTotal}
-        tempArray={tempArray}
-        search={search}
-      />
-      <TemplatePagination
-        pageName={pageName}
-        page={page}
-        setPage={setPage}
-        numPages={numPages}
-      />
-    </div>
+        <TemplatePagination
+          pageName={pageName}
+          page={page}
+          setPage={setPage}
+          numPages={numPages}
+        />
+      </div>
+    </>
   );
 };
 

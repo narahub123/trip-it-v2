@@ -2,7 +2,7 @@ import { convertYYYYMMDDToDate1 } from "utilities/date";
 import "./templateATable.css";
 import { LuChevronDown, LuChevronUp, LuRefreshCw } from "react-icons/lu";
 import { useRenderCount } from "@uidotdev/usehooks";
-import { TemplateArrayType } from "types/template";
+import { MessageType, TemplateArrayType } from "types/template";
 import { getResult, handleSortAdmin } from "../utilities/template";
 
 export interface TemplateATableProps {
@@ -20,6 +20,7 @@ export interface TemplateATableProps {
   tempArray: TemplateArrayType[];
   pageName: string;
   loading: boolean;
+  setMessage: (value: MessageType | undefined) => void;
 }
 
 const TemplateATable = ({
@@ -34,6 +35,7 @@ const TemplateATable = ({
   tempArray,
   pageName,
   loading,
+  setMessage,
 }: TemplateATableProps) => {
   const renderCount = useRenderCount();
 
@@ -114,7 +116,14 @@ const TemplateATable = ({
                         className="admin-template-main-table-body-td"
                         key={`${item._id}_${tempArray[i].field}_${i}`}
                       >
-                        {getResult(body, item, index, items, setItems)}
+                        {getResult(
+                          body,
+                          item,
+                          index,
+                          items,
+                          setItems,
+                          setMessage
+                        )}
                       </td>
                     </>
                   );

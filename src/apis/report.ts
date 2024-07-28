@@ -26,8 +26,21 @@ export const updateReportAPI = async (
     );
 
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 1) {
+      msgId = 3; // 권한 없음
+    } else if (code === 2) {
+      msgId = 4; // 업데이트 안됨
+    } else if (code === 3) {
+      msgId = 5; // 내부 에러
+    }
+
+    throw { msgId };
   }
 };
 
@@ -54,8 +67,21 @@ export const fetchReportsAPI = async (
     );
 
     return report;
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 1) {
+      msgId = 7; // 권한 없음
+    } else if (code === 2) {
+      msgId = 4; // 업데이트 안됨
+    } else if (code === 3) {
+      msgId = 5; // 내부 에러
+    }
+
+    throw { msgId };
   }
 };
 
@@ -80,8 +106,21 @@ export const addReportAPI = async (value: any) => {
     );
 
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 1) {
+      msgId = 3; // 권한 없음
+    } else if (code === 2) {
+      msgId = 4; // 업데이트 안됨
+    } else if (code === 3) {
+      msgId = 5; // 내부 에러
+    } else if (code === 4) {
+      msgId = 6; // 이미 신고한 게시물
+    }
   }
 };
 
@@ -99,7 +138,18 @@ export const fetchReportAPI = async () => {
 
     console.log(report);
     return report;
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 1) {
+      msgId = 3; // 권한 없음
+    } else if (code === 2) {
+      msgId = 4; // 업데이트 안됨
+    } else if (code === 3) {
+      msgId = 5; // 내부 에러
+    }
   }
 };

@@ -3,7 +3,7 @@ import "./templateTable.css";
 import { handleSort, handleUnblock } from "pages/mypage/utils/block";
 import { LuChevronDown, LuChevronUp, LuRefreshCw } from "react-icons/lu";
 import { useRenderCount } from "@uidotdev/usehooks";
-import { TemplateArrayType } from "types/template";
+import { MessageType, TemplateArrayType } from "types/template";
 import { getResult } from "../utilities/template";
 
 export interface TemplateTableProps {
@@ -21,6 +21,7 @@ export interface TemplateTableProps {
   tempArray: TemplateArrayType[];
   pageName: string;
   loading: boolean;
+  setMessage: (value: MessageType | undefined) => void;
 }
 
 const TemplateTable = ({
@@ -35,6 +36,7 @@ const TemplateTable = ({
   tempArray,
   pageName,
   loading,
+  setMessage,
 }: TemplateTableProps) => {
   const renderCount = useRenderCount();
 
@@ -128,7 +130,14 @@ const TemplateTable = ({
                           className="mypage-template-main-table-body-td"
                           key={`${item._id}_${tempArray[i].field}_${i}`}
                         >
-                          {getResult(body, item, index, items, setItems)}
+                          {getResult(
+                            body,
+                            item,
+                            index,
+                            items,
+                            setItems,
+                            setMessage
+                          )}
                         </td>
                       </>
                     );

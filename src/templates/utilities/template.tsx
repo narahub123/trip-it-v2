@@ -1,6 +1,7 @@
 import { handleReport } from "pages/Admin/Reports/utilities/reports"; // 신고 처리 함수 import
 import { handleUnblock } from "pages/mypage/utils/block"; // 차단 해제 함수 import
 import { NavLink } from "react-router-dom"; // 페이지 이동을 위한 NavLink import
+import { MessageType } from "types/template";
 import { convertYYYYMMDDToDate1 } from "utilities/date"; // 날짜 형식 변환 함수 import
 
 // 관리자 페이지 정렬 함수
@@ -32,7 +33,8 @@ export const getResult = (
   item: any, // 현재 항목의 데이터
   index: number, // 현재 항목의 인덱스
   items: any[], // 모든 항목들의 배열
-  setItems: (value: any[]) => void // items 배열을 업데이트하는 함수
+  setItems: (value: any[]) => void, // items 배열을 업데이트하는 함수
+  setMessage: (value: MessageType | undefined) => void
 ) => {
   console.log(item, item[body.field.name]);
 
@@ -87,7 +89,7 @@ export const getResult = (
           className="mypage-template-main-table-body-td block-btn"
           id={item.blockId} // 차단 해제 버튼에 blockId 설정
           data-nickname={item.nickname} // data-nickname 속성에 nickname 설정
-          onClick={(e) => handleUnblock(e, items, setItems)} // 클릭 시 handleUnblock 함수 호출
+          onClick={(e) => handleUnblock(e, items, setItems, setMessage)} // 클릭 시 handleUnblock 함수 호출
         >
           차단 해제
         </button>
@@ -100,13 +102,17 @@ export const getResult = (
           <ul className="report-false-container">
             <li
               className="report-false-item"
-              onClick={() => handleReport(item.reportId, 2, items, setItems)} // 신고 허용 처리
+              onClick={() =>
+                handleReport(item.reportId, 2, items, setItems, setMessage)
+              } // 신고 허용 처리
             >
               신고 허용
             </li>
             <li
               className="report-false-item"
-              onClick={() => handleReport(item.reportId, 1, items, setItems)} // 허위 신고 처리
+              onClick={() =>
+                handleReport(item.reportId, 1, items, setItems, setMessage)
+              } // 허위 신고 처리
             >
               허위 신고
             </li>
@@ -138,4 +144,9 @@ export const handleSearch = (
   setSearch: (value: string) => void
 ) => {
   setSearch(select);
+};
+
+// 메시지 변환
+export const fetchMessage = (msgId: number, msgs: MessageType[]) => {
+  return msgs.find((msg) => msg.msgId === msgId);
 };

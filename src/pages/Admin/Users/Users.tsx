@@ -1,6 +1,7 @@
 import { fetchUsersAPI } from "apis/users";
 import React from "react";
 import TemplateA from "templates/admin/TemplateA";
+import { userMsgs } from "templates/data/message";
 import { usersArray } from "templates/data/template";
 
 const Users = () => {
@@ -13,6 +14,7 @@ const Users = () => {
       defaultSize={3}
       defaultField={{ name: "regdate" }}
       tempArray={usersArray}
+      msgArray={userMsgs}
     />
   );
 };

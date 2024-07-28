@@ -39,7 +39,7 @@ const Blocks = () => {
     const sortKey = sort[0];
     const sortValue = sort[1];
     fetchBlocksAPI(sortKey, sortValue, page, size, search)
-      .then((res) => {
+      .then((res: any) => {
         const blocks = res.data.content;
         const total = res.data.totalElements;
 

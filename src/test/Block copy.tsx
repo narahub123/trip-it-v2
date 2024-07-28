@@ -21,6 +21,7 @@ import {
   debouncedHandleSizeChange,
 } from "pages/Admin/Blocks/utilities/block";
 import { convertYYYYMMDDToDate1 } from "utilities/date";
+import { MessageType } from "types/template";
 
 const Block = () => {
   const renderCount = useRenderCount();
@@ -31,7 +32,7 @@ const Block = () => {
   const [search, setSearch] = useState("");
   const [field, setField] = useState({ name: "nickname" });
   const [total, setTotal] = useState(1);
-
+  const [message, setMessage] = useState<MessageType>();
   // 페이징
   const offset = (page - 1) * size;
   const numPages = Math.ceil(total / size);
@@ -141,7 +142,9 @@ const Block = () => {
                       <button
                         id={item.blockId}
                         data-nickname={item.nickname}
-                        onClick={(e) => handleUnblock(e, items, setItems)}
+                        onClick={(e) =>
+                          handleUnblock(e, items, setItems, setMessage)
+                        }
                       >
                         차단 해제
                       </button>

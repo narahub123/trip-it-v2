@@ -30,19 +30,36 @@ export const fetchBlocksAPI = async (
   field?: string,
   search?: string
 ) => {
-  const blocks = await axios.get(
-    `${baseURL}/block/all?sortKey=${sortKey}&sortValue=${sortValue}&page=${page}&size=${size}&search=${search}&field=${field}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Access: `${localStorage.getItem("access")}`,
-        Refresh: `${getCookie("refresh")}`,
-      },
-      withCredentials: true,
-    }
-  );
+  try {
+    const blocks = await axios.get(
+      `${baseURL}/block/all?sortKey=${sortKey}&sortValue=${sortValue}&page=${page}&size=${size}&search=${search}&field=${field}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Access: `${localStorage.getItem("access")}`,
+          Refresh: `${getCookie("refresh")}`,
+        },
+        withCredentials: true,
+      }
+    );
 
-  return blocks;
+    return blocks;
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 1) {
+      msgId = 6;
+    } else if (code === 2 || code === 3) {
+      msgId = 3;
+    } else if (code === 4) {
+      msgId = 4;
+    }
+
+    throw { msgId };
+  }
 };
 
 // 차단 해제 API 호출 함수
@@ -66,9 +83,19 @@ export const unBlockAPI = async (blockId: string | number) => {
 
     // 서버로부터의 응답 반환
     return response;
-  } catch (error) {
-    // 요청 중 오류 발생 시, 오류를 콘솔에 출력
-    console.log(error);
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 2 || code === 3) {
+      msgId = 3;
+    } else if (code === 4) {
+      msgId = 4;
+    }
+
+    throw { msgId };
   }
 };
 
@@ -93,17 +120,21 @@ export const unBlockByAdminAPI = async (blockId: string | number) => {
 
     // 서버로부터의 응답 반환
     return response;
-  } catch (error: any) {
-    // 요청 중 오류 발생 시, 오류를 콘솔에 출력
-    console.log(error);
-    console.log(error.response.data.code); // 오류 응답 코드 로그 출력
-
-    const code = error.response.data.code; // 오류 응답 코드 추출
-
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
     // 응답 코드가 1인 경우, 차단 해제 요청 권한이 없음을 알림
     if (code === 1) {
-      alert("차단 해제를 요청할 권한이 없습니다.");
+      msgId = 5;
+    } else if (code === 2 || code === 3) {
+      msgId = 3;
+    } else if (code === 4) {
+      msgId = 4;
     }
+
+    throw { msgId };
   }
 };
 

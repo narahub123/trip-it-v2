@@ -1,4 +1,7 @@
 import { unBlockAPI } from "apis/block";
+import { blockMsgs } from "templates/data/message";
+import { fetchMessage } from "templates/utilities/template";
+import { MessageType } from "types/template";
 
 // 정렬 함수
 export const handleSort = (
@@ -65,7 +68,8 @@ export const handleFieldChange = (
 export const handleUnblock = (
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>, // 버튼 클릭 이벤트 객체
   items: any[],
-  setItems: (value: any[]) => void
+  setItems: (value: any[]) => void,
+  setMessage: (value: MessageType | undefined) => void
 ) => {
   // 클릭된 버튼의 데이터 속성에서 사용자 닉네임 추출
   const nickname = e.currentTarget.dataset.nickname;
@@ -74,6 +78,8 @@ export const handleUnblock = (
   if (!window.confirm(`${nickname}님에 대한 차단을 해제하시겠습니까?`)) {
     return; // 사용자가 취소를 선택하면 함수 종료
   }
+
+  // setMessage(fetchMessage(1, blockMsgs));
 
   // 클릭된 버튼의 ID에서 차단 ID 추출
   const blockId = e.currentTarget.id;
@@ -93,13 +99,15 @@ export const handleUnblock = (
         setItems(newItems);
 
         // 차단 해제 성공 메시지 표시
-        alert(`${nickname}에 대한 차단이 해제 되었습니다.`);
+        // alert(`${nickname}에 대한 차단이 해제 되었습니다.`);
+        setMessage(fetchMessage(2, blockMsgs));
       }
     })
     .catch((error) => {
       // 오류 발생 시, 오류를 콘솔에 출력 (옵션)
       console.log(error);
       // 사용자에게 오류 메시지 표시 (옵션, 필요 시 추가)
-      alert("차단 해제 중 오류가 발생했습니다.");
+      // alert("차단 해제 중 오류가 발생했습니다.");
+      setMessage(fetchMessage(3, blockMsgs));
     });
 };

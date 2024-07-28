@@ -1,6 +1,7 @@
 import "./reports.css";
 import { fetchReportsAPI } from "apis/report";
 import TemplateA from "templates/admin/TemplateA";
+import { reportMsgs } from "templates/data/message";
 import { reportsArray } from "templates/data/template";
 
 const Reports = () => {
@@ -13,6 +14,7 @@ const Reports = () => {
       defaultSize={3}
       defaultField={{ name: "reportType" }}
       tempArray={reportsArray}
+      msgArray={reportMsgs}
     />
   );
 };

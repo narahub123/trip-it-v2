@@ -28,7 +28,18 @@ export const fetchUsersAPI = async (
     console.log(users);
 
     return users;
-  } catch (error) {
-    console.log(error);
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 1) {
+      msgId = 1;
+    } else if (code === 3) {
+      msgId = 2;
+    }
+
+    throw { msgId };
   }
 };

@@ -1,14 +1,19 @@
 import { updateReportAPI } from "apis/report";
+import { reportMsgs } from "templates/data/message";
+import { fetchMessage } from "templates/utilities/template";
+import { MessageType } from "types/template";
 
 export const handleReport = (
   reportId: string,
   reportFalse: number,
   items: any[],
-  setItems: (value: any[]) => void
+  setItems: (value: any[]) => void,
+  setMessage: (value: MessageType | undefined) => void
 ) => {
   if (!window.confirm(`신고를 처리하시겠습니까?`)) {
     return;
   }
+  // setMessage(fetchMessage(1, reportMsgs));
 
   updateReportAPI(reportId, reportFalse)
     .then((res) => {
@@ -16,7 +21,7 @@ export const handleReport = (
 
       const code = res.data.code;
       if (code === "ok") {
-        window.alert("업데이트가 완료되었습니다.");
+        setMessage(fetchMessage(2, reportMsgs));
 
         const newItems = items.map((item) => ({
           ...item,
@@ -31,5 +36,8 @@ export const handleReport = (
         setItems(newItems);
       }
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      setMessage(fetchMessage(err.msgId, reportMsgs));
+    });
 };

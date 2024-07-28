@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import "./template.css";
 import { useEffect, useState } from "react";
 import TemplateTable from "./TemplateTable";
-import { TemplateArrayType } from "types/template";
+import { MessageType, TemplateArrayType } from "types/template";
 import TemplatePaginationSizeController from "./TemplatePaginationSizeController";
 import TemplateSearch from "./TemplateSearch";
 import TemplatePagination from "./TemplatePagination";
@@ -34,7 +34,7 @@ const Template = ({
   const [total, setTotal] = useState(1); // 총 아이템 수 상태
   const [search, setSearch] = useState(""); // 검색어 상태
   const [field, setField] = useState(defaultField); // 검색 필드 상태
-
+  const [message, setMessage] = useState<MessageType>();
   const numPages = Math.ceil(total / size); // 총 페이지 개수
 
   // 목록 불러오기
@@ -87,6 +87,7 @@ const Template = ({
           field={field}
           tempArray={tempArray}
           loading={loading}
+          setMessage={setMessage}
         />
       </section>
       <TemplateSearch
