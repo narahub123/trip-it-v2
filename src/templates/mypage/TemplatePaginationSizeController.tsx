@@ -1,4 +1,4 @@
-import { debouncedHandleSizeChange } from "pages/Admin/Blocks/utils/block";
+import { debouncedHandleSizeChange } from "pages/Admin/Blocks/utilities/block";
 import "./templatePaginationSizeController.css";
 import { sizeArray } from "../data/template";
 import { useRef, useState } from "react";

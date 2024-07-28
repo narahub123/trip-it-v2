@@ -42,3 +42,9 @@
 .block-btn:hover {
   color: red;
 }
+
+.userpic {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}

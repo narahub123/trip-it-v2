@@ -19,7 +19,7 @@ import {
 import {
   debouncedHandleSearchChange,
   debouncedHandleSizeChange,
-} from "pages/Admin/Blocks/utils/block";
+} from "pages/Admin/Blocks/utilities/block";
 import { convertYYYYMMDDToDate1 } from "utilities/date";
 
 const Block = () => {

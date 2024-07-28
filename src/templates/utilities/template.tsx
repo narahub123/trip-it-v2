@@ -34,6 +34,8 @@ export const getResult = (
   items: any[], // 모든 항목들의 배열
   setItems: (value: any[]) => void // items 배열을 업데이트하는 함수
 ) => {
+  console.log(item, item[body.field.name]);
+
   switch (
     body.type // body.type에 따라 동작을 분기합니다.
   ) {
@@ -44,8 +46,15 @@ export const getResult = (
       return (
         <p className="text">
           {item[body.field.name] || "내용 없음"}
-          {/* item에서 body.field에 해당하는 값이 있으면 표시, 없으면 "내용 없음" 표시 */}
+          {/* item에서 body.field.name에 해당하는 값이 있으면 표시, 없으면 "내용 없음" 표시 */}
         </p>
+      );
+
+    case "image":
+      return item[body.field.name].length === 0 ? (
+        ""
+      ) : (
+        <img src={item[body.field.name]} alt="" className="userpic" />
       );
 
     case "nested":

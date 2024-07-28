@@ -19,7 +19,7 @@ import {
   debouncedHandleSizeChange,
   handleSort,
   handleUnBlockByAdmin,
-} from "pages/Admin/Blocks/utils/block";
+} from "pages/Admin/Blocks/utilities/block";
 
 // 관리자 페이지 차단
 const Blocks = () => {

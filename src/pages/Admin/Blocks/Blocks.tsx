@@ -15,7 +15,7 @@ import {
   debouncedHandleSizeChange,
   handleSort,
   handleUnBlockByAdmin,
-} from "./utils/block";
+} from "./utilities/block";
 import { convertYYYYMMDDToDate1 } from "utilities/date";
 import TemplateA from "templates/admin/TemplateA";
 import { blocksArray } from "templates/data/template";
