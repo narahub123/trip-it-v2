@@ -88,3 +88,22 @@ export const getResult = (
       );
   }
 };
+
+// field 변경
+export const handleField = (
+  field: any,
+  setField: (value: { name: string; nested?: string[] }) => void,
+  setSearch: (value: string) => void
+) => {
+  setField(field);
+  setSearch("");
+};
+
+// 검색 방법 변경
+export const handleSearch = (
+  search: string,
+  select: string,
+  setSearch: (value: string) => void
+) => {
+  setSearch(select);
+};

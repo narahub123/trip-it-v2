@@ -2,6 +2,7 @@ import "./templateSearch.css";
 import { debouncedHandleSearchChange } from "pages/Admin/Blocks/utils/block";
 import { useState } from "react";
 import { TemplateArrayType } from "types/template";
+import { handleField, handleSearch } from "./utilities/template";
 
 interface TemplateSearchProps {
   items: any[];
@@ -41,15 +42,6 @@ const TemplateSearch = ({
     options = Object.entries(option);
   }
 
-  const handleField = (field: any) => {
-    setField(field);
-    setSearch("");
-  };
-
-  const handleSearch = (search: string, select: string) => {
-    setSearch(select);
-  };
-
   return (
     <section className={`mypage-template-search`}>
       <div className={`mypage-template-search-container`}>
@@ -63,7 +55,7 @@ const TemplateSearch = ({
                 <li
                   key={i}
                   value={item.field.name}
-                  onClick={() => handleField(item.field)}
+                  onClick={() => handleField(item.field, setField, setSearch)}
                 >
                   {item.title}
                 </li>
@@ -85,12 +77,20 @@ const TemplateSearch = ({
         )}
         {type === "select" && (
           <>
+            {openSelect && (
+              <div className="cover" onClick={() => setOpenSelect(false)} />
+            )}
             <span onClick={() => setOpenSelect(!openSelect)}>
               <p>{search.length === 0 ? "선택해주세요" : search}</p>
               <ul className={openSelect ? "active" : undefined}>
                 <li onClick={() => setSearch("")}>전체</li>
                 {options?.map((option) => (
-                  <li onClick={() => handleSearch(option[0], option[1])}>
+                  <li
+                    key={option[0]}
+                    onClick={() =>
+                      handleSearch(option[0], option[1], setSearch)
+                    }
+                  >
                     {option[1]}
                   </li>
                 ))}
