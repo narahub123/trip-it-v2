@@ -1,19 +1,19 @@
-.mypage-template {
+.admin-template {
   padding: 5px;
 
-  .mypage-template-title {
+  .admin-template-title {
     text-align: center;
   }
-  .mypage-template-panels {
+  .admin-template-panels {
   }
 
-  .mypage-template-main {
+  .admin-template-main {
     margin-top: 5px;
   }
 
-  .mypage-template-search {
+  .admin-template-search {
   }
-  .mypage-template-pagination {
+  .admin-template-pagination {
   }
 }
 
@@ -24,6 +24,14 @@
   width: 100%;
   height: 100%;
   background-color: transparent;
+}
+
+.text {
+  margin: 0 auto;
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .block-btn {

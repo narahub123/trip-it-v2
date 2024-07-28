@@ -27,11 +27,11 @@ export const fetchBlocksAPI = async (
   sortValue?: string,
   page?: number,
   size?: number,
+  field?: string,
   search?: string
-  // keyword?: string
 ) => {
-  const block = await axios.get(
-    `${baseURL}/block/all?sortKey=${sortKey}&sortValue=${sortValue}&page=${page}&size=${size}&search=${search}`,
+  const blocks = await axios.get(
+    `${baseURL}/block/all?sortKey=${sortKey}&sortValue=${sortValue}&page=${page}&size=${size}&search=${search}&field=${field}`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -42,9 +42,7 @@ export const fetchBlocksAPI = async (
     }
   );
 
-  
-
-  return block;
+  return blocks;
 };
 
 // 차단 해제 API 호출 함수

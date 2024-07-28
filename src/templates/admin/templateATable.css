@@ -1,0 +1,39 @@
+.admin-template-main-table {
+  border: 1px solid #ccc;
+  width: 100%;
+  border-collapse: collapse;
+
+  .admin-template-main-table-head {
+    border-bottom: 1px solid #ccc;
+    .admin-template-main-table-head-tr {
+      .admin-template-main-table-head-th {
+        padding: 8px;
+      }
+    }
+  }
+  .admin-template-main-table-body {
+    .admin-template-main-table-body-tr {
+      .admin-template-main-table-body-td {
+        padding: 8px;
+        text-align: center;
+
+        .admin-template-main-table-body-td-loading-icon {
+          transform-origin: 50% 50%;
+          transform: rotate(360deg);
+        }
+
+        p {
+          padding: 10px;
+        }
+      }
+      .admin-template-main-table-body-td.block-btn {
+        border: 0px;
+        background-color: transparent;
+        cursor: pointer;
+      }
+      .admin-template-main-table-body-td.block-btn:hover {
+        color: red;
+      }
+    }
+  }
+}

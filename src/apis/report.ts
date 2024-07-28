@@ -32,16 +32,26 @@ export const updateReportAPI = async (
 };
 
 // 관리자 페이지 신고 목록
-export const fetchReportsAPI = async () => {
+export const fetchReportsAPI = async (
+  sortKey?: string,
+  sortValue?: string,
+  page?: number,
+  size?: number,
+  field?: string,
+  search?: string
+) => {
   try {
-    const report = await axios.get(`${baseURL}/admin/reports`, {
-      headers: {
-        "Content-Type": "application/json",
-        Access: `${localStorage.getItem("access")}`,
-        Refresh: `${getCookie("refresh")}`,
-      },
-      withCredentials: true,
-    });
+    const report = await axios.get(
+      `${baseURL}/admin/reports?sortKey=${sortKey}&sortValue=${sortValue}&page=${page}&size=${size}&search=${search}&field=${field}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Access: `${localStorage.getItem("access")}`,
+          Refresh: `${getCookie("refresh")}`,
+        },
+        withCredentials: true,
+      }
+    );
 
     return report;
   } catch (error) {

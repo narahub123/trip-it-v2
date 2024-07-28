@@ -3,6 +3,7 @@ import { TemplateArrayType } from "types/template";
 // 목록 사이즈 크기 목록
 export const sizeArray = [1, 2, 3, 4, 5];
 
+// 마이 페이지 차단 목록
 export const blockArray: TemplateArrayType[] = [
   {
     field: { name: "index" },
@@ -10,6 +11,45 @@ export const blockArray: TemplateArrayType[] = [
     title: "번호",
     sort: { key: "", value: "" },
     search: { able: false },
+  },
+  {
+    field: { name: "nickname" },
+    type: "normal", // 값 그대로 적용
+    title: "차단 당한 유저",
+    sort: { key: "nickname", value: "asc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "blockDate" },
+    type: "date", // 값 그대로 적용
+    title: "차단 날짜",
+    sort: { key: "blockDate", value: "desc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "unBlock" },
+    type: "unBlock",
+    title: "차단 해제",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+];
+
+// 관리자 페이지 차단 목록
+export const blocksArray: TemplateArrayType[] = [
+  {
+    field: { name: "index" },
+    type: "index",
+    title: "번호",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
+    field: { name: "userId", nested: ["userId", "nickname"] },
+    type: "nested", // 값 그대로 적용
+    title: "차단한 유저",
+    sort: { key: "userId.nickname", value: "asc" },
+    search: { able: true, type: "normal" },
   },
   {
     field: { name: "nickname" },
@@ -109,7 +149,7 @@ export const reportsArray: TemplateArrayType[] = [
     type: "normal",
     title: "모집글",
     sort: { key: "postId", value: "asc" },
-    search: { able: true, type: "normal" },
+    search: { able: false, type: "normal" },
   },
   {
     field: { name: "reportType" },

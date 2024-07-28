@@ -1,12 +1,12 @@
 import "./reports.css";
-import { fetchReportAPI, fetchReportsAPI } from "apis/report";
+import { fetchReportsAPI } from "apis/report";
+import TemplateA from "templates/admin/TemplateA";
 import { reportsArray } from "templates/data/template";
-import Template from "templates/mypage/Template";
 
 const Reports = () => {
   return (
-    <Template
-      pageName={"block"}
+    <TemplateA
+      pageName="reports"
       title={"신고 목록"}
       fetchAPI={fetchReportsAPI}
       defaultSort={["reportDate", "desc"]}
