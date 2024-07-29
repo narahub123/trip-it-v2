@@ -12,6 +12,7 @@ export const blockArray: TemplateArrayType[] = [
     sort: { key: "", value: "" },
     search: { able: false },
   },
+
   {
     field: { name: "nickname" },
     type: "normal", // 값 그대로 적용
@@ -328,7 +329,7 @@ export const postsMArray: TemplateArrayType[] = [
   {
     field: { name: "postDate" },
     type: "date", // 값 그대로 적용
-    title: "가입날짜",
+    title: "등록날짜",
     sort: { key: "postDate", value: "desc" },
     search: { able: false, type: "normal" },
   },
@@ -427,7 +428,7 @@ export const postsAArray: TemplateArrayType[] = [
   {
     field: { name: "postDate" },
     type: "date", // 값 그대로 적용
-    title: "가입날짜",
+    title: "등록날짜",
     sort: { key: "postDate", value: "desc" },
     search: { able: false, type: "normal" },
   },

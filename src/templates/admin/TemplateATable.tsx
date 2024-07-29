@@ -21,7 +21,7 @@ export interface TemplateATableProps {
   pageName: string;
   loading: boolean;
   setMessage: (value: MessageType | undefined) => void;
-  setDeletes: React.Dispatch<React.SetStateAction<string[]>>;
+  setDeletes: React.Dispatch<React.SetStateAction<(string | number)[]>>;
 }
 
 const TemplateATable = ({

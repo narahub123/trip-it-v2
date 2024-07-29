@@ -35,7 +35,7 @@ export const getResult = (
   items: any[], // 모든 항목들의 배열
   setItems: (value: any[]) => void, // items 배열을 업데이트하는 함수
   setMessage: (value: MessageType | undefined) => void,
-  setDeletes: React.Dispatch<React.SetStateAction<string[]>>
+  setDeletes: React.Dispatch<React.SetStateAction<(string | number)[]>>
 ) => {
   switch (
     body.type // body.type에 따라 동작을 분기합니다.
@@ -47,8 +47,9 @@ export const getResult = (
       return (
         <input
           type="checkbox"
-          id={item[body.field.name]}
-          onChange={(e) => handleDeleteChange(e, setDeletes)}
+          onChange={(e) =>
+            handleDeleteChange(e, setDeletes, item[body.field.name])
+          }
         />
       );
 
@@ -77,6 +78,8 @@ export const getResult = (
                 }` // userId에 따라 링크 생성
               : body.field.name === "postId"
               ? `/post/${item[body.field]?.[`${body?.field.nested?.[0]}`]}` // postId에 따라 링크 생성
+              : body.field.name === "scheduleId"
+              ? `/schedules/${item[body.field]?.[`${body?.field.nested?.[0]}`]}` // postId에 따라 링크 생성
               : ""
           }
         >
@@ -162,9 +165,9 @@ export const fetchMessage = (msgId: number, msgs: MessageType[]) => {
 // 삭제를 위한 change
 export const handleDeleteChange = (
   e: React.ChangeEvent<HTMLInputElement>,
-  setDeletes: React.Dispatch<React.SetStateAction<string[]>>
+  setDeletes: React.Dispatch<React.SetStateAction<(string | number)[]>>,
+  id: string | number
 ) => {
-  const id = e.currentTarget.id;
   const checked = e.currentTarget.checked;
   console.log(id);
   console.log(checked);
