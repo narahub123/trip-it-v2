@@ -20,6 +20,7 @@ import PostsM from "pages/mypage/PostsM/PostsM";
 import PostsA from "pages/Admin/PostsA/PostsA";
 import SchedulesM from "pages/mypage/SchedulesM/SchedulesM";
 import SchedulesA from "pages/Admin/SchedulesA/SchedulesA";
+import User from "pages/Admin/Users/User";
 
 const Trip = () => {
   useEffect(() => {
@@ -51,6 +52,7 @@ const Trip = () => {
           </Route>
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/users" element={<Users />} />
+            <Route path="/admin/users/:userId" element={<User />} />
             <Route path="/admin/blocks" element={<Blocks />} />
             <Route path="/admin/reports" element={<Reports />} />
             <Route path="/admin/posts" element={<PostsA />} />

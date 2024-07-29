@@ -17,6 +17,14 @@ export const userMsgs: MessageType[] = [
       main: "잠시 후에 다시 시도해주세요.",
     },
   },
+  {
+    msgId: 6,
+    type: "alert",
+    msgs: {
+      header: "업데이트가 완료되었습니다.",
+      main: "",
+    },
+  },
 ];
 
 export const blockMsgs: MessageType[] = [
@@ -188,5 +196,5 @@ export const schedulesMsgs = [
       header: "데이터 베이스에 문제가 생겼습니다.",
       main: "잠시 후 다시 시도해주세요.",
     },
-  },  
+  },
 ];

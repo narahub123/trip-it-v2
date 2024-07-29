@@ -43,3 +43,69 @@ export const fetchUsersAPI = async (
     throw { msgId };
   }
 };
+
+// 유저 정보 가져오기
+export const fetchUserAPI = async (userId: string) => {
+  try {
+    const user = await axios.get(`${baseURL}/admin/users/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Access: `${localStorage.getItem("access")}`,
+        Refresh: `${getCookie("refresh")}`,
+      },
+      withCredentials: true,
+    });
+
+    return user;
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 1) {
+      msgId = 3; // 권한 없음
+    } else if (code === 2) {
+      msgId = 4; // 업데이트 안됨
+    } else if (code === 3) {
+      msgId = 5; // 내부 에러
+    }
+
+    throw { msgId };
+  }
+};
+
+// 유저 등급 변경
+export const updateUserRole = async (userId: string, role: string) => {
+  try {
+    const user = await axios.post(
+      `${baseURL}/admin/users/updateRole`,
+      { userId, newRole: role },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Access: `${localStorage.getItem("access")}`,
+          Refresh: `${getCookie("refresh")}`,
+        },
+        withCredentials: true,
+      }
+    );
+
+    return user;
+  } catch (err: any) {
+    console.log(err);
+    const status = err.response.status;
+    const code = err.response.data.code;
+    let msgId = 0;
+
+    if (code === 1) {
+      msgId = 3; // 권한 없음
+    } else if (code === 2) {
+      msgId = 4; // 업데이트 안됨
+    } else if (code === 3) {
+      msgId = 5; // 내부 에러
+    }
+
+    throw { msgId };
+  }
+};

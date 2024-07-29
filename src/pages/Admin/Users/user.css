@@ -1,0 +1,161 @@
+.admin-user {
+  max-width: 1200px;
+
+  .admin-user-modal {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+
+    .admin-user-modal-container {
+      background-color: #fff;
+      text-align: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 200px;
+      border-radius: 10px;
+      .admin-user-modal-main {
+        margin-top: 55px;
+        input {
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+
+        .admin-user-modal-btns {
+          display: flex;
+          padding: 10px;
+          justify-content: space-evenly;
+        }
+      }
+    }
+  }
+
+  /* 메시지 모달 */
+  .admin-user-message-modal {
+    position: fixed;
+    /* background-color: rgba(0, 0, 0, 0.7); */
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+
+    .admin-user-message-modal-container {
+      background-color: #fff;
+      text-align: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 200px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      padding: 20px;
+
+      .admin-user-message-modal-main {
+        padding-top: 5px;
+        text-align: center;
+        .admin-user-message-modal-header {
+          padding: 10px 0;
+          font-weight: bold;
+          font-size: 18px;
+        }
+        .admin-user-message-modal-message {
+          padding-top: 15px;
+        }
+        .admin-user-message-modal-btns {
+          display: flex;
+          padding: 15px;
+
+          justify-content: space-between;
+          .admin-user-message-modal-cancel {
+            border: 0px;
+            background-color: transparent;
+            font-size: 16px;
+            outline: 0px;
+            color: red;
+            cursor: pointer;
+          }
+          .admin-user-message-modal-confirm {
+            border: 0px;
+            background-color: transparent;
+            font-size: 16px;
+            outline: 0px;
+            color: aquamarine;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  .admin-user-container {
+    max-width: 600px;
+    margin: 0 auto;
+
+    .admin-user-table {
+      max-width: 600px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      thead {
+        h3 {
+          padding: 20px 0;
+          text-align: center;
+        }
+      }
+      .admin-user-body {
+        .admin-user-body-row {
+          .admin-user-body-th {
+            width: 150px;
+            padding: 15px;
+          }
+          .admin-user-body-td {
+            padding: 15px;
+            text-align: center;
+            input {
+              text-align: center;
+              padding: 10px;
+              border-radius: 10px;
+              border: 1px solid #ccc;
+            }
+            img {
+              height: 100px;
+              width: 100px;
+              border-radius: 50%;
+              display: block;
+              object-fit: cover;
+              margin: 0 auto;
+            }
+            textarea {
+              width: 200px;
+              text-align: center;
+              border: 1px solid #ccc;
+              border-radius: 10px;
+              padding: 10px;
+              line-height: 1;
+              outline: 0;
+            }
+            .admin-user-body-td-image {
+              .admin-user-body-td-image-explanation {
+                color: aquamarine;
+                font-size: 12px;
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
