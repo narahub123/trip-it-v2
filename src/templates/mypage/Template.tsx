@@ -39,6 +39,7 @@ const Template = ({
   const [field, setField] = useState(defaultField); // 검색 필드 상태
   const [message, setMessage] = useState<MessageType>();
   const numPages = Math.ceil(total / size); // 총 페이지 개수
+  const [deletes, setDeletes] = useState<string[]>([]);
 
   // 목록 불러오기
   useEffect(() => {
@@ -60,6 +61,8 @@ const Template = ({
         setMessage(fetchMessage(err.msgId, msgArray));
       });
   }, []);
+
+  console.log("삭제", deletes);
 
   return (
     <div className={`mypage-template ${pageName}`}>
@@ -92,6 +95,7 @@ const Template = ({
           tempArray={tempArray}
           loading={loading}
           setMessage={setMessage}
+          setDeletes={setDeletes}
         />
       </section>
       <TemplateSearch

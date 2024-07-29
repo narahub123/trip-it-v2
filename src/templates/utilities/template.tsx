@@ -34,15 +34,23 @@ export const getResult = (
   index: number, // 현재 항목의 인덱스
   items: any[], // 모든 항목들의 배열
   setItems: (value: any[]) => void, // items 배열을 업데이트하는 함수
-  setMessage: (value: MessageType | undefined) => void
+  setMessage: (value: MessageType | undefined) => void,
+  setDeletes: React.Dispatch<React.SetStateAction<string[]>>
 ) => {
-  console.log(item, item[body.field.name]);
-
   switch (
     body.type // body.type에 따라 동작을 분기합니다.
   ) {
     case "index":
       return index + 1; // 인덱스 반환 (1부터 시작)
+
+    case "checkbox":
+      return (
+        <input
+          type="checkbox"
+          id={item[body.field.name]}
+          onChange={(e) => handleDeleteChange(e, setDeletes)}
+        />
+      );
 
     case "normal":
       return (
@@ -149,4 +157,29 @@ export const handleSearch = (
 // 메시지 변환
 export const fetchMessage = (msgId: number, msgs: MessageType[]) => {
   return msgs.find((msg) => msg.msgId === msgId);
+};
+
+// 삭제를 위한 change
+export const handleDeleteChange = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  setDeletes: React.Dispatch<React.SetStateAction<string[]>>
+) => {
+  const id = e.currentTarget.id;
+  const checked = e.currentTarget.checked;
+  console.log(id);
+  console.log(checked);
+
+  // 상태 업데이트: 체크된 경우 id를 배열에 추가
+  if (checked) {
+    setDeletes((prevDels) => {
+      // id가 이미 배열에 존재하지 않는 경우에만 추가
+      if (!prevDels.includes(id)) {
+        return [...prevDels, id];
+      }
+      return prevDels;
+    });
+  } else {
+    // 체크 해제된 경우 id를 배열에서 제거
+    setDeletes((prevDels) => prevDels.filter((item) => item !== id));
+  }
 };

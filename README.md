@@ -186,3 +186,11 @@
 ### 유저 페이지 적용하기
 
 </details>
+
+<details>
+<summary>2024년 7월 29일</summary>
+
+## 모집글 구현 
+## 일정 구현 
+
+</details>

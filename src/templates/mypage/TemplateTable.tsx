@@ -22,6 +22,7 @@ export interface TemplateTableProps {
   pageName: string;
   loading: boolean;
   setMessage: (value: MessageType | undefined) => void;
+  setDeletes: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const TemplateTable = ({
@@ -37,6 +38,7 @@ const TemplateTable = ({
   pageName,
   loading,
   setMessage,
+  setDeletes,
 }: TemplateTableProps) => {
   const renderCount = useRenderCount();
 
@@ -140,7 +142,8 @@ const TemplateTable = ({
                             index,
                             items,
                             setItems,
-                            setMessage
+                            setMessage,
+                            setDeletes
                           )}
                         </td>
                       </>

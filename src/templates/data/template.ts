@@ -288,6 +288,13 @@ export const postsMArray: TemplateArrayType[] = [
     search: { able: false },
   },
   {
+    field: { name: "postId" },
+    type: "checkbox",
+    title: "삭제",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
     field: { name: "scheduleId", nested: ["scheduleId", "scheduleTitle"] },
     type: "nested",
     title: "일정",
@@ -373,6 +380,13 @@ export const postsAArray: TemplateArrayType[] = [
     search: { able: false },
   },
   {
+    field: { name: "postId" },
+    type: "checkbox",
+    title: "삭제",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
     field: { name: "userId", nested: ["userId", "nickname"] },
     type: "nested",
     title: "유저",
@@ -452,5 +466,131 @@ export const postsAArray: TemplateArrayType[] = [
       type: "select",
       enum: { true: "노출중", false: "노출차단" },
     },
+  },
+];
+
+// 마이 페이지 일정 페이지
+export const scheduleMArray: TemplateArrayType[] = [
+  {
+    field: { name: "index" },
+    type: "index",
+    title: "번호",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
+    field: { name: "scheduleId" },
+    type: "checkbox",
+    title: "삭제",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
+    field: { name: "metroId" },
+    type: "normal",
+    title: "지역",
+    sort: { key: "metroId", value: "asc" },
+    search: {
+      able: true,
+      type: "normal",
+    },
+  },
+  {
+    field: { name: "scheduleTitle" },
+    type: "normal",
+    title: "일정 제목",
+    sort: { key: "scheduleTitle", value: "asc" },
+    search: {
+      able: true,
+      type: "normal",
+    },
+  },
+  {
+    field: { name: "registerDate" },
+    type: "date", // 값 그대로 적용
+    title: "등록날짜",
+    sort: { key: "registerDate", value: "desc" },
+    search: { able: false, type: "normal" },
+  },
+  {
+    field: { name: "startDate" },
+    type: "date", // 값 그대로 적용
+    title: "시작날짜",
+    sort: { key: "startDate", value: "asc" },
+    search: { able: false, type: "normal" },
+  },
+  {
+    field: { name: "endDate" },
+    type: "date", // 값 그대로 적용
+    title: "종료날짜",
+    sort: { key: "endDate", value: "asc" },
+    search: { able: false, type: "normal" },
+  },
+];
+
+// 관리자 페이지 일정 페이지
+export const scheduleAArray: TemplateArrayType[] = [
+  {
+    field: { name: "index" },
+    type: "index",
+    title: "번호",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
+    field: { name: "scheduleId" },
+    type: "checkbox",
+    title: "삭제",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
+    field: { name: "metroId" },
+    type: "normal",
+    title: "지역",
+    sort: { key: "metroId", value: "asc" },
+    search: {
+      able: true,
+      type: "normal",
+    },
+  },
+  {
+    field: { name: "userId", nested: ["userId", "nickname"] },
+    type: "nested",
+    title: "유저",
+    sort: { key: "userId.nickname", value: "asc" },
+    search: { able: true, type: "normal" },
+  },
+
+  {
+    field: { name: "scheduleTitle" },
+    type: "normal",
+    title: "일정 제목",
+    sort: { key: "scheduleTitle", value: "asc" },
+    search: {
+      able: true,
+      type: "normal",
+    },
+  },
+  {
+    field: { name: "registerDate" },
+    type: "date", // 값 그대로 적용
+    title: "등록날짜",
+    sort: { key: "registerDate", value: "desc" },
+    search: { able: false, type: "normal" },
+  },
+  {
+    field: { name: "startDate" },
+    type: "date", // 값 그대로 적용
+    title: "시작날짜",
+    sort: { key: "startDate", value: "asc" },
+    search: { able: false, type: "normal" },
+  },
+  {
+    field: { name: "endDate" },
+    type: "date", // 값 그대로 적용
+    title: "종료날짜",
+    sort: { key: "endDate", value: "asc" },
+    search: { able: false, type: "normal" },
   },
 ];
