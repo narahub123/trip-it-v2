@@ -41,11 +41,13 @@ const TemplateATable = ({
 
   const lengthOfColumn = tempArray.length;
 
-  const lengthOfItems = items.filter((item) => {
-    return field.nested
-      ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
-      : item[field.name].includes(search);
-  }).length;
+  const lengthOfItems = items
+    ? items.filter((item) => {
+        return field.nested
+          ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
+          : item[field.name].includes(search);
+      }).length
+    : 1;
 
   console.log("템플렛 테이블 렌더링 횟수", renderCount);
 
@@ -104,7 +106,7 @@ const TemplateATable = ({
             </td>
           </tr>
         )}
-        {items.length !== 0 &&
+        {items &&
           loading === false &&
           items.map((item, index) => {
             return (
@@ -131,7 +133,7 @@ const TemplateATable = ({
               </tr>
             );
           })}
-        {lengthOfItems === 0 && loading === false && (
+        {(!items || lengthOfItems === 0) && loading === false && (
           <tr className="admin-template-main-table-body-tr">
             <td
               className="admin-template-main-table-body-td"

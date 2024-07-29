@@ -277,3 +277,180 @@ export const usersArray: TemplateArrayType[] = [
     search: { able: true, type: "normal" },
   },
 ];
+
+// 마이 페이지 모집글 페이지
+export const postsMArray: TemplateArrayType[] = [
+  {
+    field: { name: "index" },
+    type: "index",
+    title: "번호",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
+    field: { name: "scheduleId", nested: ["scheduleId", "scheduleTitle"] },
+    type: "nested",
+    title: "일정",
+    sort: { key: "postId", value: "asc" },
+    search: { able: false, type: "normal" },
+  },
+  {
+    field: { name: "postTitle" },
+    type: "normal",
+    title: "글제목",
+    sort: { key: "postTitle", value: "asc" },
+    search: {
+      able: true,
+      type: "normal",
+    },
+  },
+  {
+    field: { name: "postContent" },
+    type: "normal",
+    title: "글내용",
+    sort: { key: "postContent", value: "asc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "personnel" },
+    type: "normal",
+    title: "모집인원",
+    sort: { key: "personnel", value: "desc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "postDate" },
+    type: "date", // 값 그대로 적용
+    title: "가입날짜",
+    sort: { key: "postDate", value: "desc" },
+    search: { able: false, type: "normal" },
+  },
+  {
+    field: { name: "postPic" },
+    type: "image",
+    title: "사진",
+    sort: { key: "postPic", value: "desc" },
+    search: { able: false },
+  },
+  {
+    field: { name: "recruitStatus" },
+    type: "normal",
+    title: "모집상태",
+    sort: { key: "recruitStatus", value: "desc" },
+    search: {
+      able: true,
+      type: "select",
+      enum: { true: "모집중", false: "모집완료" },
+    },
+  },
+  {
+    field: { name: "viewCount" },
+    type: "normal",
+    title: "조회수",
+    sort: { key: "viewCount", value: "desc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "exposureStatus" },
+    type: "normal",
+    title: "노출 상태",
+    sort: { key: "exposureStatus", value: "desc" },
+    search: {
+      able: true,
+      type: "select",
+      enum: { true: "노출중", false: "노출차단" },
+    },
+  },
+];
+
+// 관리자 페이지 모집글 페이지
+export const postsAArray: TemplateArrayType[] = [
+  {
+    field: { name: "index" },
+    type: "index",
+    title: "번호",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
+    field: { name: "userId", nested: ["userId", "nickname"] },
+    type: "nested",
+    title: "유저",
+    sort: { key: "userId.nickname", value: "asc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "scheduleId", nested: ["scheduleId", "scheduleTitle"] },
+    type: "nested",
+    title: "일정",
+    sort: { key: "postId", value: "asc" },
+    search: { able: false, type: "normal" },
+  },
+  {
+    field: { name: "postTitle" },
+    type: "normal",
+    title: "글제목",
+    sort: { key: "postTitle", value: "asc" },
+    search: {
+      able: true,
+      type: "normal",
+    },
+  },
+  {
+    field: { name: "postContent" },
+    type: "normal",
+    title: "글내용",
+    sort: { key: "postContent", value: "asc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "personnel" },
+    type: "normal",
+    title: "모집인원",
+    sort: { key: "personnel", value: "desc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "postDate" },
+    type: "date", // 값 그대로 적용
+    title: "가입날짜",
+    sort: { key: "postDate", value: "desc" },
+    search: { able: false, type: "normal" },
+  },
+  {
+    field: { name: "postPic" },
+    type: "image",
+    title: "사진",
+    sort: { key: "postPic", value: "desc" },
+    search: { able: false },
+  },
+  {
+    field: { name: "recruitStatus" },
+    type: "normal",
+    title: "모집상태",
+    sort: { key: "recruitStatus", value: "desc" },
+    search: {
+      able: true,
+      type: "select",
+      enum: { true: "모집중", false: "모집완료" },
+    },
+  },
+  {
+    field: { name: "viewCount" },
+    type: "normal",
+    title: "조회수",
+    sort: { key: "viewCount", value: "desc" },
+    search: { able: true, type: "normal" },
+  },
+  {
+    field: { name: "exposureStatus" },
+    type: "normal",
+    title: "노출 상태",
+    sort: { key: "exposureStatus", value: "desc" },
+    search: {
+      able: true,
+      type: "select",
+      enum: { true: "노출중", false: "노출차단" },
+    },
+  },
+];

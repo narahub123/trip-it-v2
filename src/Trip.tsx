@@ -16,6 +16,8 @@ import Test from "test/Test";
 import Report from "pages/mypage/Report/Report";
 import Reports from "pages/Admin/Reports/Reports";
 import Users from "pages/Admin/Users/Users";
+import PostsM from "pages/mypage/PostsM/PostsM";
+import PostsA from "pages/Admin/PostsA/PostsA";
 
 const Trip = () => {
   useEffect(() => {
@@ -42,11 +44,13 @@ const Trip = () => {
             <Route path="/mypage/profile" element={<Profile />} />
             <Route path="/mypage/blocks" element={<Block />} />
             <Route path="/mypage/reports" element={<Report />} />
+            <Route path="/mypage/posts" element={<PostsM />} />
           </Route>
           <Route path="/admin" element={<Admin />}>
             <Route path="/admin/users" element={<Users />} />
             <Route path="/admin/blocks" element={<Blocks />} />
             <Route path="/admin/reports" element={<Reports />} />
+            <Route path="/admin/posts" element={<PostsA />} />
           </Route>
           <Route path="/test" element={<Test />} />
         </Route>

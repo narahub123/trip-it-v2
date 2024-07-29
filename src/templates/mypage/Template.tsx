@@ -6,6 +6,7 @@ import { MessageType, TemplateArrayType } from "types/template";
 import TemplatePaginationSizeController from "./TemplatePaginationSizeController";
 import TemplateSearch from "./TemplateSearch";
 import TemplatePagination from "./TemplatePagination";
+import { fetchMessage } from "templates/utilities/template";
 
 export interface TemplateProps {
   pageName: string;
@@ -15,6 +16,7 @@ export interface TemplateProps {
   defaultSize: number;
   defaultField: { name: string; nested?: string[] };
   tempArray: TemplateArrayType[];
+  msgArray: MessageType[];
 }
 
 const Template = ({
@@ -25,6 +27,7 @@ const Template = ({
   defaultSize,
   defaultField,
   tempArray,
+  msgArray,
 }: TemplateProps) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]); // 목록 상태
@@ -54,6 +57,7 @@ const Template = ({
       })
       .catch((err) => {
         setLoading(false);
+        setMessage(fetchMessage(err.msgId, msgArray));
       });
   }, []);
 

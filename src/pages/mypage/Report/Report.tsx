@@ -3,6 +3,7 @@ import Template from "templates/mypage/Template";
 import "./report.css";
 import { fetchReportAPI } from "apis/report";
 import { reportArray } from "templates/data/template";
+import { reportMsgs } from "templates/data/message";
 
 const Report = () => {
   const renderCount = useRenderCount();
@@ -18,6 +19,7 @@ const Report = () => {
       defaultSize={3}
       defaultField={{ name: "reportType" }}
       tempArray={reportArray}
+      msgArray={reportMsgs}
     />
   );
 };

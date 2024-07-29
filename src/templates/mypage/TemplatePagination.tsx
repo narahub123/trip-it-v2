@@ -36,31 +36,34 @@ const TemplatePagination = ({
         >
           <FiChevronLeft />
         </button>
-        {Array(numPages)
-          .fill("_")
-          .map((_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => setPage(i + 1)}
-              className={
-                page === i + 1
-                  ? "mypage-template-pagination-pageNum active"
-                  : "mypage-template-pagination-pageNum"
-              }
-            >
-              {i + 1}
-            </button>
-          ))}
+        {numPages
+          ? Array(numPages)
+              .fill("_")
+              .map((_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => setPage(i + 1)}
+                  className={
+                    page === i + 1
+                      ? "mypage-template-pagination-pageNum active"
+                      : "mypage-template-pagination-pageNum"
+                  }
+                >
+                  {i + 1}
+                </button>
+              ))
+          : 1}
+
         <button
           onClick={() => setPage(page + 1)}
-          disabled={page === numPages}
+          disabled={page === numPages || !numPages}
           className="mypage-template-pagination-pageController"
         >
           <FiChevronRight />
         </button>
         <button
           onClick={() => setPage(numPages)}
-          disabled={page === numPages}
+          disabled={page === numPages || !numPages}
           className="mypage-template-pagination-pageController"
         >
           <FiChevronsRight />

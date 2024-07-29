@@ -42,6 +42,8 @@ const TemplateASearch = ({
     options = Object.entries(option);
   }
 
+  console.log("관리자 검색", items, field, tempArray, pageName, search);
+
   return (
     <section className={`admin-template-search`}>
       <div className={`admin-template-search-container`}>

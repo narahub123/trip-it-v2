@@ -124,7 +124,42 @@ export const reportMsgs: MessageType[] = [
     type: "error",
     msgs: {
       header: "데이터를 요청할 권한이 없습니다.",
+      main: "관리자로 로그인 해 주세요.",
+    },
+  },
+];
+
+export const postsMsgs = [
+  {
+    msgId: 1,
+    type: "error",
+    msgs: {
+      header: "데이터를 요청할 권한이 없습니다.",
       main: "관리자으로 로그인 해 주세요.",
+    },
+  },
+  {
+    msgId: 3,
+    type: "error",
+    msgs: {
+      header: "데이터를 요청할 권한이 없습니다.",
+      main: "관리자로 로그인 해 주세요.",
+    },
+  },
+  {
+    msgId: 4,
+    type: "error",
+    msgs: {
+      header: "요청한 정보를 불러올 수 없습니다.",
+      main: "잠시 후 다시 시도해주세요.",
+    },
+  },
+  {
+    msgId: 5,
+    type: "error",
+    msgs: {
+      header: "데이터 베이스에 문제가 생겼습니다.",
+      main: "잠시 후 다시 시도해주세요.",
     },
   },
 ];

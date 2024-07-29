@@ -3,6 +3,7 @@ import Template from "templates/mypage/Template";
 import "./block.css";
 import { fetchBlockAPI } from "apis/block";
 import { blockArray } from "templates/data/template";
+import { blockMsgs } from "templates/data/message";
 
 const Block = () => {
   const renderCount = useRenderCount();
@@ -18,6 +19,7 @@ const Block = () => {
       defaultSize={3}
       defaultField={{ name: "nickname" }}
       tempArray={blockArray}
+      msgArray={blockMsgs}
     />
   );
 };
