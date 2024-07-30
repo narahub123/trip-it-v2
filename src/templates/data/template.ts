@@ -246,10 +246,10 @@ export const usersArray: TemplateArrayType[] = [
     },
   },
   {
-    field: { name: "userIntro" },
+    field: { name: "intro" },
     type: "normal", // 값 그대로 적용
     title: "소개글",
-    sort: { key: "userIntro", value: "asc" },
+    sort: { key: "intro", value: "asc" },
     search: { able: true, type: "normal" },
   },
   {

@@ -101,8 +101,8 @@ const User = () => {
                 <td className="admin-user-body-td">
                   <input
                     type="text"
-                    id="userIntro"
-                    defaultValue={user?.userIntro}
+                    id="intro"
+                    defaultValue={user?.intro}
                     disabled
                   />
                 </td>

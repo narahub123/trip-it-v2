@@ -37,7 +37,7 @@ const Profile = () => {
   const [profile, setProfile] = useState<ProfileType>({
     userpic: user ? user.userpic : "",
     nickname: user ? user.nickname : "",
-    userIntro: user ? user.userIntro : "",
+    intro: user ? user.intro : "",
   });
   // 프로필 수정 버튼 상태
   const [isShowing, setIsShowing] = useState(false);
@@ -58,7 +58,7 @@ const Profile = () => {
         setProfile({
           userpic: res?.data.userpic,
           nickname: res?.data.nickname,
-          userIntro: res?.data.userIntro,
+          intro: res?.data.intro,
         });
         setLoading(false);
       })
@@ -85,11 +85,11 @@ const Profile = () => {
   useEffect(() => {
     if (
       (profile.userpic.length !== 0 ||
-        profile.userIntro.length !== 0 ||
+        profile.intro.length !== 0 ||
         user?.nickname !== profile.nickname) &&
       (user?.userpic !== profile.userpic ||
         user?.nickname !== profile.nickname ||
-        user?.userIntro !== profile.userIntro)
+        user?.intro !== profile.intro)
     ) {
       setIsShowing(true);
     } else {
@@ -228,7 +228,7 @@ const Profile = () => {
           setUser((prevUser) => ({
             userpic: profile.userpic,
             nickname: profile.nickname,
-            userIntro: profile.userIntro,
+            intro: profile.intro,
             birth: prevUser?.birth ?? "",
             email: prevUser?.email ?? "",
             gender: prevUser?.gender ?? "m",
@@ -411,15 +411,15 @@ const Profile = () => {
               <td className="mypage-profile-body-td">
                 {/* <textarea
                   name=""
-                  id="userIntro"
+                  id="intro"
                   maxLength={100}
-                  defaultValue={profile.userIntro}
+                  defaultValue={profile.intro}
                   onChange={debouncedProfileChange}
                 ></textarea> */}
                 <input
                   type="text"
-                  id="userIntro"
-                  defaultValue={profile.userIntro}
+                  id="intro"
+                  defaultValue={profile.intro}
                   onChange={debouncedProfileChange}
                 />
               </td>

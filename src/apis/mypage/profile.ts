@@ -96,15 +96,15 @@ export const updatePasswordAPI = async (password: string) => {
 export const updateProfileAPI = async (profile: {
   userpic?: string;
   nickname?: string;
-  userIntro?: string;
+  intro?: string;
 }) => {
   try {
-    const response = await axios.post(
+    const response = await axios.patch(
       `${baseURL}/mypage/profile/profileUpdate`,
       {
         userpic: profile.userpic,
         nickname: profile.nickname,
-        userIntro: profile.userIntro,
+        intro: profile.intro,
       },
       {
         headers: {

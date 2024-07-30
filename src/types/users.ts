@@ -2,7 +2,7 @@ export interface UserType {
   birth: string; // 생년월일 (예: "20060515")
   email: string; // 이메일 (예: "test@gmail.com")
   gender: "m" | "f"; // 성별 (예: "f" 혹은 "m")
-  userIntro: string; // 자기소개 (예: "")
+  intro: string; // 자기소개 (예: "")
   nickname: string; // 닉네임 (예: "강고양이")
   password: string; // 비밀번호 해시 (예: "$2a$10$gpUg7i9Oqb7oAdHwH/5yj.xEUD9N4QsLE3Ig0P2S2TPLlIUheeR/2")
   regdate: string; // 가입 날짜 (예: "2024-07-21T07:28:54.796Z")
@@ -17,5 +17,5 @@ export interface UserType {
 export interface ProfileType {
   userpic: string;
   nickname: string;
-  userIntro: string;
+  intro: string;
 }
