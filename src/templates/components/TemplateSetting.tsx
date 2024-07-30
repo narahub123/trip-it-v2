@@ -1,52 +1,46 @@
+import { AxiosResponse } from "axios";
 import "./templateSetting.css";
-import { useState } from "react";
-import { LuMoreVertical } from "react-icons/lu";
-import { handleOpen } from "templates/utilities/template";
+
+import { handleDelete } from "templates/utilities/template";
 
 export interface TemplateSettingProps {
   deletes: (string | number)[];
   setDeletes: React.Dispatch<React.SetStateAction<(string | number)[]>>;
+  items: any[];
+  setItems: (value: any[]) => void;
+  settings?: string[];
+  deleteAPI?: (
+    ids: (string | number)[]
+  ) => Promise<AxiosResponse<any, any> | undefined>;
 }
 
-const TemplateSetting = ({ deletes, setDeletes }: TemplateSettingProps) => {
-  const [open, setOpen] = useState(false);
-
-  const handleDelete = (
-    deletes: (string | number)[],
-    setDeletes: React.Dispatch<React.SetStateAction<(string | number)[]>>
-  ) => {
-    console.log(deletes);
-  };
-
+const TemplateSetting = ({
+  deletes,
+  setDeletes,
+  settings,
+  items,
+  setItems,
+  deleteAPI,
+}: TemplateSettingProps) => {
   return (
     <div className="template-setting">
-      <p
-        className="template-setting-title"
-        title="설정"
-        onClick={() => handleOpen(open, setOpen)}
-      >
-        <LuMoreVertical />
-      </p>
-
-      {open && (
-        <ul
-          className={`template-setting-container ${
-            open ? "active" : undefined
-          }`}
-          onClick={() => handleOpen(open, setOpen)}
-        >
-          <li
-            className="template-setting-item"
-            key={"삭제"}
-            onClick={() => handleDelete(deletes, setDeletes)}
-          >
-            삭제
-          </li>
-          <li className="template-setting-item" key={"차단해제"}>
-            차단해제
-          </li>
-        </ul>
-      )}
+      <ul className={`template-setting-container`}>
+        {settings?.map((setting) => {
+          if (setting === "삭제") {
+            return (
+              <li
+                className="template-setting-item"
+                key={setting}
+                onClick={() =>
+                  handleDelete(deletes, setDeletes, items, setItems, deleteAPI)
+                }
+              >
+                <p>삭제</p>
+              </li>
+            );
+          }
+        })}
+      </ul>
     </div>
   );
 };

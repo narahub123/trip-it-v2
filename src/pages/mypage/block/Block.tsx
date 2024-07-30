@@ -20,6 +20,7 @@ const Block = () => {
       defaultField={{ name: "nickname" }}
       tempArray={blockArray}
       msgArray={blockMsgs}
+      settings={["삭제"]}
     />
   );
 };

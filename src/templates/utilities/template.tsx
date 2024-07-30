@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { handleReport } from "pages/Admin/Reports/utilities/reports"; // 신고 처리 함수 import
 import { handleUnblock } from "pages/mypage/utils/block"; // 차단 해제 함수 import
 import { NavLink } from "react-router-dom"; // 페이지 이동을 위한 NavLink import
@@ -188,10 +189,43 @@ export const handleDeleteChange = (
   }
 };
 
-// 설정 창 열기
-export const handleOpen = (
-  open: boolean,
-  setOpen: (value: boolean) => void
+// 삭제 핸들러 함수
+export const handleDelete = (
+  deletes: (string | number)[],
+  setDeletes: React.Dispatch<React.SetStateAction<(string | number)[]>>,
+  items: any[],
+  setItems: (value: any[]) => void,
+  deleteAPI?: (
+    ids: (string | number)[]
+  ) => Promise<AxiosResponse<any, any> | undefined>
 ) => {
-  setOpen(!open);
+  if (deletes.length === 0) {
+    window.alert(`삭제할 항목을 선택해주세요.`);
+  }
+
+  if (deletes.length > 0) {
+    if (!window.confirm("선택한 항목을 삭제하시겠습니까?")) {
+      return;
+    }
+
+    if (!deleteAPI) return;
+
+    deleteAPI(deletes)
+      .then((res) => {
+        console.log(res?.data);
+
+        if (res?.data.code === "ok") {
+          window.alert("삭제를 완료했습니다.");
+        }
+
+        // 삭제할 항목의 ID를 Set으로 변환하여 빠른 조회를 가능하게 합니다.
+        const deleteSet = new Set(deletes);
+
+        // items 배열에서 deleteSet에 포함되지 않은 항목만 필터링합니다.
+        const newItems = items.filter((item) => !deleteSet.has(item._id));
+        setItems(newItems);
+        setDeletes([]);
+      })
+      .catch();
+  }
 };

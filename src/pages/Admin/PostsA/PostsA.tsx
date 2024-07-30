@@ -1,4 +1,4 @@
-import { fetchPostsAAPI } from "apis/post";
+import { deletePostsAAPI, fetchPostsAAPI } from "apis/post";
 import React from "react";
 import TemplateA from "templates/admin/TemplateA";
 import { postsMsgs } from "templates/data/message";
@@ -10,14 +10,15 @@ const PostsA = () => {
       pageName="posts"
       title={"모집글 목록"}
       fetchAPI={fetchPostsAAPI}
+      deleteAPI={deletePostsAAPI}
       defaultSort={["postDate", "desc"]}
       defaultSize={3}
       defaultField={{ name: "postDate" }}
       tempArray={postsAArray}
       msgArray={postsMsgs}
+      settings={["삭제"]}
     />
   );
 };
 
 export default PostsA;
- 

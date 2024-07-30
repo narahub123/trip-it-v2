@@ -1,6 +1,6 @@
 import TemplateA from "templates/admin/TemplateA";
 import "./postM.css";
-import { fetchPostsMAPI } from "apis/post";
+import { deletePostsMAPI, fetchPostsMAPI } from "apis/post";
 import { postsMsgs } from "templates/data/message";
 import { postsMArray } from "templates/data/template";
 import Template from "templates/mypage/Template";
@@ -11,6 +11,7 @@ const PostsM = () => {
       pageName="posts"
       title={"모집글 목록"}
       fetchAPI={fetchPostsMAPI}
+      deleteAPI={deletePostsMAPI}
       defaultSort={["postDate", "desc"]}
       defaultSize={3}
       defaultField={{ name: "postDate" }}

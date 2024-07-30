@@ -6,13 +6,6 @@ export const sizeArray = [1, 2, 3, 4, 5];
 // 마이 페이지 차단 목록
 export const blockArray: TemplateArrayType[] = [
   {
-    field: { name: "blockId" },
-    type: "checkbox",
-    title: "선택",
-    sort: { key: "", value: "" },
-    search: { able: false },
-  },
-  {
     field: { name: "index" },
     type: "index",
     title: "번호",
@@ -38,6 +31,13 @@ export const blockArray: TemplateArrayType[] = [
     field: { name: "unBlock" },
     type: "unBlock",
     title: "차단 해제",
+    sort: { key: "", value: "" },
+    search: { able: false },
+  },
+  {
+    field: { name: "blockId" },
+    type: "checkbox",
+    title: "선택",
     sort: { key: "", value: "" },
     search: { able: false },
   },

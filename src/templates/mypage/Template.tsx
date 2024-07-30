@@ -14,22 +14,28 @@ export interface TemplateProps {
   pageName: string;
   title: string;
   fetchAPI: () => Promise<AxiosResponse<any, any> | undefined>;
+  deleteAPI?: (
+    ids: (string | number)[]
+  ) => Promise<AxiosResponse<any, any> | undefined>;
   defaultSort: string[];
   defaultSize: number;
   defaultField: { name: string; nested?: string[] };
   tempArray: TemplateArrayType[];
   msgArray: MessageType[];
+  settings?: string[];
 }
 
 const Template = ({
   pageName,
   title,
   fetchAPI,
+  deleteAPI,
   defaultSort,
   defaultSize,
   defaultField,
   tempArray,
   msgArray,
+  settings,
 }: TemplateProps) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]); // 목록 상태
@@ -88,7 +94,14 @@ const Template = ({
           <div
             className={`mypage-template-panels-right ${pageName}-panels-right`}
           >
-            <TemplateSetting deletes={deletes} setDeletes={setDeletes} />
+            <TemplateSetting
+              deletes={deletes}
+              setDeletes={setDeletes}
+              settings={settings}
+              items={items}
+              setItems={setItems}
+              deleteAPI={deleteAPI}
+            />
           </div>
         </section>
         <section className={`mypage-template-main ${pageName}-main`}>

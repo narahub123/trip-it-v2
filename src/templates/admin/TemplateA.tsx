@@ -22,22 +22,28 @@ export interface TemplateAProps {
     field?: string,
     search?: string
   ) => Promise<AxiosResponse<any, any> | undefined>;
+  deleteAPI?: (
+    ids: (string | number)[]
+  ) => Promise<AxiosResponse<any, any> | undefined>;
   defaultSort: string[];
   defaultSize: number;
   defaultField: { name: string; nested?: string[] };
   tempArray: TemplateArrayType[];
   msgArray: MessageType[];
+  settings?: string[];
 }
 
 const TemplateA = ({
   pageName,
   title,
   fetchAPI,
+  deleteAPI,
   defaultSort,
   defaultSize,
   defaultField,
   tempArray,
   msgArray,
+  settings,
 }: TemplateAProps) => {
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]); // 목록 상태
@@ -104,7 +110,13 @@ const TemplateA = ({
           <div
             className={`admin-template-panels-right ${pageName}-panels-right`}
           >
-            <TemplateSetting deletes={deletes} setDeletes={setDeletes} />
+            <TemplateSetting
+              deletes={deletes}
+              setDeletes={setDeletes}
+              settings={settings}
+              items={items}
+              setItems={setItems}
+            />
           </div>
         </section>
         <section className={`admin-template-main ${pageName}-main`}>
