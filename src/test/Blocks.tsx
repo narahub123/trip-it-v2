@@ -1,7 +1,7 @@
 import { useRenderCount } from "@uidotdev/usehooks";
 import "./blocks.css";
 import { fetchBlocksAPI } from "apis/block";
-import { blockArray } from "pages/mypage/block/test";
+import { blockArray } from "pages/mypage/Block/test";
 import React, { useEffect, useState } from "react";
 import {
   FiChevronLeft,
