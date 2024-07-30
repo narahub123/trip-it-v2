@@ -5,6 +5,8 @@
     text-align: center;
   }
   .mypage-template-panels {
+    display: flex;
+    justify-content: space-between;
   }
 
   .mypage-template-main {

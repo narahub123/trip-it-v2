@@ -186,3 +186,11 @@ export const handleDeleteChange = (
     setDeletes((prevDels) => prevDels.filter((item) => item !== id));
   }
 };
+
+// 설정 창 열기
+export const handleOpen = (
+  open: boolean,
+  setOpen: (value: boolean) => void
+) => {
+  setOpen(!open);
+};

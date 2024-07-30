@@ -7,6 +7,7 @@ import TemplatePaginationSizeController from "./TemplatePaginationSizeController
 import TemplateSearch from "./TemplateSearch";
 import TemplatePagination from "./TemplatePagination";
 import { fetchMessage } from "templates/utilities/template";
+import TemplateSetting from "./TemplateSetting";
 
 export interface TemplateProps {
   pageName: string;
@@ -79,7 +80,9 @@ const Template = ({
         </div>
         <div
           className={`mypage-template-panels-right ${pageName}-panels-right`}
-        ></div>
+        >
+          <TemplateSetting deletes={deletes} setDeletes={setDeletes} />
+        </div>
       </section>
       <section className={`mypage-template-main ${pageName}-main`}>
         <TemplateTable

@@ -1,0 +1,40 @@
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.template-setting {
+  cursor: pointer;
+  position: relative;
+
+  .template-setting-title {
+  }
+
+  .template-setting-container {
+    margin-top: 5px;
+    position: absolute;
+    right: 0px;
+    min-width: 90px;
+    max-width: 100px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    visibility: hidden;
+    max-height: 0px;
+    opacity: 0;
+
+    .template-setting-item {
+      text-align: center;
+      padding: 10px;
+    }
+  }
+
+  .template-setting-container.active {
+    visibility: visible;
+    max-height: 200px;
+    opacity: 1;
+
+    .template-setting-item:hover {
+      background-color: aquamarine;
+    }
+  }
+}
