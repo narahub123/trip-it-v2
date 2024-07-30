@@ -7,7 +7,8 @@ import TemplatePaginationSizeController from "./TemplatePaginationSizeController
 import TemplateSearch from "./TemplateSearch";
 import TemplatePagination from "./TemplatePagination";
 import { fetchMessage } from "templates/utilities/template";
-import TemplateSetting from "./TemplateSetting";
+import TemplateSetting from "../components/TemplateSetting";
+import MessageModal from "templates/components/MessageModal";
 
 export interface TemplateProps {
   pageName: string;
@@ -63,62 +64,69 @@ const Template = ({
       });
   }, []);
 
+  console.log();
+
   console.log("삭제", deletes);
 
   return (
-    <div className={`mypage-template ${pageName}`}>
-      <section className={`mypage-template-title ${pageName}-title`}>
-        <h3>{title}</h3>
-      </section>
-      <section className={`mypage-template-panels ${pageName}-panels`}>
-        <div className={`mypage-template-panels-left ${pageName}-panels-left`}>
-          <TemplatePaginationSizeController
-            size={size}
-            setSize={setSize}
+    <>
+      {message && <MessageModal message={message} setMessage={setMessage} />}
+      <div className={`mypage-template ${pageName}`}>
+        <section className={`mypage-template-title ${pageName}-title`}>
+          <h3>{title}</h3>
+        </section>
+        <section className={`mypage-template-panels ${pageName}-panels`}>
+          <div
+            className={`mypage-template-panels-left ${pageName}-panels-left`}
+          >
+            <TemplatePaginationSizeController
+              size={size}
+              setSize={setSize}
+              pageName={pageName}
+            />
+          </div>
+          <div
+            className={`mypage-template-panels-right ${pageName}-panels-right`}
+          >
+            <TemplateSetting deletes={deletes} setDeletes={setDeletes} />
+          </div>
+        </section>
+        <section className={`mypage-template-main ${pageName}-main`}>
+          <TemplateTable
             pageName={pageName}
+            items={items}
+            setItems={setItems}
+            sort={sort}
+            setSort={setSort}
+            page={page}
+            size={size}
+            search={search}
+            field={field}
+            tempArray={tempArray}
+            loading={loading}
+            setMessage={setMessage}
+            setDeletes={setDeletes}
           />
-        </div>
-        <div
-          className={`mypage-template-panels-right ${pageName}-panels-right`}
-        >
-          <TemplateSetting deletes={deletes} setDeletes={setDeletes} />
-        </div>
-      </section>
-      <section className={`mypage-template-main ${pageName}-main`}>
-        <TemplateTable
+        </section>
+        <TemplateSearch
           pageName={pageName}
           items={items}
-          setItems={setItems}
-          sort={sort}
-          setSort={setSort}
-          page={page}
-          size={size}
-          search={search}
           field={field}
+          setField={setField}
+          setSearch={setSearch}
+          setPage={setPage}
+          setTotal={setTotal}
           tempArray={tempArray}
-          loading={loading}
-          setMessage={setMessage}
-          setDeletes={setDeletes}
+          search={search}
         />
-      </section>
-      <TemplateSearch
-        pageName={pageName}
-        items={items}
-        field={field}
-        setField={setField}
-        setSearch={setSearch}
-        setPage={setPage}
-        setTotal={setTotal}
-        tempArray={tempArray}
-        search={search}
-      />
-      <TemplatePagination
-        pageName={pageName}
-        page={page}
-        setPage={setPage}
-        numPages={numPages}
-      />
-    </div>
+        <TemplatePagination
+          pageName={pageName}
+          page={page}
+          setPage={setPage}
+          numPages={numPages}
+        />
+      </div>
+    </>
   );
 };
 

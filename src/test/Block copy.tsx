@@ -143,7 +143,13 @@ const Block = () => {
                         id={item.blockId}
                         data-nickname={item.nickname}
                         onClick={(e) =>
-                          handleUnblock(e, items, setItems, setMessage)
+                          handleUnblock(
+                            e,
+                            items,
+                            setItems,
+                            setMessage,
+                            item.blockId
+                          )
                         }
                       >
                         차단 해제

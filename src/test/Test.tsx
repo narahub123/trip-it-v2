@@ -55,7 +55,7 @@ const Test = () => {
 
   return (
     <div className="test">
-      <p onClick={() => addBlock("669f76aca538b8fe9c70ad97")}>차단</p>
+      <p onClick={() => addBlock("강고양이")}>차단</p>
       <form onSubmit={(e) => addReport(e)}>
         <input type="hidden" id="postId" name="postId" value="1" />
         <select id="reportType" name="reportType">

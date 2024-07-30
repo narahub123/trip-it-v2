@@ -69,7 +69,8 @@ export const handleUnblock = (
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>, // 버튼 클릭 이벤트 객체
   items: any[],
   setItems: (value: any[]) => void,
-  setMessage: (value: MessageType | undefined) => void
+  setMessage: (value: MessageType | undefined) => void,
+  blockId: string | number
 ) => {
   // 클릭된 버튼의 데이터 속성에서 사용자 닉네임 추출
   const nickname = e.currentTarget.dataset.nickname;
@@ -81,17 +82,16 @@ export const handleUnblock = (
 
   // setMessage(fetchMessage(1, blockMsgs));
 
-  // 클릭된 버튼의 ID에서 차단 ID 추출
-  const blockId = e.currentTarget.id;
-
   // 차단 해제 API 호출
   unBlockAPI(blockId)
     .then((res) => {
       // 응답이 없는 경우 함수 종료
       if (!res) return;
 
+      console.log(res.status);
+ 
       // 응답 코드가 "ok"인 경우
-      if (res.data.code === "ok") {
+      if (res.data.code === "ok" || res.status === 200) {
         // 현재 아이템 목록에서 차단 ID가 일치하지 않는 아이템만 필터링
         const newItems = items.filter((item) => item.blockId !== blockId);
 

@@ -98,9 +98,10 @@ export const getResult = (
       return (
         <button
           className="mypage-template-main-table-body-td block-btn"
-          id={item.blockId} // 차단 해제 버튼에 blockId 설정
           data-nickname={item.nickname} // data-nickname 속성에 nickname 설정
-          onClick={(e) => handleUnblock(e, items, setItems, setMessage)} // 클릭 시 handleUnblock 함수 호출
+          onClick={(e) =>
+            handleUnblock(e, items, setItems, setMessage, item.blockId)
+          } // 클릭 시 handleUnblock 함수 호출
         >
           차단 해제
         </button>

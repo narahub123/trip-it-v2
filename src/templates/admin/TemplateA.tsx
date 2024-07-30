@@ -9,6 +9,7 @@ import TemplatePagination from "templates/mypage/TemplatePagination";
 import TemplateASearch from "./TemplateASearch";
 import MessageModal from "templates/components/MessageModal";
 import { fetchMessage } from "templates/utilities/template";
+import TemplateSetting from "templates/components/TemplateSetting";
 
 export interface TemplateAProps {
   pageName: string;
@@ -102,7 +103,9 @@ const TemplateA = ({
           </div>
           <div
             className={`admin-template-panels-right ${pageName}-panels-right`}
-          ></div>
+          >
+            <TemplateSetting deletes={deletes} setDeletes={setDeletes} />
+          </div>
         </section>
         <section className={`admin-template-main ${pageName}-main`}>
           <TemplateATable
