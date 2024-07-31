@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { handleReport } from "pages/Admin/Reports/utilities/reports"; // 신고 처리 함수 import
-import { handleUnblock } from "pages/mypage/utils/block"; // 차단 해제 함수 import
+import { handleUnblock } from "pages/mypage/utilities/block"; // 차단 해제 함수 import
 import { NavLink } from "react-router-dom"; // 페이지 이동을 위한 NavLink import
 import { MessageType } from "types/template";
 import { convertYYYYMMDDToDate1 } from "utilities/date"; // 날짜 형식 변환 함수 import

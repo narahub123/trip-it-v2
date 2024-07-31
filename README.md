@@ -170,19 +170,22 @@
 <details>
 <summary>2024년 7월 27일</summary>
 
-## 마이페이지 신고 적용하기 
+## 마이페이지 신고 적용하기
 
-## 관리자 페이지 신고 적용하기 
-- 신고 처리하기 
+## 관리자 페이지 신고 적용하기
+
+- 신고 처리하기
 </details>
 
 <details>
 <summary>2024년 7월 28일</summary>
 
-## 관리자 페이지 템플렛 만들기 
+## 관리자 페이지 템플렛 만들기
 
-### 신고 페이지 적용하기 
-### 차단 페이지 적용하기 
+### 신고 페이지 적용하기
+
+### 차단 페이지 적용하기
+
 ### 유저 페이지 적용하기
 
 </details>
@@ -190,7 +193,23 @@
 <details>
 <summary>2024년 7월 29일</summary>
 
-## 모집글 구현 
-## 일정 구현 
+## 모집글 구현
+
+## 일정 구현
+
+</details>
+
+<details>
+<summary>2024년 7월 30일</summary>
+
+## 프로필 업데이트 with patch
+
+</details>
+
+<details>
+<summary>2024년 7월 31일</summary>
+
+## 마이페이지 리팩토링
+ ### useCallback, React.memo, custom hook, forwardRef를 이용한 렌더링 횟수 줄이기  
 
 </details>

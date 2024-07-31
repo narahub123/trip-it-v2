@@ -9,7 +9,7 @@ import {
   handleFieldChange,
   handleSort,
   handleUnblock,
-} from "../pages/mypage/utils/block";
+} from "../pages/mypage/utilities/block";
 import {
   FiChevronLeft,
   FiChevronsLeft,

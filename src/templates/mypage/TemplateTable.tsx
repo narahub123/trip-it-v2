@@ -1,6 +1,6 @@
 import { convertYYYYMMDDToDate1 } from "utilities/date";
 import "./templateTable.css";
-import { handleSort, handleUnblock } from "pages/mypage/utils/block";
+import { handleSort, handleUnblock } from "pages/mypage/utilities/block";
 import { LuChevronDown, LuChevronUp, LuRefreshCw } from "react-icons/lu";
 import { useRenderCount } from "@uidotdev/usehooks";
 import { MessageType, TemplateArrayType } from "types/template";
