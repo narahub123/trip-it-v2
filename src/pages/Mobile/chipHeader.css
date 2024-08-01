@@ -16,6 +16,7 @@
       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
       background-color: #fff;
       transition: color, background-color 0.2s ease-in-out;
+      transition: border, color 0.2s ease-in-out;
     }
 
     .mypage-header-chip-item.active {
@@ -25,6 +26,15 @@
       color: #fff;
       box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
       transition: color, background-color 0.2s ease-in-out;
+    }
+
+    .mypage-header-chip-item:hover {
+      border: 1px solid var(--basic-color);
+      color: var(--basic-color);
+      transition: border, color 0.2s ease-in-out;
+    }
+    .mypage-header-chip-item.active:hover {
+      color: #fff;
     }
   }
 }
