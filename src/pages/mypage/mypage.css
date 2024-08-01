@@ -1,3 +1,6 @@
+:root {
+  --basic-color: rgb(0, 206, 124);
+}
 .mypage {
   /* 기본 속성 제거 */
   ul,
@@ -5,7 +8,8 @@
   figure,
   img,
   textarea,
-  section {
+  section,
+  p {
     margin: 0;
     padding: 0;
     border: 0;
@@ -27,4 +31,47 @@
   }
 
   margin-top: 80px;
+}
+
+.mypage-footer-blank {
+  height: 50px;
+}
+
+@media screen and (max-width: 500px) {
+  .head {
+    display: none;
+  }
+  .chat {
+    display: none;
+  }
+  .mypage {
+    margin-top: 10px;
+  }
+  .mypage-header {
+    display: none;
+  }
+
+  .mypage-header-chip {
+    display: block;
+  }
+
+  .mypage-profile {
+    display: none;
+  }
+}
+@media screen and (min-width: 501px) {
+  .chat {
+    display: none;
+  }
+
+  .mypage-header-chip {
+    display: none;
+  }
+
+  .mypage-mobile-profile {
+    display: none;
+  }
+  .footer {
+    display: none;
+  }
 }

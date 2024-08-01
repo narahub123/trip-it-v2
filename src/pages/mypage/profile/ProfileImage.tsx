@@ -16,7 +16,6 @@ const ProfileImage = forwardRef<HTMLInputElement, ProfileImageProps>(
 
     const handleClickImage = useHandleClickImage(ref);
 
-    console.log("변경 프로필 사진", profilePic);
     return (
       <img
         src={

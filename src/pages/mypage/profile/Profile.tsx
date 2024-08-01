@@ -16,6 +16,7 @@ import { useDebouncedHandleChangePassword } from "../hooks/useDebouncedHandleCha
 import { useHandleProfile } from "../hooks/useHandleProfile";
 import ProfileImage from "./ProfileImage";
 import MessageModal from "templates/components/MessageModal";
+import ProfileMobile from "../../Mobile/ProfileMobile";
 
 const Profile = () => {
   const renderCount = useRenderCount();
@@ -143,240 +144,243 @@ const Profile = () => {
   }
 
   return (
-    <div className="mypage-profile">
-      {openModal && (
-        <div className="mypage-profile-modal">
-          <div className="mypage-profile-modal-container">
-            <form onSubmit={checkPassword}>
-              <div className="mypage-profile-modal-main">
-                <p>현재 비밀번호를 입력해주세요.</p>
-                <input
-                  type="password"
-                  onChange={debouncedHandleChangePassword}
-                  autoFocus
-                />
-                <div className="mypage-profile-modal-btns">
-                  <button type="button" onClick={() => setOpenModal(false)}>
-                    취소
-                  </button>
-                  <button type="button" onClick={checkPassword}>
-                    확인
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-      {message && <MessageModal message={message} setMessage={setMessage} />}
-      <div className="mypage-profile-container">
-        <table className="mypage-profile-table">
-          <thead>
-            <tr>
-              <td colSpan={3}>
-                <h3>개인정보</h3>
-              </td>
-            </tr>
-            <tr className="mypage-profile-body-row">
-              <td className="mypage-profile-body-td" rowSpan={3}>
-                렌더링 횟수 : {renderCount}
-              </td>
-            </tr>
-          </thead>
-          {loading ? (
-            <tbody className="mypage-profile-body">
-              <tr className="mypage-profile-body-row">
-                <td className="mypage-profile-body-td" colSpan={3}>
-                  loading...
-                </td>
-              </tr>
-            </tbody>
-          ) : (
-            <tbody className="mypage-profile-body">
-              <tr className="mypage-profile-body-row">
-                <td className="mypage-profile-body-td" rowSpan={2}>
-                  <input
-                    type="file"
-                    ref={imageRef}
-                    hidden
-                    accept="image/*"
-                    onChange={(e) =>
-                      setImage(
-                        e.currentTarget?.files
-                          ? e.currentTarget.files[0]
-                          : undefined
-                      )
-                    }
-                  />
-                  <ProfileImage
-                    userpic={user?.userpic}
-                    profilePic={profile.userpic}
-                    ref={imageRef}
-                  />
-                  <p className="mypage-profile-body-td-image">
-                    {imageError ? (
-                      <span className="mypage-profile-body-td-image-explanation">
-                        Error uploading (file size must be less than 2 MB)
-                      </span>
-                    ) : imagePercent > 0 && imagePercent < 100 ? (
-                      <span className="mypage-profile-body-td-image-explanation">{`Uploading: ${imagePercent} %`}</span>
-                    ) : imagePercent === 100 ? (
-                      <span className="mypage-profile-body-td-image-explanation">
-                        업로드 완료
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </p>
-                </td>
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    id="nickname"
-                    defaultValue={user?.nickname}
-                    onChange={debouncedProfileChange}
-                  />
-                </td>
-                <td className="mypage-profile-body-td" rowSpan={2}>
-                  {isShowing && (
-                    <button type="button" onClick={handleProfile}>
-                      프로필 수정
-                    </button>
-                  )}
-                </td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    id="intro"
-                    defaultValue={user?.intro}
-                    onChange={debouncedProfileChange}
-                  />
-                </td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <th className="mypage-profile-body-th">이름</th>
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    value={user?.username || ""}
-                    readOnly
-                    disabled
-                  />
-                </td>
-                <td className="mypage-profile-body-td"></td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <th className="mypage-profile-body-th">비밀번호</th>
-                <td className="mypage-profile-body-td">
+    <>
+      <div className="mypage-profile">
+        {openModal && (
+          <div className="mypage-profile-modal">
+            <div className="mypage-profile-modal-container">
+              <form onSubmit={checkPassword}>
+                <div className="mypage-profile-modal-main">
+                  <p>현재 비밀번호를 입력해주세요.</p>
                   <input
                     type="password"
-                    defaultValue={password}
-                    disabled={disabled}
                     onChange={debouncedHandleChangePassword}
-                    ref={pwRef}
+                    autoFocus
                   />
-                </td>
-                <td>
-                  {disabled ? (
-                    <button onClick={() => handleModal(setOpenModal)}>
-                      수정
+                  <div className="mypage-profile-modal-btns">
+                    <button type="button" onClick={() => setOpenModal(false)}>
+                      취소
                     </button>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        changePassword(
-                          password,
-                          setMessage,
-                          setDisabled,
-                          setPassword,
-                          pwRef
+                    <button type="button" onClick={checkPassword}>
+                      확인
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+        {message && <MessageModal message={message} setMessage={setMessage} />}
+        <div className="mypage-profile-container">
+          <table className="mypage-profile-table">
+            <thead>
+              <tr>
+                <td colSpan={3}>
+                  <h3>개인정보</h3>
+                </td>
+              </tr>
+              <tr className="mypage-profile-body-row">
+                <td className="mypage-profile-body-td" rowSpan={3}>
+                  렌더링 횟수 : {renderCount}
+                </td>
+              </tr>
+            </thead>
+            {loading ? (
+              <tbody className="mypage-profile-body">
+                <tr className="mypage-profile-body-row">
+                  <td className="mypage-profile-body-td" colSpan={3}>
+                    loading...
+                  </td>
+                </tr>
+              </tbody>
+            ) : (
+              <tbody className="mypage-profile-body">
+                <tr className="mypage-profile-body-row">
+                  <td className="mypage-profile-body-td" rowSpan={2}>
+                    <input
+                      type="file"
+                      ref={imageRef}
+                      hidden
+                      accept="image/*"
+                      onChange={(e) =>
+                        setImage(
+                          e.currentTarget?.files
+                            ? e.currentTarget.files[0]
+                            : undefined
                         )
                       }
-                    >
-                      변경
-                    </button>
-                  )}
-                </td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <th className="mypage-profile-body-th">이메일</th>
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    value={user?.email || ""}
-                    readOnly
-                    disabled
-                  />
-                </td>
-                <td className="mypage-profile-body-td"></td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <th className="mypage-profile-body-th">성별</th>
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    value={user?.gender === "m" ? "남성" : "여성"}
-                    readOnly
-                    disabled
-                  />
-                </td>
-                <td className="mypage-profile-body-td"></td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <th className="mypage-profile-body-th">생년월일</th>
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    value={user ? convertDataToDate(user?.birth) : ""}
-                    readOnly
-                    disabled
-                  />
-                </td>
-                <td className="mypage-profile-body-td"></td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <th className="mypage-profile-body-th">가입일</th>
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    value={user?.regdate || ""}
-                    readOnly
-                    disabled
-                  />
-                </td>
-                <td className="mypage-profile-body-td"></td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <th className="mypage-profile-body-th">신고당한 횟수</th>
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    value={user?.reportCount || 0}
-                    readOnly
-                    disabled
-                  />
-                </td>
-                <td className="mypage-profile-body-td"></td>
-              </tr>
-              <tr className="mypage-profile-body-row">
-                <th className="mypage-profile-body-th">등급</th>
-                <td className="mypage-profile-body-td">
-                  <input
-                    type="text"
-                    value={user?.role === "ROLE_USER" ? "사용자" : "관리자"}
-                    readOnly
-                    disabled
-                  />
-                </td>
-                <td className="mypage-profile-body-td"></td>
-              </tr>
-            </tbody>
-          )}
-        </table>
+                    />
+                    <ProfileImage
+                      userpic={user?.userpic}
+                      profilePic={profile.userpic}
+                      ref={imageRef}
+                    />
+                    <p className="mypage-profile-body-td-image">
+                      {imageError ? (
+                        <span className="mypage-profile-body-td-image-explanation">
+                          Error uploading (file size must be less than 2 MB)
+                        </span>
+                      ) : imagePercent > 0 && imagePercent < 100 ? (
+                        <span className="mypage-profile-body-td-image-explanation">{`Uploading: ${imagePercent} %`}</span>
+                      ) : imagePercent === 100 ? (
+                        <span className="mypage-profile-body-td-image-explanation">
+                          업로드 완료
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </p>
+                  </td>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      id="nickname"
+                      defaultValue={user?.nickname}
+                      onChange={debouncedProfileChange}
+                    />
+                  </td>
+                  <td className="mypage-profile-body-td" rowSpan={2}>
+                    {isShowing && (
+                      <button type="button" onClick={handleProfile}>
+                        프로필 수정
+                      </button>
+                    )}
+                  </td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      id="intro"
+                      defaultValue={user?.intro}
+                      onChange={debouncedProfileChange}
+                    />
+                  </td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <th className="mypage-profile-body-th">이름</th>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      value={user?.username || ""}
+                      readOnly
+                      disabled
+                    />
+                  </td>
+                  <td className="mypage-profile-body-td"></td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <th className="mypage-profile-body-th">비밀번호</th>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="password"
+                      defaultValue={password}
+                      disabled={disabled}
+                      onChange={debouncedHandleChangePassword}
+                      ref={pwRef}
+                    />
+                  </td>
+                  <td>
+                    {disabled ? (
+                      <button onClick={() => handleModal(setOpenModal)}>
+                        수정
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          changePassword(
+                            password,
+                            setMessage,
+                            setDisabled,
+                            setPassword,
+                            pwRef
+                          )
+                        }
+                      >
+                        변경
+                      </button>
+                    )}
+                  </td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <th className="mypage-profile-body-th">이메일</th>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      value={user?.email || ""}
+                      readOnly
+                      disabled
+                    />
+                  </td>
+                  <td className="mypage-profile-body-td"></td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <th className="mypage-profile-body-th">성별</th>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      value={user?.gender === "m" ? "남성" : "여성"}
+                      readOnly
+                      disabled
+                    />
+                  </td>
+                  <td className="mypage-profile-body-td"></td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <th className="mypage-profile-body-th">생년월일</th>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      value={user ? convertDataToDate(user?.birth) : ""}
+                      readOnly
+                      disabled
+                    />
+                  </td>
+                  <td className="mypage-profile-body-td"></td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <th className="mypage-profile-body-th">가입일</th>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      value={user?.regdate || ""}
+                      readOnly
+                      disabled
+                    />
+                  </td>
+                  <td className="mypage-profile-body-td"></td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <th className="mypage-profile-body-th">신고당한 횟수</th>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      value={user?.reportCount || 0}
+                      readOnly
+                      disabled
+                    />
+                  </td>
+                  <td className="mypage-profile-body-td"></td>
+                </tr>
+                <tr className="mypage-profile-body-row">
+                  <th className="mypage-profile-body-th">등급</th>
+                  <td className="mypage-profile-body-td">
+                    <input
+                      type="text"
+                      value={user?.role === "ROLE_USER" ? "사용자" : "관리자"}
+                      readOnly
+                      disabled
+                    />
+                  </td>
+                  <td className="mypage-profile-body-td"></td>
+                </tr>
+              </tbody>
+            )}
+          </table>
+        </div>
       </div>
-    </div>
+      <ProfileMobile />
+    </>
   );
 };
 

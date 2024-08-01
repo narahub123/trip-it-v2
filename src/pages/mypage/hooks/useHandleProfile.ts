@@ -21,22 +21,22 @@ export const useHandleProfile = (
       return false;
     }
 
-    const updatedFields: { [key: string]: any } = {};
+    const updatedFields: ProfileType = { userpic: "", nickname: "", intro: "" };
 
     if (user?.userpic !== profile.userpic && profile.userpic.length !== 0) {
       updatedFields.userpic = profile.userpic;
     } else {
-      updatedFields.userpic = user?.userpic;
+      updatedFields.userpic = user ? user.userpic : "";
     }
     if (user?.nickname !== profile.nickname && profile.nickname.length !== 0) {
       updatedFields.nickname = profile.nickname;
     } else {
-      updatedFields.nickname = user?.nickname;
+      updatedFields.nickname = user ? user.nickname : "";
     }
     if (user?.intro !== profile.intro && profile.intro.length !== 0) {
       updatedFields.intro = profile.intro;
     } else {
-      updatedFields.intro = user?.intro;
+      updatedFields.intro = user ? user.intro : "";
     }
 
     updateProfileAPI(updatedFields)

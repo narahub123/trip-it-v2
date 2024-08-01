@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ProfileType } from "types/users";
 import { getCookie } from "utilities/Cookie";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
@@ -93,18 +94,14 @@ export const updatePasswordAPI = async (password: string) => {
 };
 
 // 프로필 변경
-export const updateProfileAPI = async (profile: {
-  userpic?: string;
-  nickname?: string;
-  intro?: string;
-}) => {
+export const updateProfileAPI = async (profile?: ProfileType) => {
   try {
     const response = await axios.patch(
       `${baseURL}/mypage/profile/profileUpdate`,
       {
-        userpic: profile.userpic,
-        nickname: profile.nickname,
-        intro: profile.intro,
+        userpic: profile?.userpic,
+        nickname: profile?.nickname,
+        intro: profile?.intro,
       },
       {
         headers: {
@@ -121,11 +118,17 @@ export const updateProfileAPI = async (profile: {
     return response; // 서버 응답 반환
   } catch (error: any) {
     console.log(error);
+    console.log(error.message);
+    let msgId = 0;
+    const message = error.message;
+    if (message === "Network Error") {
+      msgId = 7;
 
+      throw { msgId };
+    }
     const status = error.response.status;
     const code = error.response.data.code;
 
-    let msgId = 0;
     if (code === 1 || status === 409) {
       msgId = 6;
     } else if (code === 2 || status === 422) {

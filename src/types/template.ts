@@ -14,6 +14,8 @@ export interface MessageType {
   type: string;
   msgs: {
     header: string;
-    main: string;
+    main: string | JSX.Element;
   };
+  func?: (value: any) => any | undefined;
+  params?: any;
 }
