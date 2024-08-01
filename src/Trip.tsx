@@ -21,6 +21,7 @@ import PostsA from "pages/Admin/PostsA/PostsA";
 import SchedulesM from "pages/mypage/SchedulesM/SchedulesM";
 import SchedulesA from "pages/Admin/SchedulesA/SchedulesA";
 import User from "pages/Admin/Users/User";
+import MypageMobile from "pages/Mobile/Mypage/MypageMobile";
 
 const Trip = () => {
   useEffect(() => {
@@ -44,6 +45,7 @@ const Trip = () => {
           <Route path="/login/normal" element={<Normal />} />
           <Route path="/join" element={<Join />} />
           <Route path="/mypage" element={<MyPage />}>
+            <Route index element={<MypageMobile />} />
             <Route path="/mypage/profile" element={<Profile />} />
             <Route path="/mypage/blocks" element={<Block />} />
             <Route path="/mypage/reports" element={<Report />} />

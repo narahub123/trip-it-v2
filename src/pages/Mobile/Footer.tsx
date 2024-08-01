@@ -3,7 +3,7 @@ import "./footer.css";
 import {
   LuHome,
   LuClipboardSignature,
-  LuUserCircle2,
+  LuUser2,
   LuLogIn,
   LuLogOut,
 } from "react-icons/lu";
@@ -36,7 +36,7 @@ const Footer = () => {
           }
           title="마이페이지"
         >
-          <LuUserCircle2 />
+          <LuUser2 />
         </NavLink>
         <NavLink
           to={`/logout`}
