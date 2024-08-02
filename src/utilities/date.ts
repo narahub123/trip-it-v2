@@ -7,3 +7,10 @@ export const convertYYYYMMDDToDate1 = (origin: string) => {
 
   return `${year}.${month}.${date}.`;
 };
+
+export const convertYYYYMMDDToDate2 = (origin: string) => {
+  const month = Number(origin.slice(4, 6));
+  const date = Number(origin.slice(6, 8));
+
+  return `${month}.${date}.`;
+};

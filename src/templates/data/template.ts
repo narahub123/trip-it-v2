@@ -266,14 +266,14 @@ export const usersArray: TemplateArrayType[] = [
   {
     field: { name: "regdate" },
     type: "date", // 값 그대로 적용
-    title: "가입날짜",
+    title: "가입 날짜",
     sort: { key: "regdate", value: "desc" },
     search: { able: false, type: "normal" },
   },
   {
     field: { name: "userpic" },
     type: "image", // 값 그대로 적용
-    title: "회원사진",
+    title: "회원 사진",
     sort: { key: "userpic", value: "asc" },
     search: { able: false },
   },
@@ -516,21 +516,21 @@ export const scheduleMArray: TemplateArrayType[] = [
   {
     field: { name: "registerDate" },
     type: "date", // 값 그대로 적용
-    title: "등록날짜",
+    title: "등록 날짜",
     sort: { key: "registerDate", value: "desc" },
     search: { able: false, type: "normal" },
   },
   {
     field: { name: "startDate" },
     type: "date", // 값 그대로 적용
-    title: "시작날짜",
+    title: "시작 날짜",
     sort: { key: "startDate", value: "asc" },
     search: { able: false, type: "normal" },
   },
   {
     field: { name: "endDate" },
     type: "date", // 값 그대로 적용
-    title: "종료날짜",
+    title: "종료 날짜",
     sort: { key: "endDate", value: "asc" },
     search: { able: false, type: "normal" },
   },

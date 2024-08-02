@@ -5,7 +5,7 @@ import { MessageType } from "types/template";
 
 // 정렬 함수
 export const handleSort = (
-  e: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>, // 이벤트 객체
+  e: React.MouseEvent<HTMLTableHeaderCellElement | HTMLLIElement, MouseEvent>, // 이벤트 객체
   items: any[], // 정렬할 아이템 목록
   setItems: (value: any[]) => void, // 정렬된 아이템을 설정할 함수
   setSort: (value: string[]) => void // 현재 정렬 상태를 설정할 함수
@@ -89,7 +89,7 @@ export const handleUnblock = (
       if (!res) return;
 
       console.log(res.status);
- 
+
       // 응답 코드가 "ok"인 경우
       if (res.data.code === "ok" || res.status === 200) {
         // 현재 아이템 목록에서 차단 ID가 일치하지 않는 아이템만 필터링

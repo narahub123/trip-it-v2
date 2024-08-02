@@ -1,0 +1,95 @@
+.mobile-mypage-template {
+  padding: 10px;
+  .mobile-mypage-template-container {
+    .mobile-mypage-template-panels {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      .mobile-mypage-template-panels-left {
+      }
+      .mobile-mypage-template-panels-right {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+    .mobile-mypage-template-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      grid-gap: 10px;
+
+      .mobile-mypage-template-item {
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        width: 100%;
+        position: relative;
+        box-shadow: rgba(149, 157, 165, 0.2) 4px 4px 8px 4px;
+        .moblie-mypage-template-item-select {
+          position: absolute;
+          right: 0;
+          z-index: 3;
+          p {
+            color: #fff;
+            margin-top: 5px;
+            margin-right: 5px;
+          }
+        }
+        .mobile-mypage-template-link {
+          .mobile-mypage-template-item-photoarea {
+            border-radius: 10px;
+            width: 100%;
+            img {
+              border-radius: 10px 10px 0px 0px;
+              width: 100%;
+              height: 100px;
+              object-fit: cover;
+            }
+          }
+          .mobile-mypage-template-item-textarea {
+            padding: 10px;
+
+            .mobile-mypage-template-item-textarea-title {
+              font-size: 13px;
+              font-weight: bold;
+            }
+            .mobile-mypage-template-item-textarea-duration {
+              font-size: 12px;
+              padding: 5px 0;
+              display: flex;
+              gap: 3px;
+              align-items: baseline;
+              .mobile-mypage-template-item-textarea-duration-icon {
+              }
+              .mobile-mypage-template-item-textarea-duration-text {
+              }
+            }
+            .mobile-mypage-template-item-textarea-bottom {
+              display: flex;
+              justify-content: space-between;
+              align-items: baseline;
+              .mobile-mypage-template-item-textarea-regdate {
+                font-size: 12px;
+                display: flex;
+                gap: 3px;
+                align-items: baseline;
+                .mobile-mypage-template-item-textarea-regdate-duration-icon {
+                }
+                .mobile-mypage-template-item-textarea-regdate-duration-text {
+                }
+              }
+              .mobile-mypage-template-item-textarea-local {
+                color: var(--basic-color);
+                font-size: 12px;
+              }
+            }
+          }
+        }
+        .mobile-mypage-template-item:hover {
+          border: 2px solid var(--basic-color);
+        }
+      }
+    }
+  }
+}

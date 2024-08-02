@@ -10,7 +10,6 @@ import { MessageType } from "types/template";
 import { fetchMessage } from "templates/utilities/template";
 import { proflieMsgs } from "templates/data/message";
 import MobileModal from "./MobileModal";
-import { title } from "process";
 
 const ProfileMobile = () => {
   const [loading, setLoading] = useState(false);

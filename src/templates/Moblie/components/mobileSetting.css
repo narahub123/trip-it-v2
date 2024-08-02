@@ -1,0 +1,43 @@
+.mobile-template-setting {
+  position: relative;
+  .mobile-template-setting-cover {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 4;
+    width: 100%;
+    height: 93%;
+    background-color: transparent;
+  }
+
+  .mobile-template-setting-title {
+  }
+  .mobile-template-setting-menu {
+    margin-top: 10px;
+    position: absolute;
+    right: 0px;
+    z-index: 4;
+    border: 1px solid black;
+    background-color: #fff;
+    visibility: hidden;
+    max-height: 0px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+    .mobile-template-setting-menu-container {
+      .mobile-template-setting-menu-item {
+        padding: 10px;
+      }
+    }
+  }
+
+  .mobile-template-setting-menu.active {
+    visibility: visible;
+    max-height: 200px;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+    .mobile-template-setting-menu-container {
+      .mobile-template-setting-menu-item {
+      }
+    }
+  }
+}
