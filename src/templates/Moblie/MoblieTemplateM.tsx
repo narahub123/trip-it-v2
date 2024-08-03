@@ -2,15 +2,15 @@ import "./mobileTemplateM.css";
 import { scheduleArray } from "test/data/schedules";
 import { LuSearch, LuSettings, LuSlidersHorizontal } from "react-icons/lu";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MobileScheduleCard from "./MobileScheduleCard";
 import MobileSearch from "./components/MobileSearch";
 import MobileSetting from "./components/MobileSetting";
 import MobileSort from "./components/MobileSort";
 import { AxiosResponse } from "axios";
 import { MessageType, TemplateArrayType } from "types/template";
-import { useLocation } from "react-router-dom";
 import { mypageList } from "pages/mypage/data/header";
+import MobilePostCard from "./MobilePostCard";
 
 interface MobileTEmplateMProps {
   pageName: string;
@@ -25,6 +25,8 @@ interface MobileTEmplateMProps {
   tempArray: TemplateArrayType[];
   msgArray: MessageType[];
   settings?: string[];
+  card?: () => JSX.Element;
+  tempoArray?: any[]; // 임시 배열 삭제 예정
 }
 
 const MoblieTemplateM = ({
@@ -38,8 +40,9 @@ const MoblieTemplateM = ({
   tempArray,
   msgArray,
   settings,
+  tempoArray,
 }: MobileTEmplateMProps) => {
-  const [items, setItems] = useState<any[]>(scheduleArray); // 목록 상태
+  const [items, setItems] = useState<any[]>([]); // 목록 상태
   const [sort, setSort] = useState<string[]>(defaultSort); // 정렬 상태
   const [selections, setSelections] = useState<(string | number)[]>([]);
   const [searchBox, setSearchBox] = useState(false);
@@ -51,6 +54,10 @@ const MoblieTemplateM = ({
   const [message, setMessage] = useState<MessageType>();
   const numPages = Math.ceil(total / size); // 총 페이지 개수
   const offset = (page - 1) * size;
+
+  useEffect(() => {
+    if (tempoArray) setItems(tempoArray);
+  }, []);
 
   console.log("정렬 정보", sort);
   console.log("목록 정보", items);
@@ -106,15 +113,26 @@ const MoblieTemplateM = ({
         </section>
         <section className="mobile-mypage-template-list">
           {items
-            .filter((item) => item[field.name].includes(search))
+            .filter((item) => {
+              return item[field.name].includes(search);
+            })
             .slice(offset, offset + size)
             .map((item) => (
               <li className="mobile-mypage-template-item">
-                <MobileScheduleCard
-                  selections={selections}
-                  setSelections={setSelections}
-                  item={item}
-                />
+                {pageName === "mypage-schedules" && (
+                  <MobileScheduleCard
+                    selections={selections}
+                    setSelections={setSelections}
+                    item={item}
+                  />
+                )}
+                {pageName === "mypage-posts" && (
+                  <MobilePostCard
+                    selections={selections}
+                    setSelections={setSelections}
+                    item={item}
+                  />
+                )}
               </li>
             ))}
         </section>

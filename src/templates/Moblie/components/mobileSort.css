@@ -37,7 +37,7 @@
 
   .mobile-template-sort-menu.active {
     visibility: visible;
-    max-height: 300px;
+    max-height: 500px;
     opacity: 1;
     transition: all 0.2s ease-in-out;
     .mobile-template-sort-menu-container {

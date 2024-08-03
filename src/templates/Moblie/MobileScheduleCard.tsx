@@ -1,3 +1,4 @@
+import "./mobileScheduleCard.css";
 import React from "react";
 import { LuCalendarDays, LuPen } from "react-icons/lu";
 import {
