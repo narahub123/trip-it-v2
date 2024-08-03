@@ -4,7 +4,7 @@ import "./mypage.css";
 import { mypageList } from "./data/header";
 import ChipHeader from "../Mobile/ChipHeader";
 import ProfileMobile from "../Mobile/ProfileMobile";
-import Footer from "../Mobile/Footer";
+import Footer from "../../templates/Moblie/components/Footer";
 import MobileHeader from "templates/Moblie/components/MobileHeader";
 
 const MyPage = () => {
@@ -15,8 +15,6 @@ const MyPage = () => {
       <ChipHeader list={mypageList} />
       <MobileHeader list={mypageList} />
       <Outlet />
-      <div className="mypage-footer-blank" />
-      <Footer />
     </div>
   );
 };

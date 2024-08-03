@@ -21,7 +21,7 @@ const Footer = () => {
           <LuHome />
         </NavLink>
         <NavLink
-          to={`/schedule`}
+          to={`/planner`}
           className={({ isActive }) =>
             isActive ? "footer-item active" : "footer-item"
           }

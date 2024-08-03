@@ -2,6 +2,12 @@
   max-width: 1200px;
   margin: 0 auto;
 
+  ul,
+  li,
+  p {
+    padding: 0;
+    list-style: none;
+  }
   main {
     margin: 0;
     padding: 0;

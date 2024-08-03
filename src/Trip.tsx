@@ -22,6 +22,7 @@ import SchedulesM from "pages/mypage/SchedulesM/SchedulesM";
 import SchedulesA from "pages/Admin/SchedulesA/SchedulesA";
 import User from "pages/Admin/Users/User";
 import MypageMobile from "pages/Mobile/Mypage/MypageMobile";
+import Plan from "pages/Plan/Plan";
 
 const Trip = () => {
   useEffect(() => {
@@ -60,9 +61,10 @@ const Trip = () => {
             <Route path="/admin/posts" element={<PostsA />} />
             <Route path="/admin/schedules" element={<SchedulesA />} />
           </Route>
+          <Route path="/planner" element={<Plan />} />
           <Route path="/test" element={<Test />} />
         </Route>
-        <Route path="/planner" element={<PlanLayout />}></Route>
+        <Route path="/planner/:metroName" element={<PlanLayout />}></Route>
       </Routes>
     </>
   );

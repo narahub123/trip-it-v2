@@ -1,0 +1,58 @@
+.plan {
+  img {
+    padding: 0;
+    margin: 0;
+  }
+  .plan-title {
+    text-align: center;
+    margin-top: 60px;
+  }
+  .plan-search {
+    text-align: center;
+    margin: 50px 0px 60px;
+
+    .plan-search-box {
+      width: 70%;
+      padding: 10px 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
+    }
+  }
+  .plan-grid {
+    padding: 0px 10px;
+
+    .plan-grid-container {
+      display: grid;
+      /* 1fr의 너비 제한 */
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: auto;
+      grid-gap: 20px;
+
+      .plan-grid-item {
+        margin: 0 auto;
+        width: 97%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: var(--basic-color);
+        color: #fff;
+        box-shadow: rgba(149, 157, 165, 0.3) 2px 2px 4px 2px;
+
+        img {
+          box-sizing: border-box;
+          width: 100%;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 10px 10px 0 0px;
+        }
+        .plan-grid-item-title {
+          font-size: 13px;
+          text-align: center;
+          margin-bottom: 4px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
