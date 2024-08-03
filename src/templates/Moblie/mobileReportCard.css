@@ -1,0 +1,128 @@
+.mobile-template-card-report {
+  .mobile-template-card-report-container {
+    padding: 10px;
+    margin: 10px 0px;
+    border: 1px solid var(--basic-color);
+    border-radius: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 4px 4px 4px 4px;
+
+    .mobile-template-card-report-upper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .mobile-template-card-report-info {
+        .mobile-template-card-report-info-reportType {
+          padding: 4px 0px;
+          display: flex;
+          align-items: center;
+          .mobile-template-card-report-info-reportType-button {
+            font-size: 12px;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            outline: none;
+            color: #fff;
+          }
+          .mobile-template-card-report-info-reportType-button.lewd {
+            background-color: orange;
+          }
+          .mobile-template-card-report-info-reportType-button.violence {
+            background-color: red;
+          }
+          .mobile-template-card-report-info-reportType-button.abuse {
+            background-color: violet;
+          }
+          .mobile-template-card-report-info-reportType-button.etc {
+            background-color: blue;
+          }
+
+          .mobile-template-card-report-info-reportType-dropdown {
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 18px;
+            transform: rotate(0deg);
+            transition: transform 0.2s ease-in-out;
+          }
+
+          .mobile-template-card-report-info-reportType-dropdown-active {
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 18px;
+            transform: rotate(180deg);
+            transition: transform 0.2s ease-in-out;
+          }
+        }
+
+        .mobile-template-card-report-info-reportId {
+          font-size: 13px;
+          padding: 4px 0px;
+          display: flex;
+          gap: 5px;
+        }
+        .mobile-template-card-report-info-date {
+          font-size: 12px;
+          padding: 4px 0px;
+          display: flex;
+          gap: 5px;
+        }
+      }
+
+      .mobile-template-card-report-btn {
+        button {
+          font-size: 13px;
+          border: none;
+          border-radius: 10px;
+          padding: 7px;
+          background-color: var(--basic-color);
+          color: #fff;
+        }
+      }
+    }
+
+    .mobile-template-card-report-lower {
+      visibility: hidden;
+      max-height: 0px;
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+
+      .mobile-template-card-report-lower-container {
+        border-top: 1px solid #ccc;
+        margin-top: 10px;
+        padding-top: 10px;
+
+        p.title {
+          font-size: 14px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        p.detail {
+          font-size: 13px;
+          margin-left: 10px;
+        }
+      }
+    }
+    .mobile-template-card-report-lower-active {
+      visibility: visible;
+      max-height: 100px;
+      opacity: 1;
+      transition: all 0.2s ease-in-out;
+
+      .mobile-template-card-report-lower-container {
+        border-top: 1px solid #ccc;
+        margin-top: 10px;
+        padding-top: 10px;
+
+        p.title {
+          font-size: 14px;
+          font-weight: bold;
+          margin-bottom: 10px;
+        }
+        p.detail {
+          font-size: 13px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

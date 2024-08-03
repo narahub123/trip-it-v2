@@ -4,6 +4,8 @@ import "./report.css";
 import { fetchReportAPI } from "apis/report";
 import { reportArray } from "templates/data/template";
 import { reportMsgs } from "templates/data/message";
+import MoblieTemplateM from "templates/Moblie/MoblieTemplateM";
+import { reportsArray } from "test/data/reports";
 
 const Report = () => {
   const renderCount = useRenderCount();
@@ -11,16 +13,29 @@ const Report = () => {
   console.log("렌더링 횟수", renderCount);
 
   return (
-    <Template
-      pageName={"block"}
-      title={"신고 목록"}
-      fetchAPI={fetchReportAPI}
-      defaultSort={["reportDate", "desc"]}
-      defaultSize={3}
-      defaultField={{ name: "reportType" }}
-      tempArray={reportArray}
-      msgArray={reportMsgs}
-    />
+    <>
+      <MoblieTemplateM
+        pageName={"mypage-report"}
+        title={"신고 목록"}
+        fetchAPI={fetchReportAPI}
+        defaultSort={["reportDate", "desc"]}
+        defaultSize={3}
+        defaultField={{ name: "reportType" }}
+        tempArray={reportArray}
+        msgArray={reportMsgs}
+        tempoArray={reportsArray}
+      />
+      <Template
+        pageName={"report"}
+        title={"신고 목록"}
+        fetchAPI={fetchReportAPI}
+        defaultSort={["reportDate", "desc"]}
+        defaultSize={3}
+        defaultField={{ name: "reportType" }}
+        tempArray={reportArray}
+        msgArray={reportMsgs}
+      />
+    </>
   );
 };
 

@@ -12,6 +12,7 @@ import { MessageType, TemplateArrayType } from "types/template";
 import { mypageList } from "pages/mypage/data/header";
 import MobilePostCard from "./MobilePostCard";
 import MobileBlockCard from "./MobileBlockCard";
+import MobileReportCard from "./MobileReportCard";
 
 interface MobileTEmplateMProps {
   pageName: string;
@@ -122,7 +123,13 @@ const MoblieTemplateM = ({
                   item={item}
                 />
               ) : (
-                ""
+                pageName === "mypage-report" && (
+                  <MobileReportCard
+                    selections={selections}
+                    setSelections={setSelections}
+                    item={item}
+                  />
+                )
               )
             )}
         </section>
