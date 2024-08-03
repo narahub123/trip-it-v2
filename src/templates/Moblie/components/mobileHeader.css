@@ -1,0 +1,25 @@
+.mobile-template-header {
+  padding: 10px;
+  .mobile-template-header-container {
+    display: flex;
+    gap: 10px;
+    .mobile-template-header-link {
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      color: #ccc;
+      .mobile-template-header-item {
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+      }
+    }
+    .mobile-template-header-link.active {
+      color: var(--basic-color);
+      .mobile-template-header-item {
+        border: 1px solid var(--basic-color);
+      }
+    }
+  }
+}

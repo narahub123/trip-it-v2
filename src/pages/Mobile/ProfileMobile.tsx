@@ -245,6 +245,7 @@ const ProfileMobile = () => {
         />
       ) : undefined}
       <div className="mypage-mobile-profile">
+        <div className="mypage-mobile-profile-title">개인 정보</div>
         <ul className="mypage-mobile-profile-container">
           <li className="mypage-mobile-profile-photo">
             <div className="mypage-mobile-profile-photo-container">

@@ -1,16 +1,37 @@
 .mobile-mypage-template {
-  padding: 10px;
+  padding: 0px 10px 10px;
   .mobile-mypage-template-container {
     .mobile-mypage-template-panels {
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
       .mobile-mypage-template-panels-left {
+        .mobile-mypage-template-panels-left-title {
+          font-weight: bold;
+        }
       }
       .mobile-mypage-template-panels-right {
         display: flex;
         align-items: center;
         gap: 5px;
+      }
+    }
+    .mobile-mypage-template-setting {
+      visibility: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.1s ease-in-out;
+    }
+    .mobile-mypage-template-setting-active {
+      visibility: visible;
+      max-height: 30px;
+      opacity: 1;
+      transition: all 0.1s ease-in-out;
+      margin-bottom: 11px;
+      p {
+        text-align: right;
+        font-size: 13px;
+        color: red;
       }
     }
     .mobile-mypage-template-list {
@@ -29,7 +50,7 @@
         .moblie-mypage-template-item-select {
           position: absolute;
           right: 0;
-          z-index: 3;
+
           p {
             color: #fff;
             margin-top: 5px;

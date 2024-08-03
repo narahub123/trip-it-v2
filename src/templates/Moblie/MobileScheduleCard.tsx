@@ -85,5 +85,5 @@ const MobileScheduleCard = ({
 };
 
 export default React.memo(MobileScheduleCard, (prevProps, nextProps) => {
-  return prevProps.item === nextProps.item;
+  return prevProps === nextProps;
 });
