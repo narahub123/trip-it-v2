@@ -11,6 +11,7 @@ import { AxiosResponse } from "axios";
 import { MessageType, TemplateArrayType } from "types/template";
 import { mypageList } from "pages/mypage/data/header";
 import MobilePostCard from "./MobilePostCard";
+import MobileBlockCard from "./MobileBlockCard";
 
 interface MobileTEmplateMProps {
   pageName: string;
@@ -72,11 +73,7 @@ const MoblieTemplateM = ({
           <span className="mobile-mypage-template-panels-left">
             <p className="mobile-mypage-template-panels-left-title">
               {/* ` */}
-              {
-                mypageList.find((item) =>
-                  item.link.includes(pageName.split("-")[1])
-                )?.title
-              }
+              {title}
             </p>
           </span>
           <span className="mobile-mypage-template-panels-right">
@@ -117,24 +114,44 @@ const MoblieTemplateM = ({
               return item[field.name].includes(search);
             })
             .slice(offset, offset + size)
-            .map((item) => (
-              <li className="mobile-mypage-template-item">
-                {pageName === "mypage-schedules" && (
-                  <MobileScheduleCard
-                    selections={selections}
-                    setSelections={setSelections}
-                    item={item}
-                  />
-                )}
-                {pageName === "mypage-posts" && (
-                  <MobilePostCard
-                    selections={selections}
-                    setSelections={setSelections}
-                    item={item}
-                  />
-                )}
-              </li>
-            ))}
+            .map((item) =>
+              pageName === "mypage-block" ? (
+                <MobileBlockCard
+                  selections={selections}
+                  setSelections={setSelections}
+                  item={item}
+                />
+              ) : (
+                ""
+              )
+            )}
+        </section>
+        <section className="mobile-mypage-template-grid">
+          {(pageName === "mypage-schedules" || pageName === "mypage-posts") &&
+            items
+              .filter((item) => {
+                return item[field.name].includes(search);
+              })
+              .slice(offset, offset + size)
+              .map((item) => (
+                <li className="mobile-mypage-template-item">
+                  {pageName === "mypage-schedules" ? (
+                    <MobileScheduleCard
+                      selections={selections}
+                      setSelections={setSelections}
+                      item={item}
+                    />
+                  ) : (
+                    pageName === "mypage-posts" && (
+                      <MobilePostCard
+                        selections={selections}
+                        setSelections={setSelections}
+                        item={item}
+                      />
+                    )
+                  )}
+                </li>
+              ))}
         </section>
       </div>
     </div>

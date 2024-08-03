@@ -35,6 +35,8 @@
       }
     }
     .mobile-mypage-template-list {
+    }
+    .mobile-mypage-template-grid {
       display: grid;
       /* 1fr의 너비 제한 */
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
