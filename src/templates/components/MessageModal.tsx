@@ -1,7 +1,7 @@
 import { MessageType } from "types/template";
 import "./messageModal.css";
 
-interface MessageModalProps {
+export interface MessageModalProps {
   message: MessageType;
   setMessage: (value: MessageType | undefined) => void;
 }
