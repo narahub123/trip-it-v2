@@ -1,0 +1,75 @@
+.plan-calendar {
+  padding: 10px;
+  .plan-calendar-title {
+  }
+  .plan-calendar-main {
+    .plan-calendar-main-month {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 10px;
+
+      .plan-calendar-main-month-prev {
+      }
+      .plan-calendar-main-month-current {
+      }
+      .plan-calendar-main-month-next {
+      }
+    }
+    .plan-calendar-main-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .plan-calendar-prev {
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+      .plan-calendar-grid {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 5px;
+        .plan-calendar-grid-container {
+          display: grid;
+          grid-template-columns:
+            minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)
+            minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+          grid-gap: 5px;
+
+          .plan-calendar-grid-item {
+            box-sizing: border-box;
+            border-radius: 10px;
+            text-align: center;
+            width: 29px;
+            line-height: 29px;
+            height: 29px;
+            font-size: 14px;
+          }
+
+          .plan-calendar-grid-item.day {
+          }
+
+          .plan-calendar-grid-item.date {
+            /* border: 1px solid #ccc; */
+          }
+
+          .sunday {
+            color: red;
+          }
+          .saturday {
+            color: blue;
+          }
+          .today {
+            color: var(--basic-color);
+            font-weight: bold;
+          }
+        }
+      }
+      .plan-calendar-next {
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+    }
+  }
+}

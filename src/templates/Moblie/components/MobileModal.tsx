@@ -1,21 +1,24 @@
+import { useNavigate } from "react-router-dom";
 import "./mobileModal.css";
 import { MessageType } from "types/template";
 
 export interface MobileModalProps {
   message: MessageType;
   setMessage: (value: MessageType | undefined) => void;
+  password?: string;
 }
 
-const MobileModal = ({ message, setMessage }: MobileModalProps) => {
+const MobileModal = ({ message, setMessage, password }: MobileModalProps) => {
+  const navigate = useNavigate();
   // confirm 형일 경우
   const handleConfirm = () => {
     if (!message.func) {
       return;
     }
 
-    // if (message.msgId === 2) {
-    //   message.params = password;
-    // }
+    if (message.msgId === 2) {
+      message.params = password;
+    }
 
     message.func(message.params);
   };
@@ -29,6 +32,13 @@ const MobileModal = ({ message, setMessage }: MobileModalProps) => {
 
     setMessage(undefined);
   };
+
+  const moveToNext = () => {
+    const areaCode = message.params;
+
+    navigate(`/planner/${areaCode}`);
+  };
+
   // modal 밖을 클릭하면 모달창이 닫힘
   const handleClose = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
@@ -72,7 +82,9 @@ const MobileModal = ({ message, setMessage }: MobileModalProps) => {
             <>
               <button
                 className={`mobile-template-modal-btns cancel ${
-                  message.type === "confirm" ? "active" : undefined
+                  message.type === "confirm" || message.type === "move"
+                    ? "active"
+                    : undefined
                 }`}
                 onClick={() => setMessage(undefined)}
                 autoFocus={message.msgId !== 2 ? true : false}
@@ -84,6 +96,8 @@ const MobileModal = ({ message, setMessage }: MobileModalProps) => {
                 onClick={
                   message.type === "confirm"
                     ? handleConfirm
+                    : message.type === "move"
+                    ? moveToNext
                     : message.type === "alert"
                     ? handleAlert
                     : undefined

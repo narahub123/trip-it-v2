@@ -1,10 +1,12 @@
 import "./plan.css";
 import { metros } from "data/metros";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MobileModal from "templates/Moblie/components/MobileModal";
 import { MessageType } from "types/template";
 
 const Plan = () => {
+  const navigate = useNavigate();
   const [message, setMessage] = useState<MessageType>();
   const inputRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState("");
@@ -28,12 +30,13 @@ const Plan = () => {
 
     if (!metro) return;
     setMessage({
-      msgId: 1,
-      type: "confirm",
+      msgId: 3,
+      type: "move",
       msgs: {
         header: metro.name,
         main: metro.description,
       },
+      params: areaCode,
     });
   };
   return (
