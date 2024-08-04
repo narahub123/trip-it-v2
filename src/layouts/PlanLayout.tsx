@@ -1,6 +1,6 @@
 import Footer from "templates/Moblie/components/Footer";
 import "./planLayout.css";
-import PlanCalendar from "pages/Mobile/Plan/PlanCalendar";
+import PlanCalendar from "pages/Plan/PlanCalendar";
 
 const PlanLayout = () => {
   return (
