@@ -1,0 +1,41 @@
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  width: 300px; /* 박스의 너비 */
+  border: 1px solid #ccc;
+}
+
+.carousel-inner {
+  display: flex;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+}
+
+.carousel-item {
+  min-width: 300px; /* 아이템의 너비와 박스의 너비를 같게 설정 */
+  box-sizing: border-box;
+  padding: 10px;
+  border-right: 1px solid #ccc;
+  scroll-snap-align: center;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.carousel-button.left {
+  left: 0;
+}
+
+.carousel-button.right {
+  right: 0;
+}

@@ -1,3 +1,27 @@
 .test {
   margin-top: 80px;
 }
+
+.test-slide {
+  position: relative;
+  width: 300px; /* 컨테이너의 너비를 설정합니다 */
+  height: 100px;
+  overflow: hidden; /* 스크롤바 숨기기 */
+}
+
+.test-slide-list {
+  display: flex;
+  width: calc(100px * 5); /* 총 아이템 너비 */
+  height: 100%;
+  transition: transform 0.5s ease; /* 부드러운 전환 효과 */
+  transform: translateX(
+    -200px
+  ); /* 첫 번째 아이템을 기준으로 세 번째 아이템을 보이도록 설정 */
+}
+
+.test-slide-list-item {
+  width: 100px;
+  height: 100%;
+  text-align: center;
+  flex-shrink: 0; /* 아이템의 크기 고정 */
+}

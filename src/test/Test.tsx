@@ -1,8 +1,10 @@
 import { blockUserAPI } from "apis/block";
 import "./test.css";
 import { addReportAPI } from "apis/report";
+import { useEffect, useRef } from "react";
 
 const Test = () => {
+  const slideListRef = useRef<HTMLUListElement>(null);
   const addBlock = (userId: string) => {
     blockUserAPI(userId)
       .then((res) => {
@@ -53,6 +55,17 @@ const Test = () => {
     }
   };
 
+  useEffect(() => {
+    const slideList = slideListRef.current;
+    if (slideList) {
+      // 아이템의 너비를 기반으로 스크롤 위치를 설정합니다.
+      const itemWidth = 100; // 각 아이템의 너비
+      const initialIndex = 2; // 세 번째 아이템의 인덱스 (0부터 시작)
+      const scrollPosition = itemWidth * initialIndex;
+      slideList.scrollLeft = scrollPosition;
+    }
+  }, []);
+
   return (
     <div className="test">
       <p onClick={() => addBlock("강고양이")}>차단</p>
@@ -73,6 +86,16 @@ const Test = () => {
         />
         <button type="submit">신고</button>
       </form>
+
+      <div className="test-slide">
+        <ul className="test-slide-list" ref={slideListRef}>
+          <li className="test-slide-list-item">1</li>
+          <li className="test-slide-list-item">2</li>
+          <li className="test-slide-list-item">3</li>
+          <li className="test-slide-list-item">4</li>
+          <li className="test-slide-list-item">5</li>
+        </ul>
+      </div>
     </div>
   );
 };
