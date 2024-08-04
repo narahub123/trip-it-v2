@@ -2,6 +2,7 @@ import { LuArrowBigLeft, LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import "./planCalendar.css";
 import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 import { useState } from "react";
+import { datesOfMonth } from "./utilities/date";
 
 const PlanCalendar = () => {
   const [selects, setSelects] = useState<Date[]>([]);
@@ -10,36 +11,59 @@ const PlanCalendar = () => {
   const curMonth = today.getMonth();
   const date = today.getDate();
   const [month, setMonth] = useState(curMonth);
-  const datesOfMonth = [];
-  for (let i = 1; i < 31; i++) {
-    datesOfMonth.push(i);
-  }
+
+  const dates = datesOfMonth(new Date(year, month, date));
+
   const weekOfDay: string[] = ["일", "월", "화", "수", "목", "금", "토"];
 
   const selectDate = (select: Date) => {
-    const possible = [];
+    console.log(select);
 
-    for (let i = 0; i < 10; i++) {
-      const origin = new Date(select);
-      const date = new Date(origin.setDate(origin.getDate() + i));
+    if (selects.length === 0) {
+      setSelects([select]);
+    } else if (selects.length === 1) {
+      const start = selects[0];
+      const end = new Date(
+        new Date(start).setDate(new Date(start).getDate() + 10)
+      );
+      if (start > select || select > end) {
+        setSelects([select]);
+      } else {
+        const diff =
+          (select.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
 
-      possible.push(date);
-    }
+        console.log("diff", diff);
 
-    console.log("10일 후", possible);
+        const selected = [];
+        for (let i = 0; i <= diff; i++) {
+          const d = new Date(selects[0]);
+          const e = new Date(new Date(d).setDate(new Date(d).getDate() + i));
+          selected.push(e);
 
-    const selected = new Set(possible);
-
-    if (!selected.has(select)) {
-      setSelects([...possible]);
-    } else if (selected.has(select)) {
+          console.log(selected);
+        }
+        setSelects([...selected]);
+      }
+    } else {
       setSelects([select]);
     }
   };
 
+  const possible =
+    selects[0] &&
+    new Date(new Date(selects[0]).setDate(new Date(selects[0]).getDate() + 10));
+
+  const selectsToString = [];
+  for (let i = 0; i < selects.length; i++) {
+    const str = selects[i].toLocaleDateString();
+    selectsToString.push(str);
+  }
+
+  const selected = new Set(selectsToString);
+
   const setDate = new Date(year, month, date);
   console.log("날짜", setDate);
-  console.log(selects);
+  console.log("날짜 배열", selects);
 
   return (
     <div className="plan-calendar">
@@ -65,9 +89,9 @@ const PlanCalendar = () => {
           </span>
         </section>
         <section className="plan-calendar-main-container">
-          <span className="plan-calendar-prev">
+          {/* <span className="plan-calendar-prev">
             <LuChevronLeft />
-          </span>
+          </span> */}
           <span className="plan-calendar-grid">
             <ul className="plan-calendar-grid-container">
               {weekOfDay.map((day) => (
@@ -80,31 +104,68 @@ const PlanCalendar = () => {
                   {day}
                 </li>
               ))}
-              {datesOfMonth.map((date, index) => (
+              {dates.map((date, index) => (
                 <li
-                  className={`plan-calendar-grid-item date ${
+                  className={`plan-calendar-grid-item date${
                     index % 7 === 0
-                      ? "sunday"
+                      ? " sunday"
                       : index % 7 === 6
-                      ? "saturday"
-                      : today.toLocaleDateString() ===
+                      ? " saturday"
+                      : ""
+                  }${
+                    today.toLocaleDateString() ===
+                    new Date(year, month, date).toLocaleDateString()
+                      ? " today"
+                      : ""
+                  }${date - 1 > index ? " last-month" : ""}${
+                    (date - 1 <= index &&
+                      selected.has(
                         new Date(year, month, date).toLocaleDateString()
-                      ? "today"
+                      )) ||
+                    (date - 1 > index &&
+                      selected.has(
+                        new Date(year, month - 1, date).toLocaleDateString()
+                      ))
+                      ? " selected"
+                      : ""
+                  }${
+                    (date - 1 <= index &&
+                      selects.length === 1 &&
+                      selects[0] < new Date(year, month, date) &&
+                      new Date(year, month, date) < possible) ||
+                    (date - 1 > index &&
+                      selects.length === 1 &&
+                      selects[0] < new Date(year, month - 1, date))
+                      ? " possible"
                       : ""
                   }`}
-                  key={`${year}${month}${date}`}
-                  onClick={() => selectDate(new Date(year, month, date))}
+                  key={
+                    date - 1 > index
+                      ? `${year}${month - 1}${date}`
+                      : `${year}${month}${date}`
+                  }
+                  onClick={
+                    date - 1 <= index
+                      ? () => selectDate(new Date(year, month, date))
+                      : undefined
+                  }
                 >
                   {date}
                 </li>
               ))}
             </ul>
           </span>
-          <span className="plan-calendar-next">
+          {/* <span className="plan-calendar-next">
             <LuChevronRight />
-          </span>
+          </span> */}
         </section>
       </div>
+
+      <section
+        className={`plan-calendar-btn${selects.length > 1 ? " active" : ""}`}
+      >
+        <button>다음</button>
+      </section>
     </div>
   );
 };

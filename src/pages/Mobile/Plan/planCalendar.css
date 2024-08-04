@@ -45,6 +45,10 @@
             line-height: 29px;
             height: 29px;
             font-size: 14px;
+            cursor: pointer;
+            background-color: transparent;
+            transition: background-color 0.3s ease-in-out,
+              color 0.3s ease-in-out;
           }
 
           .plan-calendar-grid-item.day {
@@ -64,12 +68,63 @@
             color: var(--basic-color);
             font-weight: bold;
           }
+          .selected {
+            color: white;
+            font-weight: bold;
+            background-color: var(--basic-color);
+            transition: background-color 0.3s ease-in-out,
+              color 0.3s ease-in-out;
+          }
+          .possible {
+            background-color: rgba(0, 206, 124, 0.3);
+            transition: background-color 0.3s ease-in-out,
+              color 0.3s ease-in-out;
+          }
+          .last-month {
+            color: #ccc;
+          }
         }
       }
       .plan-calendar-next {
         border: 1px solid #ccc;
         text-align: center;
       }
+    }
+  }
+  .plan-calendar-btn {
+    margin-top: 10px;
+    margin-right: 10%;
+    text-align: right;
+
+    visibility: hidden;
+    max-height: 0px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+
+    button {
+      border: none;
+      padding: 5px 10px;
+      border-radius: 10px;
+      color: #fff;
+      background-color: var(--basic-color);
+    }
+  }
+  .plan-calendar-btn.active {
+    margin-top: 10px;
+    margin-right: 10%;
+    text-align: right;
+
+    visibility: visible;
+    max-height: 100px;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+
+    button {
+      border: none;
+      padding: 5px 10px;
+      border-radius: 10px;
+      color: #fff;
+      background-color: var(--basic-color);
     }
   }
 }
