@@ -19,7 +19,7 @@ const Plan = () => {
       {!hash || hash === "#calendar" ? (
         <PlanCalendar dates={dates} setDates={setDates} />
       ) : (
-        <PlanPlaces metroId={metroId} />
+        <PlanPlaces metroId={metroId} dates={dates} />
       )}
     </div>
   );

@@ -7,12 +7,16 @@ import { fetchPlacesAPI } from "apis/plan";
 import { PlaceApiType } from "types/place";
 import PlanPlaceCard from "./PlanPlaceCard";
 import PlanSelectedPlaceCard from "./PlanSelectedPlaceCard";
+import { metros } from "data/metros";
+import { getMetroName } from "utilities/metros";
+import { convertDateTypeToDate1 } from "utilities/date";
 
 export interface PlanPlacesProps {
   metroId: string;
+  dates: Date[];
 }
 
-const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
+const PlanPlaces = ({ metroId, dates }: PlanPlacesProps) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [places, setPlaces] = useState<PlaceApiType[]>([]);
@@ -35,7 +39,12 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
       });
   }, [metroId, contentTypeId, pageNo]);
 
-  console.log(places);
+  useEffect(() => {
+    if (dates.length === 0) return navigate("#calendar");
+  }, [dates]);
+
+  const startDate = convertDateTypeToDate1(dates[0]);
+  const endDate = convertDateTypeToDate1(dates[dates.length - 1]);
 
   const handleOpen = (containerName: string) => {
     if (containerName === open) {
@@ -65,8 +74,8 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
       <section className="plan-places-info">
         <h3 className="plan-placesd-info-title">장소</h3>
         <div className="plan-places-info-detail">
-          <div>지역</div>
-          <div>날짜</div>
+          <div>{getMetroName(metroId)}</div>
+          <div>{`${startDate}~${endDate}`}</div>
         </div>
       </section>
       <section className="plan-places-btns">
@@ -78,8 +87,10 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
           이전
         </button>
         <button
-          className="plan-places-btns next"
-          onClick={() => navigate(`#accomm`)}
+          className={`plan-places-btns next ${
+            selectedPlaces.length !== 0 ? "active" : ""
+          }`}
+          onClick={() => navigate(`#final`)}
         >
           다음
           <LuChevronRight />
@@ -99,7 +110,7 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
         <ul className="plan-places-main-container">
           <div className="plan-places-main-tags">
             <span
-              className={`plac-places-main-tags-item ${
+              className={`plan-places-main-tags-item ${
                 contentTypeId === "12" ? "active" : ""
               }`}
               onClick={(e) => handleContentTypeId(e, "12")}
@@ -107,7 +118,7 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
               관광
             </span>
             <span
-              className={`plac-places-main-tags-item ${
+              className={`plan-places-main-tags-item ${
                 contentTypeId === "14" ? "active" : ""
               }`}
               onClick={(e) => handleContentTypeId(e, "14")}
@@ -115,7 +126,7 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
               문화
             </span>
             <span
-              className={`plac-places-main-tags-item ${
+              className={`plan-places-main-tags-item ${
                 contentTypeId === "39" ? "active" : ""
               }`}
               onClick={(e) => handleContentTypeId(e, "39")}
@@ -154,7 +165,7 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
         <ul className="plan-places-main-container">
           <div className="plan-places-main-tags">
             <span
-              className={`plac-places-main-tags-item ${
+              className={`plan-places-main-tags-item ${
                 contentTypeId === "32" ? "active" : ""
               }`}
             >
@@ -190,6 +201,7 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
         </div>
 
         <ul className="plan-places-main-container">
+          <div className="plan-places-main-tags deactive"></div>
           {selectedPlaces.length === 0 && <li>선택한 장소가 없습니다.</li>}
           {selectedPlaces.map((selectedPlace) => (
             <PlanSelectedPlaceCard

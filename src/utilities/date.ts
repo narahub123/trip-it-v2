@@ -14,3 +14,13 @@ export const convertYYYYMMDDToDate2 = (origin: string) => {
 
   return `${month}.${date}.`;
 };
+
+export const convertDateTypeToDate1 = (origin: Date) => {
+  const d = new Date(origin);
+
+  const year = origin.getFullYear();
+  const month = origin.getMonth() + 1;
+  const date = origin.getDate();
+
+  return `${month}.${date}.`;
+};
