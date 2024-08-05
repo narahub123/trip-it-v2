@@ -1,4 +1,4 @@
-import { updatePasswordAPI, updateProfileAPI } from "apis/mypage/profile";
+import { updatePasswordAPI, updateProfileAPI } from "apis/profile";
 import { Ref, RefObject, useCallback } from "react";
 import { proflieMsgs } from "templates/data/message";
 import { fetchMessage } from "templates/utilities/template";

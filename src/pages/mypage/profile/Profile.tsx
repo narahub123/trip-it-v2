@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRenderCount } from "@uidotdev/usehooks";
 import {
   fetchProfileAPI, // 프로필 정보 가져오기 API
-} from "apis/mypage/profile";
+} from "apis/profile";
 import { ProfileType, UserType } from "types/users";
 import { convertDataToDate, handleImageUpload } from "utilities/profile";
 

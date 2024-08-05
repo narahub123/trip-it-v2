@@ -1,0 +1,120 @@
+.plan-places {
+  padding: 10px;
+
+  section {
+    margin: 10px 0px;
+  }
+  .plan-places-info {
+    .plan-places-info-title {
+    }
+    .plan-places-info-detail {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .plan-places-btns {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      background-color: var(--basic-color);
+    }
+
+    .before {
+      display: flex;
+      align-items: center;
+      padding: 5px 10px 5px 5px;
+      gap: 5px;
+    }
+
+    .next {
+      display: flex;
+      align-items: center;
+      padding: 5px 5px 5px 10px;
+      gap: 5px;
+    }
+  }
+
+  .plan-places-main {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+
+    .plan-places-main-title {
+      display: flex;
+      justify-content: space-between;
+
+      .plan-places-main-title-icon {
+        transform: rotate(0deg);
+        transition: transform 0.2s ease-in-out;
+      }
+    }
+
+    .plan-places-main-container {
+      visibility: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  .plan-places-main.active {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+
+    .plan-places-main-title {
+      display: flex;
+      justify-content: space-between;
+
+      .plan-places-main-title-icon {
+        transform: rotate(-180deg);
+        transition: transform 0.2s ease-in-out;
+      }
+    }
+    .plan-places-main-container {
+      visibility: visible;
+      max-height: 500px;
+      opacity: 1;
+      transition: all 0.2s ease-in-out;
+
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+
+      .plan-places-main-tags {
+        font-size: 12px;
+        margin-bottom: 10px;
+        color: #fff;
+        display: flex;
+
+        align-items: center;
+        gap: 5px;
+        .plac-places-main-tags-item {
+          padding: 5px;
+          border-radius: 5px;
+        }
+        .plac-places-main-tags-item.tour {
+          background-color: blue;
+          line-height: 18px;
+        }
+        .plac-places-main-tags-item.culture {
+          background-color: violet;
+          line-height: 18px;
+        }
+        .plac-places-main-tags-item.food {
+          background-color: gray;
+          line-height: 18px;
+        }
+        .plac-places-main-tags-item.sleep {
+          background-color: pink;
+          line-height: 18px;
+        }
+      }
+    }
+  }
+}

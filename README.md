@@ -212,3 +212,11 @@
  ### useCallback, React.memo, custom hook, forwardRef를 이용한 렌더링 횟수 줄이기  
 
 </details>
+
+<details>
+<summary>2024년 8월 5일</summary>
+
+## 일정 장소 구현 
+###
+
+</details>

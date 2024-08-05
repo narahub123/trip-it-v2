@@ -5,7 +5,7 @@ import useHandleClickImage from "../mypage/hooks/useHandleClickImage";
 import { profileForm, userData } from "test/data/profile";
 import { convertDataToDate } from "utilities/profile";
 import { LuPencil, LuClipboardEdit } from "react-icons/lu";
-import { updateProfileAPI } from "apis/mypage/profile";
+import { updateProfileAPI } from "apis/profile";
 import { MessageType } from "types/template";
 import { fetchMessage } from "templates/utilities/template";
 import { proflieMsgs } from "templates/data/message";

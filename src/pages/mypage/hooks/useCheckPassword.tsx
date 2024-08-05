@@ -1,4 +1,4 @@
-import { checkPassordAPI } from "apis/mypage/profile";
+import { checkPassordAPI } from "apis/profile";
 import { RefObject, useCallback } from "react";
 import { proflieMsgs } from "templates/data/message";
 import { fetchMessage } from "templates/utilities/template";
