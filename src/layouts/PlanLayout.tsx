@@ -1,11 +1,11 @@
 import Footer from "templates/Moblie/components/Footer";
 import "./planLayout.css";
-import PlanCalendar from "pages/Plan/PlanCalendar";
+import Plan from "pages/Plan/Plan";
 
 const PlanLayout = () => {
   return (
     <div className="plan-layout">
-      <PlanCalendar />
+      <Plan />
       <div className="mypage-footer-blank" />
       <Footer />
     </div>

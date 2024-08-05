@@ -91,40 +91,32 @@
       }
     }
   }
-  .plan-calendar-btn {
-    margin-top: 10px;
-    margin-right: 10%;
-    text-align: right;
+  .plan-calendar-btns {
+    /* margin-top: 10px; */
+    margin: 10px 27px;
+    display: flex;
+    justify-content: space-between;
 
-    visibility: hidden;
-    max-height: 0px;
-    opacity: 0;
-    transition: all 0.2s ease-in-out;
-
-    button {
+    .plan-calendar-btns-btn {
       border: none;
-      padding: 5px 10px;
       border-radius: 10px;
+      padding: 5px 10px;
       color: #fff;
       background-color: var(--basic-color);
     }
-  }
-  .plan-calendar-btn.active {
-    margin-top: 10px;
-    margin-right: 10%;
-    text-align: right;
 
-    visibility: visible;
-    max-height: 100px;
-    opacity: 1;
-    transition: all 0.2s ease-in-out;
+    .plan-calendar-btns-btn.next {
+      visibility: hidden;
+      max-height: 0px;
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+    }
 
-    button {
-      border: none;
-      padding: 5px 10px;
-      border-radius: 10px;
-      color: #fff;
-      background-color: var(--basic-color);
+    .plan-calendar-btns-btn.next.active {
+      visibility: visible;
+      max-height: 100px;
+      opacity: 1;
+      transition: all 0.2s ease-in-out;
     }
   }
 }

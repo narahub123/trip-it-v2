@@ -1,77 +1,19 @@
-import "./plan.css";
-import { metros } from "data/metros";
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import MobileModal from "templates/Moblie/components/MobileModal";
-import { MessageType } from "types/template";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import PlanCalendar from "./PlanCalendar";
 
 const Plan = () => {
-  const navigate = useNavigate();
-  const [message, setMessage] = useState<MessageType>();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [search, setSearch] = useState("");
-  const [focus, setFocus] = useState(false);
+  const { hash } = useLocation();
+  const [dates, setDates] = useState<Date[]>([]);
 
-  const checkFocus = () => {
-    if (inputRef.current) {
-      setFocus(document.activeElement === inputRef.current);
-    }
-  };
+  console.log(hash);
+  console.log("선택 날짜", dates);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const search = e.currentTarget.value;
-
-    setSearch(search);
-  };
-
-  const showDetail = (areaCode: string) => {
-    console.log(areaCode);
-    const metro = metros.find((item) => item.areaCode === areaCode);
-
-    if (!metro) return;
-    setMessage({
-      msgId: 3,
-      type: "move",
-      msgs: {
-        header: metro.name,
-        main: metro.description,
-      },
-      params: areaCode,
-    });
-  };
   return (
     <div className="plan">
-      {message && <MobileModal message={message} setMessage={setMessage} />}
-      <section className="plan-title">
-        <h3>지역 검색</h3>
-      </section>
-      <section className="plan-search">
-        <input
-          type="text"
-          className="plan-search-box"
-          placeholder={focus ? "" : "#지역 검색"}
-          ref={inputRef}
-          onChange={(e) => handleSearch(e)}
-          onFocus={checkFocus}
-          onBlur={checkFocus}
-        />
-      </section>
-      <section className="plan-grid">
-        <ul className="plan-grid-container">
-          {metros
-            .filter((item) => item.name.includes(search))
-            .map((metro) => (
-              <li
-                className="plan-grid-item"
-                key={metro.areaCode}
-                onClick={() => showDetail(metro.areaCode)}
-              >
-                <img src={metro.imgUrl} alt="" />
-                <div className="plan-grid-item-title">{metro.name}</div>
-              </li>
-            ))}
-        </ul>
-      </section>
+      {(!hash || hash === "#calendar") && (
+        <PlanCalendar dates={dates} setDates={setDates} />
+      )}
     </div>
   );
 };

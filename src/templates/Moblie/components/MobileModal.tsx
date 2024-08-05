@@ -36,7 +36,7 @@ const MobileModal = ({ message, setMessage, password }: MobileModalProps) => {
   const moveToNext = () => {
     const areaCode = message.params;
 
-    navigate(`/planner/${areaCode}`);
+    navigate(`/planner/${areaCode}#calendar`);
   };
 
   // modal 밖을 클릭하면 모달창이 닫힘

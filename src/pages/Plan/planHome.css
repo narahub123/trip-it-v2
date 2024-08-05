@@ -1,17 +1,17 @@
-.plan {
+.plan-home {
   img {
     padding: 0;
     margin: 0;
   }
-  .plan-title {
+  .plan-home-title {
     text-align: center;
     margin-top: 60px;
   }
-  .plan-search {
+  .plan-home-search {
     text-align: center;
     margin: 50px 0px 60px;
 
-    .plan-search-box {
+    .plan-home-search-box {
       width: 70%;
       padding: 10px 10px;
       border: 1px solid #ccc;
@@ -19,17 +19,17 @@
       box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
     }
   }
-  .plan-grid {
+  .plan-home-grid {
     padding: 0px 10px;
 
-    .plan-grid-container {
+    .plan-home-grid-container {
       display: grid;
       /* 1fr의 너비 제한 */
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-rows: auto;
       grid-gap: 20px;
 
-      .plan-grid-item {
+      .plan-home-grid-item {
         margin: 0 auto;
         width: 97%;
         box-sizing: border-box;
@@ -46,7 +46,7 @@
           object-fit: cover;
           border-radius: 10px 10px 0 0px;
         }
-        .plan-grid-item-title {
+        .plan-home-grid-item-title {
           font-size: 13px;
           text-align: center;
           margin-bottom: 4px;
