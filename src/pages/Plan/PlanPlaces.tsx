@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { fetchPlacesAPI } from "apis/plan";
 import { PlaceApiType } from "types/place";
 import PlanPlaceCard from "./PlanPlaceCard";
+import PlanSelectedPlaceCard from "./PlanSelectedPlaceCard";
 
 export interface PlanPlacesProps {
   metroId: string;
@@ -149,6 +150,7 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
             <IoIosArrowDropup />
           </span>
         </div>
+
         <ul className="plan-places-main-container">
           <div className="plan-places-main-tags">
             <span
@@ -186,17 +188,17 @@ const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
             <IoIosArrowDropup />
           </span>
         </div>
+
         <ul className="plan-places-main-container">
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
+          {selectedPlaces.length === 0 && <li>선택한 장소가 없습니다.</li>}
+          {selectedPlaces.map((selectedPlace) => (
+            <PlanSelectedPlaceCard
+              metroId={metroId}
+              contentId={selectedPlace}
+              selectedPlaces={selectedPlaces}
+              setSelectedPlaces={setSelectedPlaces}
+            />
+          ))}
         </ul>
       </section>
     </div>
