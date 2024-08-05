@@ -78,7 +78,7 @@
     }
     .plan-places-main-container {
       visibility: visible;
-      max-height: 500px;
+      max-height: 10000px;
       opacity: 1;
       transition: all 0.2s ease-in-out;
 
@@ -94,26 +94,28 @@
 
         align-items: center;
         gap: 5px;
+
         .plac-places-main-tags-item {
+          background-color: #eee;
+          color: gray;
           padding: 5px;
           border-radius: 5px;
+          transition: all 0.2s ease-in-out;
         }
-        .plac-places-main-tags-item.tour {
-          background-color: blue;
+        .plac-places-main-tags-item.active {
+          background-color: var(--basic-color);
           line-height: 18px;
+          color: #fff;
+          transition: all 0.2s ease-in-out;
         }
-        .plac-places-main-tags-item.culture {
-          background-color: violet;
-          line-height: 18px;
-        }
-        .plac-places-main-tags-item.food {
-          background-color: gray;
-          line-height: 18px;
-        }
-        .plac-places-main-tags-item.sleep {
-          background-color: pink;
-          line-height: 18px;
-        }
+      }
+
+      .plan-places-main-loading {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin: 10px 0;
+        padding: 20px 0;
+        text-align: center;
       }
     }
   }
