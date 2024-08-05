@@ -2,11 +2,39 @@ import { useNavigate } from "react-router-dom";
 import "./planPlaces.css";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchPlacesAPI } from "apis/plan";
+import { PlaceApiType } from "types/place";
+import PlanPlaceCard from "./PlanPlaceCard";
 
-const PlanPlaces = () => {
+export interface PlanPlacesProps {
+  metroId: string;
+}
+
+const PlanPlaces = ({ metroId }: PlanPlacesProps) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [places, setPlaces] = useState<PlaceApiType[]>([]);
+  const [pageNo, setPageNo] = useState("1");
+  const [contentTypeId, setContentTypeId] = useState("12");
   const [open, setOpen] = useState("place");
+
+  useEffect(() => {
+    setLoading(true);
+    fetchPlacesAPI(metroId, pageNo, contentTypeId)
+      .then((res) => {
+        if (!res) return;
+
+        setPlaces(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  }, [metroId, contentTypeId, pageNo]);
+
+  console.log(places);
+
   return (
     <div className="plan-places">
       <section className="plan-places-info">
@@ -45,15 +73,28 @@ const PlanPlaces = () => {
 
         <ul className="plan-places-main-container">
           <div className="plan-places-main-tags">
-            <span className="plac-places-main-tags-item tour">관광</span>
-            <span className="plac-places-main-tags-item culture">문화</span>
-            <span className="plac-places-main-tags-item food">음식</span>
+            <span
+              className="plac-places-main-tags-item tour"
+              onClick={() => setContentTypeId("12")}
+            >
+              관광
+            </span>
+            <span
+              className="plac-places-main-tags-item culture"
+              onClick={() => setContentTypeId("14")}
+            >
+              문화
+            </span>
+            <span
+              className="plac-places-main-tags-item food"
+              onClick={() => setContentTypeId("39")}
+            >
+              음식
+            </span>
           </div>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
-          <li>하이</li>
+          {loading
+            ? "loading"
+            : places.map((place) => <PlanPlaceCard place={place} />)}
         </ul>
       </section>
       <section
