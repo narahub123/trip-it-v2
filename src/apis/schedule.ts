@@ -1,4 +1,5 @@
 import axios from "axios";
+import { scheduleDetailDtoType, scheduleDtoType } from "types/plan";
 import { getCookie } from "utilities/Cookie";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
@@ -114,6 +115,33 @@ export const deleteSchedulesAAPI = async (sheduleIds: (string | number)[]) => {
       `${baseURL}/admin/schedules/delete`,
       {
         sheduleIds,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json", // 요청 본문이 JSON 형식임을 지정
+          Access: `${localStorage.getItem("access")}`, // 액세스 토큰을 요청 헤더에 포함
+          Refresh: `${getCookie("refresh")}`, // 리프레시 토큰을 요청 헤더에 포함
+        },
+        withCredentials: true, // 쿠키와 자격 증명을 포함하여 요청
+      }
+    );
+
+    return response;
+  } catch (err) {
+    throw { err };
+  }
+};
+
+// 일정 등록하기
+export const saveSchedule = (value: {
+  scheduleDto: scheduleDtoType;
+  detailScheduleDto: scheduleDetailDtoType[];
+}) => {
+  try {
+    const response = axios.post(
+      `${baseURL}/mypage/schedules/delete`,
+      {
+        value,
       },
       {
         headers: {

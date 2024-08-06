@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "./planSelectedPlaceCard.css";
 import { metros } from "data/metros";
 import { PlaceApiType } from "types/place";
-import { fetchPlaceAPI } from "apis/plan";
 import { LuCheck, LuChevronUp } from "react-icons/lu";
+import { fetchPlaceAPI } from "apis/place";
 
 export interface PlanSelectedPlaceCardProps {
   metroId: string;
@@ -96,7 +96,9 @@ const PlanSelectedPlaceCard = ({
         </span>
       </div>
       <div
-        className={`plan-places-main-selectedcard-lower${openDepict ? "-active" : ""}`}
+        className={`plan-places-main-selectedcard-lower${
+          openDepict ? "-active" : ""
+        }`}
       >
         <div className="plan-places-main-selectedcard-depict">
           <div className="plan-places-main-selectedcard-depict-title">설명</div>

@@ -24,3 +24,21 @@ export const convertDateTypeToDate1 = (origin: Date) => {
 
   return `${month}.${date}.`;
 };
+
+export const convertDateTypeToDate2 = (origin: Date) => {
+  const d = new Date(origin);
+
+  const year = origin.getFullYear();
+  const month = origin.getMonth() + 1;
+  const date = origin.getDate();
+
+  return `${year}년 ${month}월 ${date}일`;
+};
+
+export const convertDateToYYYYMMDD = (origin: Date) => {
+  const year = origin.getFullYear();
+  const month = (origin.getMonth() + 1).toString().padStart(2, "0");
+  const date = origin.getDate().toString().padStart(2, "0");
+
+  return `${year}${month}${date}`;
+};

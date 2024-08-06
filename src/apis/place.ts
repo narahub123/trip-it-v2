@@ -62,3 +62,4 @@ export const fetchPlacesByKeyword = async (
     return places;
   } catch (err: any) {}
 };
+

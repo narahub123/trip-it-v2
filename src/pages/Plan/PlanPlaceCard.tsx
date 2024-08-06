@@ -2,8 +2,9 @@ import { PlaceApiType } from "types/place";
 import "./planPlaceCard.css";
 import { LuCheck, LuChevronUp, LuPlus } from "react-icons/lu";
 import { metros } from "data/metros";
-import { fetchPlaceAPI } from "apis/plan";
+
 import { useState } from "react";
+import { fetchPlaceAPI } from "apis/place";
 
 export interface PlanPlaceCardProps {
   place: PlaceApiType;

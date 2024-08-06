@@ -1,0 +1,148 @@
+.plan-submit-column-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  font-size: 12px;
+
+  .plan-submit-column-card-upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .plan-submit-column-card-info {
+      width: 85%;
+      display: inline-flex;
+      gap: 5px;
+      .plan-submit-column-card-info-photo {
+        img {
+          display: block;
+          width: 50px;
+          height: 50px;
+          border-radius: 10px;
+        }
+      }
+      .plan-submit-column-card-info-detail {
+        width: calc(100% - 50px);
+        .plan-submit-column-card-info-detail-title {
+          font-size: 13px;
+          font-weight: bold;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .plan-submit-column-card-info-detail-hour {
+          margin: 10px 0;
+          display: flex;
+          gap: 2px;
+        }
+      }
+    }
+
+    .plan-submit-column-card-btn {
+      position: relative;
+      button {
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        color: gray;
+      }
+      .plan-submit-column-card-btn-more {
+        padding: 15px 4px;
+        background-color: var(--basic-color);
+        color: #fff;
+      }
+      .plan-submit-column-card-btn-container {
+        position: absolute;
+        right: 0;
+        width: 40px;
+        background-color: #fff;
+        margin-top: 5px;
+        z-index: 1;
+        border: 1px solid #ccc;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+
+        .plan-submit-column-card-btn-item {
+          padding: 5px;
+          text-align: center;
+        }
+      }
+
+      .plan-submit-column-card-btn-container.active {
+        visibility: visible;
+        max-height: 200px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+  }
+
+  .plan-submit-column-card-lower {
+    border-top: 0px solid #ccc;
+    margin-top: 0px;
+    padding-top: 0px;
+
+    visibility: hidden;
+    max-height: 0px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+
+    .plan-submit-column-card-depict {
+      box-sizing: border-box;
+      max-height: 100px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 5px;
+
+      .plan-submit-column-card-depict-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    }
+
+    .plan-submit-column-card-map {
+      box-sizing: border-box;
+      height: 200px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-top: 5px;
+    }
+  }
+
+  .plan-submit-column-card-lower-active {
+    border-top: 1px solid #ccc;
+    margin-top: 5px;
+    padding-top: 5px;
+
+    visibility: visible;
+    max-height: 600px;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+
+    .plan-submit-column-card-depict {
+      box-sizing: border-box;
+      max-height: 100px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 5px;
+
+      .plan-submit-column-card-depict-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    }
+
+    .plan-submit-column-card-map {
+      box-sizing: border-box;
+      height: 200px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-top: 5px;
+    }
+  }
+}

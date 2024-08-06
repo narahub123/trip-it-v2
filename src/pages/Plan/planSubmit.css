@@ -1,0 +1,100 @@
+.plan-submit {
+  padding: 10px;
+  .plan-submit-header {
+  }
+  .plan-submit-title {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+
+    label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      p {
+        line-height: 26px;
+        vertical-align: center;
+      }
+      input[type="text"] {
+        flex: 1;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 5px;
+      }
+    }
+  }
+  .plan-submit-main {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+
+    .plan-submit-main-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .plan-submit-main-title-icon {
+        transform: rotate(0deg);
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .plan-submit-main-title-icon.active {
+        transform: rotate(-180deg);
+        transition: transform 0.2s ease-in-out;
+      }
+    }
+
+    .plan-submit-main-container {
+      visibility: hidden;
+      max-height: 0px;
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+    }
+    .plan-submit-main-container.active {
+      margin-top: 20px;
+      visibility: visible;
+      max-height: 1000px;
+      opacity: 1;
+      transition: all 0.2s ease-in-out;
+
+      .plan-submit-main-map {
+        box-sizing: border-box;
+        height: 200px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .plan-submit-btns {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 5px 10px;
+      background-color: var(--basic-color);
+      color: #fff;
+    }
+    .plan-submit-btns-prev {
+    }
+    .plan-submit-btns-submit {
+      visibility: hidden;
+      max-height: 0px;
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+    }
+    .plan-submit-btns-submit-active {
+      visibility: visible;
+      max-height: 100px;
+      opacity: 1;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+}

@@ -3,27 +3,33 @@ import "./planPlaces.css";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { useEffect, useState } from "react";
-import { fetchPlacesAPI } from "apis/plan";
 import { PlaceApiType } from "types/place";
 import PlanPlaceCard from "./PlanPlaceCard";
 import PlanSelectedPlaceCard from "./PlanSelectedPlaceCard";
 import { metros } from "data/metros";
 import { getMetroName } from "utilities/metros";
 import { convertDateTypeToDate1 } from "utilities/date";
+import { fetchPlacesAPI } from "apis/place";
 
 export interface PlanPlacesProps {
   metroId: string;
   dates: Date[];
+  selectedPlaces: string[];
+  setSelectedPlaces: (value: string[]) => void;
 }
 
-const PlanPlaces = ({ metroId, dates }: PlanPlacesProps) => {
+const PlanPlaces = ({
+  metroId,
+  dates,
+  selectedPlaces,
+  setSelectedPlaces,
+}: PlanPlacesProps) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [places, setPlaces] = useState<PlaceApiType[]>([]);
   const [pageNo, setPageNo] = useState("1");
   const [contentTypeId, setContentTypeId] = useState("12");
   const [open, setOpen] = useState("place");
-  const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -90,7 +96,7 @@ const PlanPlaces = ({ metroId, dates }: PlanPlacesProps) => {
           className={`plan-places-btns next ${
             selectedPlaces.length !== 0 ? "active" : ""
           }`}
-          onClick={() => navigate(`#final`)}
+          onClick={() => navigate(`#submit`)}
         >
           다음
           <LuChevronRight />
@@ -209,6 +215,7 @@ const PlanPlaces = ({ metroId, dates }: PlanPlacesProps) => {
               contentId={selectedPlace}
               selectedPlaces={selectedPlaces}
               setSelectedPlaces={setSelectedPlaces}
+              key={selectedPlace}
             />
           ))}
         </ul>

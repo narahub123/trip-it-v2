@@ -187,6 +187,7 @@
 ### 차단 페이지 적용하기
 
 ### 유저 페이지 적용하기
+
 </details>
 
 <details>
@@ -209,14 +210,25 @@
 <summary>2024년 7월 31일</summary>
 
 ## 마이페이지 리팩토링
- ### useCallback, React.memo, custom hook, forwardRef를 이용한 렌더링 횟수 줄이기  
+
+### useCallback, React.memo, custom hook, forwardRef를 이용한 렌더링 횟수 줄이기
 
 </details>
 
 <details>
 <summary>2024년 8월 5일</summary>
 
-## 일정 장소 구현 
+## 일정 장소 구현
+
+###
+
+</details>
+
+<details>
+<summary>2024년 8월 6일</summary>
+
+## 일정 등록 구현
+
 ###
 
 </details>
