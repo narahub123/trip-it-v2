@@ -5,14 +5,14 @@ import { PlaceApiType } from "types/place";
 import { metros } from "data/metros";
 import { LuChevronUp, LuMoreHorizontal } from "react-icons/lu";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import { scheduleDetailDtoType } from "types/plan";
+import { ScheduleDetailDtoInputType } from "types/plan";
 import { fetchPlaceAPI } from "apis/place";
 
 export interface PlanSubmitSelectedPlaceCardProps
   extends PlanSelectedPlaceCardProps {
   dates: Date[];
-  columns: { [key: string]: scheduleDetailDtoType[] };
-  setColumns: (value: { [key: string]: scheduleDetailDtoType[] }) => void;
+  columns: { [key: string]: ScheduleDetailDtoInputType[] };
+  setColumns: (value: { [key: string]: ScheduleDetailDtoInputType[] }) => void;
   setOpenAccordin: (value: string) => void;
 }
 

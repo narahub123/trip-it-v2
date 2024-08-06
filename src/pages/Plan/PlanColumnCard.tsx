@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { LuChevronUp, LuMoreHorizontal } from "react-icons/lu";
 import { PlaceApiType } from "types/place";
 import Dropdown from "./components/Dropdown";
-import { scheduleDetailDtoType } from "types/plan";
+import { ScheduleDetailDtoInputType } from "types/plan";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { fetchPlaceAPI } from "apis/place";
 
@@ -14,9 +14,9 @@ export interface PlanColumnCardProps {
   metroId: string;
   date: Date;
   dates: Date[];
-  detail: scheduleDetailDtoType;
-  columns: { [key: string]: scheduleDetailDtoType[] };
-  setColumns: (value: { [key: string]: scheduleDetailDtoType[] }) => void;
+  detail: ScheduleDetailDtoInputType;
+  columns: { [key: string]: ScheduleDetailDtoInputType[] };
+  setColumns: (value: { [key: string]: ScheduleDetailDtoInputType[] }) => void;
   setOpenAccordin: (value: string) => void;
 }
 

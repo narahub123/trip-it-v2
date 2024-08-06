@@ -4,7 +4,7 @@ import PlanCalendar from "./PlanCalendar";
 import PlanPlaces from "./PlanPlaces";
 import PlanSubmit from "./PlanSubmit";
 import { convertDateTypeToDate2 } from "utilities/date";
-import { scheduleDetailDtoType } from "types/plan";
+import { ScheduleDetailDtoInputType } from "types/plan";
 
 const Plan = () => {
   const { hash } = useLocation();
@@ -15,7 +15,7 @@ const Plan = () => {
   const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
   const [dates, setDates] = useState<Date[]>([]);
   const [columns, setColumns] = useState<{
-    [key: string]: scheduleDetailDtoType[];
+    [key: string]: ScheduleDetailDtoInputType[];
   }>({});
 
   useEffect(() => {

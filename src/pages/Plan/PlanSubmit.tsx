@@ -4,7 +4,7 @@ import PlanSubmitSelectedPlaceCard from "./PlanSubmitSelectedPlaceCard";
 import { convertDateToYYYYMMDD, convertDateTypeToDate2 } from "utilities/date";
 import { useState } from "react";
 import PlanColumnCard from "./PlanColumnCard";
-import { scheduleDetailDtoType } from "types/plan";
+import { ScheduleDetailDtoInputType } from "types/plan";
 import { useNavigate } from "react-router-dom";
 import { saveSchedule } from "apis/schedule";
 export interface PlanSubmitProps {
@@ -12,8 +12,8 @@ export interface PlanSubmitProps {
   dates: Date[];
   selectedPlaces: string[];
   setSelectedPlaces: (value: string[]) => void;
-  columns: { [key: string]: scheduleDetailDtoType[] };
-  setColumns: (value: { [key: string]: scheduleDetailDtoType[] }) => void;
+  columns: { [key: string]: ScheduleDetailDtoInputType[] };
+  setColumns: (value: { [key: string]: ScheduleDetailDtoInputType[] }) => void;
 }
 const PlanSubmit = ({
   metroId,
@@ -46,7 +46,7 @@ const PlanSubmit = ({
     const start = convertDateToYYYYMMDD(dates[0]);
     const end = convertDateToYYYYMMDD(dates[dates.length - 1]);
 
-    const scheduleDetails: scheduleDetailDtoType[] = [];
+    const scheduleDetails: ScheduleDetailDtoInputType[] = [];
     const values = Object.values(columns);
     console.log(values);
     for (let i = 0; i < values.length; i++) {
