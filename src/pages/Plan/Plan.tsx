@@ -4,7 +4,8 @@ import PlanCalendar from "./PlanCalendar";
 import PlanPlaces from "./PlanPlaces";
 import PlanSubmit from "./PlanSubmit";
 import { convertDateTypeToDate2 } from "utilities/date";
-import { ScheduleDetailDtoInputType } from "types/plan";
+import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
+import { PlaceApiType } from "types/place";
 
 const Plan = () => {
   const { hash } = useLocation();
@@ -12,10 +13,10 @@ const Plan = () => {
   const metroId = pathname.split("/")[2];
   console.log("지역 번호", metroId);
 
-  const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
+  const [selectedPlaces, setSelectedPlaces] = useState<PlaceApiType[]>([]);
   const [dates, setDates] = useState<Date[]>([]);
   const [columns, setColumns] = useState<{
-    [key: string]: ScheduleDetailDtoInputType[];
+    [key: string]: ColumnType[];
   }>({});
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const Plan = () => {
           dates={dates}
           selectedPlaces={selectedPlaces}
           setSelectedPlaces={setSelectedPlaces}
+          columns={columns}
         />
       ) : (
         <PlanSubmit

@@ -1,3 +1,12 @@
+import { PlaceApiType } from "./place";
+
+export interface ColumnType {
+  place: PlaceApiType;
+  scheduleOrder: number;
+  startTime: string;
+  endTime: string;
+}
+
 export interface ScheduleDtoInputType {
   metroId: string;
   startDate: string;

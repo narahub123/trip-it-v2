@@ -5,14 +5,17 @@ import { PlaceApiType } from "types/place";
 import { metros } from "data/metros";
 import { LuChevronUp, LuMoreHorizontal } from "react-icons/lu";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import { ScheduleDetailDtoInputType } from "types/plan";
+import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { fetchPlaceAPI } from "apis/place";
 
-export interface PlanSubmitSelectedPlaceCardProps
-  extends PlanSelectedPlaceCardProps {
+export interface PlanSubmitSelectedPlaceCardProps {
+  metroId: string;
+  contentId: string;
+  selectedPlaces: PlaceApiType[];
+  setSelectedPlaces: (value: PlaceApiType[]) => void;
   dates: Date[];
-  columns: { [key: string]: ScheduleDetailDtoInputType[] };
-  setColumns: (value: { [key: string]: ScheduleDetailDtoInputType[] }) => void;
+  columns: { [key: string]: ColumnType[] };
+  setColumns: (value: { [key: string]: ColumnType[] }) => void;
   setOpenAccordin: (value: string) => void;
 }
 
@@ -29,28 +32,14 @@ const PlanSubmitSelectedPlaceCard = ({
   const [loading, setLoading] = useState(false);
   const [openDepict, setOpenDepict] = useState(false);
   const [open, setOpen] = useState(false);
-  const [place, setPlace] = useState<PlaceApiType>();
+  const cardPlace = selectedPlaces?.find(
+    (p) => p.contentid === contentId
+  ) as PlaceApiType;
+  const [place, setPlace] = useState<PlaceApiType>(cardPlace);
 
   const defaultImage = metros.find(
     (metro) => metro.areaCode === metroId
   )?.imgUrl;
-
-  useEffect(() => {
-    setLoading(true);
-
-    fetchPlaceAPI(contentId)
-      .then((res) => {
-        if (!res) return;
-        console.log(res.data);
-
-        setPlace(res.data[0]);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, [contentId]);
 
   // 장소 상세 설명 열기
   const handlePlace = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
@@ -66,7 +55,7 @@ const PlanSubmitSelectedPlaceCard = ({
     e.stopPropagation();
 
     const newSelections = selectedPlaces.filter(
-      (selectedPlace) => selectedPlace !== contentId
+      (selectedPlace) => selectedPlace.contentid !== contentId
     );
 
     setSelectedPlaces(newSelections);
@@ -75,13 +64,15 @@ const PlanSubmitSelectedPlaceCard = ({
   // 선택한 날짜를 특정 날짜로 이동 시키기
   const handleAdd = (date: Date, order: number) => {
     const newDetail = {
-      contentId,
+      place,
       scheduleOrder: order,
       startTime: "06:00",
       endTime: "07:00",
     };
-    const newPlaces = selectedPlaces.filter((pl) => pl !== contentId);
+    const newPlaces = selectedPlaces.filter((pl) => pl.contentid !== contentId);
+
     const value = columns[convertDateTypeToDate2(date)];
+
     const newColumns = {
       ...columns,
       [convertDateTypeToDate2(date)]: [...value, newDetail],
@@ -106,6 +97,30 @@ const PlanSubmitSelectedPlaceCard = ({
           </span>
           <span className="plan-submit-main-selectedcard-info-detail">
             <div className="plan-submit-main-selectedcard-info-detail-title">
+              <span
+                className={`plan-submit-main-selectedcard-info-detail-title-type ${
+                  place?.contenttypeid === "12"
+                    ? "tour"
+                    : place?.contenttypeid === "14"
+                    ? "culture"
+                    : place?.contenttypeid === "39"
+                    ? "food"
+                    : place?.contenttypeid === "32"
+                    ? "accomm"
+                    : ""
+                }`}
+              >
+                {place &&
+                  (place.contenttypeid === "12"
+                    ? "관광"
+                    : place.contenttypeid === "14"
+                    ? "문화"
+                    : place.contenttypeid === "39"
+                    ? "식당"
+                    : place.contenttypeid === "32"
+                    ? "숙소"
+                    : "기타")}
+              </span>
               {place?.title}{" "}
               <span className="place-places-main-card-info-detail-title-more">
                 <LuChevronUp />

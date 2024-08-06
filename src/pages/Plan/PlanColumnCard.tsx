@@ -4,19 +4,17 @@ import { metros } from "data/metros";
 import { hourArr, minuteArr } from "data/plan";
 import React, { useEffect, useState } from "react";
 import { LuChevronUp, LuMoreHorizontal } from "react-icons/lu";
-import { PlaceApiType } from "types/place";
 import Dropdown from "./components/Dropdown";
-import { ScheduleDetailDtoInputType } from "types/plan";
+import { ColumnType } from "types/plan";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import { fetchPlaceAPI } from "apis/place";
 
 export interface PlanColumnCardProps {
   metroId: string;
   date: Date;
   dates: Date[];
-  detail: ScheduleDetailDtoInputType;
-  columns: { [key: string]: ScheduleDetailDtoInputType[] };
-  setColumns: (value: { [key: string]: ScheduleDetailDtoInputType[] }) => void;
+  detail: ColumnType;
+  columns: { [key: string]: ColumnType[] };
+  setColumns: (value: { [key: string]: ColumnType[] }) => void;
   setOpenAccordin: (value: string) => void;
 }
 
@@ -29,7 +27,6 @@ const PlanColumnCard = ({
   setColumns,
   setOpenAccordin,
 }: PlanColumnCardProps) => {
-  const [place, setPlace] = useState<PlaceApiType>();
   const [open, setOpen] = useState(false);
   const [openDepict, setOpenDepict] = useState(false);
 
@@ -45,15 +42,7 @@ const PlanColumnCard = ({
     (metro) => metro.areaCode === metroId
   )?.imgUrl;
 
-  // 외부 api에서 장소 정보 받아오기
-  useEffect(() => {
-    fetchPlaceAPI(detail.contentId).then((res) => {
-      if (!res) return;
-
-      setPlace(res.data[0]);
-    });
-  }, []);
-
+  const place = detail.place;
   // 시간 변경시 자동 업데이트 되게 하기
   useEffect(() => {
     const updatedColumns = { ...columns };
@@ -66,7 +55,7 @@ const PlanColumnCard = ({
     };
 
     const index = updatedColumns[columnKey].findIndex(
-      (item) => item.contentId === detail.contentId
+      (item) => item.place.contentid === detail.place.contentid
     );
 
     if (index !== -1) {
@@ -94,7 +83,7 @@ const PlanColumnCard = ({
     const value = columns[convertDateTypeToDate2(date)];
 
     const newSelections = value.filter(
-      (place) => place.contentId !== contentId
+      (place) => place.place.contentid !== contentId
     );
 
     setColumns({
@@ -109,7 +98,7 @@ const PlanColumnCard = ({
     const value = columns[convertDateTypeToDate2(date)];
 
     const newColumn = value.filter(
-      (item) => item.contentId !== detail.contentId
+      (item) => item.place.contentid !== detail.place.contentid
     );
     const newColumns = {
       ...columns,
@@ -122,7 +111,7 @@ const PlanColumnCard = ({
     console.log(index);
 
     const newDetail = {
-      contentId: detail.contentId,
+      place,
       scheduleOrder: index,
       startTime: "06:00",
       endTime: "07:00",
@@ -140,6 +129,7 @@ const PlanColumnCard = ({
     setOpen(false);
     setOpenAccordin(convertDateTypeToDate2(newDate));
   };
+
   return (
     <li className="plan-submit-column-card">
       <div className="plan-submit-column-card-upper">
@@ -152,6 +142,30 @@ const PlanColumnCard = ({
           </span>
           <span className="plan-submit-column-card-info-detail">
             <div className="plan-submit-column-card-info-detail-title">
+              <span
+                className={`plan-submit-column-card-info-detail-title-type ${
+                  place?.contenttypeid === "12"
+                    ? "tour"
+                    : place?.contenttypeid === "14"
+                    ? "culture"
+                    : place?.contenttypeid === "39"
+                    ? "food"
+                    : place?.contenttypeid === "32"
+                    ? "accomm"
+                    : ""
+                }`}
+              >
+                {place &&
+                  (place.contenttypeid === "12"
+                    ? "관광"
+                    : place.contenttypeid === "14"
+                    ? "문화"
+                    : place.contenttypeid === "39"
+                    ? "식당"
+                    : place.contenttypeid === "32"
+                    ? "숙소"
+                    : "기타")}
+              </span>
               {place?.title}{" "}
               <span className="plan-submit-column-card-info-detail-title-more">
                 <LuChevronUp />

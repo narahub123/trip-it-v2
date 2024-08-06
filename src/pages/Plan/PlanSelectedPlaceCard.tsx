@@ -8,8 +8,8 @@ import { fetchPlaceAPI } from "apis/place";
 export interface PlanSelectedPlaceCardProps {
   metroId: string;
   contentId: string;
-  selectedPlaces: string[];
-  setSelectedPlaces: (value: string[]) => void;
+  selectedPlaces: PlaceApiType[];
+  setSelectedPlaces: (value: PlaceApiType[]) => void;
 }
 
 const PlanSelectedPlaceCard = ({
@@ -58,7 +58,7 @@ const PlanSelectedPlaceCard = ({
     e.stopPropagation();
 
     const newSelections = selectedPlaces.filter(
-      (selectedPlace) => selectedPlace !== contentId
+      (selectedPlace) => selectedPlace.contentid !== contentId
     );
 
     setSelectedPlaces(newSelections);

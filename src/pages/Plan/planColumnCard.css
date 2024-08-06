@@ -29,6 +29,27 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+
+          .plan-submit-column-card-info-detail-title-type {
+            padding: 5px;
+            border-radius: 15px;
+            background-color: var(--basic-color);
+            color: #fff;
+            margin-right: 5px;
+          }
+
+          .plan-submit-column-card-info-detail-title-type.tour {
+            background-color: blue;
+          }
+          .plan-submit-column-card-info-detail-title-type.culture {
+            background-color: green;
+          }
+          .plan-submit-column-card-info-detail-title-type.food {
+            background-color: violet;
+          }
+          .plan-submit-column-card-info-detail-title-type.accomm {
+            background-color: pink;
+          }
         }
         .plan-submit-column-card-info-detail-hour {
           margin: 10px 0;

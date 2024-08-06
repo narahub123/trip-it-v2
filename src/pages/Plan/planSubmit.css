@@ -3,6 +3,7 @@
   .plan-submit-header {
   }
   .plan-submit-title {
+    box-sizing: border-box;
     margin-bottom: 10px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -25,7 +26,13 @@
       }
     }
   }
+
+  .plan-submit-title.active {
+    box-sizing: border-box;
+    border: 2px solid var(--basic-color);
+  }
   .plan-submit-main {
+    box-sizing: border-box;
     margin: 10px 0;
     padding: 10px;
     border: 1px solid #ccc;
@@ -68,6 +75,11 @@
         margin-top: 5px;
       }
     }
+  }
+
+  .plan-submit-main.completed {
+    box-sizing: border-box;
+    border: 2px solid var(--basic-color);
   }
 
   .plan-submit-btns {

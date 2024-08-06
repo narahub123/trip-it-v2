@@ -2,18 +2,20 @@ import { IoIosArrowDropup } from "react-icons/io";
 import "./planSubmit.css";
 import PlanSubmitSelectedPlaceCard from "./PlanSubmitSelectedPlaceCard";
 import { convertDateToYYYYMMDD, convertDateTypeToDate2 } from "utilities/date";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlanColumnCard from "./PlanColumnCard";
-import { ScheduleDetailDtoInputType } from "types/plan";
+import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { useNavigate } from "react-router-dom";
 import { saveSchedule } from "apis/schedule";
+import PlanAccordian from "./components/PlanAccordian";
+import { PlaceApiType } from "types/place";
 export interface PlanSubmitProps {
   metroId: string;
   dates: Date[];
-  selectedPlaces: string[];
-  setSelectedPlaces: (value: string[]) => void;
-  columns: { [key: string]: ScheduleDetailDtoInputType[] };
-  setColumns: (value: { [key: string]: ScheduleDetailDtoInputType[] }) => void;
+  selectedPlaces: PlaceApiType[];
+  setSelectedPlaces: (value: PlaceApiType[]) => void;
+  columns: { [key: string]: ColumnType[] };
+  setColumns: (value: { [key: string]: ColumnType[] }) => void;
 }
 const PlanSubmit = ({
   metroId,
@@ -26,6 +28,20 @@ const PlanSubmit = ({
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [openAccordian, setOpenAccordin] = useState("selected");
+
+  // 제출 가능 상태 확인
+  const defaultValid = dates.reduce((acc, date) => {
+    const key = convertDateTypeToDate2(date);
+    acc[key] = false;
+    return acc;
+  }, {} as { [key: string]: boolean });
+  const [valid, setValid] = useState<{ [key: string]: boolean }>(defaultValid);
+  const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    const allValid = Object.values(valid).every((v) => v === true);
+    setCompleted(allValid);
+  }, [valid]);
 
   const handleOpen = (containerName: string) => {
     if (containerName === openAccordian) {
@@ -42,7 +58,7 @@ const PlanSubmit = ({
   };
 
   const handleSubmit = () => {
-    console.log("일정 세부", columns);
+    if (!title) return alert("일정 제목을 적어주세요");
     const start = convertDateToYYYYMMDD(dates[0]);
     const end = convertDateToYYYYMMDD(dates[dates.length - 1]);
 
@@ -52,7 +68,13 @@ const PlanSubmit = ({
     for (let i = 0; i < values.length; i++) {
       const column = values[i];
       for (const detail of column) {
-        scheduleDetails.push(detail);
+        const newDetail: ScheduleDetailDtoInputType = {
+          contentId: detail.place.contentid,
+          scheduleOrder: detail.scheduleOrder,
+          startTime: detail.startTime,
+          endTime: detail.endTime,
+        };
+        scheduleDetails.push(newDetail);
       }
     }
 
@@ -66,8 +88,6 @@ const PlanSubmit = ({
       detailScheduleDto: scheduleDetails,
     };
 
-    console.log(submitValue);
-
     saveSchedule(submitValue)
       .then((res) => {
         console.log(res.data);
@@ -75,7 +95,7 @@ const PlanSubmit = ({
 
         if (res.status === 200) {
           console.log("등록 성공");
-          navigate("/mypage/schedule");
+          navigate("/mypage/schedules");
         }
       })
       .catch((err) => console.log(err));
@@ -89,7 +109,7 @@ const PlanSubmit = ({
       <div className="plan-submit-header">
         <h3>일정 등록</h3>
       </div>
-      <section className="plan-submit-title">
+      <section className={`plan-submit-title ${title ? "active" : ""}`}>
         <label>
           <p>일정 이름</p>
           <input type="text" onChange={(e) => handleTitleChange(e)} />
@@ -101,7 +121,7 @@ const PlanSubmit = ({
           className="plan-submit-main-title"
           onClick={
             selectedPlaces.length === 0
-              ? undefined
+              ? () => handleOpen("")
               : () => handleOpen("selected")
           }
         >
@@ -123,11 +143,11 @@ const PlanSubmit = ({
           {selectedPlaces.map((selectedPlace) => (
             <PlanSubmitSelectedPlaceCard
               metroId={metroId}
-              contentId={selectedPlace}
+              contentId={selectedPlace.contentid}
               selectedPlaces={selectedPlaces}
               setSelectedPlaces={setSelectedPlaces}
               dates={dates}
-              key={selectedPlace}
+              key={selectedPlace.contentid}
               columns={columns}
               setColumns={setColumns}
               setOpenAccordin={setOpenAccordin}
@@ -140,52 +160,31 @@ const PlanSubmit = ({
       </section>
       {dates &&
         dates.map((date) => (
-          <section
-            className="plan-submit-main"
-            key={convertDateTypeToDate2(date)}
-          >
-            <div
-              className="plan-submit-main-title"
-              onClick={() => handleOpen(convertDateTypeToDate2(date))}
-            >
-              <p>{convertDateTypeToDate2(date)}</p>
-              <span
-                className={`plan-submit-main-title-icon ${
-                  openAccordian === convertDateTypeToDate2(date) ? "active" : ""
-                }`}
-              >
-                <IoIosArrowDropup />
-              </span>
-            </div>
-
-            <ul
-              className={`plan-submit-main-container ${
-                openAccordian === convertDateTypeToDate2(date) ? "active" : ""
-              }`}
-            >
-              {columns[convertDateTypeToDate2(date)].map((detail) => (
-                <PlanColumnCard
-                  metroId={metroId}
-                  date={date}
-                  dates={dates}
-                  detail={detail}
-                  columns={columns}
-                  setColumns={setColumns}
-                  setOpenAccordin={setOpenAccordin}
-                  key={detail.contentId}
-                />
-              ))}
-              <div className="plan-submit-main-map">map</div>
-            </ul>
-          </section>
+          <PlanAccordian
+            metroId={metroId}
+            date={date}
+            dates={dates}
+            columns={columns}
+            setColumns={setColumns}
+            openAccordian={openAccordian}
+            setOpenAccordin={setOpenAccordin}
+            handleOpen={handleOpen}
+            selectedPlaces={selectedPlaces}
+            setSelectedPlaces={setSelectedPlaces}
+            valid={valid}
+            setValid={setValid}
+          />
         ))}
       <section className="plan-submit-btns">
-        <button className="plan-submit-btns-prev" onClick={() => navigate(-1)}>
+        <button
+          className="plan-submit-btns-prev"
+          onClick={() => navigate(`/planner/${metroId}#place`)}
+        >
           이전
         </button>
         <button
           className={`plan-submit-btns-submit${
-            selectedPlaces.length === 0 ? "-active" : ""
+            title && completed ? "-active" : ""
           }`}
           onClick={() => handleSubmit()}
         >

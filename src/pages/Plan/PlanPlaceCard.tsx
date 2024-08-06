@@ -9,8 +9,8 @@ import { fetchPlaceAPI } from "apis/place";
 export interface PlanPlaceCardProps {
   place: PlaceApiType;
   metroId: string;
-  selectedPlaces: string[];
-  setSelectedPlaces: (value: string[]) => void;
+  selectedPlaces: PlaceApiType[];
+  setSelectedPlaces: (value: PlaceApiType[]) => void;
 }
 
 const PlanPlaceCard = ({
@@ -56,14 +56,33 @@ const PlanPlaceCard = ({
   ) => {
     e.stopPropagation();
 
-    if (selectedPlaces.includes(contentId)) {
+    const contentIds = selectedPlaces.map((place) => place.contentid);
+
+    if (contentIds.includes(contentId)) {
       const newSelections = selectedPlaces.filter(
-        (selectedPlace) => selectedPlace !== contentId
+        (selectedPlace) => selectedPlace.contentid !== contentId
       );
 
       setSelectedPlaces(newSelections);
     } else {
-      setSelectedPlaces([...selectedPlaces, contentId]);
+      fetchPlaceAPI(contentId)
+        .then((res) => {
+          if (!res) return;
+
+          const newPlace = res.data[0];
+
+          setSelectedPlaces([...selectedPlaces, newPlace]);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+
+          if (err.code === 6) {
+            alert("API 데이터 소진");
+          }
+
+          setLoading(false);
+        });
     }
   };
 
@@ -93,7 +112,7 @@ const PlanPlaceCard = ({
           className="plan-places-main-card-btn"
           onClick={(e) => handleSelect(e, place.contentid)}
         >
-          {selectedPlaces.includes(place.contentid) ? (
+          {selectedPlaces.map((p) => p.contentid).includes(place.contentid) ? (
             <button className="plan-places-main-card-btn-checked">
               <LuCheck />
             </button>

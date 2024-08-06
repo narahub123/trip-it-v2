@@ -37,7 +37,14 @@ export const fetchPlaceAPI = async (contentId: string) => {
     });
 
     return place;
-  } catch (err: any) {}
+  } catch (err: any) {
+    console.log(err);
+    const code = err.response.data.code;
+    if (code === 6) {
+      throw { code };
+    }
+    throw { err };
+  }
 };
 
 export const fetchPlacesByKeyword = async (
@@ -62,4 +69,3 @@ export const fetchPlacesByKeyword = async (
     return places;
   } catch (err: any) {}
 };
-

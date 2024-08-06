@@ -1,21 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import "./planPlaces.css";
-import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+import { IoIosArrowDropup } from "react-icons/io";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import { PlaceApiType } from "types/place";
 import PlanPlaceCard from "./PlanPlaceCard";
 import PlanSelectedPlaceCard from "./PlanSelectedPlaceCard";
-import { metros } from "data/metros";
 import { getMetroName } from "utilities/metros";
 import { convertDateTypeToDate1 } from "utilities/date";
 import { fetchPlacesAPI } from "apis/place";
+import { ColumnType } from "types/plan";
 
 export interface PlanPlacesProps {
   metroId: string;
   dates: Date[];
-  selectedPlaces: string[];
-  setSelectedPlaces: (value: string[]) => void;
+  selectedPlaces: PlaceApiType[];
+  setSelectedPlaces: (value: PlaceApiType[]) => void;
+  columns: { [key: string]: ColumnType[] };
 }
 
 const PlanPlaces = ({
@@ -23,6 +24,7 @@ const PlanPlaces = ({
   dates,
   selectedPlaces,
   setSelectedPlaces,
+  columns,
 }: PlanPlacesProps) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -75,6 +77,11 @@ const PlanPlaces = ({
 
   console.log(selectedPlaces);
 
+  const checkElement = (columns: { [key: string]: ColumnType[] }) => {
+    const valueArrs = Object.values(columns);
+
+    return valueArrs.some((valueArr) => valueArr.length > 0);
+  };
   return (
     <div className="plan-places">
       <section className="plan-places-info">
@@ -94,7 +101,7 @@ const PlanPlaces = ({
         </button>
         <button
           className={`plan-places-btns next ${
-            selectedPlaces.length !== 0 ? "active" : ""
+            selectedPlaces.length !== 0 || checkElement(columns) ? "active" : ""
           }`}
           onClick={() => navigate(`#submit`)}
         >
@@ -212,10 +219,10 @@ const PlanPlaces = ({
           {selectedPlaces.map((selectedPlace) => (
             <PlanSelectedPlaceCard
               metroId={metroId}
-              contentId={selectedPlace}
+              contentId={selectedPlace.contentid}
               selectedPlaces={selectedPlaces}
               setSelectedPlaces={setSelectedPlaces}
-              key={selectedPlace}
+              key={selectedPlace.contentid}
             />
           ))}
         </ul>
