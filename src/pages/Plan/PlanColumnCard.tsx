@@ -123,7 +123,7 @@ const PlanColumnCard = ({
 
     const newDetail = {
       contentId: detail.contentId,
-      scheduleOrder: (index + 1).toString(),
+      scheduleOrder: index,
       startTime: "06:00",
       endTime: "07:00",
     };

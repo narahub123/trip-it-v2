@@ -7,7 +7,7 @@ export interface ScheduleDtoInputType {
 
 export interface ScheduleDetailDtoInputType {
   contentId: string;
-  scheduleOrder: string;
+  scheduleOrder: number;
   startTime: string;
   endTime: string;
 }

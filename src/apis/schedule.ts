@@ -133,12 +133,12 @@ export const deleteSchedulesAAPI = async (sheduleIds: (string | number)[]) => {
 };
 
 // 일정 등록하기
-export const saveSchedule = (value: {
+export const saveSchedule = async (value: {
   scheduleDto: ScheduleDtoInputType;
   detailScheduleDto: ScheduleDetailDtoInputType[];
 }) => {
   try {
-    const response = axios.post(`${baseURL}/home/saveSchedule`, value, {
+    const response = await axios.post(`${baseURL}/home/saveSchedule`, value, {
       headers: {
         "Content-Type": "application/json", // 요청 본문이 JSON 형식임을 지정
         Access: `${localStorage.getItem("access")}`, // 액세스 토큰을 요청 헤더에 포함

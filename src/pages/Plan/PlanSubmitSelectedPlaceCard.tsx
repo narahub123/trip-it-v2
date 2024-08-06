@@ -76,7 +76,7 @@ const PlanSubmitSelectedPlaceCard = ({
   const handleAdd = (date: Date, order: number) => {
     const newDetail = {
       contentId,
-      scheduleOrder: order.toString(),
+      scheduleOrder: order,
       startTime: "06:00",
       endTime: "07:00",
     };
