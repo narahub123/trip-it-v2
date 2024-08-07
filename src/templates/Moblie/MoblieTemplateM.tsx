@@ -13,6 +13,7 @@ import { mypageList } from "pages/mypage/data/header";
 import MobilePostCard from "./MobilePostCard";
 import MobileBlockCard from "./MobileBlockCard";
 import MobileReportCard from "./MobileReportCard";
+import { fetchMessage } from "templates/utilities/template";
 
 interface MobileTEmplateMProps {
   pageName: string;
@@ -44,6 +45,7 @@ const MoblieTemplateM = ({
   settings,
   tempoArray,
 }: MobileTEmplateMProps) => {
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<any[]>([]); // 목록 상태
   const [sort, setSort] = useState<string[]>(defaultSort); // 정렬 상태
   const [selections, setSelections] = useState<(string | number)[]>([]);
@@ -58,7 +60,23 @@ const MoblieTemplateM = ({
   const offset = (page - 1) * size;
 
   useEffect(() => {
-    if (tempoArray) setItems(tempoArray);
+    setLoading(true);
+    fetchAPI()
+      .then((res) => {
+        if (!res) {
+          setLoading(false);
+          return;
+        }
+        const receivedItems = res.data;
+        const length = res?.data.length;
+        setItems(receivedItems);
+        setTotal(length);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setMessage(fetchMessage(err.msgId, msgArray));
+      });
   }, []);
 
   console.log("정렬 정보", sort);

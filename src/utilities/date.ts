@@ -42,3 +42,28 @@ export const convertDateToYYYYMMDD = (origin: Date) => {
 
   return `${year}${month}${date}`;
 };
+
+export const convertYYYYMMDDToDateType = (origin: string) => {
+  const year = Number(origin.slice(0, 4));
+  const month = Number(origin.slice(4, 6));
+  const date = Number(origin.slice(6, 8));
+
+  return new Date(year, month, date);
+};
+
+export const getDateArr = (start: Date, end: Date) => {
+  const sd = start.getDate();
+  const ed = end.getDate();
+  console.log(ed - sd);
+  const diff = ed - sd;
+  const dates = [];
+  for (let i = 0; i <= diff; i++) {
+    const point = new Date(start);
+
+    const newDate = new Date(point.setDate(point.getDate() + i));
+
+    dates.push(newDate);
+  }
+
+  return dates;
+};

@@ -38,7 +38,8 @@ const MobileScheduleCard = ({
         </p>
       </div>
       <Link
-        to={`/schedule/${item.scheduleId}`}
+        to={`/mypage/schedules/${item.scheduleId}`}
+        state={item}
         className="mobile-mypage-template-link"
       >
         <div className="mobile-mypage-template-item-photoarea">

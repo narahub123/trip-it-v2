@@ -1,0 +1,61 @@
+.mobile-schedule {
+  padding: 10px;
+  .mobile-schedule-header {
+  }
+  .mobile-schedule-main {
+  }
+}
+
+.mobile-schedule-accordian {
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+
+  .mobile-schedule-accordian-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .mobile-schedule-accordian-title-icon {
+      transform: rotate(0deg);
+      transition: transform 0.2s ease-in-out;
+    }
+    .mobile-schedule-accordian-title-icon.active {
+      transform: rotate(-180deg);
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+
+  .mobile-schedule-accordian-container {
+    visibility: hidden;
+    max-height: 0px;
+    opacity: 0;
+    margin-top: 0;
+    transition: all 0.2s ease-in-out;
+
+    .mobile-schedule-accordian-info {
+      display: none;
+    }
+  }
+
+  .mobile-schedule-accordian-container.active {
+    visibility: visible;
+    max-height: 1000px;
+    opacity: 1;
+    margin-top: 10px;
+    transition: all 0.2s ease-in-out;
+
+    .mobile-schedule-accordian-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .mobile-schedule-accordian-info.name {
+      font-weight: bold;
+    }
+  }
+}
