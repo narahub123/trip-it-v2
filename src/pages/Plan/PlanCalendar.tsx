@@ -173,9 +173,9 @@ const PlanCalendar = ({ dates, setDates }: PlanCalendarProps) => {
       >
         <button
           className="plan-calendar-btns-btn before"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate(`/planner`)}
         >
-          이전
+          지역
         </button>
         <button
           className={`plan-calendar-btns-btn next${
@@ -183,7 +183,7 @@ const PlanCalendar = ({ dates, setDates }: PlanCalendarProps) => {
           }`}
           onClick={() => navigate(`#place`)}
         >
-          다음
+          장소
         </button>
       </section>
     </div>

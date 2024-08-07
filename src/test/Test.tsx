@@ -70,7 +70,7 @@ const Test = () => {
     <div className="test">
       <p onClick={() => addBlock("강고양이")}>차단</p>
       <form onSubmit={(e) => addReport(e)}>
-        <input type="hidden" id="postId" name="postId" value="1" />
+        <input type="hidden" id="postId" name="postId" value={1} />
         <select id="reportType" name="reportType">
           <option value="">신고내용</option>
           <option value="R1">음란</option>

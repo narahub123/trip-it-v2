@@ -78,7 +78,9 @@ export const getResult = (
                   item[body.field.name]?.[`${body.field.nested?.[0]}`]
                 }` // userId에 따라 링크 생성
               : body.field.name === "postId"
-              ? `/post/${item[body.field]?.[`${body?.field.nested?.[0]}`]}` // postId에 따라 링크 생성
+              ? `/detail?post=${
+                  item[body.field]?.[`${body?.field.nested?.[0]}`]
+                }&user=${item[`userId`]?.[`${body?.field.nested?.[0]}`]}` // postId에 따라 링크 생성
               : body.field.name === "scheduleId"
               ? `/schedules/${item[body.field]?.[`${body?.field.nested?.[0]}`]}` // postId에 따라 링크 생성
               : ""
@@ -109,9 +111,11 @@ export const getResult = (
       );
 
     case "report":
-      return item[body.field.name] === "처리 전" ? ( // 신고 상태가 "처리 전"일 때
+      console.log(item[body.field.name]);
+
+      return item[body.field.name] === 0 ? ( // 신고 상태가 "처리 전"일 때
         <div className="report-false">
-          {item[body.field.name] || "내용 없음"}
+          {"처리전" || "내용 없음"}
           <ul className="report-false-container">
             <li
               className="report-false-item"

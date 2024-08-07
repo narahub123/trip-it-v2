@@ -39,6 +39,14 @@ const PlanHome = () => {
       params: areaCode,
     });
   };
+
+  // 모달창이 열리면 스크롤이 안되게 조정
+  if (message) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
   return (
     <div className="plan-home">
       {message && <MobileModal message={message} setMessage={setMessage} />}

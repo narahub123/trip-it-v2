@@ -1,10 +1,10 @@
+import "./planAccordian.css";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoIosArrowDropup } from "react-icons/io";
 import { convertDateTypeToDate2 } from "utilities/date";
 import PlanColumnCard from "../PlanColumnCard";
 import { ColumnType } from "types/plan";
 import { PlaceApiType } from "types/place";
-import { useLocation } from "react-router-dom";
 
 export interface PlanAccordianProps {
   metroId: string;

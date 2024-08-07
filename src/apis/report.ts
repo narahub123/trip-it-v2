@@ -5,7 +5,7 @@ const baseURL = process.env.REACT_APP_SERVER_URL;
 
 // 관리자 페이지 신고 처리하기
 export const updateReportAPI = async (
-  reportId: string,
+  reportId: string | number,
   reportFalse: number
 ) => {
   try {
@@ -55,7 +55,7 @@ export const fetchReportsAPI = async (
 ) => {
   try {
     const report = await axios.get(
-      `${baseURL}/admin/reports?sortKey=${sortKey}&sortValue=${sortValue}&page=${page}&size=${size}&search=${search}&field=${field}`,
+      `${baseURL}/report/all?sortKey=${sortKey}&sortValue=${sortValue}&page=${page}&size=${size}&search=${search}&field=${field}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -65,6 +65,8 @@ export const fetchReportsAPI = async (
         withCredentials: true,
       }
     );
+
+    console.log(report);
 
     return report;
   } catch (err: any) {
@@ -89,7 +91,7 @@ export const fetchReportsAPI = async (
 export const addReportAPI = async (value: any) => {
   try {
     const response = await axios.post(
-      `${baseURL}/test/report/add`,
+      `${baseURL}/report/add`,
       {
         postId: value.postId,
         reportType: value.reportType,
@@ -127,7 +129,7 @@ export const addReportAPI = async (value: any) => {
 // 마이 페이지 신고 목록
 export const fetchReportAPI = async () => {
   try {
-    const report = await axios.get(`${baseURL}/mypage/report`, {
+    const report = await axios.get(`${baseURL}/report/user`, {
       headers: {
         "Content-Type": "application/json",
         Access: `${localStorage.getItem("access")}`,
@@ -136,7 +138,7 @@ export const fetchReportAPI = async () => {
       withCredentials: true,
     });
 
-    console.log(report);
+    console.log("마아페이지 목록", report);
     return report;
   } catch (err: any) {
     console.log(err);

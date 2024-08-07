@@ -130,7 +130,9 @@ const MoblieTemplateM = ({
         <section className="mobile-mypage-template-list">
           {items
             .filter((item) => {
-              return item[field.name].includes(search);
+              return field.nested
+                ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
+                : item[field.name].includes(search);
             })
             .slice(offset, offset + size)
             .map((item) =>
@@ -139,6 +141,7 @@ const MoblieTemplateM = ({
                   selections={selections}
                   setSelections={setSelections}
                   item={item}
+                  key={item.blockId}
                 />
               ) : (
                 pageName === "mypage-report" && (
@@ -146,6 +149,7 @@ const MoblieTemplateM = ({
                     selections={selections}
                     setSelections={setSelections}
                     item={item}
+                    key={item.reportId}
                   />
                 )
               )

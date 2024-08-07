@@ -34,9 +34,8 @@
 }
 
 .mypage-title {
-  /* margin-left: 10px; */
   text-align: center;
-  margin: 10px 0;
+  margin: 25px 0 10px;
   font-size: 18px;
   font-weight: bold;
 }
@@ -69,6 +68,11 @@
 
   .mypage-template {
     display: none;
+  }
+
+  .mobile-mypage {
+    display: block;
+    overflow-y: scroll;
   }
 }
 @media screen and (min-width: 480px) and (max-width: 1119px) {

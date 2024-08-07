@@ -51,6 +51,8 @@ const TemplateTable = ({
   const lengthOfItems =
     items.length !== 0
       ? items.filter((item) => {
+          console.log("중첩", field.nested);
+
           return field.nested
             ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
             : item[field.name].includes(search);
@@ -118,6 +120,10 @@ const TemplateTable = ({
           loading === false &&
           items
             .filter((item) => {
+              console.log("아이템", item);
+
+              console.log("중첩 ", field.nested);
+
               return field.nested
                 ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
                 : item[field.name].includes(search);

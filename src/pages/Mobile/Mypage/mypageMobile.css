@@ -1,5 +1,6 @@
 .mobile-mypage {
-  height: 100vh;
+  overflow-y: scroll;
+  height: 1000px;
   .mobile-mypage-container {
     .mobile-mypage-inner {
       padding: 10px;
@@ -12,7 +13,7 @@
         border: 1px solid #ccc;
         transition: border 0.1s ease-in-out;
         border-radius: 10px;
-        width: 48.8%;
+        width: 47.8%;
         box-shadow: rgba(149, 157, 165, 0.2) 4px 4px 8px 4px;
         padding: 10px 0;
 

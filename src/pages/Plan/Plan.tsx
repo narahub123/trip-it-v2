@@ -41,6 +41,7 @@ const Plan = () => {
           selectedPlaces={selectedPlaces}
           setSelectedPlaces={setSelectedPlaces}
           columns={columns}
+          setColumns={setColumns}
         />
       ) : (
         <PlanSubmit

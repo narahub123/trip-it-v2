@@ -134,6 +134,19 @@
         padding: 20px 0;
         text-align: center;
       }
+
+      .plan-places-main-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+
+        input {
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          padding: 4px;
+        }
+      }
     }
   }
 }

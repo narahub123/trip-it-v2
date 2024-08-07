@@ -7,6 +7,8 @@ import {
   LuLogIn,
   LuLogOut,
 } from "react-icons/lu";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+
 const Footer = () => {
   return (
     <footer className="footer">
@@ -37,6 +39,15 @@ const Footer = () => {
           title="마이페이지"
         >
           <LuUser2 />
+        </NavLink>
+        <NavLink
+          to={`/chat`}
+          className={({ isActive }) =>
+            isActive ? "footer-item active" : "footer-item"
+          }
+          title="채팅"
+        >
+          <IoChatbubbleEllipsesOutline />
         </NavLink>
         <NavLink
           to={`/logout`}

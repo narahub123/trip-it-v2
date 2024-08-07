@@ -74,8 +74,11 @@ const TemplateA = ({
           return;
         }
 
+        console.log(res.data);
+
         const receivedItems = res.data.content;
         const length = res.data.totalElements;
+
         setItems(receivedItems);
         setTotal(length);
         setLoading(false);

@@ -11,6 +11,9 @@ const MobileReportCard = ({
   item,
 }: MobileScheduleCardProps) => {
   const [detail, setDetail] = useState(false);
+
+  console.log(item.reportType);
+
   return (
     <li className="mobile-template-card-report">
       <div className="mobile-template-card-report-container">
@@ -19,16 +22,16 @@ const MobileReportCard = ({
             <div className="mobile-template-card-report-info-reportType">
               <button
                 className={`mobile-template-card-report-info-reportType-button ${
-                  item.reportType === "R1"
+                  item.reportType.reportReason === "음란"
                     ? "lewd"
-                    : item.reportType === "R2"
+                    : item.reportType.reportReason === "폭력"
                     ? "violence"
-                    : item.reportType === "R3"
+                    : item.reportType.reportReason === "욕설"
                     ? "abuse"
                     : "etc"
                 }`}
               >
-                {convertReportTypeToText(item.reportType)}
+                {item.reportType.reportReason}
               </button>
               {item.reportDetail && (
                 <span
@@ -43,7 +46,7 @@ const MobileReportCard = ({
             </div>
             <div className="mobile-template-card-report-info-reportId">
               <span>신고글 : </span>
-              <span>{item.reportId}</span>
+              <span>{item.postId.postId}</span>
             </div>
             <div className="mobile-template-card-report-info-date">
               <span>신고 날짜 : </span>

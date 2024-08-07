@@ -20,7 +20,10 @@ const Report = () => {
         fetchAPI={fetchReportAPI}
         defaultSort={["reportDate", "desc"]}
         defaultSize={3}
-        defaultField={{ name: "reportType" }}
+        defaultField={{
+          name: "reportType",
+          nested: ["reportType", "reportReason"],
+        }}
         tempArray={reportArray}
         msgArray={reportMsgs}
         tempoArray={reportsArray}
@@ -31,7 +34,10 @@ const Report = () => {
         fetchAPI={fetchReportAPI}
         defaultSort={["reportDate", "desc"]}
         defaultSize={3}
-        defaultField={{ name: "reportType" }}
+        defaultField={{
+          name: "reportType",
+          nested: ["reportType", "reportReason"],
+        }}
         tempArray={reportArray}
         msgArray={reportMsgs}
       />
