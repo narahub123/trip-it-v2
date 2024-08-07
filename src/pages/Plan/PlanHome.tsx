@@ -3,6 +3,7 @@ import { metros } from "data/metros";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MobileModal from "templates/Moblie/components/MobileModal";
+import MobilePlanHomeModal from "templates/Moblie/components/MobilePlanHomeModal";
 import { MessageType } from "types/template";
 
 const PlanHome = () => {
@@ -49,7 +50,9 @@ const PlanHome = () => {
 
   return (
     <div className="plan-home">
-      {message && <MobileModal message={message} setMessage={setMessage} />}
+      {message && (
+        <MobilePlanHomeModal message={message} setMessage={setMessage} />
+      )}
       <section className="plan-home-title">
         <h3>지역 검색</h3>
       </section>
@@ -80,6 +83,7 @@ const PlanHome = () => {
             ))}
         </ul>
       </section>
+      <section className="plan-home-bottom" />
     </div>
   );
 };
