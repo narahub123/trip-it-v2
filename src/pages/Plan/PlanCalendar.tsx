@@ -61,7 +61,10 @@ const PlanCalendar = ({ dates, setDates }: PlanCalendarProps) => {
           className="plan-calendar-btns-btn before"
           onClick={() => navigate(`/planner`)}
         >
-          지역
+          <p className="plan-calendar-btns-btn-icon before">
+            <LuChevronLeft />
+          </p>
+          <p>지역</p>
         </button>
         <button
           className={`plan-calendar-btns-btn next${
@@ -69,7 +72,10 @@ const PlanCalendar = ({ dates, setDates }: PlanCalendarProps) => {
           }`}
           onClick={() => navigate(`#place`)}
         >
-          장소
+          <p>장소</p>
+          <p className="plan-calendar-btns-btn-icon next">
+            <LuChevronRight />
+          </p>
         </button>
       </section>
     </div>
