@@ -80,7 +80,7 @@
   }
 
   .plan-places-main.active {
-    border: 1px solid #ccc;
+    border: 1px solid var(--basic-color);
     border-radius: 10px;
     padding: 10px;
 
@@ -100,12 +100,12 @@
       transition: all 0.2s ease-in-out;
 
       margin-top: 10px;
-      padding-top: 10px;
+      /* padding-top: 10px; */
       border-top: 1px solid #ccc;
 
       .plan-places-main-tags {
         font-size: 12px;
-        margin-bottom: 10px;
+        margin: 10px 0;
         color: #fff;
         display: flex;
 
@@ -130,7 +130,15 @@
       .plan-places-main-loading {
         border: 1px solid #ccc;
         border-radius: 10px;
-        margin: 10px 0;
+        margin-top: 10px;
+        padding: 20px 0;
+        text-align: center;
+      }
+
+      .plan-places-main-none {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 10px;
         padding: 20px 0;
         text-align: center;
       }

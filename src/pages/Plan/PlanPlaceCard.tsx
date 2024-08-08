@@ -46,6 +46,9 @@ const PlanPlaceCard = ({
       })
       .catch((err) => {
         console.log(err);
+        if (err.code === 0) {
+          console.log("네트워크 오류, 연결 상태 확인 요망");
+        }
         setLoading(false);
       });
   };

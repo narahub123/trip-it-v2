@@ -22,7 +22,12 @@ export const fetchPlacesAPI = async (
     );
 
     return places;
-  } catch (err: any) {}
+  } catch (err: any) {
+    console.log(err);
+    if (err.code === "ERR_NETWORK") {
+      throw { code: 0 };
+    }
+  }
 };
 
 export const fetchPlaceAPI = async (contentId: string) => {
@@ -42,6 +47,8 @@ export const fetchPlaceAPI = async (contentId: string) => {
     const code = err.response.data.code;
     if (code === 6) {
       throw { code };
+    } else if (err.code === "ERR_NETWORK") {
+      throw { code: 0 };
     }
     throw { err };
   }
@@ -67,5 +74,9 @@ export const fetchPlacesByKeyword = async (
     );
 
     return places;
-  } catch (err: any) {}
+  } catch (err: any) {
+    if (err.code === "ERR_NETWORK") {
+      throw { code: 0 };
+    }
+  }
 };

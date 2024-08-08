@@ -78,11 +78,7 @@ const MobilePlanHomeModal = ({ message, setMessage }: ModalProps) => {
           </button>
           <button
             className="next"
-            onClick={() =>
-              navigate(`/planner/${getMetroName(message.params)}`, {
-                state: { metroId: message.params },
-              })
-            }
+            onClick={() => navigate(`/planner/${getMetroName(message.params)}`)}
           >
             일정
           </button>

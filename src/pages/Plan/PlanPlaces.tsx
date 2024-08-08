@@ -54,7 +54,11 @@ const PlanPlaces = ({
   // 일정 제목
   const [title, setTitle] = useState("");
 
-  console.log(title);
+  useEffect(() => {
+    if (dates.length === 0 || !dates) {
+      navigate(-1);
+    }
+  }, [dates]);
 
   useEffect(() => {
     const allValid = Object.values(valid).every((v) => v === true);
@@ -71,12 +75,16 @@ const PlanPlaces = ({
         setLoading(false);
       })
       .catch((err) => {
+        if (err.code === 0) {
+          console.log("네트워크 오류, 연결 상태 확인 요망");
+        }
         setLoading(false);
       });
   }, [metroId, contentTypeId, pageNo]);
 
-  const startDate = convertDateTypeToDate1(dates[0]);
-  const endDate = convertDateTypeToDate1(dates[dates.length - 1]);
+  const startDate = dates.length > 0 && convertDateTypeToDate1(dates[0]);
+  const endDate =
+    dates.length > 0 && convertDateTypeToDate1(dates[dates.length - 1]);
 
   console.log(openAccordian);
 
@@ -197,7 +205,9 @@ const PlanPlaces = ({
           </li>
           <li className="plan-places-main-item">
             <span>기간</span>
-            <span>{`${startDate}~${endDate}`}</span>
+            <span>
+              {!startDate || !endDate ? "알수없음" : `${startDate}~${endDate}`}
+            </span>
           </li>
         </ul>
       </section>
@@ -243,7 +253,9 @@ const PlanPlaces = ({
             </span>
           </div>
           {loading ? (
-            <li className="plan-places-main-loading">loading</li>
+            <li className="plan-places-main-loading">loading...</li>
+          ) : places.length === 0 ? (
+            <li className="plan-places-main-none">검색 결과가 없습니다.</li>
           ) : (
             places.map((place) => (
               <PlanPlaceCard
@@ -281,7 +293,9 @@ const PlanPlaces = ({
             </span>
           </div>
           {loading ? (
-            <li className="plan-places-main-loading">loading</li>
+            <li className="plan-places-main-loading">loading...</li>
+          ) : places.length === 0 ? (
+            <li className="plan-places-main-none">검색 결과가 없습니다.</li>
           ) : (
             places.map((place) => (
               <PlanPlaceCard
@@ -306,7 +320,10 @@ const PlanPlaces = ({
         }
       >
         <div className="plan-places-main-title">
-          <p>선택한 장소</p>
+          <p>
+            <span>선택한 장소</span>
+            <span>{` : ${selectedPlaces.length}곳`}</span>
+          </p>
           <span className="plan-places-main-title-icon">
             <IoIosArrowDropup />
           </span>
@@ -326,7 +343,7 @@ const PlanPlaces = ({
           ))}
         </ul>
       </section>
-      {dates &&
+      {dates.length > 0 &&
         dates.map((date) => (
           <PlanAccordian
             metroId={metroId}

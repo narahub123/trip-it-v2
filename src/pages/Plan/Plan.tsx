@@ -6,12 +6,16 @@ import PlanSubmit from "./PlanSubmit";
 import { convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { PlaceApiType } from "types/place";
+import { metros } from "data/metros";
 
 const Plan = () => {
-  const { hash } = useLocation();
-  const { pathname } = useLocation();
-  const metroId = pathname.split("/")[2];
-  console.log("지역 번호", metroId);
+  const { hash, pathname } = useLocation();
+
+  const encodedMetroName = pathname.split("/")[2];
+  const discodedMetroName = decodeURIComponent(encodedMetroName);
+
+  const metroId =
+    metros.find((metro) => metro.name === discodedMetroName)?.areaCode || "";
 
   const [selectedPlaces, setSelectedPlaces] = useState<PlaceApiType[]>([]);
   const [dates, setDates] = useState<Date[]>([]);
@@ -25,33 +29,21 @@ const Plan = () => {
     });
   }, [dates]);
 
-  console.log(hash);
-  console.log("선택 날짜", dates);
-
-  console.log("컬럼", columns);
-
   return (
     <div className="plan">
       {!hash || hash === "#calendar" ? (
-        <PlanCalendar dates={dates} setDates={setDates} />
-      ) : hash === "#place" ? (
-        <PlanPlaces
-          metroId={metroId}
-          dates={dates}
-          selectedPlaces={selectedPlaces}
-          setSelectedPlaces={setSelectedPlaces}
-          columns={columns}
-          setColumns={setColumns}
-        />
+        <PlanCalendar dates={dates} setDates={setDates} metroId={metroId} />
       ) : (
-        <PlanSubmit
-          metroId={metroId}
-          dates={dates}
-          selectedPlaces={selectedPlaces}
-          setSelectedPlaces={setSelectedPlaces}
-          columns={columns}
-          setColumns={setColumns}
-        />
+        hash === "#place" && (
+          <PlanPlaces
+            metroId={metroId}
+            dates={dates}
+            selectedPlaces={selectedPlaces}
+            setSelectedPlaces={setSelectedPlaces}
+            columns={columns}
+            setColumns={setColumns}
+          />
+        )
       )}
     </div>
   );
