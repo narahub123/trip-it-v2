@@ -18,77 +18,9 @@
       .plan-calendar-main-month-next {
       }
     }
-    .plan-calendar-main-container {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      .plan-calendar-prev {
-        border: 1px solid #ccc;
-        text-align: center;
-      }
-      .plan-calendar-grid {
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding: 5px;
-        .plan-calendar-grid-container {
-          display: grid;
-          grid-template-columns:
-            minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)
-            minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
-          grid-gap: 5px;
-
-          .plan-calendar-grid-item {
-            box-sizing: border-box;
-            border-radius: 10px;
-            text-align: center;
-            width: 29px;
-            line-height: 29px;
-            height: 29px;
-            font-size: 14px;
-            cursor: pointer;
-            background-color: transparent;
-            transition: background-color 0.3s ease-in-out,
-              color 0.3s ease-in-out;
-          }
-
-          .plan-calendar-grid-item.day {
-          }
-
-          .plan-calendar-grid-item.date {
-            /* border: 1px solid #ccc; */
-          }
-
-          .sunday {
-            color: red;
-          }
-          .saturday {
-            color: blue;
-          }
-          .today {
-            color: var(--basic-color);
-            font-weight: bold;
-          }
-          .selected {
-            color: white;
-            font-weight: bold;
-            background-color: var(--basic-color);
-            transition: background-color 0.3s ease-in-out,
-              color 0.3s ease-in-out;
-          }
-          .possible {
-            background-color: rgba(0, 206, 124, 0.3);
-            transition: background-color 0.3s ease-in-out,
-              color 0.3s ease-in-out;
-          }
-          .last-month {
-            color: #ccc;
-          }
-        }
-      }
-      .plan-calendar-next {
-        border: 1px solid #ccc;
-        text-align: center;
-      }
+    .plan-calendar-main-calendar {
+      width: 100%;
+      height: 100%;
     }
   }
   .plan-calendar-btns {

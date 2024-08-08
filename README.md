@@ -237,6 +237,8 @@
 
 </details>
 
+<details>
+
 <summary>2024년 8월 7일</summary>
 
 ## 일정 페이지 구현
@@ -244,5 +246,13 @@
 - api 데이터 횟수 소진으로 진행 못함
 
 ## PlanHome 모달창 생성하기
+
+</details>
+
+<details>
+
+<summary>2024년 8월 8일</summary>
+
+## 캘린더 스타일링 수정
 
 </details>

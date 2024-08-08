@@ -36,7 +36,7 @@ const weekOfFirstDay = (origin: Date) => {
 };
 
 // 달의 날짜 구하기
-export const datesOfMonth = (origin: Date) => {
+export const CalcDatesOfMonth = (origin: Date) => {
   const dates: number[] = [];
 
   const date = dateMidFormatter(origin);
@@ -56,8 +56,6 @@ export const datesOfMonth = (origin: Date) => {
   for (let i = 1; i <= lastDate; i++) {
     dates.push(i);
   }
-
-  console.log(dates);
 
   return dates;
 };
