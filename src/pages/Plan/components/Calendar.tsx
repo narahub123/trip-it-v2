@@ -79,6 +79,7 @@ const Calendar = ({ year, month, date, dates, setDates }: CalendarProps) => {
         <ul className="calendar-grid-container">
           {weekOfDay.map((day, index) => (
             <li
+              key={day}
               className={`calendar-grid-item${
                 index % 7 === 0 ? " sunday" : index % 7 === 6 ? " saturday" : ""
               }`}

@@ -1,5 +1,6 @@
 .plan-calendar {
   padding: 10px;
+
   .plan-calendar-title {
     text-align: center;
     margin: 40px 0;
@@ -21,7 +22,12 @@
       }
     }
     .plan-calendar-main-calendar {
-      padding: 10px;
+      /* padding: 10px; */
+      .plan-calendar-main-carousel-container {
+        overflow-x: auto; /* 좌우 스크롤을 가능하게 합니다. */
+        white-space: nowrap; /* 내부 항목들이 한 줄로 배치됩니다. */
+        -webkit-overflow-scrolling: touch; /* 터치 스크롤을 부드럽게 합니다. */
+      }
     }
   }
   .plan-calendar-btns {
