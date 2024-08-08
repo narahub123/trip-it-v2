@@ -23,7 +23,7 @@ const PlanCalendar = ({ dates, setDates }: PlanCalendarProps) => {
   return (
     <div className="plan-calendar">
       <div className="plan-calendar-title">
-        <h3>캘린더</h3>
+        <h3>날짜 설정</h3>
       </div>
       <div className="plan-calendar-main">
         <section className="plan-calendar-main-month">
