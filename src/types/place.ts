@@ -3,9 +3,9 @@ export interface PlaceApiType {
   addr2: string;
   areacode: string;
   booktour: string;
-  cat1: string;
-  cat2: string;
-  cat3: string;
+  cat1?: string;
+  cat2?: string;
+  cat3?: string;
   contentid: string;
   contenttypeid: string;
   cpyrhtDivCd: string;
@@ -22,4 +22,6 @@ export interface PlaceApiType {
   title: string;
   zipcode: string;
   overview?: string;
+  telname?: string;
+  homepage?: string;
 }

@@ -1,40 +1,40 @@
-.plan-submit-main {
+.plan-places-main {
   box-sizing: border-box;
   margin: 10px 0;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
 
-  .plan-submit-main-title {
+  .plan-places-main-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .plan-submit-main-title-icon {
+    .plan-places-main-title-icon {
       transform: rotate(0deg);
       transition: transform 0.2s ease-in-out;
     }
 
-    .plan-submit-main-title-icon.active {
+    .plan-places-main-title-icon.active {
       transform: rotate(-180deg);
       transition: transform 0.2s ease-in-out;
     }
   }
 
-  .plan-submit-main-container {
+  .plan-places-main-container {
     visibility: hidden;
     max-height: 0px;
     opacity: 0;
     transition: all 0.2s ease-in-out;
   }
-  .plan-submit-main-container.active {
+  .plan-places-main-container.active {
     margin-top: 20px;
     visibility: visible;
     max-height: 1000px;
     opacity: 1;
     transition: all 0.2s ease-in-out;
 
-    .plan-submit-main-map {
+    .plan-places-main-map {
       box-sizing: border-box;
       height: 200px;
       border: 1px solid #ccc;
@@ -44,7 +44,7 @@
   }
 }
 
-.plan-submit-main.completed {
+.plan-places-main.completed {
   box-sizing: border-box;
   border: 2px solid var(--basic-color);
 }

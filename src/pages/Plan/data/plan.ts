@@ -1,3 +1,5 @@
+import { PlaceApiType } from "types/place";
+
 export const placesAccordianArr = [
   {
     name: "관광지",
@@ -15,7 +17,7 @@ export const placesAccordianArr = [
   },
 ];
 
-export const tests = [
+export const tests:PlaceApiType[] = [
   {
     contentid: "1254680",
     contenttypeid: "12",

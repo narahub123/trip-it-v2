@@ -120,9 +120,10 @@ const MobileSchedule = ({
               >
                 {columnArr
                   ?.filter((d) => d.scheduleOrder === index + 1)
-                  .map((detail) => {
+                  .map((detail, order) => {
                     return (
                       <PlanColumnCard
+                        order={order}
                         metroId={metroId}
                         date={date}
                         dates={dates}

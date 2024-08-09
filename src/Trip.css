@@ -9,6 +9,12 @@ body {
     "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     sans-serif;
   -webkit-font-smoothing: subpixel-antialiased;
+  overflow: auto;
+}
+
+.scrollable-element {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
 body::-webkit-scrollbar {

@@ -1,19 +1,20 @@
-.plan-submit-column-card {
+.plan-places-column-card {
   border: 1px solid #ccc;
   border-radius: 10px;
   margin-bottom: 10px;
   padding: 5px;
   font-size: 12px;
+  user-select: none;
 
-  .plan-submit-column-card-upper {
+  .plan-places-column-card-upper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .plan-submit-column-card-info {
+    .plan-places-column-card-info {
       width: 85%;
       display: inline-flex;
       gap: 5px;
-      .plan-submit-column-card-info-photo {
+      .plan-places-column-card-info-photo {
         img {
           display: block;
           width: 50px;
@@ -21,16 +22,16 @@
           border-radius: 10px;
         }
       }
-      .plan-submit-column-card-info-detail {
+      .plan-places-column-card-info-detail {
         width: calc(100% - 50px);
-        .plan-submit-column-card-info-detail-title {
+        .plan-places-column-card-info-detail-title {
           font-size: 13px;
           font-weight: bold;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
 
-          .plan-submit-column-card-info-detail-title-type {
+          .plan-places-column-card-info-detail-title-type {
             padding: 5px;
             border-radius: 15px;
             background-color: var(--basic-color);
@@ -38,20 +39,20 @@
             margin-right: 5px;
           }
 
-          .plan-submit-column-card-info-detail-title-type.tour {
+          .plan-places-column-card-info-detail-title-type.tour {
             background-color: blue;
           }
-          .plan-submit-column-card-info-detail-title-type.culture {
+          .plan-places-column-card-info-detail-title-type.culture {
             background-color: green;
           }
-          .plan-submit-column-card-info-detail-title-type.food {
+          .plan-places-column-card-info-detail-title-type.food {
             background-color: violet;
           }
-          .plan-submit-column-card-info-detail-title-type.accomm {
+          .plan-places-column-card-info-detail-title-type.accomm {
             background-color: pink;
           }
         }
-        .plan-submit-column-card-info-detail-hour {
+        .plan-places-column-card-info-detail-hour {
           margin: 10px 0;
           display: flex;
           gap: 2px;
@@ -59,7 +60,7 @@
       }
     }
 
-    .plan-submit-column-card-btn {
+    .plan-places-column-card-btn {
       position: relative;
       button {
         border: none;
@@ -67,12 +68,12 @@
         outline: none;
         color: gray;
       }
-      .plan-submit-column-card-btn-more {
+      .plan-places-column-card-btn-more {
         padding: 15px 4px;
         background-color: var(--basic-color);
         color: #fff;
       }
-      .plan-submit-column-card-btn-container {
+      .plan-places-column-card-btn-container {
         position: absolute;
         right: 0;
         width: 40px;
@@ -86,13 +87,13 @@
         opacity: 0;
         transition: all 0.2s ease-in-out;
 
-        .plan-submit-column-card-btn-item {
+        .plan-places-column-card-btn-item {
           padding: 5px;
           text-align: center;
         }
       }
 
-      .plan-submit-column-card-btn-container.active {
+      .plan-places-column-card-btn-container.active {
         visibility: visible;
         max-height: 200px;
         opacity: 1;
@@ -101,7 +102,7 @@
     }
   }
 
-  .plan-submit-column-card-lower {
+  .plan-places-column-card-lower {
     border-top: 0px solid #ccc;
     margin-top: 0px;
     padding-top: 0px;
@@ -111,7 +112,7 @@
     opacity: 0;
     transition: all 0.2s ease-in-out;
 
-    .plan-submit-column-card-depict {
+    .plan-places-column-card-depict {
       box-sizing: border-box;
       max-height: 100px;
       overflow-y: scroll;
@@ -119,13 +120,13 @@
       border-radius: 10px;
       padding: 5px;
 
-      .plan-submit-column-card-depict-title {
+      .plan-places-column-card-depict-title {
         font-weight: bold;
         margin-bottom: 5px;
       }
     }
 
-    .plan-submit-column-card-map {
+    .plan-places-column-card-map {
       box-sizing: border-box;
       height: 200px;
       border: 1px solid #ccc;
@@ -134,7 +135,7 @@
     }
   }
 
-  .plan-submit-column-card-lower-active {
+  .plan-places-column-card-lower-active {
     border-top: 1px solid #ccc;
     margin-top: 5px;
     padding-top: 5px;
@@ -144,7 +145,7 @@
     opacity: 1;
     transition: all 0.2s ease-in-out;
 
-    .plan-submit-column-card-depict {
+    .plan-places-column-card-depict {
       box-sizing: border-box;
       max-height: 100px;
       overflow-y: scroll;
@@ -152,13 +153,13 @@
       border-radius: 10px;
       padding: 5px;
 
-      .plan-submit-column-card-depict-title {
+      .plan-places-column-card-depict-title {
         font-weight: bold;
         margin-bottom: 5px;
       }
     }
 
-    .plan-submit-column-card-map {
+    .plan-places-column-card-map {
       box-sizing: border-box;
       height: 200px;
       border: 1px solid #ccc;

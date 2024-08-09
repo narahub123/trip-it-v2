@@ -3,12 +3,13 @@ import "./planColumnCard.css";
 import { metros } from "data/metros";
 import { hourArr, minuteArr } from "data/plan";
 import React, { useEffect, useState } from "react";
-import { LuChevronUp, LuMoreHorizontal } from "react-icons/lu";
+import { LuChevronDown, LuChevronUp, LuMoreHorizontal } from "react-icons/lu";
 import Dropdown from "./components/Dropdown";
 import { ColumnType } from "types/plan";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 
 export interface PlanColumnCardProps {
+  order: number;
   metroId: string;
   date: Date;
   dates: Date[];
@@ -19,6 +20,7 @@ export interface PlanColumnCardProps {
 }
 
 const PlanColumnCard = ({
+  order,
   metroId,
   date,
   dates,
@@ -131,19 +133,29 @@ const PlanColumnCard = ({
   };
 
   return (
-    <li className="plan-submit-column-card">
-      <div className="plan-submit-column-card-upper">
+    <li className={`plan-places-column-card`}>
+      <div className="plan-places-column-card-upper">
+        <span className="plan-places-column-card-move">
+          {order !== 0 && (
+            <div className="plan-places-column-card-move-up">
+              <LuChevronUp />
+            </div>
+          )}
+          <div className="plan-places-column-card-move-down">
+            <LuChevronDown />
+          </div>
+        </span>
         <span
-          className="plan-submit-column-card-info"
+          className="plan-places-column-card-info"
           onClick={(e) => handlePlace(e)}
         >
-          <span className="plan-submit-column-card-info-photo">
+          <span className="plan-places-column-card-info-photo">
             <img src={place?.firstimage || defaultImage} alt="" />
           </span>
-          <span className="plan-submit-column-card-info-detail">
-            <div className="plan-submit-column-card-info-detail-title">
+          <span className="plan-places-column-card-info-detail">
+            <div className="plan-places-column-card-info-detail-title">
               <span
-                className={`plan-submit-column-card-info-detail-title-type ${
+                className={`plan-places-column-card-info-detail-title-type ${
                   place?.contenttypeid === "12"
                     ? "tour"
                     : place?.contenttypeid === "14"
@@ -167,11 +179,11 @@ const PlanColumnCard = ({
                     : "기타")}
               </span>
               {place?.title}{" "}
-              <span className="plan-submit-column-card-info-detail-title-more">
+              <span className="plan-places-column-card-info-detail-title-more">
                 <LuChevronUp />
               </span>
             </div>
-            <div className="plan-submit-column-card-info-detail-hour">
+            <div className="plan-places-column-card-info-detail-hour">
               <Dropdown
                 value={startHour}
                 array={hourArr}
@@ -193,20 +205,20 @@ const PlanColumnCard = ({
             </div>
           </span>
         </span>
-        <span className="plan-submit-column-card-btn">
+        <span className="plan-places-column-card-btn">
           <button
-            className="plan-submit-column-card-btn-more"
+            className="plan-places-column-card-btn-more"
             onClick={() => setOpen(!open)}
           >
             <LuMoreHorizontal />
           </button>
           <ul
-            className={`plan-submit-column-card-btn-container ${
+            className={`plan-places-column-card-btn-container ${
               open ? "active" : ""
             }`}
           >
             <li
-              className="plan-submit-column-card-btn-item"
+              className="plan-places-column-card-btn-item"
               onClick={(e) => handleDeselect(e, place?.contentid)}
             >
               삭제
@@ -215,7 +227,7 @@ const PlanColumnCard = ({
               if (d === date) return;
               return (
                 <li
-                  className="plan-submit-column-card-btn-item"
+                  className="plan-places-column-card-btn-item"
                   onClick={() => handleAdd(d, index + 1)}
                   key={convertDateTypeToDate1(d)}
                 >
@@ -227,17 +239,17 @@ const PlanColumnCard = ({
         </span>
       </div>
       <div
-        className={`plan-submit-column-card-lower${
+        className={`plan-places-column-card-lower${
           openDepict ? "-active" : ""
         }`}
       >
-        <div className="plan-submit-column-card-depict">
-          <div className="plan-submit-column-card-depict-title">설명</div>
-          <div className="plan-submit-column-card-depict-main">
+        <div className="plan-places-column-card-depict">
+          <div className="plan-places-column-card-depict-title">설명</div>
+          <div className="plan-places-column-card-depict-main">
             {place?.overview}
           </div>
         </div>
-        <div className="plan-submit-column-card-map">map</div>
+        <div className="plan-places-column-card-map">map</div>
       </div>
     </li>
   );

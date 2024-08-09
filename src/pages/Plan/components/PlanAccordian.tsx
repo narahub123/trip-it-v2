@@ -56,13 +56,13 @@ const PlanAccordian = ({
 
   return (
     <section
-      className={`plan-submit-main ${
+      className={`plan-places-main ${
         numOfPlace > 0 && numOfAccomm > 0 ? "completed" : ""
       }`}
       key={convertDateTypeToDate2(date)}
     >
       <div
-        className="plan-submit-main-title"
+        className="plan-places-main-title"
         onClick={
           columns[convertDateTypeToDate2(date)].length === 0
             ? undefined
@@ -75,7 +75,7 @@ const PlanAccordian = ({
         </p>
 
         <span
-          className={`plan-submit-main-title-icon ${
+          className={`plan-places-main-title-icon ${
             openAccordian === convertDateTypeToDate2(date) ? "active" : ""
           }`}
         >
@@ -84,12 +84,13 @@ const PlanAccordian = ({
       </div>
 
       <ul
-        className={`plan-submit-main-container ${
+        className={`plan-places-main-container ${
           openAccordian === convertDateTypeToDate2(date) ? "active" : ""
         }`}
       >
-        {columns[convertDateTypeToDate2(date)].map((detail, order) => (
+        {columns[convertDateTypeToDate2(date)].map((detail, index) => (
           <PlanColumnCard
+            order={index}
             metroId={metroId}
             date={date}
             dates={dates}
@@ -100,7 +101,7 @@ const PlanAccordian = ({
             key={detail.place.contentid}
           />
         ))}
-        <div className="plan-submit-main-map">map</div>
+        <div className="plan-places-main-map">map</div>
       </ul>
     </section>
   );

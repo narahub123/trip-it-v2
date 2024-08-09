@@ -7,6 +7,7 @@ import { convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { PlaceApiType } from "types/place";
 import { metros } from "data/metros";
+import { tests } from "./data/plan";
 
 const Plan = () => {
   const { hash, pathname } = useLocation();
@@ -17,7 +18,9 @@ const Plan = () => {
   const metroId =
     metros.find((metro) => metro.name === discodedMetroName)?.areaCode || "";
 
-  const [selectedPlaces, setSelectedPlaces] = useState<PlaceApiType[]>([]);
+  const [selectedPlaces, setSelectedPlaces] = useState<PlaceApiType[]>([
+    ...tests,
+  ]);
   const [dates, setDates] = useState<Date[]>([]);
   const [columns, setColumns] = useState<{
     [key: string]: ColumnType[];
