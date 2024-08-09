@@ -27,7 +27,7 @@ const PlanSubmit = ({
 }: PlanSubmitProps) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
-  const [openAccordian, setOpenAccordin] = useState("selected");
+  const [openAccordian, setOpenAccordian] = useState("selected");
 
   // 제출 가능 상태 확인
   const defaultValid = dates.reduce((acc, date) => {
@@ -45,9 +45,9 @@ const PlanSubmit = ({
 
   const handleOpen = (containerName: string) => {
     if (containerName === openAccordian) {
-      setOpenAccordin("");
+      setOpenAccordian("");
     } else {
-      setOpenAccordin(containerName);
+      setOpenAccordian(containerName);
     }
   };
 
@@ -150,7 +150,7 @@ const PlanSubmit = ({
               key={selectedPlace.contentid}
               columns={columns}
               setColumns={setColumns}
-              setOpenAccordin={setOpenAccordin}
+              setOpenAccordian={setOpenAccordian}
             />
           ))}
           {selectedPlaces.length !== 0 && (
@@ -167,7 +167,7 @@ const PlanSubmit = ({
             columns={columns}
             setColumns={setColumns}
             openAccordian={openAccordian}
-            setOpenAccordin={setOpenAccordin}
+            setOpenAccordian={setOpenAccordian}
             handleOpen={handleOpen}
             selectedPlaces={selectedPlaces}
             setSelectedPlaces={setSelectedPlaces}

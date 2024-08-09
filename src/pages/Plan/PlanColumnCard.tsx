@@ -15,7 +15,7 @@ export interface PlanColumnCardProps {
   detail: ColumnType;
   columns: { [key: string]: ColumnType[] };
   setColumns: (value: { [key: string]: ColumnType[] }) => void;
-  setOpenAccordin: (value: string) => void;
+  setOpenAccordian: (value: string) => void;
 }
 
 const PlanColumnCard = ({
@@ -25,7 +25,7 @@ const PlanColumnCard = ({
   detail,
   columns,
   setColumns,
-  setOpenAccordin,
+  setOpenAccordian,
 }: PlanColumnCardProps) => {
   const [open, setOpen] = useState(false);
   const [openDepict, setOpenDepict] = useState(false);
@@ -127,7 +127,7 @@ const PlanColumnCard = ({
 
     setColumns(updatedColumns);
     setOpen(false);
-    setOpenAccordin(convertDateTypeToDate2(newDate));
+    setOpenAccordian(convertDateTypeToDate2(newDate));
   };
 
   return (

@@ -22,7 +22,7 @@ const MobileSchedule = ({
   columns,
   setColumns,
 }: MobileScheduleProps) => {
-  const [openAccordian, setOpenAccordin] = useState("");
+  const [openAccordian, setOpenAccordian] = useState("");
   const {
     scheduleId,
     scheduleTitle,
@@ -43,8 +43,8 @@ const MobileSchedule = ({
           className="mobile-schedule-accordian"
           onClick={
             openAccordian === scheduleTitle
-              ? () => setOpenAccordin("")
-              : () => setOpenAccordin(scheduleTitle)
+              ? () => setOpenAccordian("")
+              : () => setOpenAccordian(scheduleTitle)
           }
         >
           <div className="mobile-schedule-accordian-title">
@@ -94,8 +94,8 @@ const MobileSchedule = ({
               key={date.toDateString()}
               onClick={
                 openAccordian === convertDateTypeToDate2(date)
-                  ? () => setOpenAccordin("")
-                  : () => setOpenAccordin(convertDateTypeToDate2(date))
+                  ? () => setOpenAccordian("")
+                  : () => setOpenAccordian(convertDateTypeToDate2(date))
               }
             >
               <div className="mobile-schedule-accordian-title">
@@ -129,7 +129,7 @@ const MobileSchedule = ({
                         detail={detail}
                         columns={columns}
                         setColumns={setColumns}
-                        setOpenAccordin={setOpenAccordin}
+                        setOpenAccordian={setOpenAccordian}
                       />
                     );
                   })}

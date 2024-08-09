@@ -50,11 +50,11 @@ const Footer = () => {
           <IoChatbubbleEllipsesOutline />
         </NavLink>
         <NavLink
-          to={`/logout`}
+          to={`/login/normal`}
           className={({ isActive }) =>
             isActive ? "footer-item active" : "footer-item"
           }
-          title="로그아웃"
+          title="로그인"
         >
           {/* <LuLogIn />  */}
           <LuLogOut />

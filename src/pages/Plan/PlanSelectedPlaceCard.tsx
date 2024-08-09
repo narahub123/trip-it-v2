@@ -27,21 +27,20 @@ const PlanSelectedPlaceCard = ({
   )?.imgUrl;
 
   useEffect(() => {
-    setLoading(true);
+    const fetchPlace = async () => {
+      setLoading(true);
+      const newPlace = selectedPlaces.find(
+        (place) => place.areacode === contentId
+      );
 
-    fetchPlaceAPI(contentId)
-      .then((res) => {
-        if (!res) return;
-        console.log(res.data);
+      console.log(newPlace);
 
-        setPlace(res.data[0]);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
-  }, [contentId]);
+      setPlace(newPlace);
+      setLoading(false);
+    };
+
+    fetchPlace();
+  }, [selectedPlaces]);
 
   const handlePlace = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
@@ -51,7 +50,7 @@ const PlanSelectedPlaceCard = ({
     setOpenDepict(!openDepict);
   };
 
-  const handleSelect = (
+  const handleDeSelect = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
     contentId?: string
   ) => {
@@ -88,7 +87,7 @@ const PlanSelectedPlaceCard = ({
         </span>
         <span
           className="plan-places-main-selectedcard-btn"
-          onClick={(e) => handleSelect(e, place?.contentid)}
+          onClick={(e) => handleDeSelect(e, place?.contentid)}
         >
           <button className="plan-places-main-selectedcard-btn-checked">
             <LuCheck />

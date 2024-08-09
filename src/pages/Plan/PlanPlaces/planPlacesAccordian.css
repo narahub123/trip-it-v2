@@ -1,0 +1,76 @@
+.plan-places-accordian {
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+
+  .plan-places-accordian-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .plan-places-accordian-container {
+    visibility: hidden;
+    max-height: 0px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+
+    /* .plan-places-accordian-tags {
+      display: none;
+    }
+    .plan-places-accordian-places {
+      display: none;
+    } */
+  }
+}
+
+.plan-places-accordian.active {
+  border: 2px solid var(--basic-color);
+
+  .plan-places-accordian-container {
+    visibility: visible;
+    max-height: 1000px;
+    opacity: 1;
+    transition: all 0.2s ease-in-out;
+
+    .plan-places-accordian-tags {
+      margin-top: 10px;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+
+      .plan-places-accordian-tags-item {
+        box-sizing: border-box;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+      }
+      .plan-places-accordian-tags-item.active {
+        background-color: var(--basic-color);
+        color: #fff;
+      }
+    }
+    .plan-places-accordian-places {
+      display: block;
+
+      .plan-places-accordian-places-loading {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 20px 0;
+        text-align: center;
+      }
+      .plan-places-accordian-places-empty {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 20px 0;
+        text-align: center;
+      }
+    }
+  }
+}

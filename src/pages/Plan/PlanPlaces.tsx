@@ -17,6 +17,9 @@ import { fetchPlacesAPI } from "apis/place";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import PlanAccordian from "./components/PlanAccordian";
 import { saveSchedule } from "apis/schedule";
+import { useRenderCount } from "@uidotdev/usehooks";
+import PlanPlacesAccordian from "./PlanPlaces/PlanPlacesAccordian";
+import { placesAccordianArr } from "./data/plan";
 
 export interface PlanPlacesProps {
   metroId: string;
@@ -35,12 +38,15 @@ const PlanPlaces = ({
   columns,
   setColumns,
 }: PlanPlacesProps) => {
+  const renderCount = useRenderCount();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [places, setPlaces] = useState<PlaceApiType[]>([]);
   const [pageNo, setPageNo] = useState("1");
   const [contentTypeId, setContentTypeId] = useState("12");
-  const [openAccordian, setOpenAccordin] = useState("");
+  const [openAccordian, setOpenAccordian] = useState("");
+
+  console.log("렌더링 횟수", renderCount);
 
   // 제출 가능 상태 확인
   const defaultValid = dates.reduce((acc, date) => {
@@ -65,43 +71,17 @@ const PlanPlaces = ({
     setCompleted(allValid);
   }, [valid]);
 
-  useEffect(() => {
-    setLoading(true);
-    fetchPlacesAPI(metroId, pageNo, contentTypeId)
-      .then((res) => {
-        if (!res) return;
-
-        setPlaces(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (err.code === 0) {
-          console.log("네트워크 오류, 연결 상태 확인 요망");
-        }
-        setLoading(false);
-      });
-  }, [metroId, contentTypeId, pageNo]);
-
   const startDate = dates.length > 0 && convertDateTypeToDate1(dates[0]);
   const endDate =
     dates.length > 0 && convertDateTypeToDate1(dates[dates.length - 1]);
-
-  console.log(openAccordian);
 
   const handleOpen = (containerName: string) => {
     if (containerName === "input") return;
 
     if (containerName === openAccordian) {
-      setOpenAccordin("");
+      return setOpenAccordian("");
     } else {
-      if (containerName === "place") {
-        setContentTypeId("12");
-      } else if (containerName === "accomm") {
-        setContentTypeId("32");
-      } else {
-        return setOpenAccordin(containerName);
-      }
-      setOpenAccordin(containerName);
+      return setOpenAccordian(containerName);
     }
   };
 
@@ -118,8 +98,6 @@ const PlanPlaces = ({
     e.stopPropagation();
     setContentTypeId(contentTypeId);
   };
-
-  console.log(selectedPlaces);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
@@ -212,7 +190,21 @@ const PlanPlaces = ({
         </ul>
       </section>
 
-      <section
+      {placesAccordianArr.map((accordian) => (
+        <PlanPlacesAccordian
+          openAccordian={openAccordian}
+          setOpenAccordian={setOpenAccordian}
+          contentTypeId={contentTypeId}
+          setContentTypeId={setContentTypeId}
+          selectedPlaces={selectedPlaces}
+          setSelectedPlaces={setSelectedPlaces}
+          metroId={metroId}
+          key={accordian.key}
+          accordianInfo={accordian}
+        />
+      ))}
+
+      {/* <section
         className={`plan-places-main place ${
           openAccordian === "place" ? "active" : ""
         }`}
@@ -308,7 +300,7 @@ const PlanPlaces = ({
             ))
           )}
         </ul>
-      </section>
+      </section> */}
       <section
         className={`plan-places-main selected ${
           openAccordian === "selected" ? "active" : ""
@@ -346,13 +338,14 @@ const PlanPlaces = ({
       {dates.length > 0 &&
         dates.map((date) => (
           <PlanAccordian
+            key={date.toDateString()}
             metroId={metroId}
             date={date}
             dates={dates}
             columns={columns}
             setColumns={setColumns}
             openAccordian={openAccordian}
-            setOpenAccordin={setOpenAccordin}
+            setOpenAccordian={setOpenAccordian}
             handleOpen={handleOpen}
             selectedPlaces={selectedPlaces}
             setSelectedPlaces={setSelectedPlaces}

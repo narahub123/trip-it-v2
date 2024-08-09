@@ -16,7 +16,7 @@ export interface PlanSubmitSelectedPlaceCardProps {
   dates: Date[];
   columns: { [key: string]: ColumnType[] };
   setColumns: (value: { [key: string]: ColumnType[] }) => void;
-  setOpenAccordin: (value: string) => void;
+  setOpenAccordian: (value: string) => void;
 }
 
 const PlanSubmitSelectedPlaceCard = ({
@@ -27,7 +27,7 @@ const PlanSubmitSelectedPlaceCard = ({
   dates,
   columns,
   setColumns,
-  setOpenAccordin,
+  setOpenAccordian,
 }: PlanSubmitSelectedPlaceCardProps) => {
   const [loading, setLoading] = useState(false);
   const [openDepict, setOpenDepict] = useState(false);
@@ -82,7 +82,7 @@ const PlanSubmitSelectedPlaceCard = ({
     setColumns(newColumns);
     setOpen(false);
     if (selectedPlaces.length === 1)
-      setOpenAccordin(convertDateTypeToDate2(date));
+      setOpenAccordian(convertDateTypeToDate2(date));
   };
 
   return (

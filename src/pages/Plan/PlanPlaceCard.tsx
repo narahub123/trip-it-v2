@@ -3,7 +3,7 @@ import "./planPlaceCard.css";
 import { LuCheck, LuChevronUp, LuPlus } from "react-icons/lu";
 import { metros } from "data/metros";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { fetchPlaceAPI } from "apis/place";
 
 export interface PlanPlaceCardProps {
@@ -21,6 +21,7 @@ const PlanPlaceCard = ({
 }: PlanPlaceCardProps) => {
   const [loading, setLoading] = useState(false);
   const [openDepict, setOpenDepict] = useState(false);
+  const [isRequesting, setIsRequesting] = useState(false);
 
   const defaultImage = metros.find(
     (metro) => metro.areaCode === metroId
@@ -35,6 +36,9 @@ const PlanPlaceCard = ({
     e.stopPropagation();
     setOpenDepict(!openDepict);
     setLoading(true);
+    if (isRequesting) return;
+
+    setIsRequesting(true);
 
     fetchPlaceAPI(contentId)
       .then((res) => {
@@ -43,6 +47,7 @@ const PlanPlaceCard = ({
 
         setSelectedPlace(res.data[0]);
         setLoading(false);
+        setIsRequesting(false);
       })
       .catch((err) => {
         console.log(err);
@@ -50,6 +55,7 @@ const PlanPlaceCard = ({
           console.log("네트워크 오류, 연결 상태 확인 요망");
         }
         setLoading(false);
+        setIsRequesting(false);
       });
   };
 
@@ -145,4 +151,6 @@ const PlanPlaceCard = ({
   );
 };
 
-export default PlanPlaceCard;
+export default React.memo(PlanPlaceCard, (prevProps, nextProps) => {
+  return prevProps.place === nextProps.place;
+});

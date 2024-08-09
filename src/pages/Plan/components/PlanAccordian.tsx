@@ -13,7 +13,7 @@ export interface PlanAccordianProps {
   columns: { [key: string]: ColumnType[] };
   setColumns: (value: { [key: string]: ColumnType[] }) => void;
   openAccordian: string;
-  setOpenAccordin: (value: string) => void;
+  setOpenAccordian: (value: string) => void;
   handleOpen: (value: string) => void;
   selectedPlaces: PlaceApiType[];
   setSelectedPlaces: (value: PlaceApiType[]) => void;
@@ -28,7 +28,7 @@ const PlanAccordian = ({
   columns,
   setColumns,
   openAccordian,
-  setOpenAccordin,
+  setOpenAccordian,
   handleOpen,
   valid,
   setValid,
@@ -96,7 +96,7 @@ const PlanAccordian = ({
             detail={detail}
             columns={columns}
             setColumns={setColumns}
-            setOpenAccordin={setOpenAccordin}
+            setOpenAccordian={setOpenAccordian}
             key={detail.place.contentid}
           />
         ))}
