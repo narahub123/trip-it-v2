@@ -23,12 +23,35 @@
       }
       .plan-places-main-selectedcard-info-detail {
         width: calc(100% - 50px);
+
         .plan-places-main-selectedcard-info-detail-title {
           font-size: 13px;
+          height: 20px;
           font-weight: bold;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+
+          .plan-places-main-selectedcard-info-detail-title-type {
+            padding: 10px 5px;
+            background-color: var(--basic-color);
+            color: #fff;
+            margin-right: 5px;
+            font-size: 10px;
+            line-height: 12px;
+          }
+          .plan-places-main-selectedcard-info-detail-title-type.tour {
+            background-color: blue;
+          }
+          .plan-places-main-selectedcard-info-detail-title-type.culture {
+            background-color: green;
+          }
+          .plan-places-main-selectedcard-info-detail-title-type.food {
+            background-color: violet;
+          }
+          .plan-places-main-selectedcard-info-detail-title-type.accomm {
+            background-color: pink;
+          }
         }
         .plan-places-main-selectedcard-info-detail-addr {
           margin: 10px 0;
@@ -39,19 +62,43 @@
       }
     }
     .plan-places-main-selectedcard-btn {
+      position: relative;
       button {
         border: none;
         border-radius: 5px;
         outline: none;
         color: gray;
       }
-      .plan-places-main-selectedcard-btn-checked {
+      .plan-places-main-selectedcard-btn-more {
         padding: 15px 4px;
         background-color: var(--basic-color);
         color: #fff;
       }
-      .plan-places-main-selectedcard-btn-plus {
-        padding: 15px 4px;
+      .plan-places-main-selectedcard-btn-container {
+        position: absolute;
+        left: -10px;
+        width: 40px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        border-radius: 5px;
+        z-index: 1;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+
+        .plan-places-main-selectedcard-btn-item {
+          padding: 5px;
+          text-align: center;
+        }
+      }
+      .plan-places-main-selectedcard-btn-container.active {
+        visibility: visible;
+        max-height: 500px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
       }
     }
   }

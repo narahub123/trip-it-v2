@@ -204,103 +204,6 @@ const PlanPlaces = ({
         />
       ))}
 
-      {/* <section
-        className={`plan-places-main place ${
-          openAccordian === "place" ? "active" : ""
-        }`}
-        onClick={() => handleOpen("place")}
-      >
-        <div className="plan-places-main-title">
-          <p>외부 api 장소</p>
-          <span className="plan-places-main-title-icon">
-            <IoIosArrowDropup />
-          </span>
-        </div>
-
-        <ul className="plan-places-main-container">
-          <div className="plan-places-main-tags">
-            <span
-              className={`plan-places-main-tags-item ${
-                contentTypeId === "12" ? "active" : ""
-              }`}
-              onClick={(e) => handleContentTypeId(e, "12")}
-            >
-              관광
-            </span>
-            <span
-              className={`plan-places-main-tags-item ${
-                contentTypeId === "14" ? "active" : ""
-              }`}
-              onClick={(e) => handleContentTypeId(e, "14")}
-            >
-              문화
-            </span>
-            <span
-              className={`plan-places-main-tags-item ${
-                contentTypeId === "39" ? "active" : ""
-              }`}
-              onClick={(e) => handleContentTypeId(e, "39")}
-            >
-              음식
-            </span>
-          </div>
-          {loading ? (
-            <li className="plan-places-main-loading">loading...</li>
-          ) : places.length === 0 ? (
-            <li className="plan-places-main-none">검색 결과가 없습니다.</li>
-          ) : (
-            places.map((place) => (
-              <PlanPlaceCard
-                place={place}
-                metroId={metroId}
-                selectedPlaces={selectedPlaces}
-                setSelectedPlaces={setSelectedPlaces}
-                key={place.contentid}
-              />
-            ))
-          )}
-        </ul>
-      </section>
-      <section
-        className={`plan-places-main accomm ${
-          openAccordian === "accomm" ? "active" : ""
-        }`}
-        onClick={() => handleOpen("accomm")}
-      >
-        <div className="plan-places-main-title">
-          <p>외부 api 숙소</p>
-          <span className="plan-places-main-title-icon">
-            <IoIosArrowDropup />
-          </span>
-        </div>
-
-        <ul className="plan-places-main-container">
-          <div className="plan-places-main-tags">
-            <span
-              className={`plan-places-main-tags-item ${
-                contentTypeId === "32" ? "active" : ""
-              }`}
-            >
-              숙소
-            </span>
-          </div>
-          {loading ? (
-            <li className="plan-places-main-loading">loading...</li>
-          ) : places.length === 0 ? (
-            <li className="plan-places-main-none">검색 결과가 없습니다.</li>
-          ) : (
-            places.map((place) => (
-              <PlanPlaceCard
-                place={place}
-                metroId={metroId}
-                selectedPlaces={selectedPlaces}
-                setSelectedPlaces={setSelectedPlaces}
-                key={place.contentid}
-              />
-            ))
-          )}
-        </ul>
-      </section> */}
       <section
         className={`plan-places-main selected ${
           openAccordian === "selected" ? "active" : ""
@@ -322,15 +225,19 @@ const PlanPlaces = ({
         </div>
 
         <ul className="plan-places-main-container">
-          <div className="plan-places-main-tags deactive"></div>
           {selectedPlaces.length === 0 && <li>선택한 장소가 없습니다.</li>}
           {selectedPlaces.map((selectedPlace) => (
             <PlanSelectedPlaceCard
               metroId={metroId}
+              selectedPlace={selectedPlace}
               contentId={selectedPlace.contentid}
               selectedPlaces={selectedPlaces}
               setSelectedPlaces={setSelectedPlaces}
               key={selectedPlace.contentid}
+              dates={dates}
+              columns={columns}
+              setColumns={setColumns}
+              setOpenAccordian={setOpenAccordian}
             />
           ))}
         </ul>

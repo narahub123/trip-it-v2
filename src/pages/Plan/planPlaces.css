@@ -87,6 +87,8 @@
     .plan-places-main-title {
       display: flex;
       justify-content: space-between;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ccc;
 
       .plan-places-main-title-icon {
         transform: rotate(-180deg);
@@ -100,8 +102,8 @@
       transition: all 0.2s ease-in-out;
 
       margin-top: 10px;
-      /* padding-top: 10px; */
-      border-top: 1px solid #ccc;
+      padding-top: 10px;
+      /* border-top: 1px solid #ccc; */
 
       .plan-places-main-tags {
         font-size: 12px;

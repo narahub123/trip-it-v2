@@ -78,6 +78,15 @@ const PlanPlacesAccordian = ({
     setOpenAccordian(accordian);
   };
 
+  const handleContentTypeId = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    contentTypeId: string
+  ) => {
+    e.stopPropagation();
+
+    setContentTypeId(contentTypeId);
+  };
+
   return (
     <section
       className={`plan-places-accordian${
@@ -100,6 +109,7 @@ const PlanPlacesAccordian = ({
               className={`plan-places-accordian-tags-item${
                 contentTypeId === tag.contentTypeId ? " active" : ""
               }`}
+              onClick={(e) => handleContentTypeId(e, tag.contentTypeId)}
             >
               {tag.name}
             </span>
