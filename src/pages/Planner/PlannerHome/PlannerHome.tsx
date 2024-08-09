@@ -1,20 +1,12 @@
-import "./planHome.css";
-import { metros } from "data/metros";
-import { useRef, useState } from "react";
-import MobilePlanHomeModal from "templates/Moblie/components/MobilePlanHomeModal";
+import "./plannerHome.css";
+import { useState } from "react";
 import { MessageType } from "types/template";
+import PlannerHomeModal from "./PlannerHomeModal";
+import { metros } from "data/metros";
 
-const PlanHome = () => {
+const PlannerHome = () => {
   const [message, setMessage] = useState<MessageType>();
-  const inputRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState("");
-  const [focus, setFocus] = useState(false);
-
-  const checkFocus = () => {
-    if (inputRef.current) {
-      setFocus(document.activeElement === inputRef.current);
-    }
-  };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const search = e.currentTarget.value;
@@ -23,7 +15,6 @@ const PlanHome = () => {
   };
 
   const showDetail = (areaCode: string) => {
-    console.log(areaCode);
     const metro = metros.find((item) => item.areaCode === areaCode);
 
     if (!metro) return;
@@ -44,45 +35,43 @@ const PlanHome = () => {
   } else {
     document.body.style.overflow = "auto";
   }
-
   return (
-    <div className="plan-home">
+    <div className="planner-home">
       {message && (
-        <MobilePlanHomeModal message={message} setMessage={setMessage} />
+        <PlannerHomeModal message={message} setMessage={setMessage} />
       )}
-      <section className="plan-home-title">
+      <section className="planner-home-title">
         <h3>지역 검색</h3>
       </section>
-      <section className="plan-home-search">
+      <section className="planner-home-search">
         <input
           type="text"
-          className="plan-home-search-box"
-          placeholder={focus ? "" : "#지역 검색"}
-          ref={inputRef}
+          className="planner-home-search-box"
           onChange={(e) => handleSearch(e)}
-          onFocus={checkFocus}
-          onBlur={checkFocus}
         />
       </section>
-      <section className="plan-home-grid">
-        <ul className="plan-home-grid-container">
+      <section className="planner-home-grid">
+        <ul className="planner-home-grid-container">
           {metros
             .filter((item) => item.name.includes(search))
             .map((metro) => (
               <li
-                className="plan-home-grid-item"
                 key={metro.areaCode}
+                className="planner-home-grid-item"
                 onClick={() => showDetail(metro.areaCode)}
               >
-                <img src={metro.imgUrl} alt="" />
-                <div className="plan-home-grid-item-title">{metro.name}</div>
+                <img
+                  src={metro.imgUrl}
+                  alt="지역 사진"
+                  className="planner-home-grid-item-image"
+                />
+                <p className="planner-home-grid-item-title">{metro.name}</p>
               </li>
             ))}
         </ul>
       </section>
-      <section className="plan-home-bottom" />
     </div>
   );
 };
 
-export default PlanHome;
+export default PlannerHome;

@@ -25,6 +25,7 @@ import MypageMobile from "pages/Mobile/Mypage/MypageMobile";
 import Carousel from "test/Carousel";
 import PlanHome from "pages/Plan/PlanHome";
 import Schedule from "pages/Schedule/Schedule";
+import PlannerHome from "pages/Planner/PlannerHome/PlannerHome";
 
 const Trip = () => {
   useEffect(() => {
@@ -63,7 +64,8 @@ const Trip = () => {
             <Route path="/admin/posts" element={<PostsA />} />
             <Route path="/admin/schedules" element={<SchedulesA />} />
           </Route>
-          <Route path="/planner" element={<PlanHome />} />
+          <Route path="/planner" element={<PlannerHome />} />
+          <Route path="/plan" element={<PlanHome />} />
           <Route path="/test" element={<Test />}></Route>
           <Route path="/test/carousel" element={<Carousel />} />
         </Route>
