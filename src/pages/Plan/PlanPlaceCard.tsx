@@ -1,6 +1,6 @@
 import { PlaceApiType } from "types/place";
 import "./planPlaceCard.css";
-import { LuCheck, LuChevronUp, LuPlus } from "react-icons/lu";
+import { LuCheck, LuChevronUp, LuLoader, LuPlus } from "react-icons/lu";
 import { metros } from "data/metros";
 
 import React, { useState } from "react";
@@ -29,12 +29,32 @@ const PlanPlaceCard = ({
 
   const [selectedPlace, setSelectedPlace] = useState<PlaceApiType>();
 
-  const handlePlace = (
+  const getPlaceDetail = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
     contentId: string
   ) => {
     e.stopPropagation();
+
+    // 설명 파트 여닫기
     setOpenDepict(!openDepict);
+
+    // 설명 부분이 열려 있는 경우 api 요청을 하지 않고 되돌아 감
+    if (openDepict) return;
+
+    // 선택한 장소에 대한 정보와 요청 정보가 일치한다면 되돌아 감
+    if (selectedPlace && selectedPlace.contentid === contentId) return;
+
+    // 선택한 장소가 선택한 장소들의 목록에 존재하는지 확인
+    const isExisted = selectedPlaces.find(
+      (selectedPlace) => selectedPlace.contentid === contentId
+    );
+
+    // 선택한 장소들에 존재하는 정보인 경우 그 정보를 선택한 장소 정보에 추가
+    if (isExisted) {
+      setSelectedPlace(isExisted);
+      return;
+    }
+
     setLoading(true);
     if (isRequesting) return;
 
@@ -74,9 +94,13 @@ const PlanPlaceCard = ({
 
       setSelectedPlaces(newSelections);
     } else {
+      setLoading(true);
+
       fetchPlaceAPI(contentId)
         .then((res) => {
           if (!res) return;
+
+          console.log(res.data[0]);
 
           const newPlace = res.data[0];
 
@@ -95,12 +119,14 @@ const PlanPlaceCard = ({
     }
   };
 
+  console.log(selectedPlaces);
+
   return (
     <li className="plan-places-main-card">
       <div className="plan-places-main-card-upper">
         <span
           className="plan-places-main-card-info"
-          onClick={(e) => handlePlace(e, place.contentid)}
+          onClick={(e) => getPlaceDetail(e, place.contentid)}
         >
           <span className="plan-places-main-card-info-photo">
             <img src={place.firstimage || defaultImage} alt="" />
@@ -121,7 +147,15 @@ const PlanPlaceCard = ({
           className="plan-places-main-card-btn"
           onClick={(e) => handleSelect(e, place.contentid)}
         >
-          {selectedPlaces.map((p) => p.contentid).includes(place.contentid) ? (
+          {loading ? (
+            <button className="plan-places-main-card-btn-loading">
+              <i>
+                <LuLoader />
+              </i>
+            </button>
+          ) : selectedPlaces
+              .map((p) => p.contentid)
+              .includes(place.contentid) ? (
             <button className="plan-places-main-card-btn-checked">
               <LuCheck />
             </button>
@@ -151,6 +185,4 @@ const PlanPlaceCard = ({
   );
 };
 
-export default React.memo(PlanPlaceCard, (prevProps, nextProps) => {
-  return prevProps.place === nextProps.place;
-});
+export default PlanPlaceCard;
