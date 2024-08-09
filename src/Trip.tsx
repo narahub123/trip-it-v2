@@ -26,6 +26,7 @@ import Carousel from "test/Carousel";
 import PlanHome from "pages/Plan/PlanHome";
 import Schedule from "pages/Schedule/Schedule";
 import PlannerHome from "pages/Planner/PlannerHome/PlannerHome";
+import PlannerLayout from "layouts/PlannerLayout";
 
 const Trip = () => {
   useEffect(() => {
@@ -70,7 +71,8 @@ const Trip = () => {
           <Route path="/test/carousel" element={<Carousel />} />
         </Route>
         <Route path="/mypage/schedules/:scheduleId" element={<Schedule />} />
-        <Route path="/planner/:metroName" element={<PlanLayout />}></Route>
+        <Route path="/plan/:metroName" element={<PlanLayout />}></Route>
+        <Route path="/planner/:metroName" element={<PlannerLayout />}></Route>
       </Routes>
     </>
   );

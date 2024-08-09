@@ -9,10 +9,9 @@ import Calendar from "./components/Calendar";
 export interface PlanCalendarProps {
   dates: Date[];
   setDates: Dispatch<SetStateAction<Date[]>>;
-  metroId: string;
 }
 
-const PlanCalendar = ({ dates, setDates, metroId }: PlanCalendarProps) => {
+const PlanCalendar = ({ dates, setDates }: PlanCalendarProps) => {
   const navigate = useNavigate();
 
   const today = new Date();

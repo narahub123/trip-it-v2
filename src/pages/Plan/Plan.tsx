@@ -35,7 +35,7 @@ const Plan = () => {
   return (
     <div className="plan">
       {!hash || hash === "#calendar" ? (
-        <PlanCalendar dates={dates} setDates={setDates} metroId={metroId} />
+        <PlanCalendar dates={dates} setDates={setDates} />
       ) : (
         hash === "#place" && (
           <PlanPlaces
