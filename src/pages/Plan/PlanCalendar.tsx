@@ -81,7 +81,6 @@ const PlanCalendar = ({ dates, setDates }: PlanCalendarProps) => {
           <Calendar
             year={year}
             month={month}
-            date={date}
             dates={dates}
             setDates={setDates}
           />

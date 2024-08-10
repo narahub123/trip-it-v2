@@ -4,12 +4,11 @@ import "./calendar.css";
 export interface CalendarProps {
   year: number;
   month: number;
-  date: number;
   dates: Date[];
   setDates: (value: Date[]) => void;
 }
 
-const Calendar = ({ year, month, date, dates, setDates }: CalendarProps) => {
+const Calendar = ({ year, month, dates, setDates }: CalendarProps) => {
   // 일 ~ 토
   const weekOfDay: string[] = ["일", "월", "화", "수", "목", "금", "토"];
   // 날짜

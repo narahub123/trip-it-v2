@@ -11,8 +11,12 @@ import {
 } from "utilities/date";
 import { fetchPlaceAPI } from "apis/place";
 import { ColumnType } from "types/plan";
+import ScheduleMobile from "./Mobile/ScheduleMobile";
+import { MessageType } from "types/template";
 
 const Schedule = () => {
+  const { hash, pathname } = useLocation();
+  const [message, setMessage] = useState<MessageType>();
   const { state } = useLocation();
   const [scheduleDetails, setScheduleDetails] = useState<ScheduleDetailType[]>(
     []
@@ -28,10 +32,13 @@ const Schedule = () => {
     registerDate,
   } = state;
 
+  const [title, setTitle] = useState(scheduleTitle);
+
   const start = convertYYYYMMDDToDateType(startDate);
   const end = convertYYYYMMDDToDateType(endDate);
-  const dates = getDateArr(start, end);
 
+  const [dates, setDates] = useState(getDateArr(start, end));
+  // 일정 상세 받기
   useEffect(() => {
     const fetchDetails = async () => {
       try {
@@ -47,6 +54,9 @@ const Schedule = () => {
     fetchDetails();
   }, [scheduleId]);
 
+  console.log(scheduleDetails);
+
+  // 일정 상세를 통해서 공공 데이터에서 장소 정보 받아오기
   useEffect(() => {
     const fetchPlaces = async () => {
       const newColumns: { [key: string]: ColumnType[] } = {};
@@ -63,12 +73,16 @@ const Schedule = () => {
             newColumns[dateKey] = [];
           }
 
+          const place = res.data[0];
+
           newColumns[dateKey].push({
-            place: res.data,
+            place,
             scheduleOrder: detail.scheduleOrder,
             startTime: detail.startTime,
             endTime: detail.endTime,
           });
+
+          console.log("여기", newColumns);
         } catch (err: any) {
           console.error(err);
           if (err.code === 6) {
@@ -90,13 +104,18 @@ const Schedule = () => {
 
   return (
     <>
-      <MobileSchedule
-        schedule={state}
-        scheduleDetails={scheduleDetails}
+      {message ? <div className="planner-modal"></div> : undefined}
+
+      <ScheduleMobile
+        title={title}
+        setTitle={setTitle}
+        metroId={metroId}
         dates={dates}
+        setDates={setDates}
         columns={columns}
         setColumns={setColumns}
       />
+
       <div className="mypage-footer-blank" />
       <Footer />
     </>

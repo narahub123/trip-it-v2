@@ -72,13 +72,7 @@ const PlannerCalendar = ({ dates, setDates }: PlannerCalendarProps) => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <Calendar
-          year={year}
-          month={month}
-          date={date}
-          dates={dates}
-          setDates={setDates}
-        />
+        <Calendar year={year} month={month} dates={dates} setDates={setDates} />
       </section>
       <section className="planner-calendar-btns">
         <button

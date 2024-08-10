@@ -132,6 +132,8 @@ const PlanColumnCard = ({
     setOpenAccordian(convertDateTypeToDate2(newDate));
   };
 
+  console.log(detail);
+
   return (
     <li className={`plan-places-column-card`}>
       <div className="plan-places-column-card-upper">

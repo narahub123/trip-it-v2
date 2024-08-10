@@ -3,7 +3,6 @@ import "./mobileSchedule.css";
 import { ScheduleDetailType, ScheduleType } from "types/schedule";
 import { convertDateTypeToDate2, convertYYYYMMDDToDate1 } from "utilities/date";
 import { useState } from "react";
-import MobileScheduleAccordianCard from "./MobileScheduleAccordianCard";
 import PlanColumnCard from "pages/Plan/PlanColumnCard";
 import { ColumnType } from "types/plan";
 
@@ -123,6 +122,7 @@ const MobileSchedule = ({
                   .map((detail, order) => {
                     return (
                       <PlanColumnCard
+                        key={order}
                         order={order}
                         metroId={metroId}
                         date={date}

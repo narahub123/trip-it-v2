@@ -75,6 +75,9 @@
           .planner-place-card-date-main-info-detail-title-name {
             font-size: 12px;
             font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .planner-place-card-date-main-info-detail-title-more {
             font-size: 12px;

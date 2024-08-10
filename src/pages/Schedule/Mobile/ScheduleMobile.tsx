@@ -1,36 +1,44 @@
-import { convertDateToYYYYMMDD, convertDateTypeToDate2 } from "utilities/date";
-import "./plannerPlaces.css";
+import PlannerInfoAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerInfoAccordian";
+import "./scheduleMobile.css";
 import { useEffect, useState } from "react";
-import PlannerInfoAccordian from "./PlannerAccordians/PlannerInfoAccordian";
-import PlannerAPIAccordian from "./PlannerAccordians/PlannerAPIAccordian";
-import { plannerAPIAccordianArr } from "../data/plannerPlace";
-import PlannerDateAccordian from "./PlannerAccordians/PlannerDateAccordian";
+import PlannerDateAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerDateAccordian";
+import { convertDateToYYYYMMDD, convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
+import { plannerAPIAccordianArr } from "pages/Planner/data/plannerPlace";
+import PlannerAPIAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerAPIAccordian";
 import { useNavigate } from "react-router-dom";
-import { saveScheduleAPI } from "apis/schedule";
-import { LuLoader, LuLoader2 } from "react-icons/lu";
-export interface PlannerPlacesProps {
+import { LuLoader2 } from "react-icons/lu";
+import Calendar from "pages/Plan/components/Calendar";
+export interface ScheduleMobileProps {
+  title: string;
+  setTitle: (value: string) => void;
   metroId: string;
   dates: Date[];
+  setDates: (value: Date[]) => void;
+  columns: { [key: string]: ColumnType[] };
+  setColumns: (value: { [key: string]: ColumnType[] }) => void;
 }
-const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
+const ScheduleMobile = ({
+  title,
+  setTitle,
+  metroId,
+  dates,
+  setDates,
+  columns,
+  setColumns,
+}: ScheduleMobileProps) => {
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [openAccordian, setOpenAccordian] = useState("");
-  const [columns, setColumns] = useState<{ [key: string]: ColumnType[] }>({});
-  const [title, setTitle] = useState("");
+  const [openCalendar, setOpenCalendar] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [valid, setValid] = useState(false);
-
-  useEffect(() => {
-    dates.forEach((date) => {
-      columns[convertDateTypeToDate2(date)] = [];
-    });
-  }, [dates]);
 
   useEffect(() => {
     // 각 컬럼에 적어도 숙소 한 곳, 관광지 한 곳 이상이 있어야 함
     dates.forEach((date) => {
-      const column = columns[convertDateTypeToDate2(date)];
+      console.log(columns);
+
+      const column = columns[convertDateTypeToDate2(date)] || [];
 
       // 관광지 개수
       const countOfPlaces = column.filter(
@@ -50,6 +58,7 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
     });
   }, [columns]);
 
+  // 아코디언 여닫기 함수
   const handleOpenAccordian = (accordianName: string) => {
     if (accordianName === openAccordian) {
       return setOpenAccordian("");
@@ -59,7 +68,7 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
   };
 
   // 제출하기
-  const handleSubmit = () => {
+  const handleUpdate = () => {
     if (!title) return window.alert("일정 제목을 적어주세요");
     const start = convertDateToYYYYMMDD(dates[0]);
     const end = convertDateToYYYYMMDD(dates[dates.length - 1]);
@@ -93,43 +102,34 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
     };
 
     console.log(submitValue);
+    setIsSubmitting(false);
 
-    saveScheduleAPI(submitValue)
-      .then((res) => {
-        console.log(res.data);
-        if (!res) return;
+    // 수정 api 필요
+    // saveScheduleAPI(submitValue)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     if (!res) return;
 
-        if (res.status === 200) {
-          setIsSubmitting(false);
-          console.log("등록 성공");
-          navigate("/mypage/schedules");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsSubmitting(false);
-      });
+    //     if (res.status === 200) {
+    //       setIsSubmitting(false);
+    //       console.log("수정 성공");
+    //       navigate("/mypage/schedules");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setIsSubmitting(false);
+    //   });
   };
 
+  const year = dates[0].getFullYear();
+  const month = dates[0].getMonth();
+
   return (
-    <div className="planner-places">
-      <section className="planner-places-title">
-        <h3>장소 선택</h3>
+    <div className="schedule-mobile">
+      <section className="schedule-mobile-title">
+        <h3>일정</h3>
       </section>
-
-      {plannerAPIAccordianArr.map((apiInfo) => (
-        <PlannerAPIAccordian
-          key={apiInfo.key}
-          dates={dates}
-          metroId={metroId}
-          openAccordian={openAccordian}
-          handleOpenAccordian={handleOpenAccordian}
-          apiInfo={apiInfo}
-          columns={columns}
-          setColumns={setColumns}
-        />
-      ))}
-
       <PlannerInfoAccordian
         title={title}
         setTitle={setTitle}
@@ -137,8 +137,19 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
         handleOpenAccordian={handleOpenAccordian}
         metroId={metroId}
         dates={dates}
+        openCalendar={openCalendar}
+        setOpenCalendar={setOpenCalendar}
       />
-
+      {openCalendar && (
+        <section className="schedule-mobile-calendar-accordian">
+          <Calendar
+            year={year}
+            month={month}
+            dates={dates}
+            setDates={setDates}
+          />
+        </section>
+      )}
       {dates.map((date) => (
         <PlannerDateAccordian
           metroId={metroId}
@@ -151,25 +162,32 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
           setColumns={setColumns}
         />
       ))}
-      <section className="planner-places-btns">
+      {plannerAPIAccordianArr.map((apiInfo) => (
+        <PlannerAPIAccordian
+          key={apiInfo.key}
+          dates={dates}
+          metroId={metroId}
+          openAccordian={openAccordian}
+          handleOpenAccordian={handleOpenAccordian}
+          apiInfo={apiInfo}
+          columns={columns}
+          setColumns={setColumns}
+        />
+      ))}
+      <section className="schedule-mobile-btns">
+        <button className="schedule-mobile-btns-btn backward">날짜</button>
         <button
-          className={`planner-places-btns-btn backward`}
-          onClick={() => navigate("#calendar")}
-        >
-          이전
-        </button>
-        <button
-          className={`planner-places-btns-btn${
-            isSubmitting ? " submitting" : title && valid ? " register" : ""
+          className={`schedule-mobile-btns-btn${
+            isSubmitting ? " submitting" : title && valid ? " update" : ""
           }`}
-          onClick={isSubmitting ? undefined : () => handleSubmit()}
+          onClick={isSubmitting ? undefined : () => handleUpdate()}
         >
           {isSubmitting ? (
             <p>
               <LuLoader2 />
             </p>
           ) : (
-            <p>등록</p>
+            <p>수정</p>
           )}
         </button>
       </section>
@@ -177,4 +195,4 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
   );
 };
 
-export default PlannerPlaces;
+export default ScheduleMobile;

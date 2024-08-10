@@ -22,21 +22,13 @@ const PlanCarousel = ({
         <Calendar
           year={year}
           month={month - 1}
-          date={date}
           dates={dates}
           setDates={setDates}
         />
-        <Calendar
-          year={year}
-          month={month}
-          date={date}
-          dates={dates}
-          setDates={setDates}
-        />
+        <Calendar year={year} month={month} dates={dates} setDates={setDates} />
         <Calendar
           year={year}
           month={month + 1}
-          date={date}
           dates={dates}
           setDates={setDates}
         />
