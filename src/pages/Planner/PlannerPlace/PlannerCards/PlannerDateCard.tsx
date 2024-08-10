@@ -4,7 +4,15 @@ import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { metros } from "data/metros";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import { LuCheck, LuChevronDown, LuChevronUp, LuPlus } from "react-icons/lu";
+import {
+  LuAlignJustify,
+  LuCheck,
+  LuChevronDown,
+  LuChevronUp,
+  LuMoreHorizontal,
+  LuMoreVertical,
+  LuPlus,
+} from "react-icons/lu";
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
 
@@ -17,6 +25,10 @@ export interface PlannerDateCardProps {
   setColumns: (value: { [key: string]: ColumnType[] }) => void;
   order: number;
   column: ColumnType[];
+  moveClassGroup: string[];
+  setMoveClassGroup: (value: string[]) => void;
+  moveOrderGroup: number[];
+  setMoveOrderGroup: (value: number[]) => void;
 }
 const PlannerDateCard = ({
   column,
@@ -27,6 +39,10 @@ const PlannerDateCard = ({
   columns,
   setColumns,
   order,
+  moveClassGroup,
+  setMoveClassGroup,
+  moveOrderGroup,
+  setMoveOrderGroup,
 }: PlannerDateCardProps) => {
   const dropdownRef = useRef<HTMLSpanElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -77,6 +93,13 @@ const PlannerDateCard = ({
       document.removeEventListener("mousedown", handleClickOutside); // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
     };
   }, []);
+
+  useEffect(() => {
+    if (moveClassGroup[0]) {
+      const timer = setTimeout(() => setMoveClassGroup([]), 100); // 애니메이션 길이와 동일하게 설정
+      return () => clearTimeout(timer);
+    }
+  }, [moveClassGroup]);
 
   // 시간 변경시 자동 업데이트 되게 하기
   useEffect(() => {
@@ -229,6 +252,9 @@ const PlannerDateCard = ({
       ...columns,
       [convertDateTypeToDate2(date)]: cloneColumn,
     });
+
+    setMoveClassGroup(["move-up", "move-down"]);
+    setMoveOrderGroup([order, order - 1]);
   };
 
   const MoveCardDown = (
@@ -257,10 +283,21 @@ const PlannerDateCard = ({
       ...columns,
       [convertDateTypeToDate2(date)]: cloneColumn,
     });
+
+    setMoveClassGroup(["move-down", "move-up"]);
+    setMoveOrderGroup([order, order + 1]);
   };
 
   return (
-    <li className="planner-place-card-date">
+    <li
+      className={`planner-place-card-date ${
+        order === moveOrderGroup[0]
+          ? moveClassGroup[0]
+          : order === moveOrderGroup[1]
+          ? moveClassGroup[1]
+          : undefined
+      }`}
+    >
       <div className="planner-place-card-date-main">
         <span className="planner-place-card-date-main-position">
           <div className="planner-place-card-date-main-position-container">
@@ -340,13 +377,7 @@ const PlannerDateCard = ({
           onClick={(e) => handleOpenDropdown(e)}
         >
           <p className={`planner-place-card-date-main-dropdown-title`}>
-            {openDropdown ? (
-              <LuChevronDown />
-            ) : CheckPlace(detail.place.contentid) ? (
-              <LuCheck />
-            ) : (
-              <LuPlus />
-            )}
+            {openDropdown ? <LuChevronDown /> : <LuAlignJustify />}
           </p>
 
           <ul

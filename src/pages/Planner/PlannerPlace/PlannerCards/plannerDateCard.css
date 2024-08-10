@@ -4,6 +4,7 @@
   flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
   background-color: #ccc;
   position: relative;
   transition: transform 0.3s ease; /* 애니메이션 적용 */
@@ -201,4 +202,12 @@
       height: 250px;
     }
   }
+}
+
+.move-up {
+  transform: translateY(-100%);
+}
+
+.move-down {
+  transform: translateY(100%); /* 아래로 이동 */
 }

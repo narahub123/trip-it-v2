@@ -2,6 +2,7 @@
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
   padding: 10px;
 
   .planner-places-accordian-info-title {
@@ -38,6 +39,7 @@
 
 .planner-places-accordian-info.active {
   border: 1px solid var(--basic-color);
+  box-shadow: rgba(149, 157, 165, 0.2) 4px 4px 8px 4px;
 
   .planner-places-accordian-info-title {
     .planner-places-accordian-info-title-icon.active {

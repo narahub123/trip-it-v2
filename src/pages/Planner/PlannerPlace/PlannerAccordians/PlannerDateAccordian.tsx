@@ -3,6 +3,7 @@ import { IoIosArrowDropup } from "react-icons/io";
 import { ColumnType } from "types/plan";
 import { convertDateTypeToDate2 } from "utilities/date";
 import PlannerDateCard from "../PlannerCards/PlannerDateCard";
+import { useState } from "react";
 export interface PlannerDateAccordianProps {
   metroId: string;
   openAccordian: string;
@@ -23,6 +24,10 @@ const PlannerDateAccordian = ({
   setColumns,
 }: PlannerDateAccordianProps) => {
   const column = columns[convertDateTypeToDate2(date)] || [];
+
+  // 이동 효과 관련
+  const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
+  const [moveOrderGroup, setMoveOrderGroup] = useState<number[]>([]);
 
   const countOfPlaces = column.filter(
     (item) => item.place.contenttypeid !== "32"
@@ -84,6 +89,10 @@ const PlannerDateAccordian = ({
               metroId={metroId}
               columns={columns}
               setColumns={setColumns}
+              moveClassGroup={moveClassGroup}
+              setMoveClassGroup={setMoveClassGroup}
+              moveOrderGroup={moveOrderGroup}
+              setMoveOrderGroup={setMoveOrderGroup}
             />
           ))}
       </ul>
