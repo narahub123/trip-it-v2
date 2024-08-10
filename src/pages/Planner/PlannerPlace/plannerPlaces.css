@@ -1,0 +1,26 @@
+.planner-places {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .planner-places-title {
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .planner-places-accordian {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+
+    .planner-places-accordian-title {
+      display: flex;
+      justify-content: space-between;
+      .planner-places-accordian-title-name {
+      }
+      .planner-places-accordian-title-icon {
+      }
+    }
+  }
+}

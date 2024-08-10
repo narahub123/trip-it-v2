@@ -1,23 +1,6 @@
 import { PlaceApiType } from "types/place";
 
-export const placesAccordianArr = [
-  {
-    name: "관광지",
-    key: "places",
-    tags: [
-      { name: "관광", contentTypeId: "12" },
-      { name: "문화", contentTypeId: "14" },
-      { name: "음식", contentTypeId: "39" },
-    ],
-  },
-  {
-    name: "숙소",
-    key: "accomm",
-    tags: [{ name: "숙소", contentTypeId: "32" }],
-  },
-];
-
-export const tests:PlaceApiType[] = [
+export const plannerTests: PlaceApiType[] = [
   {
     contentid: "1254680",
     contenttypeid: "12",
@@ -106,7 +89,7 @@ export const tests:PlaceApiType[] = [
     modifiedtime: "20240603165202",
     tel: "",
     telname: "",
-    homepage: 
+    homepage:
       '<a href="http://www.ghss.or.kr/" target="_blank" title="새창 : 강화군시설관리공단 홈페이지로 이동">http://www.ghss.or.kr</a>',
     booktour: "0",
     firstimage: "",

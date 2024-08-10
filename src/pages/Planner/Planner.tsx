@@ -3,10 +3,12 @@ import "./planner.css";
 import { metros } from "data/metros";
 import { useState } from "react";
 import PlannerCalendar from "./PlannerCalendar/PlannerCalendar";
-import PlannerPlace from "./PlannerPlace/PlannerPlace";
+import PlannerPlaces from "./PlannerPlace/PlannerPlaces";
+import { MessageType } from "types/template";
 
 const Planner = () => {
   const { hash, pathname } = useLocation();
+  const [message, setMessage] = useState<MessageType>();
 
   // 지역 코드 알아내기
   const encodedMetroName = pathname.split("/")[2];
@@ -21,10 +23,11 @@ const Planner = () => {
 
   return (
     <div className="planner">
+      {message ? <div className="planner-modal"></div> : undefined}
       {!hash || hash === "#calendar" ? (
         <PlannerCalendar dates={dates} setDates={setDates} />
       ) : (
-        <PlannerPlace />
+        <PlannerPlaces metroId={metroId} dates={dates} />
       )}
     </div>
   );
