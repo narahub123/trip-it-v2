@@ -4,18 +4,14 @@ import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { metros } from "data/metros";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import {
-  LuCheck,
-  LuChevronDown,
-  LuChevronUp,
-  LuPhoneCall,
-  LuPlus,
-} from "react-icons/lu";
+import { LuCheck, LuChevronDown, LuChevronUp, LuPlus } from "react-icons/lu";
+import TimeDropdown from "pages/Planner/components/TimeDropdown";
+import { hourArr, minuteArr } from "data/plan";
 
 export interface PlannerDateCardProps {
   date: Date;
   dates: Date[];
-  place: PlaceApiType;
+  detail: ColumnType;
   metroId: string;
   columns: { [key: string]: ColumnType[] };
   setColumns: (value: { [key: string]: ColumnType[] }) => void;
@@ -26,7 +22,7 @@ const PlannerDateCard = ({
   column,
   date,
   dates,
-  place,
+  detail,
   metroId,
   columns,
   setColumns,
@@ -44,6 +40,14 @@ const PlannerDateCard = ({
   const [selectedPlace, setSelectedPlace] = useState<PlaceApiType>();
   // 드롭다운 열기
   const [openDropdown, setOpenDropdown] = useState(false);
+
+  // 시간 관련 드롭다운 정보
+  const startTime = detail.startTime.split(":");
+  const endTime = detail.endTime.split(":");
+  const [startHour, setStartHour] = useState(startTime[0]);
+  const [startMinute, setStartMinute] = useState(startTime[1]);
+  const [endHour, setEndHour] = useState(endTime[0]);
+  const [endMinute, setEndMinute] = useState(endTime[1]);
 
   const lastOfColumn = columns[convertDateTypeToDate2(date)].length - 1;
 
@@ -73,6 +77,30 @@ const PlannerDateCard = ({
       document.removeEventListener("mousedown", handleClickOutside); // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
     };
   }, []);
+
+  // 시간 변경시 자동 업데이트 되게 하기
+  useEffect(() => {
+    const updatedColumns = { ...columns };
+
+    const columnKey = convertDateTypeToDate2(date);
+    const updatedDetail = {
+      ...detail,
+      startTime: `${startHour}:${startMinute}`,
+      endTime: `${endHour}:${endMinute}`,
+    };
+
+    const index = updatedColumns[columnKey].findIndex(
+      (item) => item.place.contentid === detail.place.contentid
+    );
+
+    if (index !== -1) {
+      updatedColumns[columnKey][index] = updatedDetail;
+    } else {
+      updatedColumns[columnKey].push(updatedDetail);
+    }
+
+    setColumns(updatedColumns);
+  }, [startHour, startMinute, endHour, endMinute]);
 
   // 추가 정보 확인하기
   const getPlaceDetail = (
@@ -240,7 +268,7 @@ const PlannerDateCard = ({
               className={`planner-place-card-date-main-position-up${
                 order === 0 ? " deactive" : ""
               }`}
-              onClick={(e) => MoveCardUp(e, place.contentid)}
+              onClick={(e) => MoveCardUp(e, detail.place.contentid)}
             >
               <LuChevronUp />
             </p>
@@ -248,7 +276,7 @@ const PlannerDateCard = ({
               className={`planner-place-card-date-main-position-down${
                 order === lastOfColumn ? " deactive" : ""
               }`}
-              onClick={(e) => MoveCardDown(e, place.contentid)}
+              onClick={(e) => MoveCardDown(e, detail.place.contentid)}
             >
               <LuChevronDown />
             </p>
@@ -256,34 +284,51 @@ const PlannerDateCard = ({
         </span>
         <span
           className="planner-place-card-date-main-info"
-          onClick={(e) => getPlaceDetail(e, place.contentid)}
+          onClick={(e) => getPlaceDetail(e, detail.place.contentid)}
         >
           <span className="planner-place-card-date-main-info-photo">
             <img
-              src={place.firstimage || defaultImage}
-              alt={`${place.title} 이미지`}
+              src={detail.place.firstimage || defaultImage}
+              alt={`${detail.place.title} 이미지`}
               className={openDepict ? "open" : undefined}
             />
           </span>
           <span className="planner-place-card-date-main-info-detail">
             <div className="planner-place-card-date-main-info-detail-title">
               <p className="planner-place-card-date-main-info-detail-title-name">
-                {place.title}
+                {detail.place.title}
               </p>
               <span className="planner-place-card-date-main-info-detail-title-more">
                 <LuChevronDown />
               </span>
             </div>
             <div className="planner-place-card-date-main-info-detail-addr">
-              {place.addr1}
+              {detail.place.addr1}
             </div>
-            <div className="planner-place-card-date-main-info-detail-tel">
-              <p className="planner-place-card-date-main-info-detail-tel-icon">
-                <LuPhoneCall />
-              </p>
-              <p className="planner-place-card-date-main-info-detail-tel-text">
-                {place.tel || "xxx-xxxx-xxxx"}
-              </p>
+            <div className="planner-place-card-date-main-info-detail-time">
+              <TimeDropdown
+                value={startHour}
+                array={hourArr}
+                setFunc={setStartHour}
+              />
+              :
+              <TimeDropdown
+                value={startMinute}
+                array={minuteArr}
+                setFunc={setStartMinute}
+              />
+              ~
+              <TimeDropdown
+                value={endHour}
+                array={hourArr}
+                setFunc={setEndHour}
+              />
+              :
+              <TimeDropdown
+                value={endMinute}
+                array={minuteArr}
+                setFunc={setEndMinute}
+              />
             </div>
           </span>
         </span>
@@ -297,7 +342,7 @@ const PlannerDateCard = ({
           <p className={`planner-place-card-date-main-dropdown-title`}>
             {openDropdown ? (
               <LuChevronDown />
-            ) : CheckPlace(place.contentid) ? (
+            ) : CheckPlace(detail.place.contentid) ? (
               <LuCheck />
             ) : (
               <LuPlus />
@@ -312,7 +357,7 @@ const PlannerDateCard = ({
           >
             <li
               className={`planner-place-card-date-main-dropdown-item`}
-              onClick={(e) => handleDeselect(e, place.contentid, date)}
+              onClick={(e) => handleDeselect(e, detail.place.contentid, date)}
             >
               삭제
             </li>
@@ -320,12 +365,14 @@ const PlannerDateCard = ({
               <li
                 key={convertDateTypeToDate2(date)}
                 className={`planner-place-card-date-main-dropdown-item${
-                  WhereCheckedPlace(place.contentid, index) ? " selected" : ""
+                  WhereCheckedPlace(detail.place.contentid, index)
+                    ? " selected"
+                    : ""
                 }`}
                 onClick={
-                  WhereCheckedPlace(place.contentid, index)
-                    ? (e) => handleDeselect(e, place.contentid, date)
-                    : (e) => handleSelect(e, place, date, index)
+                  WhereCheckedPlace(detail.place.contentid, index)
+                    ? (e) => handleDeselect(e, detail.place.contentid, date)
+                    : (e) => handleSelect(e, detail.place, date, index)
                 }
               >
                 {convertDateTypeToDate1(date)}
@@ -340,7 +387,7 @@ const PlannerDateCard = ({
         }`}
       >
         <div className="planner-place-card-date-overview-depict">
-          {place.overview || "준비된 설명이 없습니다."}
+          {detail.place.overview || "준비된 설명이 없습니다."}
         </div>
         <div
           className={`planner-place-card-date-overview-map${

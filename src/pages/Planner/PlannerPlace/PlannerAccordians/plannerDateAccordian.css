@@ -1,4 +1,5 @@
 .planner-places-accordian-date {
+  box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px;
@@ -7,8 +8,10 @@
     display: flex;
     justify-content: space-between;
     .planner-places-accordian-date-title-container {
+      width: 76%;
       display: flex;
       align-items: end;
+      justify-content: space-between;
       gap: 10px;
       .planner-places-accordian-date-title-name {
       }
@@ -113,4 +116,9 @@
       transition: transform 0.3s ease-in-out;
     }
   }
+}
+
+.planner-places-accordian-date.completed {
+  box-sizing: border-box;
+  border: 2px solid var(--basic-color);
 }

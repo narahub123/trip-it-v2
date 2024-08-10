@@ -3,7 +3,7 @@ import { PlaceApiType } from "types/place";
 export const plannerTests: PlaceApiType[] = [
   {
     contentid: "1254680",
-    contenttypeid: "12",
+    contenttypeid: "32",
     title: "갑곶돈대",
     createdtime: "20110412020054",
     modifiedtime: "20240408103143",

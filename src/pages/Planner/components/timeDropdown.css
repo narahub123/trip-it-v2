@@ -1,0 +1,34 @@
+.time-dropdown {
+  position: relative;
+  .time-dropdown-title {
+  }
+  .time-dropdown-container {
+    position: absolute;
+    background-color: #fff;
+    z-index: 1;
+    left: -6px;
+    visibility: hidden;
+    max-height: 0px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+    overflow-y: auto;
+    .time-dropdown-item {
+      padding: 5px;
+    }
+  }
+
+  .time-dropdown-container.active {
+    visibility: visible;
+    max-height: 130px;
+    opacity: 1;
+    border: 1px solid #ccc;
+    transition: all 0.2s ease-in-out;
+    .time-dropdown-item {
+      padding: 5px;
+    }
+    .time-dropdown-item.selected {
+      background-color: var(--basic-color);
+      color: #fff;
+    }
+  }
+}

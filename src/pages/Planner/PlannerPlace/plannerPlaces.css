@@ -23,4 +23,37 @@
       }
     }
   }
+
+  .planner-places-btns {
+    display: flex;
+    justify-content: space-between;
+
+    .planner-places-btns-btn {
+      box-sizing: border-box;
+      padding: 10px;
+      border: 1px solid var(--basic-color);
+      border-radius: 10px;
+      background-color: transparent;
+      visibility: hidden;
+      max-height: 0px;
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+    }
+    .backward {
+      visibility: visible;
+      max-height: 100px;
+      opacity: 1;
+    }
+
+    .register {
+      border: none;
+      background-color: var(--basic-color);
+      color: #fff;
+
+      visibility: visible;
+      max-height: 100px;
+      opacity: 1;
+      transition: all 0.2s ease-in-out;
+    }
+  }
 }

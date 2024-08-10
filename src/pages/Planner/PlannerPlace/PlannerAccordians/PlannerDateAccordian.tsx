@@ -23,10 +23,22 @@ const PlannerDateAccordian = ({
   setColumns,
 }: PlannerDateAccordianProps) => {
   const column = columns[convertDateTypeToDate2(date)] || [];
+
+  const countOfPlaces = column.filter(
+    (item) => item.place.contenttypeid !== "32"
+  ).length;
+  const countOfAccomm = column.filter(
+    (item) => item.place.contenttypeid === "32"
+  ).length;
+
   return (
     <section
       className={`planner-places-accordian-date${
-        openAccordian === convertDateTypeToDate2(date) ? " active" : ""
+        openAccordian === convertDateTypeToDate2(date)
+          ? " active"
+          : countOfPlaces > 0 && countOfAccomm > 0
+          ? " completed"
+          : ""
       }`}
       onClick={
         (column && column.length === 0) || !column
@@ -68,7 +80,7 @@ const PlannerDateAccordian = ({
               order={index}
               date={date}
               dates={dates}
-              place={item.place}
+              detail={item}
               metroId={metroId}
               columns={columns}
               setColumns={setColumns}

@@ -1,4 +1,5 @@
 .planner-places-accordian-info {
+  box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 10px;
@@ -44,6 +45,11 @@
       transition: transform 0.3s ease-in-out;
     }
   }
+}
+
+.planner-places-accordian-info.completed {
+  box-sizing: border-box;
+  border: 2px solid var(--basic-color);
 }
 
 .planner-places-accordian-info-item {
