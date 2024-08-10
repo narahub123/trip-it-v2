@@ -38,6 +38,10 @@
       max-height: 0px;
       opacity: 0;
       transition: all 0.2s ease-in-out;
+
+      p {
+        transform: rotate(0deg);
+      }
     }
     .backward {
       visibility: visible;
@@ -54,6 +58,23 @@
       max-height: 100px;
       opacity: 1;
       transition: all 0.2s ease-in-out;
+    }
+
+    .submitting {
+      border: none;
+      background-color: var(--basic-color);
+      color: #fff;
+
+      visibility: visible;
+      max-height: 100px;
+      opacity: 1;
+      p {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotate(5400000deg);
+        transition: transform 100s ease-in-out;
+      }
     }
   }
 }

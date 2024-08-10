@@ -1,18 +1,21 @@
-import { convertDateTypeToDate2 } from "utilities/date";
+import { convertDateToYYYYMMDD, convertDateTypeToDate2 } from "utilities/date";
 import "./plannerPlaces.css";
 import { useEffect, useState } from "react";
 import PlannerInfoAccordian from "./PlannerAccordians/PlannerInfoAccordian";
 import PlannerAPIAccordian from "./PlannerAccordians/PlannerAPIAccordian";
 import { plannerAPIAccordianArr } from "../data/plannerPlace";
 import PlannerDateAccordian from "./PlannerAccordians/PlannerDateAccordian";
-import { ColumnType } from "types/plan";
+import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { useNavigate } from "react-router-dom";
+import { saveScheduleAPI } from "apis/schedule";
+import { LuLoader, LuLoader2 } from "react-icons/lu";
 export interface PlannerPlacesProps {
   metroId: string;
   dates: Date[];
 }
 const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [openAccordian, setOpenAccordian] = useState("");
   const [columns, setColumns] = useState<{ [key: string]: ColumnType[] }>({});
   const [title, setTitle] = useState("");
@@ -55,8 +58,58 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
     }
   };
 
-  console.log(columns);
-  console.log(valid);
+  // 제출하기
+  const handleSubmit = () => {
+    if (!title) return window.alert("일정 제목을 적어주세요");
+    const start = convertDateToYYYYMMDD(dates[0]);
+    const end = convertDateToYYYYMMDD(dates[dates.length - 1]);
+
+    setIsSubmitting(true);
+
+    const scheduleDetails: ScheduleDetailDtoInputType[] = [];
+    const values = Object.values(columns);
+    console.log(values);
+    for (let i = 0; i < values.length; i++) {
+      const column = values[i];
+      for (const detail of column) {
+        const newDetail: ScheduleDetailDtoInputType = {
+          contentId: detail.place.contentid,
+          scheduleOrder: detail.scheduleOrder,
+          startTime: detail.startTime,
+          endTime: detail.endTime,
+        };
+        scheduleDetails.push(newDetail);
+      }
+    }
+
+    const submitValue = {
+      scheduleDto: {
+        metroId: metroId,
+        startDate: start,
+        endDate: end,
+        scheduleTitle: title,
+      },
+      detailScheduleDto: scheduleDetails,
+    };
+
+    console.log(submitValue);
+
+    saveScheduleAPI(submitValue)
+      .then((res) => {
+        console.log(res.data);
+        if (!res) return;
+
+        if (res.status === 200) {
+          setIsSubmitting(false);
+          console.log("등록 성공");
+          navigate("/mypage/schedules");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsSubmitting(false);
+      });
+  };
 
   return (
     <div className="planner-places">
@@ -105,10 +158,17 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
         </button>
         <button
           className={`planner-places-btns-btn${
-            title && valid ? " register" : ""
+            isSubmitting ? " submitting" : title && valid ? " register" : ""
           }`}
+          onClick={() => handleSubmit()}
         >
-          등록
+          {isSubmitting ? (
+            <p>
+              <LuLoader2 />
+            </p>
+          ) : (
+            <p>등록</p>
+          )}
         </button>
       </section>
     </div>

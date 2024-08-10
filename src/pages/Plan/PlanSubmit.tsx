@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import PlanColumnCard from "./PlanColumnCard";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { useNavigate } from "react-router-dom";
-import { saveSchedule } from "apis/schedule";
+import { saveScheduleAPI } from "apis/schedule";
 import PlanAccordian from "./components/PlanAccordian";
 import { PlaceApiType } from "types/place";
 export interface PlanSubmitProps {
@@ -88,7 +88,7 @@ const PlanSubmit = ({
       detailScheduleDto: scheduleDetails,
     };
 
-    saveSchedule(submitValue)
+    saveScheduleAPI(submitValue)
       .then((res) => {
         console.log(res.data);
         if (!res) return;

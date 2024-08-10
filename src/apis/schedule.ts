@@ -133,7 +133,7 @@ export const deleteSchedulesAAPI = async (sheduleIds: (string | number)[]) => {
 };
 
 // 일정 등록하기
-export const saveSchedule = async (value: {
+export const saveScheduleAPI = async (value: {
   scheduleDto: ScheduleDtoInputType;
   detailScheduleDto: ScheduleDetailDtoInputType[];
 }) => {

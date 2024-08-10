@@ -16,7 +16,7 @@ import {
 import { fetchPlacesAPI } from "apis/place";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import PlanAccordian from "./components/PlanAccordian";
-import { saveSchedule } from "apis/schedule";
+import { saveScheduleAPI } from "apis/schedule";
 import { useRenderCount } from "@uidotdev/usehooks";
 import PlanPlacesAccordian from "./PlanPlaces/PlanPlacesAccordian";
 import { placesAccordianArr } from "./data/plan";
@@ -137,7 +137,7 @@ const PlanPlaces = ({
       detailScheduleDto: scheduleDetails,
     };
 
-    saveSchedule(submitValue)
+    saveScheduleAPI(submitValue)
       .then((res) => {
         console.log(res.data);
         if (!res) return;

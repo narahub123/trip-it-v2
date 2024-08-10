@@ -87,6 +87,8 @@ const PlanPlacesAccordian = ({
     setContentTypeId(contentTypeId);
   };
 
+  // 제출
+
   return (
     <section
       className={`plan-places-accordian${
