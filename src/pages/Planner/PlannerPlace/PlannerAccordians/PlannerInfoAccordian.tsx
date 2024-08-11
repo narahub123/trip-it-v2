@@ -1,7 +1,10 @@
 import { getMetroName } from "utilities/metros";
 import "./plannerInfoAccordian.css";
 import { IoIosArrowDropup } from "react-icons/io";
-import { convertDateTypeToDate2 } from "utilities/date";
+import {
+  convertDateTypeToDate2,
+  convertYYYYMMDDToDateType,
+} from "utilities/date";
 import { debounce } from "utilities/debounce";
 export interface PlannerInfoAccordianProps {
   openAccordian: string;
@@ -10,6 +13,7 @@ export interface PlannerInfoAccordianProps {
   dates: Date[];
   title: string;
   setTitle: (value: string) => void;
+  registerDate?: string;
 }
 
 const PlannerInfoAccordian = ({
@@ -19,6 +23,7 @@ const PlannerInfoAccordian = ({
   dates,
   title,
   setTitle,
+  registerDate,
 }: PlannerInfoAccordianProps) => {
   const startDate = dates.length > 1 ? convertDateTypeToDate2(dates[0]) : "";
 
@@ -90,6 +95,14 @@ const PlannerInfoAccordian = ({
             {!startDate || !endDate ? "알수없음" : `${startDate}~${endDate}`}
           </span>
         </li>
+        {registerDate && (
+          <li className="planner-places-accordian-info-item">
+            <span>등록일</span>
+            <span>
+              {convertDateTypeToDate2(convertYYYYMMDDToDateType(registerDate))}
+            </span>
+          </li>
+        )}
       </ul>
     </section>
   );

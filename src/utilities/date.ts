@@ -45,7 +45,7 @@ export const convertDateToYYYYMMDD = (origin: Date) => {
 
 export const convertYYYYMMDDToDateType = (origin: string) => {
   const year = Number(origin.slice(0, 4));
-  const month = Number(origin.slice(4, 6));
+  const month = Number(origin.slice(4, 6)) - 1;
   const date = Number(origin.slice(6, 8));
 
   return new Date(year, month, date);

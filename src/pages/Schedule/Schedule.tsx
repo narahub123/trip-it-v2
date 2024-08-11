@@ -34,8 +34,12 @@ const Schedule = () => {
 
   const [title, setTitle] = useState(scheduleTitle);
 
+  console.log(startDate, endDate);
+
   const start = convertYYYYMMDDToDateType(startDate);
   const end = convertYYYYMMDDToDateType(endDate);
+
+  console.log(start, end);
 
   const [dates, setDates] = useState(getDateArr(start, end));
   // 일정 상세 받기
@@ -112,6 +116,9 @@ const Schedule = () => {
         setDates={setDates}
         columns={columns}
         setColumns={setColumns}
+        registerDate={registerDate}
+        schedule={state}
+        scheduleDetails={scheduleDetails}
       />
 
       <div className="mypage-footer-blank" />

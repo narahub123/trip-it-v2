@@ -73,6 +73,8 @@ const PlannerPlaces = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
     const start = convertDateToYYYYMMDD(dates[0]);
     const end = convertDateToYYYYMMDD(dates[dates.length - 1]);
 
+    console.log(start, end);
+
     setIsSubmitting(true);
 
     const scheduleDetails: ScheduleDetailDtoInputType[] = [];

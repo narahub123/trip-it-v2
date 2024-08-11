@@ -189,3 +189,47 @@ export const fetchScheduleDetails = async (scheduleId: string | number) => {
     throw { msgId }; // 설정된 메시지 ID와 함께 에러를 던짐
   }
 };
+
+export const updateScheduleAPI = async (
+  scheduleId: string | number,
+  value: {
+    scheduleDto: ScheduleDtoInputType;
+    detailScheduleDto: ScheduleDetailDtoInputType[];
+  }
+) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/mypage/schedules/updateSchedule`,
+      {
+        scheduleId,
+        value,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json", // 요청의 콘텐츠 타입을 JSON으로 설정
+          Access: `${localStorage.getItem("access")}`, // Access 토큰을 헤더에 추가
+          Refresh: `${getCookie("refresh")}`, // Refresh 토큰을 헤더에 추가
+        },
+        withCredentials: true, // 크로스 도메인 요청에서 쿠키를 포함하도록 설정
+      }
+    );
+
+    return response;
+  } catch (err: any) {
+    console.log(err); // 에러를 콘솔에 출력
+    const status = err.response.status; // HTTP 상태 코드를 추출
+    const code = err.response.data.code; // 에러 코드를 추출
+    let msgId = 0; // 메시지 ID 초기화
+
+    // 에러 코드에 따라 메시지 ID를 설정
+    if (code === 1) {
+      msgId = 3; // 권한 없음
+    } else if (code === 2) {
+      msgId = 4; // 업데이트 안됨
+    } else if (code === 3) {
+      msgId = 5; // 내부 에러
+    }
+
+    throw { msgId }; // 설정된 메시지 ID와 함께 에러를 던짐
+  }
+};

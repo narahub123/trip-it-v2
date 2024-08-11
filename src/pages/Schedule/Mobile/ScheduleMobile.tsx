@@ -8,8 +8,9 @@ import { plannerAPIAccordianArr } from "pages/Planner/data/plannerPlace";
 import PlannerAPIAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerAPIAccordian";
 import { useNavigate } from "react-router-dom";
 import { LuLoader2 } from "react-icons/lu";
-import Calendar from "pages/Plan/components/Calendar";
 import PlannerCalendarAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerCalendarAccordian";
+import { ScheduleDetailType, ScheduleType } from "types/schedule";
+import { updateScheduleAPI } from "apis/schedule";
 export interface ScheduleMobileProps {
   title: string;
   setTitle: (value: string) => void;
@@ -22,6 +23,9 @@ export interface ScheduleMobileProps {
       [key: string]: ColumnType[];
     }>
   >;
+  registerDate: string;
+  schedule: ScheduleType;
+  scheduleDetails: ScheduleDetailType[];
 }
 const ScheduleMobile = ({
   title,
@@ -31,38 +35,86 @@ const ScheduleMobile = ({
   setDates,
   columns,
   setColumns,
+  registerDate,
+  schedule,
+  scheduleDetails,
 }: ScheduleMobileProps) => {
   const navigate = useNavigate();
   const [openAccordian, setOpenAccordian] = useState("");
-  const [openCalendar, setOpenCalendar] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [valid, setValid] = useState(false);
   const [contentTypeId, setContentTypeId] = useState("");
 
-  useEffect(() => {
-    // 각 컬럼에 적어도 숙소 한 곳, 관광지 한 곳 이상이 있어야 함
-    dates.forEach((date) => {
-      console.log(columns);
-
+  // 유효성 검사 로직을 함수로 분리
+  const checkColumnValidity = (
+    columns: { [key: string]: ColumnType[] },
+    dates: Date[]
+  ) => {
+    for (const date of dates) {
       const column = columns[convertDateTypeToDate2(date)] || [];
 
-      // 관광지 개수
       const countOfPlaces = column.filter(
         (item) => item.place.contenttypeid !== "32"
       ).length;
-      // 숙소 개수
       const countOfAccomm = column.filter(
         (item) => item.place.contenttypeid === "32"
       ).length;
 
       if (countOfPlaces < 1 || countOfAccomm < 1) {
-        return setValid(false);
-      } else {
-        // 모든 컬럼에 결격 사유가 없는 경우
-        setValid(true);
+        return false;
       }
-    });
-  }, [columns]);
+    }
+    return true;
+  };
+
+  // useEffect 훅 개선
+  useEffect(() => {
+    const start = convertDateToYYYYMMDD(dates[0]);
+    const end = convertDateToYYYYMMDD(dates[dates.length - 1]);
+
+    // 제목 변경 여부 확인
+    if (schedule.scheduleTitle !== title) {
+      setValid(true);
+      console.log("제목 바뀜");
+
+      return;
+    }
+
+    // 날짜 변경 여부 확인
+    if (schedule.startDate !== start || schedule.endDate !== end) {
+      console.log("받아온거", schedule.startDate);
+      console.log(start);
+
+      setValid(checkColumnValidity(columns, dates));
+      console.log("날짜 바뀜");
+      return;
+    }
+
+    // 일정 세부사항 변경 여부 확인
+    if (scheduleDetails.length !== Object.values(columns).flat().length) {
+      setValid(checkColumnValidity(columns, dates));
+      return;
+    }
+
+    // 일정 세부사항이 변경된 경우
+    const hasChanges = Object.values(columns)
+      .flat()
+      .some((item, index) => {
+        const detail = scheduleDetails[index];
+        return (
+          item.scheduleOrder !== detail.scheduleOrder ||
+          item.startTime !== detail.startTime ||
+          item.endTime !== detail.endTime ||
+          item.place.contentid !== detail.contentId
+        );
+      });
+
+    if (hasChanges) {
+      setValid(checkColumnValidity(columns, dates));
+    } else {
+      setValid(false);
+    }
+  }, [columns, dates, title]);
 
   // 아코디언 여닫기 함수
   const handleOpenAccordian = (
@@ -88,7 +140,6 @@ const ScheduleMobile = ({
 
     const scheduleDetails: ScheduleDetailDtoInputType[] = [];
     const values = Object.values(columns);
-    console.log(values);
     for (let i = 0; i < values.length; i++) {
       const column = values[i];
       for (const detail of column) {
@@ -113,28 +164,26 @@ const ScheduleMobile = ({
     };
 
     console.log(submitValue);
-    setIsSubmitting(false);
 
     // 수정 api 필요
-    // saveScheduleAPI(submitValue)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (!res) return;
+    updateScheduleAPI(schedule.scheduleId, submitValue)
+      .then((res) => {
+        console.log(res.data);
+        if (!res) return;
 
-    //     if (res.status === 200) {
-    //       setIsSubmitting(false);
-    //       console.log("수정 성공");
-    //       navigate("/mypage/schedules");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setIsSubmitting(false);
-    //   });
+        if (res.status === 200) {
+          setIsSubmitting(false);
+          console.log("수정 성공");
+          // navigate("/mypage/schedules");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsSubmitting(false);
+      });
   };
 
-  const year = dates[0].getFullYear();
-  const month = dates[0].getMonth();
+  console.log(valid);
 
   return (
     <div className="schedule-mobile">
@@ -148,6 +197,7 @@ const ScheduleMobile = ({
         handleOpenAccordian={handleOpenAccordian}
         metroId={metroId}
         dates={dates}
+        registerDate={registerDate}
       />
 
       <PlannerCalendarAccordian
@@ -157,16 +207,6 @@ const ScheduleMobile = ({
         setDates={setDates}
       />
 
-      {openCalendar && (
-        <section className="schedule-mobile-calendar-accordian">
-          <Calendar
-            year={year}
-            month={month}
-            dates={dates}
-            setDates={setDates}
-          />
-        </section>
-      )}
       {dates.map((date) => (
         <PlannerDateAccordian
           metroId={metroId}
@@ -197,7 +237,7 @@ const ScheduleMobile = ({
         <button className="schedule-mobile-btns-btn backward">날짜</button>
         <button
           className={`schedule-mobile-btns-btn${
-            isSubmitting ? " submitting" : title && valid ? " update" : ""
+            isSubmitting ? " submitting" : valid ? " update" : ""
           }`}
           onClick={isSubmitting ? undefined : () => handleUpdate()}
         >
