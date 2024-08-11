@@ -9,6 +9,7 @@ import PlannerAPIAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/Pl
 import { useNavigate } from "react-router-dom";
 import { LuLoader2 } from "react-icons/lu";
 import Calendar from "pages/Plan/components/Calendar";
+import PlannerCalendarAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerCalendarAccordian";
 export interface ScheduleMobileProps {
   title: string;
   setTitle: (value: string) => void;
@@ -137,9 +138,15 @@ const ScheduleMobile = ({
         handleOpenAccordian={handleOpenAccordian}
         metroId={metroId}
         dates={dates}
-        openCalendar={openCalendar}
-        setOpenCalendar={setOpenCalendar}
       />
+
+      <PlannerCalendarAccordian
+        openAccordian={openAccordian}
+        handleOpenAccordian={handleOpenAccordian}
+        dates={dates}
+        setDates={setDates}
+      />
+
       {openCalendar && (
         <section className="schedule-mobile-calendar-accordian">
           <Calendar

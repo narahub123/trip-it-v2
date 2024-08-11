@@ -26,7 +26,11 @@ const Calendar = ({ year, month, dates, setDates }: CalendarProps) => {
   }
 
   // 날짜를 선택하는 함수
-  const SelectDate = (selectedDate: Date) => {
+  const SelectDate = (
+    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    selectedDate: Date
+  ) => {
+    e.stopPropagation();
     // 첫 선택인 경우
     if (dates.length === 0) {
       setDates([selectedDate]);
@@ -131,8 +135,8 @@ const Calendar = ({ year, month, dates, setDates }: CalendarProps) => {
               }`}
               onClick={
                 date > index + 1
-                  ? () => SelectDate(new Date(year, month - 1, date))
-                  : () => SelectDate(new Date(year, month, date))
+                  ? (e) => SelectDate(e, new Date(year, month - 1, date))
+                  : (e) => SelectDate(e, new Date(year, month, date))
               }
             >
               <div className="calendar-grid-item-content">{date}</div>

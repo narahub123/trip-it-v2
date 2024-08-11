@@ -9,11 +9,13 @@ import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { useNavigate } from "react-router-dom";
 import { saveScheduleAPI } from "apis/schedule";
 import { LuLoader, LuLoader2 } from "react-icons/lu";
+import PlannerCalendarAccordian from "./PlannerAccordians/PlannerCalendarAccordian";
 export interface PlannerPlacesProps {
   metroId: string;
   dates: Date[];
+  setDates: (value: Date[]) => void;
 }
-const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
+const PlannerPlaces = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [openAccordian, setOpenAccordian] = useState("");
@@ -114,21 +116,8 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
   return (
     <div className="planner-places">
       <section className="planner-places-title">
-        <h3>장소 선택</h3>
+        <h3>일정 선택</h3>
       </section>
-
-      {plannerAPIAccordianArr.map((apiInfo) => (
-        <PlannerAPIAccordian
-          key={apiInfo.key}
-          dates={dates}
-          metroId={metroId}
-          openAccordian={openAccordian}
-          handleOpenAccordian={handleOpenAccordian}
-          apiInfo={apiInfo}
-          columns={columns}
-          setColumns={setColumns}
-        />
-      ))}
 
       <PlannerInfoAccordian
         title={title}
@@ -137,6 +126,13 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
         handleOpenAccordian={handleOpenAccordian}
         metroId={metroId}
         dates={dates}
+      />
+
+      <PlannerCalendarAccordian
+        openAccordian={openAccordian}
+        handleOpenAccordian={handleOpenAccordian}
+        dates={dates}
+        setDates={setDates}
       />
 
       {dates.map((date) => (
@@ -151,6 +147,20 @@ const PlannerPlaces = ({ metroId, dates }: PlannerPlacesProps) => {
           setColumns={setColumns}
         />
       ))}
+
+      {plannerAPIAccordianArr.map((apiInfo) => (
+        <PlannerAPIAccordian
+          key={apiInfo.key}
+          dates={dates}
+          metroId={metroId}
+          openAccordian={openAccordian}
+          handleOpenAccordian={handleOpenAccordian}
+          apiInfo={apiInfo}
+          columns={columns}
+          setColumns={setColumns}
+        />
+      ))}
+
       <section className="planner-places-btns">
         <button
           className={`planner-places-btns-btn backward`}

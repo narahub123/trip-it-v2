@@ -24,11 +24,7 @@ const Planner = () => {
   return (
     <div className="planner">
       {message ? <div className="planner-modal"></div> : undefined}
-      {!hash || hash === "#calendar" ? (
-        <PlannerCalendar dates={dates} setDates={setDates} />
-      ) : (
-        <PlannerPlaces metroId={metroId} dates={dates} />
-      )}
+      <PlannerPlaces metroId={metroId} dates={dates} setDates={setDates} />
     </div>
   );
 };

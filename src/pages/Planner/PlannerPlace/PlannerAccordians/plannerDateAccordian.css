@@ -11,7 +11,7 @@
     .planner-places-accordian-date-title-container {
       width: 76%;
       display: flex;
-      align-items: end;
+      align-items: baseline;
       justify-content: space-between;
       gap: 10px;
       .planner-places-accordian-date-title-name {
@@ -109,6 +109,7 @@
 }
 
 .planner-places-accordian-date.active {
+  box-sizing: border-box;
   border: 1px solid var(--basic-color);
   box-shadow: rgba(149, 157, 165, 0.2) 4px 4px 8px 4px;
 

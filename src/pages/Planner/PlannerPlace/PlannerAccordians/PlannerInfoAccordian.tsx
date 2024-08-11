@@ -10,8 +10,6 @@ export interface PlannerInfoAccordianProps {
   dates: Date[];
   title: string;
   setTitle: (value: string) => void;
-  openCalendar?: boolean;
-  setOpenCalendar?: (value: boolean) => void;
 }
 
 const PlannerInfoAccordian = ({
@@ -21,19 +19,15 @@ const PlannerInfoAccordian = ({
   dates,
   title,
   setTitle,
-  openCalendar,
-  setOpenCalendar,
 }: PlannerInfoAccordianProps) => {
-  const startDate =
-    convertDateTypeToDate2(dates[0]) || convertDateTypeToDate2(new Date());
+  const startDate = dates.length > 1 ? convertDateTypeToDate2(dates[0]) : "";
 
   const endDate =
-    convertDateTypeToDate2(dates[dates.length - 1]) ||
-    convertDateTypeToDate2(new Date());
+    dates.length > 1 ? convertDateTypeToDate2(dates[dates.length - 1]) : "";
 
   // 타이틀 저장
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target?.value;
+    const value = e.target?.value.trim();
 
     setTitle(value);
   };
@@ -48,8 +42,7 @@ const PlannerInfoAccordian = ({
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.stopPropagation();
-    if (!setOpenCalendar) return;
-    setOpenCalendar(!openCalendar);
+    handleOpenAccordian("calendar");
   };
   return (
     <section
@@ -59,7 +52,15 @@ const PlannerInfoAccordian = ({
       onClick={() => handleOpenAccordian("info")}
     >
       <div className="planner-places-accordian-info-title">
-        <p className="planner-places-accordian-info-title-name">일정 정보</p>
+        <span className="planner-places-accordian-info-title-container">
+          <p className="planner-places-accordian-info-title-name">일정 정보</p>
+          <p className="planner-places-accordian-info-title-detail">
+            {`( 이름 : ${title ? "O" : "X"} 지역 : ${
+              metroId ? "O" : "X"
+            } 기간 : ${dates.length > 1 ? "O" : "X"} )`}
+          </p>
+        </span>
+
         <p
           className={`planner-places-accordian-info-title-icon${
             openAccordian === "info" ? " active" : ""
