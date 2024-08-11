@@ -392,23 +392,26 @@ const PlannerDateCard = ({
             >
               삭제
             </li>
-            {dates.map((date, index) => (
-              <li
-                key={convertDateTypeToDate2(date)}
-                className={`planner-place-card-date-main-dropdown-item${
-                  WhereCheckedPlace(detail.place.contentid, index)
-                    ? " selected"
-                    : ""
-                }`}
-                onClick={
-                  WhereCheckedPlace(detail.place.contentid, index)
-                    ? (e) => handleDeselect(e, detail.place.contentid, date)
-                    : (e) => handleSelect(e, detail.place, date, index)
-                }
-              >
-                {convertDateTypeToDate1(date)}
-              </li>
-            ))}
+            {dates.map((day, index) => {
+              if (day === date) return;
+              return (
+                <li
+                  key={convertDateTypeToDate2(day)}
+                  className={`planner-place-card-date-main-dropdown-item${
+                    WhereCheckedPlace(detail.place.contentid, index)
+                      ? " selected"
+                      : ""
+                  }`}
+                  onClick={
+                    WhereCheckedPlace(detail.place.contentid, index)
+                      ? (e) => handleDeselect(e, detail.place.contentid, day)
+                      : (e) => handleSelect(e, detail.place, day, index)
+                  }
+                >
+                  {convertDateTypeToDate1(day)}
+                </li>
+              );
+            })}
           </ul>
         </span>
       </div>
@@ -417,9 +420,11 @@ const PlannerDateCard = ({
           openDepict ? " active" : ""
         }`}
       >
-        <div className="planner-place-card-date-overview-depict">
-          {detail.place.overview || "준비된 설명이 없습니다."}
-        </div>
+        {detail.place.overview && (
+          <div className="planner-place-card-date-overview-depict">
+            {detail.place.overview || "준비된 설명이 없습니다."}
+          </div>
+        )}
         <div
           className={`planner-place-card-date-overview-map${
             openMap ? " active" : ""

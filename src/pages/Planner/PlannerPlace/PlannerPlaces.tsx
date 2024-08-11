@@ -8,7 +8,7 @@ import PlannerDateAccordian from "./PlannerAccordians/PlannerDateAccordian";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { useNavigate } from "react-router-dom";
 import { saveScheduleAPI } from "apis/schedule";
-import { LuLoader, LuLoader2 } from "react-icons/lu";
+import { LuLoader2 } from "react-icons/lu";
 import PlannerCalendarAccordian from "./PlannerAccordians/PlannerCalendarAccordian";
 export interface PlannerPlacesProps {
   metroId: string;
@@ -22,6 +22,7 @@ const PlannerPlaces = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
   const [columns, setColumns] = useState<{ [key: string]: ColumnType[] }>({});
   const [title, setTitle] = useState("");
   const [valid, setValid] = useState(false);
+  const [contentTypeId, setContentTypeId] = useState("12");
 
   useEffect(() => {
     dates.forEach((date) => {
@@ -52,12 +53,18 @@ const PlannerPlaces = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
     });
   }, [columns]);
 
-  const handleOpenAccordian = (accordianName: string) => {
+  // 아코디언 여닫기 함수
+  const handleOpenAccordian = (
+    accordianName: string,
+    contentTypeId?: string
+  ) => {
     if (accordianName === openAccordian) {
       return setOpenAccordian("");
-    } else {
-      setOpenAccordian(accordianName);
     }
+
+    setOpenAccordian(accordianName);
+    if (!contentTypeId) return;
+    setContentTypeId(contentTypeId);
   };
 
   // 제출하기
@@ -70,7 +77,7 @@ const PlannerPlaces = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
 
     const scheduleDetails: ScheduleDetailDtoInputType[] = [];
     const values = Object.values(columns);
-    console.log(values);
+
     for (let i = 0; i < values.length; i++) {
       const column = values[i];
       for (const detail of column) {
@@ -148,18 +155,21 @@ const PlannerPlaces = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
         />
       ))}
 
-      {plannerAPIAccordianArr.map((apiInfo) => (
-        <PlannerAPIAccordian
-          key={apiInfo.key}
-          dates={dates}
-          metroId={metroId}
-          openAccordian={openAccordian}
-          handleOpenAccordian={handleOpenAccordian}
-          apiInfo={apiInfo}
-          columns={columns}
-          setColumns={setColumns}
-        />
-      ))}
+      {dates.length > 1 &&
+        plannerAPIAccordianArr.map((apiInfo) => (
+          <PlannerAPIAccordian
+            key={apiInfo.key}
+            dates={dates}
+            metroId={metroId}
+            openAccordian={openAccordian}
+            handleOpenAccordian={handleOpenAccordian}
+            apiInfo={apiInfo}
+            columns={columns}
+            setColumns={setColumns}
+            contentTypeId={contentTypeId}
+            setContentTypeId={setContentTypeId}
+          />
+        ))}
 
       <section className="planner-places-btns">
         <button

@@ -17,7 +17,11 @@ export interface ScheduleMobileProps {
   dates: Date[];
   setDates: (value: Date[]) => void;
   columns: { [key: string]: ColumnType[] };
-  setColumns: (value: { [key: string]: ColumnType[] }) => void;
+  setColumns: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: ColumnType[];
+    }>
+  >;
 }
 const ScheduleMobile = ({
   title,
@@ -33,6 +37,7 @@ const ScheduleMobile = ({
   const [openCalendar, setOpenCalendar] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [valid, setValid] = useState(false);
+  const [contentTypeId, setContentTypeId] = useState("");
 
   useEffect(() => {
     // 각 컬럼에 적어도 숙소 한 곳, 관광지 한 곳 이상이 있어야 함
@@ -60,12 +65,17 @@ const ScheduleMobile = ({
   }, [columns]);
 
   // 아코디언 여닫기 함수
-  const handleOpenAccordian = (accordianName: string) => {
+  const handleOpenAccordian = (
+    accordianName: string,
+    contentTypeId?: string
+  ) => {
     if (accordianName === openAccordian) {
       return setOpenAccordian("");
-    } else {
-      setOpenAccordian(accordianName);
     }
+
+    setOpenAccordian(accordianName);
+    if (!contentTypeId) return;
+    setContentTypeId(contentTypeId);
   };
 
   // 제출하기
@@ -179,6 +189,8 @@ const ScheduleMobile = ({
           apiInfo={apiInfo}
           columns={columns}
           setColumns={setColumns}
+          contentTypeId={contentTypeId}
+          setContentTypeId={setContentTypeId}
         />
       ))}
       <section className="schedule-mobile-btns">

@@ -2,15 +2,7 @@ import { fetchPlaceAPI } from "apis/place";
 import "./plannerAPIPlaceCard.css";
 import { metros } from "data/metros";
 import { useEffect, useRef, useState } from "react";
-import {
-  LuCheck,
-  LuChevronDown,
-  LuLoader,
-  LuPhone,
-  LuPhoneCall,
-  LuPlus,
-  LuX,
-} from "react-icons/lu";
+import { LuCheck, LuChevronDown, LuPhoneCall, LuPlus } from "react-icons/lu";
 import { PlaceApiType } from "types/place";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType } from "types/plan";
@@ -20,10 +12,12 @@ export interface PlannerAPIPlaceCardProps {
   metroId: string;
   isRequesting: boolean;
   setIsRequesting: (value: boolean) => void;
-  selectedPlaces: PlaceApiType[];
-  setSelectedPlaces: (value: PlaceApiType[]) => void;
   columns: { [key: string]: ColumnType[] };
-  setColumns: (value: { [key: string]: ColumnType[] }) => void;
+  setColumns: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: ColumnType[];
+    }>
+  >;
 }
 const PlannerAPIPlaceCard = ({
   dates,
@@ -147,7 +141,11 @@ const PlannerAPIPlaceCard = ({
       ...columns,
       [convertDateTypeToDate2(date)]: newColumn,
     });
+
+    setOpenDropdown(!openDropdown);
   };
+
+  // 장소 추가하기
   const handleSelect = (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     place: PlaceApiType,
@@ -169,32 +167,22 @@ const PlannerAPIPlaceCard = ({
       ...columns,
       [convertDateTypeToDate2(date)]: [...oldColumn, newColumnElem],
     });
+
+    setOpenDropdown(!openDropdown);
   };
 
   // 저장된 장소의 위치 확인
   const WhereCheckedPlace = (contentId: string, index: number) => {
-    const sps = Object.values(columns);
-
-    const result = sps
-      .find((_, i) => index === i)
-      ?.find((item) => item.place.contentid === contentId);
-
-    if (result) {
-      return true;
-    } else {
-      return false;
-    }
+    return (
+      Object.values(columns)[index]?.some(
+        (item) => item.place.contentid === contentId
+      ) || false
+    );
   };
 
   // 저장된 장소인지 여부 확인
   const CheckPlace = (contentId: string) => {
-    const check = selectedPlaces.find((item) => item.contentid === contentId);
-
-    if (check) {
-      return true;
-    } else {
-      return false;
-    }
+    return selectedPlaces.some((item) => item.contentid === contentId);
   };
 
   return (
@@ -279,9 +267,11 @@ const PlannerAPIPlaceCard = ({
           openDepict ? " active" : ""
         }`}
       >
-        <div className="planner-place-card-api-overview-depict">
-          {place.overview || "준비된 설명이 없습니다."}
-        </div>
+        {place.overview && (
+          <div className="planner-place-card-api-overview-depict">
+            {place.overview || "준비된 설명이 없습니다."}
+          </div>
+        )}
         <div
           className={`planner-place-card-api-overview-map${
             openMap ? " active" : ""
