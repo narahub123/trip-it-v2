@@ -198,7 +198,7 @@ export const updateScheduleAPI = async (
   }
 ) => {
   try {
-    const response = await axios.post(
+    const response = await axios.patch(
       `${baseURL}/mypage/schedules/updateSchedule`,
       {
         scheduleId,

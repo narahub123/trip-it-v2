@@ -155,6 +155,7 @@ const ScheduleMobile = ({
 
     const submitValue = {
       scheduleDto: {
+        scheduleId: schedule.scheduleId,
         metroId: metroId,
         startDate: start,
         endDate: end,
