@@ -5,29 +5,34 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
-  background-color: #ccc;
+
   position: relative;
   transition: transform 0.3s ease; /* 애니메이션 적용 */
   .planner-place-card-date-main {
+    box-sizing: border-box;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-between;
     width: 100%;
     border-bottom: 1px solid #ccc;
     border-radius: 10px;
 
     .planner-place-card-date-main-position {
-      border: 1px solid #ccc;
+      box-sizing: border-box;
       display: block;
+      background-color: #ccc;
+      border-radius: 10px 0 0 10px;
+      transition: border-radius 0.3s ease-in-out;
+      flex: 1;
 
       .planner-place-card-date-main-position-container {
-        border: 1px solid #ccc;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 10px;
         padding: 0 4px;
+        height: 100%;
         .planner-place-card-date-main-position-up {
           display: flex;
           justify-content: center;
@@ -47,6 +52,10 @@
           color: #fff;
         }
       }
+    }
+    .planner-place-card-date-main-position.open {
+      border-radius: 10px 0 0 0;
+      transition: border-radius 0.3s ease-in-out;
     }
     .planner-place-card-date-main-info {
       display: flex;
@@ -109,6 +118,7 @@
       background-color: var(--basic-color);
       border-radius: 0 10px 10px 0;
       position: relative;
+      transition: border-radius 0.3s ease-in-out;
 
       .planner-place-card-date-main-dropdown-title {
       }
@@ -149,6 +159,7 @@
 
     .planner-place-card-date-main-dropdown.open {
       border-radius: 0 10px 0px 0;
+      transition: border-radius 0.3s ease-in-out;
     }
 
     .planner-place-card-date-main-click.open {

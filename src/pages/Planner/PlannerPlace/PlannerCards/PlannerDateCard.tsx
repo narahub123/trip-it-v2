@@ -299,7 +299,11 @@ const PlannerDateCard = ({
       }`}
     >
       <div className="planner-place-card-date-main">
-        <span className="planner-place-card-date-main-position">
+        <span
+          className={`planner-place-card-date-main-position${
+            openDepict ? " open" : ""
+          }`}
+        >
           <div className="planner-place-card-date-main-position-container">
             <p
               className={`planner-place-card-date-main-position-up${

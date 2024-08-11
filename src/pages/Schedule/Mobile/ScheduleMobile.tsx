@@ -234,7 +234,6 @@ const ScheduleMobile = ({
         />
       ))}
       <section className="schedule-mobile-btns">
-        <button className="schedule-mobile-btns-btn backward">날짜</button>
         <button
           className={`schedule-mobile-btns-btn${
             isSubmitting ? " submitting" : valid ? " update" : ""
