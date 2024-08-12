@@ -145,16 +145,51 @@
 
     .planner-place-card-api-overview-depict {
       border: 1px solid #ccc;
-
       padding: 5px;
       font-size: 12px;
-      height: 100px;
-      overflow-y: auto;
+      border-radius: 10px;
+
+      .planner-place-card-api-overview-depict-title {
+      }
+      .planner-place-card-api-overview-depict-detail {
+        overflow-y: auto;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      .planner-place-card-api-overview-depict-detail.open {
+        visibility: visible;
+        margin-top: 5px;
+        max-height: 100px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
     }
     .planner-place-card-api-overview-map {
       border: 1px solid #ccc;
       border-radius: 10px;
-      height: 250px;
+      padding: 5px;
+      font-size: 12px;
+
+      .planner-place-card-api-overview-map-title {
+      }
+      .planner-place-card-api-overview-map-container {
+        overflow-y: auto;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      .planner-place-card-api-overview-map-container.open {
+        visibility: visible;
+        padding-top: 10px;
+        max-height: 250px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
     }
   }
 
@@ -168,15 +203,51 @@
 
     .planner-place-card-api-overview-depict {
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 5px;
       font-size: 12px;
-      height: 100px;
-      overflow-y: auto;
+      border-radius: 10px;
+
+      .planner-place-card-api-overview-depict-title {
+      }
+      .planner-place-card-api-overview-depict-detail {
+        overflow-y: auto;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      .planner-place-card-api-overview-depict-detail.open {
+        visibility: visible;
+        margin-top: 5px;
+        max-height: 100px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
     }
     .planner-place-card-api-overview-map {
       border: 1px solid #ccc;
-      border-radius: 0px 0px 10px 10px;
-      height: 250px;
+      border-radius: 10px;
+      padding: 5px;
+      font-size: 12px;
+
+      .planner-place-card-api-overview-map-title {
+      }
+      .planner-place-card-api-overview-map-container {
+        overflow-y: auto;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      .planner-place-card-api-overview-map-container.open {
+        visibility: visible;
+        padding-top: 10px;
+        max-height: 250px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
     }
   }
 }

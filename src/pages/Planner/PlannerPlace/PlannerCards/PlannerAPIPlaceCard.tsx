@@ -6,6 +6,7 @@ import { LuCheck, LuChevronDown, LuPhoneCall, LuPlus } from "react-icons/lu";
 import { PlaceApiType } from "types/place";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType } from "types/plan";
+import Map from "pages/Planner/components/Map/Map";
 export interface PlannerAPIPlaceCardProps {
   dates: Date[];
   place: PlaceApiType;
@@ -40,6 +41,8 @@ const PlannerAPIPlaceCard = ({
   const [selectedPlace, setSelectedPlace] = useState<PlaceApiType>();
   // 드롭다운 열기
   const [openDropdown, setOpenDropdown] = useState(false);
+  // 설명 열기
+  const [openOverview, setOpenOverview] = useState(false);
 
   // 사진이 없는 경우 기본 사진 사용
   const defaultImage = metros.find(
@@ -185,6 +188,18 @@ const PlannerAPIPlaceCard = ({
     return selectedPlaces.some((item) => item.contentid === contentId);
   };
 
+  //
+  const handleOverview = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    e.stopPropagation();
+    setOpenOverview(!openOverview);
+  };
+
+  const handleOpenMap = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    setOpenMap(!openMap);
+  };
   return (
     <li className="planner-place-card-api">
       <div className="planner-place-card-api-main">
@@ -267,16 +282,43 @@ const PlannerAPIPlaceCard = ({
           openDepict ? " active" : ""
         }`}
       >
-        {place.overview && (
-          <div className="planner-place-card-api-overview-depict">
-            {place.overview || "준비된 설명이 없습니다."}
-          </div>
-        )}
-        <div
-          className={`planner-place-card-api-overview-map${
-            openMap ? " active" : ""
-          }`}
-        ></div>
+        <div className="planner-place-card-api-overview-depict">
+          <p
+            className="planner-place-card-api-overview-depict-title"
+            onClick={(e) => handleOverview(e)}
+          >
+            설명보기
+          </p>
+          <p
+            className={`planner-place-card-api-overview-depict-detail${
+              openOverview ? " open" : ""
+            }`}
+          >
+            {selectedPlace?.overview || "준비된 설명이 없습니다."}
+          </p>
+        </div>
+
+        <div className={`planner-place-card-api-overview-map`}>
+          <p
+            className={`planner-place-card-api-overview-map-title`}
+            onClick={(e) => handleOpenMap(e)}
+          >
+            맵 보기
+          </p>
+          <p
+            className={`planner-place-card-api-overview-map-container${
+              openMap ? " open" : ""
+            }`}
+          >
+            {openMap ? (
+              <Map
+                key={selectedPlace?.contentid}
+                addr={selectedPlace?.addr1}
+                title={selectedPlace?.title}
+              />
+            ) : undefined}
+          </p>
+        </div>
       </div>
     </li>
   );

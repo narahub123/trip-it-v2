@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { saveScheduleAPI } from "apis/schedule";
 import { LuLoader2 } from "react-icons/lu";
 import PlannerCalendarAccordian from "./PlannerAccordians/PlannerCalendarAccordian";
+import Map from "../components/Map/Map";
 export interface PlannerPlacesProps {
   metroId: string;
   dates: Date[];
