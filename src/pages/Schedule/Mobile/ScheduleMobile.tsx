@@ -3,7 +3,11 @@ import "./scheduleMobile.css";
 import { useEffect, useState } from "react";
 import PlannerDateAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerDateAccordian";
 import { convertDateToYYYYMMDD, convertDateTypeToDate2 } from "utilities/date";
-import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
+import {
+  ColumnType,
+  ScheduleDetailDtoInputType,
+  ScheduleDetailDtoUpdateType,
+} from "types/plan";
 import { plannerAPIAccordianArr } from "pages/Planner/data/plannerPlace";
 import PlannerAPIAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerAPIAccordian";
 import { useNavigate } from "react-router-dom";
@@ -138,18 +142,42 @@ const ScheduleMobile = ({
 
     setIsSubmitting(true);
 
-    const scheduleDetails: ScheduleDetailDtoInputType[] = [];
     const values = Object.values(columns);
+
+    const newScheduleDetails: ScheduleDetailDtoUpdateType[] = [];
     for (let i = 0; i < values.length; i++) {
       const column = values[i];
+
       for (const detail of column) {
-        const newDetail: ScheduleDetailDtoInputType = {
-          contentId: detail.place.contentid,
-          scheduleOrder: detail.scheduleOrder,
-          startTime: detail.startTime,
-          endTime: detail.endTime,
-        };
-        scheduleDetails.push(newDetail);
+        const oldDetail = scheduleDetails.find(
+          (d) =>
+            d.contentId === detail.place.contentid &&
+            d.scheduleOrder === detail.scheduleOrder &&
+            d.startTime === detail.startTime &&
+            d.endTime === detail.endTime
+        );
+
+        if (oldDetail) {
+          const newDetail: ScheduleDetailDtoUpdateType = {
+            scheduleDetailId: oldDetail?.scheduleDetailId,
+            scheduleId: oldDetail.scheduleId,
+            contentId: detail.place.contentid,
+            scheduleOrder: detail.scheduleOrder,
+            startTime: detail.startTime,
+            endTime: detail.endTime,
+          };
+          newScheduleDetails.push(newDetail);
+        } else {
+          const scheduleId = scheduleDetails[0].scheduleId;
+          const newDetail: ScheduleDetailDtoUpdateType = {
+            scheduleId,
+            contentId: detail.place.contentid,
+            scheduleOrder: detail.scheduleOrder,
+            startTime: detail.startTime,
+            endTime: detail.endTime,
+          };
+          newScheduleDetails.push(newDetail);
+        }
       }
     }
 
@@ -161,7 +189,8 @@ const ScheduleMobile = ({
         endDate: end,
         scheduleTitle: title,
       },
-      detailScheduleDto: scheduleDetails,
+
+      detailScheduleDto: newScheduleDetails,
     };
 
     console.log(submitValue);
@@ -175,6 +204,7 @@ const ScheduleMobile = ({
         if (res.status === 200) {
           setIsSubmitting(false);
           console.log("수정 성공");
+          setValid(false);
           // navigate("/mypage/schedules");
         }
       })

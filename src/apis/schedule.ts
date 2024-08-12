@@ -199,7 +199,7 @@ export const updateScheduleAPI = async (
 ) => {
   try {
     const response = await axios.patch(
-      `${baseURL}/mypage/schedules/updateSchedule`,
+      `${baseURL}/mypage/update-schedules`,
       {
         scheduleId,
         value,

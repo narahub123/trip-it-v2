@@ -164,7 +164,7 @@ const PlannerAPIPlaceCard = ({
       endTime: "07:00",
     };
 
-    const oldColumn: ColumnType[] = columns[convertDateTypeToDate2(date)];
+    const oldColumn: ColumnType[] = columns[convertDateTypeToDate2(date)] || [];
 
     setColumns({
       ...columns,

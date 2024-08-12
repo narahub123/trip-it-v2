@@ -20,3 +20,9 @@ export interface ScheduleDetailDtoInputType {
   startTime: string;
   endTime: string;
 }
+
+export interface ScheduleDetailDtoUpdateType
+  extends ScheduleDetailDtoInputType {
+  scheduleDetailId?: string | number;
+  scheduleId?: string | number;
+}
