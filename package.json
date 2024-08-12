@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@uidotdev/usehooks": "^2.4.1"
+    "@uidotdev/usehooks": "^2.4.1",
+    "kakao.maps.d.ts": "^0.1.40"
   }
 }

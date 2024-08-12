@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6", // 추가 es5 => es6
-    // "types": ["node"], // react-cookie 타입 에러 해결
+    "types": ["node", "kakao.maps.d.ts"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": "./src", // 추가
     "allowJs": true,
