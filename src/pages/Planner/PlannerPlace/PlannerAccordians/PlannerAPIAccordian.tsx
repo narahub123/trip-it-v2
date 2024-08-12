@@ -44,6 +44,37 @@ const PlannerAPIAccordian = ({
   const [places, setPlaces] = useState<PlaceApiType[]>([]);
   const [pageNo, setPageNo] = useState("1");
 
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+
+    const touchEndX = e.touches[0].clientX;
+    const touchDiff = touchStartX - touchEndX;
+
+    if (Math.abs(touchDiff) > 100) {
+      // 터치 이동 거리가 100픽셀 이상일 때
+      if (touchDiff > 0) {
+        // 오른쪽에서 왼쪽으로 스크롤 (다음 페이지로 이동)
+        setPageNo((Number(pageNo) + 1).toString());
+      } else {
+        // 현재 페이지가 1인 경우는 스크롤 안됨
+        if (pageNo === "1") return;
+        // 왼쪽에서 오른쪽으로 스크롤 (이전 페이지로 이동)
+        setPageNo((Number(pageNo) - 1).toString());
+      }
+      setTouchStartX(null); // 터치 시작 위치 리셋
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setTouchStartX(null);
+  };
+
   useEffect(() => {
     if (contentTypeId.length === 0) return;
     setLoading(true);
@@ -190,6 +221,9 @@ const PlannerAPIAccordian = ({
           className={`planner-places-accordian-api-main${
             loading ? " loading" : ""
           }`}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {places.length === 0 ? (
             <li className="planner-places-accordian-api-main-noresult">
