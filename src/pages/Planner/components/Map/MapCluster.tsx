@@ -2,6 +2,7 @@ import { ColumnType } from "types/plan";
 import "./mapCluster.css";
 import { useEffect, useState } from "react";
 import { PlaceApiType } from "types/place";
+import { getCarDirection } from "utilities/map";
 export interface MapClusterProps {
   column: ColumnType[];
   date: Date;
@@ -29,8 +30,8 @@ const MapCluster = ({ column, date }: MapClusterProps) => {
         level: 3,
       };
 
-      const map = new kakao.maps.Map(mapContainer, mapOption);
       const positions = await getPositions(places);
+      const map = new kakao.maps.Map(mapContainer, mapOption);
 
       // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
       var bounds = new kakao.maps.LatLngBounds();
@@ -43,14 +44,25 @@ const MapCluster = ({ column, date }: MapClusterProps) => {
           title: position.title,
         });
 
-        const infowindow = new kakao.maps.InfoWindow({
-          content: `<div style="width:150px;text-align:center;padding:6px 0;">${position.title}</div>`,
-        });
-        infowindow.open(map, marker);
+        // const infowindow = new kakao.maps.InfoWindow({
+        //   content: `<div style="width:150px;text-align:center;padding:6px 0;">${position.title}</div>`,
+        // });
+        // infowindow.open(map, marker);
 
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(position.latlng);
       });
+
+      for (let i = 0; i < positions.length - 1; i++) {
+        const start = i;
+        const end = i + 1;
+
+        await getCarDirection(
+          positions[start].latlng,
+          positions[end].latlng,
+          map
+        );
+      }
 
       map.setBounds(bounds);
     });
