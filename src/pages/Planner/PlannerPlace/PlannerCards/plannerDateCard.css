@@ -182,21 +182,60 @@
 
     .planner-place-card-date-overview-depict {
       border: 1px solid #ccc;
-
+      box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
       padding: 5px;
       font-size: 12px;
-      height: 100px;
-      overflow-y: auto;
+      border-radius: 10px;
+
+      .planner-place-card-date-overview-depict-title {
+        text-align: center;
+      }
+      .planner-place-card-date-overview-depict-detail {
+        overflow-y: auto;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      .planner-place-card-date-overview-depict-detail.open {
+        visibility: visible;
+        margin-top: 5px;
+        max-height: 100px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
     }
     .planner-place-card-date-overview-map {
       border: 1px solid #ccc;
       border-radius: 10px;
-      height: 250px;
+      box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
+      padding: 5px;
+      font-size: 12px;
+
+      .planner-place-card-date-overview-map-title {
+        text-align: center;
+      }
+      .planner-place-card-date-overview-map-container {
+        overflow-y: auto;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      .planner-place-card-date-overview-map-container.open {
+        visibility: visible;
+        padding-top: 10px;
+        max-height: 250px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
     }
   }
 
   .planner-place-card-date-overview.active {
-    padding: 10px 0 0 0;
+    padding: 10px;
     visibility: visible;
     max-height: 500px;
     opacity: 1;
@@ -205,15 +244,53 @@
 
     .planner-place-card-date-overview-depict {
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 5px;
       font-size: 12px;
-      height: 100px;
-      overflow-y: auto;
+      border-radius: 10px;
+
+      .planner-place-card-date-overview-depict-title {
+        text-align: center;
+      }
+      .planner-place-card-date-overview-depict-detail {
+        overflow-y: auto;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      .planner-place-card-date-overview-depict-detail.open {
+        visibility: visible;
+        margin-top: 5px;
+        max-height: 100px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
     }
     .planner-place-card-date-overview-map {
       border: 1px solid #ccc;
-      border-radius: 0px 0px 10px 10px;
-      height: 250px;
+      border-radius: 10px;
+      padding: 5px;
+      font-size: 12px;
+
+      .planner-place-card-date-overview-map-title {
+        text-align: center;
+      }
+      .planner-place-card-date-overview-map-container {
+        overflow-y: auto;
+
+        visibility: hidden;
+        max-height: 0px;
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+      }
+      .planner-place-card-date-overview-map-container.open {
+        visibility: visible;
+        padding-top: 10px;
+        max-height: 250px;
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+      }
     }
   }
 }

@@ -15,6 +15,7 @@ import {
 } from "react-icons/lu";
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
+import Map from "pages/Planner/components/Map/Map";
 
 export interface PlannerDateCardProps {
   date: Date;
@@ -56,6 +57,8 @@ const PlannerDateCard = ({
   const [selectedPlace, setSelectedPlace] = useState<PlaceApiType>();
   // 드롭다운 열기
   const [openDropdown, setOpenDropdown] = useState(false);
+  // 설명 열기
+  const [openOverview, setOpenOverview] = useState(false);
 
   // 시간 관련 드롭다운 정보
   const startTime = detail.startTime.split(":");
@@ -288,6 +291,17 @@ const PlannerDateCard = ({
     setMoveOrderGroup([order, order + 1]);
   };
 
+  const handleOverview = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    e.stopPropagation();
+    setOpenOverview(!openOverview);
+  };
+
+  const handleOpenMap = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    setOpenMap(!openMap);
+  };
   return (
     <li
       className={`planner-place-card-date ${
@@ -424,16 +438,43 @@ const PlannerDateCard = ({
           openDepict ? " active" : ""
         }`}
       >
-        {detail.place.overview && (
-          <div className="planner-place-card-date-overview-depict">
-            {detail.place.overview || "준비된 설명이 없습니다."}
-          </div>
-        )}
-        <div
-          className={`planner-place-card-date-overview-map${
-            openMap ? " active" : ""
-          }`}
-        ></div>
+        <div className="planner-place-card-date-overview-depict">
+          <p
+            className="planner-place-card-date-overview-depict-title"
+            onClick={(e) => handleOverview(e)}
+          >
+            {openOverview ? "설명 닫기" : "설명 보기"}
+          </p>
+          <p
+            className={`planner-place-card-date-overview-depict-detail${
+              openOverview ? " open" : ""
+            }`}
+          >
+            {detail.place?.overview || "준비된 설명이 없습니다."}
+          </p>
+        </div>
+
+        <div className={`planner-place-card-date-overview-map`}>
+          <p
+            className={`planner-place-card-date-overview-map-title`}
+            onClick={(e) => handleOpenMap(e)}
+          >
+            {openMap ? "지도 닫기" : "지도 보기"}
+          </p>
+          <p
+            className={`planner-place-card-date-overview-map-container${
+              openMap ? " open" : ""
+            }`}
+          >
+            {openMap ? (
+              <Map
+                key={detail.place?.contentid}
+                addr={detail.place?.addr1}
+                title={detail.place?.title}
+              />
+            ) : undefined}
+          </p>
+        </div>
       </div>
     </li>
   );

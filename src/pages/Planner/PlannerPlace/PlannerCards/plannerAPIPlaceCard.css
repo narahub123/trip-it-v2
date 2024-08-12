@@ -4,6 +4,7 @@
   flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
   .planner-place-card-api-main {
     display: flex;
     align-items: center;
@@ -145,11 +146,13 @@
 
     .planner-place-card-api-overview-depict {
       border: 1px solid #ccc;
+      box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
       padding: 5px;
       font-size: 12px;
       border-radius: 10px;
 
       .planner-place-card-api-overview-depict-title {
+        text-align: center;
       }
       .planner-place-card-api-overview-depict-detail {
         overflow-y: auto;
@@ -170,10 +173,12 @@
     .planner-place-card-api-overview-map {
       border: 1px solid #ccc;
       border-radius: 10px;
+      box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
       padding: 5px;
       font-size: 12px;
 
       .planner-place-card-api-overview-map-title {
+        text-align: center;
       }
       .planner-place-card-api-overview-map-container {
         overflow-y: auto;
@@ -194,7 +199,7 @@
   }
 
   .planner-place-card-api-overview.active {
-    padding: 10px 0 0 0;
+    padding: 10px;
     visibility: visible;
     max-height: 500px;
     opacity: 1;
@@ -208,6 +213,7 @@
       border-radius: 10px;
 
       .planner-place-card-api-overview-depict-title {
+        text-align: center;
       }
       .planner-place-card-api-overview-depict-detail {
         overflow-y: auto;
@@ -232,6 +238,7 @@
       font-size: 12px;
 
       .planner-place-card-api-overview-map-title {
+        text-align: center;
       }
       .planner-place-card-api-overview-map-container {
         overflow-y: auto;

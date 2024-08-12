@@ -287,7 +287,7 @@ const PlannerAPIPlaceCard = ({
             className="planner-place-card-api-overview-depict-title"
             onClick={(e) => handleOverview(e)}
           >
-            설명보기
+            {openOverview ? "설명 닫기" : "설명 보기"}
           </p>
           <p
             className={`planner-place-card-api-overview-depict-detail${
@@ -303,7 +303,7 @@ const PlannerAPIPlaceCard = ({
             className={`planner-place-card-api-overview-map-title`}
             onClick={(e) => handleOpenMap(e)}
           >
-            맵 보기
+            {openMap ? "지도 닫기" : "지도 보기"}
           </p>
           <p
             className={`planner-place-card-api-overview-map-container${
