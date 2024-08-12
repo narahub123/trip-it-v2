@@ -54,7 +54,7 @@ export const fetchPlaceAPI = async (contentId: string) => {
   }
 };
 
-export const fetchPlacesByKeyword = async (
+export const fetchPlacesByKeywordAPI = async (
   metroId: string,
   pageNo: string,
   contentTypeId: string,
@@ -62,7 +62,7 @@ export const fetchPlacesByKeyword = async (
 ) => {
   try {
     const places = await axios.get(
-      `${baseURL}/home/apiSearch/${metroId}/${pageNo}/${contentTypeId}/${keyword}}`,
+      `${baseURL}/home/apiSearch/${metroId}/${pageNo}/${contentTypeId}/${keyword}`,
       {
         headers: {
           "Content-Type": "application/json",

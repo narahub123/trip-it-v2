@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./plannerAPIAccordian.css";
 import { IoIosArrowDropup } from "react-icons/io";
 import { LuSearch } from "react-icons/lu";
@@ -6,7 +6,7 @@ import { debounce } from "utilities/debounce";
 import PlannerAPIPlaceCard from "../PlannerCards/PlannerAPIPlaceCard";
 import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
-import { fetchPlacesAPI } from "apis/place";
+import { fetchPlacesAPI, fetchPlacesByKeywordAPI } from "apis/place";
 export interface PlannerAPIAccordianProps {
   dates: Date[];
   metroId: string;
@@ -79,15 +79,43 @@ const PlannerAPIAccordian = ({
 
   // 검색어 저장
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target?.value;
+    let value = e.target?.value.trim() || "";
 
     setSearch(value);
+    debouncedSearch(value);
+  };
+
+  const fetchPlacesByKeyword = async (keyword: string) => {
+    setLoading(true);
+    try {
+      let res;
+
+      if (keyword === "") {
+        res = await fetchPlacesAPI(metroId, pageNo, contentTypeId);
+      } else {
+        res = await fetchPlacesByKeywordAPI(
+          metroId,
+          pageNo,
+          contentTypeId,
+          keyword
+        );
+      }
+
+      if (res) {
+        setPlaces(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // 렌더링을 줄이기 위한 debounce
-  const debouncedSearch = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e);
-  }, 500);
+  const debouncedSearch = useCallback(
+    debounce((keyword: string) => fetchPlacesByKeyword(keyword), 500),
+    [metroId, pageNo, contentTypeId]
+  );
 
   //
   const hanldeContentTypeId = (
@@ -96,6 +124,7 @@ const PlannerAPIAccordian = ({
   ) => {
     e.stopPropagation();
     setContentTypeId(contentTypeId);
+    setSearch("");
   };
 
   return (
@@ -148,7 +177,8 @@ const PlannerAPIAccordian = ({
                 openSearch ? " active" : ""
               }`}
               onClick={(e) => e.stopPropagation()}
-              onChange={debouncedSearch}
+              onChange={onChange}
+              value={search}
               placeholder="검색어를 입력하세요."
             />
             <span className="planner-places-accordian-api-tags-search-icon">
