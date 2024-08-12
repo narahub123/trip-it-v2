@@ -6,8 +6,12 @@ import { getCarDirection } from "utilities/map";
 export interface MapClusterProps {
   column: ColumnType[];
   date: Date;
+  infos: ({ distance: number; duration: number } | undefined)[];
+  setInfos: (
+    value: ({ distance: number; duration: number } | undefined)[]
+  ) => void;
 }
-const MapCluster = ({ column, date }: MapClusterProps) => {
+const MapCluster = ({ column, date, infos, setInfos }: MapClusterProps) => {
   const [places, setPlaces] = useState<PlaceApiType[]>([]);
 
   useEffect(() => {
@@ -53,16 +57,21 @@ const MapCluster = ({ column, date }: MapClusterProps) => {
         bounds.extend(position.latlng);
       });
 
+      const newInfos = [];
       for (let i = 0; i < positions.length - 1; i++) {
         const start = i;
         const end = i + 1;
 
-        await getCarDirection(
+        const info = await getCarDirection(
           positions[start].latlng,
           positions[end].latlng,
           map
         );
+
+        newInfos.push(info);
       }
+
+      setInfos(newInfos);
 
       map.setBounds(bounds);
     });

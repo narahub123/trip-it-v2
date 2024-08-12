@@ -67,6 +67,16 @@ export const getCarDirection = async (
       strokeStyle: "solid",
     });
     polyline.setMap(map);
+
+    // 이동 거리
+    const distance = data.routes[0].sections[0].distance;
+    // 이동 시간
+    const duration = data.routes[0].sections[0].duration;
+    console.log(distance, duration);
+    return {
+      distance,
+      duration,
+    };
   } catch (error) {
     console.error("Error:", error);
   }

@@ -50,6 +50,26 @@
       flex-direction: column;
       gap: 10px;
     }
+
+    .planner-places-accordian-date-infos {
+      font-size: 12px;
+      text-align: center;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      .planner-places-accordian-date-infos-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .planner-places-accordian-date-infos-detail {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
   }
 
   .planner-places-accordian-date-map {

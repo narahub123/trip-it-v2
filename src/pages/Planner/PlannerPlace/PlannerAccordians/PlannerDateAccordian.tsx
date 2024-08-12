@@ -5,6 +5,7 @@ import { convertDateTypeToDate2 } from "utilities/date";
 import PlannerDateCard from "../PlannerCards/PlannerDateCard";
 import { useState } from "react";
 import MapCluster from "pages/Planner/components/Map/MapCluster";
+import { LuArrowDown } from "react-icons/lu";
 export interface PlannerDateAccordianProps {
   metroId: string;
   openAccordian: string;
@@ -32,6 +33,11 @@ const PlannerDateAccordian = ({
 
   // 맵 여닫기
   const [openMap, setOpenMap] = useState(false);
+
+  // 이동거리, 시간 정보
+  const [infos, setInfos] = useState<
+    ({ distance: number; duration: number } | undefined)[]
+  >([]);
 
   const countOfPlaces = column.filter(
     (item) => item.place.contenttypeid !== "32"
@@ -90,21 +96,36 @@ const PlannerDateAccordian = ({
       >
         {column &&
           column.map((item, index) => (
-            <PlannerDateCard
-              key={item.place.contentid}
-              column={column}
-              order={index}
-              date={date}
-              dates={dates}
-              detail={item}
-              metroId={metroId}
-              columns={columns}
-              setColumns={setColumns}
-              moveClassGroup={moveClassGroup}
-              setMoveClassGroup={setMoveClassGroup}
-              moveOrderGroup={moveOrderGroup}
-              setMoveOrderGroup={setMoveOrderGroup}
-            />
+            <>
+              <PlannerDateCard
+                key={item.place.contentid}
+                column={column}
+                order={index}
+                date={date}
+                dates={dates}
+                detail={item}
+                metroId={metroId}
+                columns={columns}
+                setColumns={setColumns}
+                moveClassGroup={moveClassGroup}
+                setMoveClassGroup={setMoveClassGroup}
+                moveOrderGroup={moveOrderGroup}
+                setMoveOrderGroup={setMoveOrderGroup}
+              />
+              {infos[index] && (
+                <div className="planner-places-accordian-date-infos">
+                  {/* infos[index]가 undefined가 아닐 때만 duration에 접근 */}
+                  <p className="planner-places-accordian-date-infos-icon">
+                    <LuArrowDown />
+                  </p>
+                  {infos[index]?.duration !== undefined && (
+                    <p className="planner-places-accordian-date-infos-detail">
+                      {Math.ceil((infos[index]?.duration ?? 0) / 60)}분
+                    </p>
+                  )}
+                </div>
+              )}
+            </>
           ))}
       </ul>
       <div
@@ -128,6 +149,8 @@ const PlannerDateAccordian = ({
               key={`mapCluster${date.toDateString()}`}
               column={column}
               date={date}
+              infos={infos}
+              setInfos={setInfos}
             />
           )}
         </div>
