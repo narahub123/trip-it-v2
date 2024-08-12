@@ -5,8 +5,6 @@ import { userData } from "test/data/profile";
 import { LuMapPin, LuSiren, LuUsers, LuUserX } from "react-icons/lu";
 
 const MypageMobile = () => {
-  document.body.style.overflow = "hidden";
-
   return (
     <div className="mobile-mypage">
       <div className="mobile-mypage-container">

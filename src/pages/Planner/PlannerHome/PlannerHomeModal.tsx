@@ -32,6 +32,12 @@ const PlannerHomeModal = ({ message, setMessage }: PlannerHomeModalProps) => {
     if (e.key === "Escape") setMessage(undefined);
   };
 
+  const handleMove = () => {
+    setMessage(undefined);
+    document.body.style.overflow = "auto";
+    navigate(`/planner/${getMetroName(message.params)}`);
+  };
+
   return (
     <div className="planner-home-modal" onClick={(e) => handleOpenModal(e)}>
       <div
@@ -55,10 +61,7 @@ const PlannerHomeModal = ({ message, setMessage }: PlannerHomeModalProps) => {
           <button className="cancel" onClick={() => setMessage(undefined)}>
             취소
           </button>
-          <button
-            className="next"
-            onClick={() => navigate(`/planner/${getMetroName(message.params)}`)}
-          >
+          <button className="next" onClick={() => handleMove()}>
             일정
           </button>
         </div>

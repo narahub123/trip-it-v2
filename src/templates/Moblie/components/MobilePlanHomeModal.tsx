@@ -48,6 +48,11 @@ const MobilePlanHomeModal = ({ message, setMessage }: ModalProps) => {
     </div>
   );
 
+  const handleMove = () => {
+    setMessage(undefined);
+    document.body.style.overflow = "auto";
+    navigate(`/planner/${getMetroName(message.params)}`);
+  };
   return (
     <div
       className={`mobile-plan-home-modal${message ? " fade" : ""}`}
@@ -76,10 +81,7 @@ const MobilePlanHomeModal = ({ message, setMessage }: ModalProps) => {
           <button className="cancel" onClick={() => setMessage(undefined)}>
             취소
           </button>
-          <button
-            className="next"
-            onClick={() => navigate(`/planner/${getMetroName(message.params)}`)}
-          >
+          <button className="next" onClick={() => handleMove()}>
             일정
           </button>
         </div>
