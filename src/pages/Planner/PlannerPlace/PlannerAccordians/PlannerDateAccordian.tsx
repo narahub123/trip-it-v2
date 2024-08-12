@@ -4,6 +4,7 @@ import { ColumnType } from "types/plan";
 import { convertDateTypeToDate2 } from "utilities/date";
 import PlannerDateCard from "../PlannerCards/PlannerDateCard";
 import { useState } from "react";
+import MapCluster from "pages/Planner/components/Map/MapCluster";
 export interface PlannerDateAccordianProps {
   metroId: string;
   openAccordian: string;
@@ -29,12 +30,22 @@ const PlannerDateAccordian = ({
   const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
   const [moveOrderGroup, setMoveOrderGroup] = useState<number[]>([]);
 
+  // 맵 여닫기
+  const [openMap, setOpenMap] = useState(false);
+
   const countOfPlaces = column.filter(
     (item) => item.place.contenttypeid !== "32"
   ).length;
   const countOfAccomm = column.filter(
     (item) => item.place.contenttypeid === "32"
   ).length;
+
+  const handleOpenMap = (
+    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    setOpenMap(!openMap);
+  };
 
   return (
     <section
@@ -96,6 +107,31 @@ const PlannerDateAccordian = ({
             />
           ))}
       </ul>
+      <div
+        className={`planner-places-accordian-date-map${
+          openAccordian === convertDateTypeToDate2(date) ? " active" : ""
+        }`}
+      >
+        <p
+          className={`planner-places-accordian-date-map-title`}
+          onClick={(e) => handleOpenMap(e)}
+        >
+          {openMap ? "맵 닫기" : "맵 열기"}
+        </p>
+        <div
+          className={`planner-place-accordian-data-map-container${
+            openMap ? " open" : ""
+          }`}
+        >
+          {openMap && (
+            <MapCluster
+              key={`mapCluster${date.toDateString()}`}
+              column={column}
+              date={date}
+            />
+          )}
+        </div>
+      </div>
     </section>
   );
 };
