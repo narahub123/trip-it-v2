@@ -40,9 +40,6 @@
   font-weight: bold;
 }
 
-.mypage-footer-blank {
-  height: 50px;
-}
 @media screen and (max-width: 479px) {
   .head {
     display: none;
@@ -75,9 +72,10 @@
     overflow-y: scroll;
   }
 }
-@media screen and (min-width: 480px) and (max-width: 1119px) {
+
+@media screen and (min-width: 480px) {
   .head {
-    display: none;
+    display: block;
   }
   .chat {
     display: none;
@@ -100,20 +98,8 @@
   .mypage-template {
     display: none;
   }
-}
-@media screen and (min-width: 1200px) {
-  .chat {
-    display: none;
-  }
 
-  .mypage-header-chip {
-    display: none;
-  }
-
-  .mypage-mobile-profile {
-    display: none;
-  }
-  .footer {
+  .mypage-footer-blank {
     display: none;
   }
 }

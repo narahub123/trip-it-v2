@@ -27,6 +27,7 @@ import PlanHome from "pages/Plan/PlanHome";
 import Schedule from "pages/Schedule/Schedule";
 import PlannerHome from "pages/Planner/PlannerHome/PlannerHome";
 import PlannerLayout from "layouts/PlannerLayout";
+import Planner from "pages/Planner/Planner";
 
 const Trip = () => {
   useEffect(() => {
@@ -69,10 +70,9 @@ const Trip = () => {
           <Route path="/plan" element={<PlanHome />} />
           <Route path="/test" element={<Test />}></Route>
           <Route path="/test/carousel" element={<Carousel />} />
+          <Route path="/mypage/schedules/:scheduleId" element={<Schedule />} />
+          <Route path="/planner/:metroName" element={<Planner />} />
         </Route>
-        <Route path="/mypage/schedules/:scheduleId" element={<Schedule />} />
-        <Route path="/plan/:metroName" element={<PlanLayout />}></Route>
-        <Route path="/planner/:metroName" element={<PlannerLayout />}></Route>
       </Routes>
     </>
   );

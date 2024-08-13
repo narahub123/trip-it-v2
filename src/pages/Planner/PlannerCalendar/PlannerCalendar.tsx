@@ -14,7 +14,7 @@ const PlannerCalendar = ({ dates, setDates }: PlannerCalendarProps) => {
   const today = new Date();
   const year = today.getFullYear();
   const curMonth = today.getMonth();
-  const date = today.getDate();
+
   const [month, setMonth] = useState(curMonth);
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null);

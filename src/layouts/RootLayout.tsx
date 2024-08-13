@@ -10,7 +10,6 @@ const RootLayout = () => {
       <main>
         <Outlet />
       </main>
-      <div className="mypage-footer-blank" />
       <Footer />
     </div>
   );

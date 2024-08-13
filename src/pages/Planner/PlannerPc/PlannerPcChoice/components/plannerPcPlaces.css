@@ -1,0 +1,52 @@
+.planner-pc-places {
+  display: flex;
+  padding-top: 10px;
+  gap: 10px;
+  .planner-pc-places-place {
+    width: 390px;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+    .planner-pc-places-place-tags {
+      font-size: 12px;
+      margin-bottom: 10px;
+      .planner-pc-places-place-tags-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin: 0px;
+
+        .planner-pc-places-place-tags-tag {
+          box-sizing: border-box;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          padding: 5px;
+        }
+
+        .planner-pc-places-place-tags-tag.active {
+          border: none;
+          background-color: var(--basic-color);
+          color: #fff;
+        }
+      }
+    }
+    .planner-pc-places-place-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 320px;
+    }
+    .planner-pc-places-place-list.loading {
+      opacity: 0.5;
+    }
+  }
+  .planner-pc-places-selected {
+    width: 370px;
+    border: 1px solid #ccc;
+    flex: 1;
+  }
+}

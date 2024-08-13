@@ -7,7 +7,6 @@ const PlannerLayout = () => {
   return (
     <div className="planner-layout">
       <Planner />
-      <div className="mypage-footer-blank" />
       <Footer />
     </div>
   );
