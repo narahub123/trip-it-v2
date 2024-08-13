@@ -70,10 +70,6 @@ const Template = ({
       });
   }, []);
 
-  console.log();
-
-  console.log("삭제", deletes);
-
   return (
     <>
       {message && <MessageModal message={message} setMessage={setMessage} />}

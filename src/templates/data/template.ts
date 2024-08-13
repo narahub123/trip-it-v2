@@ -91,16 +91,17 @@ export const reportArray: TemplateArrayType[] = [
     sort: { key: "", value: "" },
     search: { able: false },
   },
+
   {
-    field: { name: "postId", nested: ["postId", "postTitle"] },
-    type: "nested",
+    field: { name: "postTitle" },
+    type: "normal",
     title: "모집글",
     sort: { key: "postId.postTitle", value: "asc" },
     search: { able: true, type: "normal" },
   },
   {
-    field: { name: "reportType", nested: ["reportType", "reportReason"] },
-    type: "nested",
+    field: { name: "reportReason" },
+    type: "normal",
     title: "신고유형",
     sort: { key: "reportType.reportReason", value: "asc" },
     search: {
@@ -125,7 +126,7 @@ export const reportArray: TemplateArrayType[] = [
   },
   {
     field: { name: "reportFalse" },
-    type: "normal",
+    type: "reportResult",
     title: "신고처리여부",
     sort: { key: "reportFalse", value: "asc" },
     search: {
@@ -146,10 +147,10 @@ export const reportsArray: TemplateArrayType[] = [
     search: { able: false },
   },
   {
-    field: { name: "nickname" },
+    field: { name: "nickName" },
     type: "normal",
     title: "신고 유저",
-    sort: { key: "nickname", value: "asc" },
+    sort: { key: "nickName", value: "asc" },
     search: { able: true, type: "normal" },
   },
   {
@@ -192,7 +193,7 @@ export const reportsArray: TemplateArrayType[] = [
     search: {
       able: true,
       type: "select",
-      enum: { 0: "처리 중", 1: "허위 신고", 2: "처리 완료", 3: "중복 신고" },
+      enum: { 0: "처리 중", 1: "처리 완료", 2: "허위 신고", 3: "중복 신고" },
     },
   },
 ];

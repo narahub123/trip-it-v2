@@ -1,0 +1,17 @@
+.planner-pc {
+  display: flex;
+  align-items: center;
+  .planner-pc-choice {
+    border: 1px solid #ccc;
+  }
+  .planner-pc-map {
+    border: 1px solid #ccc;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .planner-pc {
+    display: flex;
+    flex-direction: column;
+  }
+}

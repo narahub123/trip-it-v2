@@ -35,8 +35,7 @@ const Report = () => {
         defaultSort={["reportDate", "desc"]}
         defaultSize={3}
         defaultField={{
-          name: "reportType",
-          nested: ["reportType", "reportReason"],
+          name: "reportDate",
         }}
         tempArray={reportArray}
         msgArray={reportMsgs}

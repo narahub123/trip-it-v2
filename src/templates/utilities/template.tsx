@@ -53,7 +53,13 @@ export const getResult = (
           }
         />
       );
-
+    case "reportResult":
+      return (
+        <p className="text">
+          {item[body.field.name]  === 1 ? '신고 처리' : "허위 신고"|| "내용 없음"}
+          {/* item에서 body.field.name에 해당하는 값이 있으면 표시, 없으면 "내용 없음" 표시 */}
+        </p>
+      );
     case "normal":
       return (
         <p className="text">
@@ -120,7 +126,7 @@ export const getResult = (
             <li
               className="report-false-item"
               onClick={() =>
-                handleReport(item.reportId, 2, items, setItems, setMessage)
+                handleReport(item.reportId, 1, items, setItems, setMessage)
               } // 신고 허용 처리
             >
               신고 허용
@@ -128,7 +134,7 @@ export const getResult = (
             <li
               className="report-false-item"
               onClick={() =>
-                handleReport(item.reportId, 1, items, setItems, setMessage)
+                handleReport(item.reportId, 2, items, setItems, setMessage)
               } // 허위 신고 처리
             >
               허위 신고

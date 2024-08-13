@@ -10,7 +10,7 @@ export const updateReportAPI = async (
 ) => {
   try {
     const response = await axios.post(
-      `${baseURL}/admin/reports/update`,
+      `${baseURL}/report/ok`,
       {
         reportId,
         reportFalse,
@@ -24,6 +24,8 @@ export const updateReportAPI = async (
         withCredentials: true,
       }
     );
+
+    console.log(response);
 
     return response;
   } catch (err: any) {
