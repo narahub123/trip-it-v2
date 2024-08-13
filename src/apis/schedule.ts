@@ -200,10 +200,8 @@ export const updateScheduleAPI = async (
   try {
     const response = await axios.patch(
       `${baseURL}/mypage/update-schedules`,
-      {
-        scheduleId,
-        value,
-      },
+        value
+      ,
       {
         headers: {
           "Content-Type": "application/json", // 요청의 콘텐츠 타입을 JSON으로 설정

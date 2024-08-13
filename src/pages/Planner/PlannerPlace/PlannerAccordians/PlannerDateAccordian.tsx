@@ -26,6 +26,7 @@ const PlannerDateAccordian = ({
   setColumns,
 }: PlannerDateAccordianProps) => {
   const column = columns[convertDateTypeToDate2(date)] || [];
+  console.log("column", column);
 
   // 이동 효과 관련
   const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);

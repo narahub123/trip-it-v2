@@ -83,10 +83,13 @@ const PlannerAPIAccordian = ({
       .then((res) => {
         if (!res) return;
 
-        console.log(res.data);
-
-        setPlaces(res.data);
-        setLoading(false);
+        if (!res.data) {
+          setPlaces(res);
+          setLoading(false);
+        } else {
+          setPlaces(res.data);
+          setLoading(false);
+        }
       })
       .catch((err) => {
         if (err.code === 0) {
@@ -132,8 +135,12 @@ const PlannerAPIAccordian = ({
         );
       }
 
-      if (res) {
+      if (!res.data) {
+        setPlaces(res);
+        setLoading(false);
+      } else {
         setPlaces(res.data);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);

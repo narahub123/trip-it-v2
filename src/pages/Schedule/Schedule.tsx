@@ -69,13 +69,20 @@ const Schedule = () => {
         const contentId = detail.contentId;
         try {
           const res = await fetchPlaceAPI(contentId);
+          console.log(res);
+
           const dateKey = convertDateTypeToDate2(dates[detail.scheduleOrder]);
 
           if (!newColumns[dateKey]) {
             newColumns[dateKey] = [];
           }
 
-          const place = res.data[0];
+          let place;
+          if (!res.data[0]) {
+            place = res.data;
+          } else {
+            place = res.data[0];
+          }
 
           newColumns[dateKey].push({
             place,

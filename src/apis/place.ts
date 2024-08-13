@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getCookie } from "utilities/Cookie";
+import { convertStringToJson } from "utilities/place";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 
@@ -9,7 +10,7 @@ export const fetchPlacesAPI = async (
   contentTypeId: string
 ) => {
   try {
-    const places = await axios.get(
+    const res = await axios.get(
       `${baseURL}/home/apiList/${metroId}/${pageNo}/${contentTypeId}`,
       {
         headers: {
@@ -21,7 +22,13 @@ export const fetchPlacesAPI = async (
       }
     );
 
-    return places;
+    const response = res.data;
+
+    if (typeof response === "string") {
+      return convertStringToJson(response);
+    } else {
+      return response;
+    }
   } catch (err: any) {
     console.log(err);
     if (err.code === "ERR_NETWORK") {
@@ -61,7 +68,7 @@ export const fetchPlacesByKeywordAPI = async (
   keyword: string
 ) => {
   try {
-    const places = await axios.get(
+    const res = await axios.get(
       `${baseURL}/home/apiSearch/${metroId}/${pageNo}/${contentTypeId}/${keyword}`,
       {
         headers: {
@@ -73,7 +80,13 @@ export const fetchPlacesByKeywordAPI = async (
       }
     );
 
-    return places;
+    const response = res.data;
+
+    if (typeof response === "string") {
+      return convertStringToJson(response);
+    } else {
+      return response;
+    }
   } catch (err: any) {
     if (err.code === "ERR_NETWORK") {
       throw { code: 0 };
