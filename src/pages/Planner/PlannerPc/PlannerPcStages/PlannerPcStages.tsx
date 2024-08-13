@@ -11,7 +11,7 @@ import Calendar from "pages/Plan/components/Calendar";
 import { ColumnType } from "types/plan";
 import { PlaceApiType } from "types/place";
 import PlannerAPIPlaceCard from "pages/Planner/PlannerPlace/PlannerCards/PlannerAPIPlaceCard";
-import PlannerPcPlaces from "../PlannerPcChoice/components/PlannerPcPlaces";
+import PlannerPcPlaces from "./components/PlannerPcPlaces";
 
 export interface PlannerPcStagesProps {
   metroId: string;
