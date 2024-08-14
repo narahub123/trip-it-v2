@@ -22,7 +22,7 @@ export const convertDateTypeToDate1 = (origin: Date) => {
   const month = origin.getMonth() + 1;
   const date = origin.getDate();
 
-  return `${month}.${date}.`;
+  return `${month}.${date}`;
 };
 
 export const convertDateTypeToDate2 = (origin: Date) => {

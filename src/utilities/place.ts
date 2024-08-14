@@ -24,3 +24,9 @@ function splitJSONObjects(text: string) {
 
   return objects;
 }
+
+export const getPureletter = (origin: string) => {
+  // 정규 표현식: 첫 번째 특수 문자까지의 문자열을 매칭
+  const match = origin.match(/^[^!@#$%^&*()_+{}\[\]:;"'<>,.?\/\\|`~]*/);
+  return match ? match[0] : "";
+};

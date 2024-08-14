@@ -1,9 +1,14 @@
-import { fetchPlacesAPI } from "apis/place";
+import { fetchPlacesAPI, fetchPlacesByKeywordAPI } from "apis/place";
 import "./plannerPcPlaces.css";
-import PlannerAPIPlaceCard from "pages/Planner/PlannerPlace/PlannerCards/PlannerAPIPlaceCard";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
+import PlannerPcAPIPlaceCard from "./PlannerPcAPIPlaceCard";
+import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
+import PlannerPcDateCard from "./PlannerPcDateCard";
+import { LuSearch } from "react-icons/lu";
+import PlannerSearch from "pages/Planner/components/PlannerSearch/PlannerSearch";
+import { debounce } from "utilities/debounce";
 
 export interface PlannerPcPlaces {
   metroId: string;
@@ -14,18 +19,86 @@ export interface PlannerPcPlaces {
       [key: string]: ColumnType[];
     }>
   >;
+  date: Date;
+  setDate: (value: Date) => void;
 }
 const PlannerPcPlaces = ({
   metroId,
   dates,
   columns,
   setColumns,
+  date,
+  setDate,
 }: PlannerPcPlaces) => {
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = useState("1");
   const [places, setPlaces] = useState<PlaceApiType[]>([]);
   const [isRequesting, setIsRequesting] = useState(false);
   const [contentTypeId, setContentTypeId] = useState("12");
+
+  // 이동 효과 관련
+  const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
+  const [moveOrderGroup, setMoveOrderGroup] = useState<number[]>([]);
+
+  // 검색 창 열기
+  const [openSearch, setOpenSearch] = useState(false);
+  const [search, setSearch] = useState("");
+
+  // 검색 관련 함수
+  // 검색창 열기
+  const handleOpenSearch = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+
+    setOpenSearch(!openSearch);
+  };
+
+  // 검색어 저장
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target?.value.trim() || "";
+
+    setSearch(value);
+    debouncedSearch(value);
+  };
+
+  const fetchPlacesByKeyword = async (keyword: string) => {
+    setLoading(true);
+    try {
+      let res;
+
+      if (keyword === "") {
+        res = await fetchPlacesAPI(metroId, pageNo, contentTypeId);
+      } else {
+        res = await fetchPlacesByKeywordAPI(
+          metroId,
+          pageNo,
+          contentTypeId,
+          keyword
+        );
+      }
+
+      if (!res.data) {
+        setPlaces(res);
+        setLoading(false);
+      } else {
+        setPlaces(res.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 렌더링을 줄이기 위한 debounce
+  const debouncedSearch = useCallback(
+    debounce((keyword: string) => fetchPlacesByKeyword(keyword), 500),
+    [metroId, pageNo, contentTypeId]
+  );
+
+  const column = date ? columns[convertDateTypeToDate2(date)] : [];
 
   useEffect(() => {
     if (contentTypeId.length === 0) return;
@@ -88,13 +161,19 @@ const PlannerPcPlaces = ({
             >
               숙소
             </li>
+            <PlannerSearch
+              openSearch={openSearch}
+              search={search}
+              onChange={onChange}
+              handleOpenSearch={handleOpenSearch}
+            />
           </ul>
         </div>
         <div
           className={`planner-pc-places-place-list${loading ? " loading" : ""}`}
         >
           {places.map((place) => (
-            <PlannerAPIPlaceCard
+            <PlannerPcAPIPlaceCard
               key={place.contentid}
               dates={dates}
               place={place}
@@ -107,7 +186,44 @@ const PlannerPcPlaces = ({
           ))}
         </div>
       </section>
-      <section className="planner-pc-places-selected">선택한 장소</section>
+      <section className="planner-pc-places-selected">
+        <div className="planner-pc-places-selected-tags">
+          {dates.map((item) => (
+            <li
+              key={convertDateTypeToDate1(item)}
+              className={`planner-pc-places-selected-tags-tag${
+                item === date ? " active" : ""
+              }`}
+              onClick={() => setDate(item)}
+            >
+              {convertDateTypeToDate1(item)}
+            </li>
+          ))}
+        </div>
+        <div className="planner-pc-places-selected-list">
+          {!date && <li>날짜를 선택해주세요</li>}
+          {date && !column && <li>장소를 선택해주세요</li>}
+          {date &&
+            column &&
+            column.map((item, index) => (
+              <PlannerPcDateCard
+                key={item.place.contentid}
+                column={column}
+                order={index}
+                date={date}
+                dates={dates}
+                detail={item}
+                metroId={metroId}
+                columns={columns}
+                setColumns={setColumns}
+                moveClassGroup={moveClassGroup}
+                setMoveClassGroup={setMoveClassGroup}
+                moveOrderGroup={moveOrderGroup}
+                setMoveOrderGroup={setMoveOrderGroup}
+              />
+            ))}
+        </div>
+      </section>
     </div>
   );
 };

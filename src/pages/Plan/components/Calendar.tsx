@@ -1,14 +1,31 @@
+import { ColumnType } from "types/plan";
 import { CalcDatesOfMonth } from "../utilities/date";
 import "./calendar.css";
+import { convertDateTypeToDate2 } from "utilities/date";
 
 export interface CalendarProps {
   year: number;
   month: number;
   dates: Date[];
   setDates: (value: Date[]) => void;
+  setSelectedDate?: (value: Date) => void;
+  columns?: { [key: string]: ColumnType[] };
+  setColumns?: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: ColumnType[];
+    }>
+  >;
 }
 
-const Calendar = ({ year, month, dates, setDates }: CalendarProps) => {
+const Calendar = ({
+  year,
+  month,
+  dates,
+  setDates,
+  setSelectedDate,
+  columns,
+  setColumns,
+}: CalendarProps) => {
   // 일 ~ 토
   const weekOfDay: string[] = ["일", "월", "화", "수", "목", "금", "토"];
   // 날짜
@@ -31,9 +48,15 @@ const Calendar = ({ year, month, dates, setDates }: CalendarProps) => {
     selectedDate: Date
   ) => {
     e.stopPropagation();
+    const newColumns = dates?.reduce((acc, date) => {
+      // 현재 날짜를 기반으로 빈 배열을 할당
+      acc[convertDateTypeToDate2(date)] = [];
+      return acc;
+    }, {} as Record<string, any>); // 새로운 객체를 생성
     // 첫 선택인 경우
     if (dates.length === 0) {
       setDates([selectedDate]);
+      setColumns?.(newColumns);
       // 두 번째 선택인 경우
     } else if (dates.length === 1) {
       // 시작 날짜
@@ -46,6 +69,7 @@ const Calendar = ({ year, month, dates, setDates }: CalendarProps) => {
       if (start > selectedDate || selectedDate > end) {
         // dates 배열을 새로 생성
         setDates([selectedDate]);
+        setColumns?.(newColumns);
       } else {
         // 시작 날짜보다 이후이고 비교 날짜보다는 이전인 경우
         // 날짜 차이 계산
@@ -63,11 +87,15 @@ const Calendar = ({ year, month, dates, setDates }: CalendarProps) => {
 
         // 생성한 날짜 배열로 업데이트
         setDates([...selected]);
+        setSelectedDate?.(start);
+        setColumns?.(newColumns);
       }
     }
     // 이미 선택한 날짜 배열이 있는 경우
     else {
       setDates([selectedDate]);
+
+      setColumns?.(newColumns);
     }
   };
 

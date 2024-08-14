@@ -7,6 +7,7 @@ import PlannerAPIPlaceCard from "../PlannerCards/PlannerAPIPlaceCard";
 import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { fetchPlacesAPI, fetchPlacesByKeywordAPI } from "apis/place";
+import PlannerSearch from "pages/Planner/components/PlannerSearch/PlannerSearch";
 export interface PlannerAPIAccordianProps {
   dates: Date[];
   metroId: string;
@@ -203,26 +204,12 @@ const PlannerAPIAccordian = ({
               {tag.name}
             </li>
           ))}
-          <span
-            className={`planner-places-accordian-api-tags-search${
-              openSearch ? " active" : ""
-            }`}
-            onClick={(e) => handleOpenSearch(e)}
-          >
-            <input
-              type="text"
-              className={`planner-places-accordian-api-tags-search-box${
-                openSearch ? " active" : ""
-              }`}
-              onClick={(e) => e.stopPropagation()}
-              onChange={onChange}
-              value={search}
-              placeholder="검색어를 입력하세요."
-            />
-            <span className="planner-places-accordian-api-tags-search-icon">
-              <LuSearch />
-            </span>
-          </span>
+          <PlannerSearch
+            openSearch={openSearch}
+            search={search}
+            onChange={onChange}
+            handleOpenSearch={handleOpenSearch}
+          />
         </ul>
         <ul
           className={`planner-places-accordian-api-main${
