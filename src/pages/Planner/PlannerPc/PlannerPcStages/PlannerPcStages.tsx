@@ -14,9 +14,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Calendar from "pages/Plan/components/Calendar";
 import { ColumnType } from "types/plan";
 
-import PlannerPcPlaces from "./components/PlannerPcPlaces";
+import PlannerPcPlaces from "./PlannerPcPlaces/PlannerPcPlaces";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { getPureletter } from "utilities/place";
+import PlannerPcCalendar from "./PlannerPcCalender/PlannerPcCalendar";
 
 export interface PlannerPcStagesProps {
   metroId: string;
@@ -168,52 +169,16 @@ const PlannerPcStages = ({
         </div>
         <div className="planner-pc-stages-main">
           {!hash || hash === "#calendars" ? (
-            <div className="planner-pc-stages-main-calendars">
-              <div className="planner-pc-stages-main-calendars-month">
-                <span className="month-before" />
-                <span className="month-title">
-                  <span className="title-single">{`${month + 1}월`}</span>
-                  <span className="title-double">{`${month + 2}월`}</span>
-                </span>
-                <span className="month-after" />
-              </div>
-              <div className="planner-pc-stages-main-calendars-container">
-                <span
-                  className="calendar-backward"
-                  onClick={() => setMonth(month - 1)}
-                >
-                  <LuChevronLeft />
-                </span>
-                <span className="calendar-container">
-                  <span className="calendar-container-single">
-                    <Calendar
-                      year={year}
-                      month={month}
-                      dates={dates}
-                      setDates={setDates}
-                      setSelectedDate={setSelectedDate}
-                    />
-                  </span>
-                  <span className="calendar-container-double">
-                    <Calendar
-                      year={year}
-                      month={month + 1}
-                      dates={dates}
-                      setDates={setDates}
-                      setSelectedDate={setSelectedDate}
-                      columns={columns}
-                      setColumns={setColumns}
-                    />
-                  </span>
-                </span>
-                <span
-                  className="calendar-forward"
-                  onClick={() => setMonth(month + 1)}
-                >
-                  <LuChevronRight />
-                </span>
-              </div>
-            </div>
+            <PlannerPcCalendar
+              year={year}
+              month={month}
+              setMonth={setMonth}
+              dates={dates}
+              setDates={setDates}
+              setSelectedDate={setSelectedDate}
+              columns={columns}
+              setColumns={setColumns}
+            />
           ) : hash === "#places" ? (
             <div className="planner-pc-stages-main-places">
               <PlannerPcPlaces
