@@ -1,0 +1,210 @@
+.planner-pc-register {
+  height: 400px;
+  overflow-y: auto;
+  outline: none;
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  gap: 10px;
+  .planner-pc-register-header {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .planner-pc-register-header-title {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      .planner-pc-register-header-title-name {
+        display: flex;
+        gap: 5px;
+      }
+      .planner-pc-register-header-title-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease-in-out;
+      }
+      .planner-pc-register-header-title-icon.open {
+        transform: rotate(90deg);
+        transition: transform 0.3s ease-in-out;
+      }
+    }
+    .planner-pc-register-header-container {
+      padding: 0 20px;
+      visibility: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+      .planner-pc-register-header-example {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        p.example {
+          font-size: 14px;
+        }
+        p.validation {
+          font-size: 14px;
+          color: var(--basic-color);
+        }
+      }
+      .planner-pc-register-header-text {
+        position: relative;
+        .planner-pc-register-header-textbox {
+          width: 100%;
+          padding: 10px 0;
+          outline: none;
+          border: 0px;
+          border-bottom: 1px solid #ccc;
+        }
+        .planner-pc-register-header-title-detail {
+          position: absolute;
+          font-size: 12px;
+          color: #ccc;
+          right: 0;
+          bottom: 5px;
+        }
+      }
+    }
+
+    .planner-pc-register-header-container.open {
+      visibility: visible;
+      max-height: 111px;
+      opacity: 1;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+  .planner-pc-register-plan {
+    .planner-pc-register-plan-title {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      .planner-pc-register-plan-title-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease-in-out;
+      }
+      .planner-pc-register-plan-title-icon.open {
+        transform: rotate(90deg);
+        transition: all 0.3s ease-in-out;
+      }
+      .planner-pc-register-plan-title-name {
+        font-size: 14px;
+      }
+    }
+    .planner-pc-register-plan-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 20px;
+      /* height: 230px; */
+
+      /* overflow-y: auto; */
+
+      visibility: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+
+      .planner-pc-register-plan-date {
+        box-sizing: border-box;
+
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+
+        .planner-pc-register-plan-date-info {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 5px;
+          .planner-pc-register-plan-date-title {
+            font-size: 14px;
+            padding: 3px;
+            line-height: 16px;
+            vertical-align: middle;
+            cursor: pointer;
+          }
+          .planner-pc-register-plan-date-places {
+            user-select: none;
+            .planner-pc-register-plan-date-places-container {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              gap: 5px;
+              font-size: 12px;
+
+              .planner-pc-register-plan-date-places-item {
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 3px;
+                max-width: 50px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: grab;
+              }
+
+              .planner-pc-register-plan-date-places-item:active {
+                cursor: grabbing;
+              }
+              .planner-pc-register-plan-date-places-item.accommo {
+                color: pink;
+              }
+
+              .planner-pc-register-plan-date-places-item.droppable {
+                border: 1px solid var(--basic-color);
+              }
+            }
+          }
+        }
+
+        .planner-pc-register-plan-date-drag {
+          color: #ccc;
+          cursor: grab;
+        }
+      }
+
+      .planner-pc-register-plan-date:active {
+        cursor: grabbing;
+      }
+    }
+    .planner-pc-register-plan-container.open {
+      visibility: visible;
+      max-height: 400px;
+      opacity: 1;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+  .planner-pc-register-btn {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+    margin-top: 20px;
+    .register-btn {
+      box-sizing: border-box;
+      width: 300px;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .register-btn-valid {
+      box-sizing: border-box;
+      width: 300px;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      background-color: var(--basic-color);
+      color: #fff;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+}
