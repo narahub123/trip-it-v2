@@ -93,7 +93,8 @@
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 5px;
-        top: 110%;
+        right: 0;
+        top: 44px;
         z-index: 1;
         width: 50px;
         overflow-y: auto;
@@ -258,4 +259,34 @@
       }
     }
   }
+}
+
+.scroll {
+  display: inline-block;
+  width: 250px;
+  height: 250px;
+  padding: 20px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  box-sizing: border-box;
+  color: white;
+  font-family: "Nanum Gothic";
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 스크롤바 설정*/
+.planner-pc-place-card-api-main-dropdown-container::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* 스크롤바 막대 설정*/
+.planner-pc-place-card-api-main-dropdown-container::-webkit-scrollbar-thumb {
+  background-color: var(--basic-color);
+  /* 스크롤바 둥글게 설정    */
+  /* border-radius: 10px; */
+}
+
+/* 스크롤바 뒷 배경 설정*/
+.planner-pc-place-card-api-main-dropdown-container::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
 }

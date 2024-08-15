@@ -170,22 +170,31 @@ const PlannerPcDateCard = ({
     date: Date
   ) => {
     e.stopPropagation();
+
+    console.log("호출됨");
+
     const newColumn = columns[convertDateTypeToDate2(date)].filter(
       (item) => item.place.contentid !== contentId
     );
+
+    console.log(newColumn);
 
     setColumns({
       ...columns,
       [convertDateTypeToDate2(date)]: newColumn,
     });
   };
+
   const handleSelect = (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     place: PlaceApiType,
-    date: Date,
-    order: number
+    day: Date,
+    order: number,
+    date: Date
   ) => {
     e.stopPropagation();
+
+    handleDeselect(e, place.contentid, date);
 
     const newColumnElem: ColumnType = {
       place,
@@ -194,12 +203,14 @@ const PlannerPcDateCard = ({
       endTime: "07:00",
     };
 
-    const oldColumn: ColumnType[] = columns[convertDateTypeToDate2(date)];
+    const oldColumn: ColumnType[] = columns[convertDateTypeToDate2(day)];
 
     setColumns({
       ...columns,
-      [convertDateTypeToDate2(date)]: [...oldColumn, newColumnElem],
+      [convertDateTypeToDate2(day)]: [...oldColumn, newColumnElem],
     });
+
+    setOpenDropdown(false);
   };
 
   // 저장된 장소의 위치 확인
@@ -411,7 +422,8 @@ const PlannerPcDateCard = ({
               삭제
             </li>
             {dates.map((day, index) => {
-              if (day === date) return;
+              if (convertDateTypeToDate2(day) === convertDateTypeToDate2(date))
+                return;
               return (
                 <li
                   key={convertDateTypeToDate2(day)}
@@ -423,7 +435,7 @@ const PlannerPcDateCard = ({
                   onClick={
                     WhereCheckedPlace(detail.place.contentid, index)
                       ? (e) => handleDeselect(e, detail.place.contentid, day)
-                      : (e) => handleSelect(e, detail.place, day, index)
+                      : (e) => handleSelect(e, detail.place, day, index, date)
                   }
                 >
                   {convertDateTypeToDate1(day)}

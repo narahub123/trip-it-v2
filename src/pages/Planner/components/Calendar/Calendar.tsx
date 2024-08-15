@@ -1,7 +1,8 @@
 import { ColumnType } from "types/plan";
-import { CalcDatesOfMonth } from "../utilities/date";
+
 import "./calendar.css";
 import { convertDateTypeToDate2 } from "utilities/date";
+import { CalcDatesOfMonth } from "pages/Plan/utilities/date";
 
 export interface CalendarProps {
   year: number;

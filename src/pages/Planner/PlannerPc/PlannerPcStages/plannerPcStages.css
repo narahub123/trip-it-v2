@@ -52,12 +52,16 @@ a {
     gap: 10px;
 
     .planner-pc-stages-menus-menu {
+      box-sizing: border-box;
       padding: 10px;
       width: 100%;
       text-align: center;
+      border-bottom: 0px solid #ccc;
+      transition: border-bottom 0.2s ease-in-out;
     }
     .planner-pc-stages-menus-menu.active {
       border-bottom: 3px solid var(--basic-color);
+      transition: border-bottom 0.2s ease-in-out;
     }
   }
 }

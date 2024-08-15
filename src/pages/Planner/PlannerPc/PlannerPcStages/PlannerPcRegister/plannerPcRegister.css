@@ -77,6 +77,10 @@
     }
   }
   .planner-pc-register-plan {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
     .planner-pc-register-plan-title {
       display: flex;
       align-items: center;
