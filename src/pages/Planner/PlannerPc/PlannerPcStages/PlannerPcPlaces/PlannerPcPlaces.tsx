@@ -207,7 +207,7 @@ const PlannerPcPlaces = ({
             column &&
             column.map((item, index) => (
               <PlannerPcDateCard
-                key={item.place.contentid}
+                key={`${item.place.contentid}_${index}`}
                 column={column}
                 order={index}
                 date={date}

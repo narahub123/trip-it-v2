@@ -106,9 +106,11 @@
       opacity: 0;
       transition: all 0.3s ease-in-out;
 
+    
+
       .planner-pc-register-plan-date {
         box-sizing: border-box;
-
+        width: 100%;
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 10px;
@@ -117,7 +119,6 @@
 
         .planner-pc-register-plan-date-info {
           display: flex;
-          flex-wrap: wrap;
           align-items: center;
           gap: 5px;
           .planner-pc-register-plan-date-title {
@@ -130,12 +131,16 @@
           }
           .planner-pc-register-plan-date-places {
             user-select: none;
+            flex: 1;
+            width: 100%;
+            display: flex;
             .planner-pc-register-plan-date-places-container {
+              flex: 1;
               display: flex;
-              flex-wrap: wrap;
               align-items: center;
               gap: 5px;
               font-size: 12px;
+              width: 100%;
 
               .planner-pc-register-plan-date-places-item {
                 box-sizing: border-box;
@@ -149,6 +154,9 @@
                 cursor: grab;
               }
 
+              .planner-pc-register-plan-date-places-item.emptyback {
+                flex: 1;
+              }
               .planner-pc-register-plan-date-places-item:active {
                 cursor: grabbing;
               }
@@ -169,6 +177,9 @@
         }
       }
 
+      .planner-pc-register-plan-date.droppable {
+        border: 1px solid var(--basic-color);
+      }
       .planner-pc-register-plan-date:active {
         cursor: grabbing;
       }
