@@ -96,18 +96,21 @@ const PlannerPcRegister = ({
   };
   const dragOver = useCallback((e: React.DragEvent<HTMLLIElement>) => {
     e.preventDefault(); // 기본 동작 방지
+    e.stopPropagation();
 
     setDroppable(true);
   }, []);
 
   const dragEnd = (e: React.DragEvent<HTMLLIElement>) => {
     e.preventDefault(); // 기본 동작 방지
+    e.stopPropagation();
 
     setDroppable(false);
   };
 
   const drop = (e: React.DragEvent<HTMLLIElement>) => {
     e.preventDefault(); // 기본 동작 방지 필수
+    e.stopPropagation();
     const curCol = e.dataTransfer.getData("curCol"); // index
     const curRow = e.dataTransfer.getData("curRow"); // date
     const newCol = e.currentTarget.dataset.col; // index
@@ -117,6 +120,8 @@ const PlannerPcRegister = ({
 
     const curColIndex = Number(curCol);
     const newColIndex = Number(newCol);
+
+    console.log(curColIndex, newColIndex);
 
     if (curRow === newRow && curColIndex === newColIndex) return;
 
@@ -152,7 +157,45 @@ const PlannerPcRegister = ({
     setDroppable(false);
   };
 
-  console.log(Object.keys(columns));
+  const handleDateDragStart = (e: React.DragEvent<HTMLLIElement>) => {
+    const curRow = e.currentTarget.dataset.row;
+
+    console.log(curRow);
+    if (!curRow) return;
+    e.dataTransfer.setData("curRow", curRow);
+  };
+
+  const handleDateDragEnd = (e: React.DragEvent<HTMLLIElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const handleDateDragOver = (e: React.DragEvent<HTMLLIElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const handleDateDrop = (e: React.DragEvent<HTMLLIElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const newRow = e.currentTarget.dataset.row;
+    const curRow = e.dataTransfer.getData("curRow");
+
+    console.log(newRow);
+    console.log(curRow);
+
+    if (curRow === newRow || !newRow) return;
+
+    const updatedColumns = { ...columns };
+
+    // 현재 날짜 컬럼
+    const curColumn = [...(updatedColumns[curRow] || [])];
+    // 대상 날짜 컬럼
+    const targetColumn = [...(updatedColumns[newRow] || [])];
+
+    updatedColumns[newRow] = curColumn;
+    updatedColumns[curRow] = targetColumn;
+
+    setColumns(updatedColumns);
+  };
 
   return (
     <div className="planner-pc-register">
@@ -229,6 +272,10 @@ const PlannerPcRegister = ({
               className="planner-pc-register-plan-date"
               draggable
               data-row={convertDateTypeToDate2(date)}
+              onDragStart={(e) => handleDateDragStart(e)}
+              onDragEnd={(e) => handleDateDragEnd(e)}
+              onDragOver={(e) => handleDateDragOver(e)}
+              onDrop={(e) => handleDateDrop(e)}
             >
               <span className="planner-pc-register-plan-date-info">
                 <Link
@@ -248,7 +295,7 @@ const PlannerPcRegister = ({
                               key={`${item.contentId}${index}`}
                               className={`planner-pc-register-plan-date-places-item${
                                 item.contentTypeId === "32" ? " accommo" : ""
-                              }`}
+                              }${droppable ? " droppable" : ""}`}
                               draggable
                               data-row={convertDateTypeToDate2(date)}
                               data-col={index}
@@ -269,7 +316,7 @@ const PlannerPcRegister = ({
                           <li
                             className={`planner-pc-register-plan-date-places-item${
                               item.contentTypeId === "32" ? " accommo" : ""
-                            }`}
+                            }${droppable ? " droppable" : ""}`}
                             data-row={convertDateTypeToDate2(date)}
                             data-col={index}
                             draggable
@@ -283,11 +330,28 @@ const PlannerPcRegister = ({
                         );
                       }
                     })}
+                    {getPlaces(date).length === 0 && (
+                      <li
+                        className={`planner-pc-register-plan-date-places-item${
+                          droppable ? " droppable" : ""
+                        }`}
+                        data-row={convertDateTypeToDate2(date)}
+                        data-col={0}
+                        draggable
+                        onDragOver={(e) => dragOver(e)}
+                        onDragStart={(e) => dragStart(e)}
+                        onDragEnd={(e) => dragEnd(e)}
+                        onDrop={(e) => drop(e)}
+                        style={{ width: "100%" }}
+                      >
+                        드래그
+                      </li>
+                    )}
                   </ul>
                 </span>
               </span>
 
-              <span className="planner-pc-register-plan-date-drag">
+              <span className="planner-pc-register-plan-date-drag icon">
                 <LuGripVertical />
               </span>
             </li>

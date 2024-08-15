@@ -5,7 +5,7 @@
   display: flex;
   padding: 10px;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   .planner-pc-register-header {
     box-sizing: border-box;
     display: flex;
@@ -100,9 +100,6 @@
       flex-direction: column;
       gap: 10px;
       padding: 0 20px;
-      /* height: 230px; */
-
-      /* overflow-y: auto; */
 
       visibility: hidden;
       max-height: 0;
@@ -127,6 +124,7 @@
             font-size: 14px;
             padding: 3px;
             line-height: 16px;
+            width: 40px;
             vertical-align: middle;
             cursor: pointer;
           }
