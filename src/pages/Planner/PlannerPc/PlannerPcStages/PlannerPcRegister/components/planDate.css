@@ -66,3 +66,10 @@
     cursor: grab;
   }
 }
+
+.planner-pc-register-plan-date.droppable {
+  border: 1px solid var(--basic-color);
+}
+.planner-pc-register-plan-date:active {
+  cursor: grabbing;
+}

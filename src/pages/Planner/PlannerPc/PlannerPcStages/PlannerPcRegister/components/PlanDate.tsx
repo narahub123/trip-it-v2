@@ -10,12 +10,12 @@ interface PlanDateProps {
   date: Date;
   droppable: string[];
   dateDroppable: string;
+  columns: { [key: string]: ColumnType[] };
+  setDate: (value: Date) => void;
   dragOver: (e: React.DragEvent<HTMLLIElement>) => void;
   dragStart: (e: React.DragEvent<HTMLLIElement>) => void;
   dragEnd: (e: React.DragEvent<HTMLLIElement>) => void;
   drop: (e: React.DragEvent<HTMLLIElement>) => void;
-  columns: { [key: string]: ColumnType[] };
-  setDate: (value: Date) => void;
   handleDateDragStart: (e: React.DragEvent<HTMLLIElement>) => void;
   handleDateDragOver: (e: React.DragEvent<HTMLLIElement>) => void;
   handleDateDragEnd: (e: React.DragEvent<HTMLLIElement>) => void;

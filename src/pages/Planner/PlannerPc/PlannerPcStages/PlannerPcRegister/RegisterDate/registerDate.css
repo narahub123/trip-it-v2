@@ -1,0 +1,38 @@
+.planner-pc-register-plan-date-item {
+  flex: 1;
+  width: 250px;
+  height: 100%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
+
+  .planner-pc-register-plan-date-item-title {
+  }
+  .planner-pc-register-plan-date-item-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+
+    .planner-pc-register-card-cover {
+      flex: 1;
+
+      .planner-pc-register-card-noplace {
+        margin-top: 10px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ccc;
+        width: 250px;
+        height: 62.5px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
+      }
+    }
+  }
+}

@@ -14,7 +14,12 @@ import { Link } from "react-router-dom";
 import { useRenderCount } from "@uidotdev/usehooks";
 import PlaceItem from "./components/PlaceItem";
 import PlanDate from "./components/PlanDate";
+import PlannerPcDateCard from "../components/PlannerPcDateCard";
+import PlannerPcRegisterCard from "./components/PlannerPcRegisterCard";
+import RegisterDate from "./RegisterDate/RegisterDate";
+
 interface PlannerPcRegisterProps {
+  metroId: string;
   columns: { [key: string]: ColumnType[] };
   setColumns: React.Dispatch<
     React.SetStateAction<{
@@ -24,7 +29,9 @@ interface PlannerPcRegisterProps {
   dates: Date[];
   setDate: (value: Date) => void;
 }
+
 const PlannerPcRegister = ({
+  metroId,
   columns,
   setColumns,
   dates,
@@ -36,11 +43,6 @@ const PlannerPcRegister = ({
   const [openHeader, setOpenHeader] = useState(true);
   const [openPlan, setOpenPlan] = useState(true);
   const [droppable, setDroppable] = useState<string[]>([]);
-  const [dateDroppable, setDateDroppable] = useState("");
-  const [curPlace, setCurPlace] = useState<{
-    curCol: string;
-    curRow: string;
-  }>();
 
   console.log("렌더링 횟수", renderCount);
 
@@ -88,8 +90,6 @@ const PlannerPcRegister = ({
 
     if (!curCol || !curRow) return;
 
-    setCurPlace({ curCol, curRow });
-
     e.dataTransfer.setData("curCol", curCol);
     e.dataTransfer.setData("curRow", curRow);
   };
@@ -98,17 +98,11 @@ const PlannerPcRegister = ({
     e.preventDefault(); // 기본 동작 방지
     e.stopPropagation();
 
-    console.log(curPlace);
-
-    // 저장된 데이터 가져오기
-    const curCol = curPlace?.curCol;
-    const curRow = curPlace?.curRow;
-
-    console.log(curCol, curRow);
-
     // 현재 드래그 대상의 데이터 가져오기
     const newCol = e.currentTarget.dataset.col;
     const newRow = e.currentTarget.dataset.row;
+
+    console.log(newCol, newRow);
 
     // 데이터가 모두 있는지 확인
     if (!newCol || !newRow) return;
@@ -119,7 +113,6 @@ const PlannerPcRegister = ({
       if (prevRow === newRow && prevCol === newCol) return prev;
       return [newRow, newCol];
     });
-    setDateDroppable("");
   }, []);
 
   const dragEnd = (e: React.DragEvent<HTMLLIElement>) => {
@@ -127,7 +120,6 @@ const PlannerPcRegister = ({
     e.stopPropagation();
 
     setDroppable([]);
-    setDateDroppable("");
   };
 
   const drop = (e: React.DragEvent<HTMLLIElement>) => {
@@ -175,10 +167,9 @@ const PlannerPcRegister = ({
     setColumns(updatedColumns);
 
     setDroppable([]);
-    setDateDroppable("");
   };
 
-  const handleDateDragStart = (e: React.DragEvent<HTMLLIElement>) => {
+  const handleDateDragStart = (e: React.DragEvent<HTMLElement>) => {
     e.stopPropagation();
     if (droppable.length !== 0) return;
     const curRow = e.currentTarget.dataset.row;
@@ -188,12 +179,11 @@ const PlannerPcRegister = ({
     e.dataTransfer.setData("curRow", curRow);
   };
 
-  const handleDateDragEnd = (e: React.DragEvent<HTMLLIElement>) => {
+  const handleDateDragEnd = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    setDateDroppable("");
   };
-  const handleDateDragOver = (e: React.DragEvent<HTMLLIElement>) => {
+  const handleDateDragOver = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -202,9 +192,8 @@ const PlannerPcRegister = ({
     const newRow = e.currentTarget.dataset.row;
 
     if (!newRow) return;
-    setDateDroppable(newRow);
   };
-  const handleDateDrop = (e: React.DragEvent<HTMLLIElement>) => {
+  const handleDateDrop = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     e.stopPropagation();
     const newRow = e.currentTarget.dataset.row;
@@ -223,7 +212,6 @@ const PlannerPcRegister = ({
     updatedColumns[curRow] = targetColumn;
 
     setColumns(updatedColumns);
-    setDateDroppable("");
   };
 
   return (
@@ -287,13 +275,30 @@ const PlannerPcRegister = ({
             openPlan ? " open" : ""
           }`}
         >
-          <ul className="planner-pc-register-plan-date-container">
-            {dates.map((date) => (
-              <li className="planner-pc-register-plan-date-item">
-                {convertDateTypeToDate1(date)}
-              </li>
-            ))}
-          </ul>
+          <div className="planner-pc-register-plan-date-container">
+            {dates.map((date) => {
+              const column = columns[convertDateTypeToDate2(date)];
+              return (
+                <RegisterDate
+                  date={date}
+                  dates={dates}
+                  metroId={metroId}
+                  column={column}
+                  columns={columns}
+                  setColumns={setColumns}
+                  dragStart={dragStart}
+                  dragOver={dragOver}
+                  dragEnd={dragEnd}
+                  drop={drop}
+                  droppable={droppable}
+                  handleDateDragStart={handleDateDragStart}
+                  handleDateDragOver={handleDateDragOver}
+                  handleDateDragEnd={handleDateDragEnd}
+                  handleDateDrop={handleDateDrop}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
       <div className="planner-pc-register-btn">

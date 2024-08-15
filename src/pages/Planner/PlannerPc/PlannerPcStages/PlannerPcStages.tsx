@@ -144,6 +144,7 @@ const PlannerPcStages = ({
             </div>
           ) : (
             <PlannerPcRegister
+              metroId={metroId}
               columns={columns}
               setColumns={setColumns}
               dates={dates}
