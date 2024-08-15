@@ -5,6 +5,7 @@ import { ColumnType } from "types/plan";
 import { useState } from "react";
 
 export interface PlannerPcRegisterCardProps {
+  index: number;
   date: Date;
   dates: Date[];
   metroId: string;
@@ -22,6 +23,7 @@ export interface PlannerPcRegisterCardProps {
   handleDateDrop: (e: React.DragEvent<HTMLElement>) => void;
 }
 const RegisterDate = ({
+  index,
   date,
   dates,
   metroId,
@@ -53,7 +55,7 @@ const RegisterDate = ({
       onDrop={(e) => handleDateDrop(e)}
     >
       <p className="planner-pc-register-plan-date-item-title">
-        {convertDateTypeToDate1(date)}
+        {`Day${index + 1} : ${convertDateTypeToDate1(date)}`}
       </p>
       <ul className="planner-pc-register-plan-date-item-container">
         {column.length !== 0 && (

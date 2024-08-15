@@ -276,10 +276,11 @@ const PlannerPcRegister = ({
           }`}
         >
           <div className="planner-pc-register-plan-date-container">
-            {dates.map((date) => {
+            {dates.map((date, index) => {
               const column = columns[convertDateTypeToDate2(date)];
               return (
                 <RegisterDate
+                index={index}
                   date={date}
                   dates={dates}
                   metroId={metroId}

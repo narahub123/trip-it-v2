@@ -107,10 +107,15 @@
       transition: all 0.3s ease-in-out;
 
       .planner-pc-register-plan-date-container {
-        margin-top: 10px;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        gap: 10px;
+        grid-template-columns:
+          1fr minmax(270px, 300px) 1fr minmax(270px, 300px) 1fr minmax(
+            270px,
+            300px
+          )
+          1fr minmax(270px, 300px);
+        grid-template-rows: auto;
+        grid-gap: 10px;
       }
     }
     .planner-pc-register-plan-container.open {
