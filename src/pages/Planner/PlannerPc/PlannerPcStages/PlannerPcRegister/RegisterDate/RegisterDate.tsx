@@ -47,7 +47,7 @@ const RegisterDate = ({
   return (
     <section
       className="planner-pc-register-plan-date-item"
-      draggable
+      draggable={column.length !== 0}
       data-row={convertDateTypeToDate2(date)}
       onDragStart={(e) => handleDateDragStart(e)}
       onDragEnd={(e) => handleDateDragEnd(e)}

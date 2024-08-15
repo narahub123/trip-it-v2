@@ -1,4 +1,5 @@
 .planner-pc-register-plan-date-item {
+  user-select: none;
   flex: 1;
   width: 250px;
   height: 100%;
