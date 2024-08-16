@@ -2,7 +2,7 @@ import { ColumnType } from "types/plan";
 import "./mapClusterPc.css";
 import { useEffect, useState } from "react";
 import { PlaceApiType } from "types/place";
-import { getCarDirection } from "utilities/map";
+import { getCarDirection, getPositions } from "utilities/map";
 import { metros } from "data/metros";
 import { useRenderCount } from "@uidotdev/usehooks";
 import { getPureletter } from "utilities/place";
@@ -10,7 +10,10 @@ export interface MapClusterPcProps {
   metroId: string;
   column: ColumnType[];
   date: Date;
-  infos: ({ distance: number; duration: number } | undefined)[];
+  infos: (
+    | { distance: number | string; duration: number | string }
+    | undefined
+  )[];
   setInfos: (
     value: ({ distance: number; duration: number } | undefined)[]
   ) => void;
@@ -111,9 +114,9 @@ const MapClusterPc = ({
 
             // 인포윈도우로 장소에 대한 설명을 표시합니다
             var infowindow = new kakao.maps.InfoWindow({
-              content: `<div style="max-width:350px;text-align:center;padding:6px;">${
-                index + 1
-              }. ${position.title}</div>`,
+              content: `<div style="padding:5px">${index + 1}. ${
+                position.title
+              }</div>`,
             });
             infowindow.open(map, marker);
             bounds.extend(position.latlng);
@@ -148,43 +151,6 @@ const MapClusterPc = ({
 
     fetchData();
   }, [places, date]);
-
-  const getPositions = async (places: PlaceApiType[]) => {
-    const positions: { title: string; latlng: kakao.maps.LatLng }[] = [];
-    const geocoder = new kakao.maps.services.Geocoder();
-
-    const addressToCoords = (
-      addr: string
-    ): Promise<kakao.maps.LatLng | null> => {
-      return new Promise((resolve, reject) => {
-        geocoder.addressSearch(addr, function (result, status) {
-          if (status === kakao.maps.services.Status.OK && result[0]) {
-            const coords = new kakao.maps.LatLng(
-              Number(result[0].y),
-              Number(result[0].x)
-            );
-            resolve(coords);
-          } else {
-            resolve(null);
-          }
-        });
-      });
-    };
-
-    const promises = places.map((place) =>
-      addressToCoords(place.addr1).then((coords) => {
-        if (coords) {
-          positions.push({
-            title: getPureletter(place.title),
-            latlng: coords,
-          });
-        }
-      })
-    );
-
-    await Promise.all(promises);
-    return positions;
-  };
 
   return (
     <div

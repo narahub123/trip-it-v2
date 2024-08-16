@@ -129,8 +129,6 @@ const PlannerPcAPIPlaceCard = ({
     }
   };
 
-  console.log(selectedPlace);
-
   const handleOpenDropdown = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {

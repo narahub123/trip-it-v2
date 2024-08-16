@@ -6,10 +6,12 @@ import { ColumnType } from "types/plan";
 import PlannerPcAPIPlaceCard from "../components/PlannerPcAPIPlaceCard";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import PlannerPcDateCard from "../components/PlannerPcDateCard";
-import { LuLoader2, LuSearch } from "react-icons/lu";
+import { LuArrowDown, LuLoader2, LuSearch } from "react-icons/lu";
 import PlannerSearch from "pages/Planner/components/PlannerSearch/PlannerSearch";
 import { debounce } from "utilities/debounce";
 import { useRenderCount } from "@uidotdev/usehooks";
+import { calcMinutes } from "utilities/map";
+import { info } from "console";
 
 export interface PlannerPcPlaces {
   metroId: string;
@@ -22,6 +24,10 @@ export interface PlannerPcPlaces {
   >;
   date: Date;
   setDate: (value: Date) => void;
+  infos: (
+    | { distance: number | string; duration: number | string }
+    | undefined
+  )[];
 }
 const PlannerPcPlaces = ({
   metroId,
@@ -30,6 +36,7 @@ const PlannerPcPlaces = ({
   setColumns,
   date,
   setDate,
+  infos,
 }: PlannerPcPlaces) => {
   const renderCount = useRenderCount();
   console.log("장소 페이지 렌더링 횟수", renderCount);
@@ -272,22 +279,44 @@ const PlannerPcPlaces = ({
           )}
           {date &&
             column &&
-            column.map((item, index) => (
-              <PlannerPcDateCard
-                key={`${item.place.contentid}_${index}`}
-                column={column}
-                order={index}
-                date={date}
-                dates={dates}
-                detail={item}
-                metroId={metroId}
-                columns={columns}
-                setColumns={setColumns}
-                moveClassGroup={moveClassGroup}
-                setMoveClassGroup={setMoveClassGroup}
-                moveOrderGroup={moveOrderGroup}
-                setMoveOrderGroup={setMoveOrderGroup}
-              />
+            column.map((item, index, arr) => (
+              <>
+                <PlannerPcDateCard
+                  key={`${item.place.contentid}_${index}`}
+                  column={column}
+                  order={index}
+                  date={date}
+                  dates={dates}
+                  detail={item}
+                  metroId={metroId}
+                  columns={columns}
+                  setColumns={setColumns}
+                  moveClassGroup={moveClassGroup}
+                  setMoveClassGroup={setMoveClassGroup}
+                  moveOrderGroup={moveOrderGroup}
+                  setMoveOrderGroup={setMoveOrderGroup}
+                />
+                <li className="planner-pc-places-selected-list-duration">
+                  {index !== arr.length - 1 && infos[index] ? (
+                    typeof infos[index]?.duration === "number" ? (
+                      <span className="icon">
+                        <LuArrowDown />
+                      </span>
+                    ) : (
+                      <p></p>
+                    )
+                  ) : (
+                    ""
+                  )}
+                  {index !== arr.length - 1 && infos[index]
+                    ? `${
+                        typeof infos[index]?.duration === "number"
+                          ? calcMinutes(infos[index]?.duration as number) + "분"
+                          : infos[index]?.duration
+                      }`
+                    : ""}
+                </li>
+              </>
             ))}
         </div>
       </section>

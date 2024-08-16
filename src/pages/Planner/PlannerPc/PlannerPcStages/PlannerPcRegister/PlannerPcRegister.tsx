@@ -6,13 +6,12 @@ import {
 import "./plannerPcRegister.css";
 import { LuChevronRight, LuLoader2 } from "react-icons/lu";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
-
 import { useCallback, useEffect, useState } from "react";
-
 import { useRenderCount } from "@uidotdev/usehooks";
 import RegisterDate from "./RegisterDate/RegisterDate";
 import { saveScheduleAPI } from "apis/schedule";
 import { useNavigate } from "react-router-dom";
+import { InfoType } from "../../PlannerPc";
 
 interface PlannerPcRegisterProps {
   metroId: string;
@@ -26,6 +25,9 @@ interface PlannerPcRegisterProps {
   selectedDate: Date;
   setDate: (value: Date) => void;
   setOpenMenu: (value: boolean) => void;
+  allInfos: {
+    [key: string]: (InfoType | undefined)[];
+  };
 }
 
 const PlannerPcRegister = ({
@@ -36,6 +38,7 @@ const PlannerPcRegister = ({
   selectedDate,
   setDate,
   setOpenMenu,
+  allInfos,
 }: PlannerPcRegisterProps) => {
   const renderCount = useRenderCount();
   const navigate = useNavigate();
@@ -347,6 +350,7 @@ const PlannerPcRegister = ({
           <div className="planner-pc-register-plan-date-container">
             {dates.map((item, index) => {
               const column = columns[convertDateTypeToDate2(item)];
+              const infos = allInfos[convertDateTypeToDate2(item)];
               if (column.length === 0) {
                 return <li></li>;
               } else {
@@ -373,6 +377,7 @@ const PlannerPcRegister = ({
                     handleDateDragEnd={handleDateDragEnd}
                     handleDateDrop={handleDateDrop}
                     setPlanValid={setPlanValid}
+                    infos={infos}
                   />
                 );
               }

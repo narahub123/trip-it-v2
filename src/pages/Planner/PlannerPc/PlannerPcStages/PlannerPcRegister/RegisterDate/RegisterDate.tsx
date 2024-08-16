@@ -4,6 +4,8 @@ import PlannerPcRegisterCard from "../components/PlannerPcRegisterCard";
 import { ColumnType } from "types/plan";
 import React, { useEffect, useState } from "react";
 import { link } from "fs";
+import { LuArrowDown } from "react-icons/lu";
+import { calcMinutes } from "utilities/map";
 
 export interface PlannerPcRegisterCardProps {
   index: number;
@@ -26,6 +28,10 @@ export interface PlannerPcRegisterCardProps {
   handleDateDrop: (e: React.DragEvent<HTMLElement>) => void;
   setOpenMenu: (value: boolean) => void;
   setPlanValid: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+  infos: (
+    | { distance: number | string; duration: number | string }
+    | undefined
+  )[];
 }
 const RegisterDate = ({
   index,
@@ -47,8 +53,8 @@ const RegisterDate = ({
   handleDateDragOver,
   handleDateDragEnd,
   handleDateDrop,
-
   setPlanValid,
+  infos,
 }: PlannerPcRegisterCardProps) => {
   // 이동 효과 관련
   const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
@@ -154,28 +160,52 @@ const RegisterDate = ({
             <p />
           </li>
         )}
-        {column.map((item, index) => (
-          <PlannerPcRegisterCard
-            key={`${item.place.contentid}_${index}`}
-            column={column}
-            order={index}
-            curDate={curDate}
-            dates={dates}
-            detail={item}
-            metroId={metroId}
-            columns={columns}
-            setColumns={setColumns}
-            moveClassGroup={moveClassGroup}
-            setMoveClassGroup={setMoveClassGroup}
-            moveOrderGroup={moveOrderGroup}
-            setMoveOrderGroup={setMoveOrderGroup}
-            index={index}
-            dragStart={dragStart}
-            dragOver={dragOver}
-            dragEnd={dragEnd}
-            drop={drop}
-            droppable={droppable}
-          />
+        {column.map((item, index, arr) => (
+          <>
+            <PlannerPcRegisterCard
+              key={`${item.place.contentid}_${index}`}
+              column={column}
+              order={index}
+              curDate={curDate}
+              dates={dates}
+              detail={item}
+              metroId={metroId}
+              columns={columns}
+              setColumns={setColumns}
+              moveClassGroup={moveClassGroup}
+              setMoveClassGroup={setMoveClassGroup}
+              moveOrderGroup={moveOrderGroup}
+              setMoveOrderGroup={setMoveOrderGroup}
+              index={index}
+              dragStart={dragStart}
+              dragOver={dragOver}
+              dragEnd={dragEnd}
+              drop={drop}
+              droppable={droppable}
+            />
+            <li className="planner-pc-register-plan-date-item-duration">
+              {index !== arr.length - 1 && infos[index] ? (
+                typeof infos[index]?.duration === "number" ? (
+                  <span className="icon">
+                    <LuArrowDown />
+                  </span>
+                ) : (
+                  <p></p>
+                )
+              ) : (
+                ""
+              )}
+              {index !== arr.length - 1 && infos[index]
+                ? `${
+                    typeof infos[index]?.duration === "number"
+                      ? "이동시간 : " +
+                        calcMinutes(infos[index]?.duration as number) +
+                        "분"
+                      : infos[index]?.duration
+                  }`
+                : ""}
+            </li>
+          </>
         ))}
         {column.length === 0 && (
           <li

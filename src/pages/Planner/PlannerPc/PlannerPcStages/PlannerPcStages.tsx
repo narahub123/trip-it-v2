@@ -7,6 +7,7 @@ import PlannerPcPlaces from "./PlannerPcPlaces/PlannerPcPlaces";
 import { convertDateTypeToDate2 } from "utilities/date";
 import PlannerPcCalendar from "./PlannerPcCalender/PlannerPcCalendar";
 import PlannerPcRegister from "./PlannerPcRegister/PlannerPcRegister";
+import { InfoType } from "../PlannerPc";
 
 export interface PlannerPcStagesProps {
   metroId: string;
@@ -21,6 +22,13 @@ export interface PlannerPcStagesProps {
   >;
   date: Date;
   setDate: (value: Date) => void;
+  infos: (
+    | { distance: number | string; duration: number | string }
+    | undefined
+  )[];
+  allInfos: {
+    [key: string]: (InfoType | undefined)[];
+  };
 }
 
 const PlannerPcStages = ({
@@ -32,6 +40,8 @@ const PlannerPcStages = ({
   setColumns,
   date,
   setDate,
+  infos,
+  allInfos,
 }: PlannerPcStagesProps) => {
   const { hash } = useLocation();
   const navigate = useNavigate();
@@ -202,6 +212,7 @@ const PlannerPcStages = ({
                 dates={dates}
                 columns={columns}
                 setColumns={setColumns}
+                infos={infos}
               />
             </div>
           ) : (
@@ -213,6 +224,7 @@ const PlannerPcStages = ({
               selectedDate={date}
               setDate={setDate}
               setOpenMenu={setOpenMenu}
+              allInfos={allInfos}
             />
           )}
         </div>
