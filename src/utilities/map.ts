@@ -42,22 +42,28 @@ export const getCarDirection = async (
 
     const data = await response.json();
 
+    console.log(data);
+
     const linePath: kakao.maps.LatLng[] = [];
+    const resultCode = data.routes[0].result_code;
+    if (resultCode === 102 || resultCode === 103) {
+      console.log(`장소 주변에 도로가 없어서 길찾기 불가`);
 
-    // console.log(data.routes[0].sections[0].roads[0]);
-
-    data.routes[0].sections[0].roads.forEach((router: any) => {
-      router.vertexes.forEach((vertax: any, index: number) => {
-        if (index % 2 === 0) {
-          linePath.push(
-            new kakao.maps.LatLng(
-              router.vertexes[index + 1],
-              router.vertexes[index]
-            )
-          );
-        }
+      linePath.push(startPoint, endPoint);
+    } else {
+      data.routes[0].sections[0].roads.forEach((router: any) => {
+        router.vertexes.forEach((vertax: any, index: number) => {
+          if (index % 2 === 0) {
+            linePath.push(
+              new kakao.maps.LatLng(
+                router.vertexes[index + 1],
+                router.vertexes[index]
+              )
+            );
+          }
+        });
       });
-    });
+    }
 
     var polyline = new kakao.maps.Polyline({
       path: linePath,
@@ -69,9 +75,17 @@ export const getCarDirection = async (
     polyline.setMap(map);
 
     // 이동 거리
-    const distance = data.routes[0].sections[0].distance;
+    const distance =
+      resultCode === 102 || resultCode === 103
+        ? 0
+        : data.routes[0].sections[0].distance;
+
     // 이동 시간
-    const duration = data.routes[0].sections[0].duration;
+    const duration =
+      resultCode === 102 || resultCode === 103
+        ? 0
+        : data.routes[0].sections[0].duration;
+
     console.log(distance, duration);
     return {
       distance,

@@ -23,8 +23,6 @@ const MapClusterPc = ({
 }: MapClusterPcProps) => {
   const renderCount = useRenderCount();
 
-  console.log("맵 날짜", date);
-
   const defaultPlace: PlaceApiType = {
     addr1: metros.find((metro) => metro.areaCode === metroId)?.name || "",
     addr2: "",
@@ -66,8 +64,7 @@ const MapClusterPc = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log(loading);
-      console.log(column);
+      console.log("loading 확인", loading); 
 
       if (loading) return; // 이전 요청이 완료될 때까지 대기
 
@@ -90,11 +87,14 @@ const MapClusterPc = ({
 
           const mapOption = {
             center: new kakao.maps.LatLng(33.450701, 126.570667),
-            level: 3,
+            level: 6,
           };
 
           const positions = await getPositions(places);
           const map = new kakao.maps.Map(mapContainer, mapOption);
+
+          // 최저 레벨 설정하기
+          map.setMinLevel(7);
 
           var bounds = new kakao.maps.LatLngBounds();
 
@@ -142,7 +142,7 @@ const MapClusterPc = ({
     };
 
     fetchData();
-  }, [places, date]); // 의존성 배열에 places와 infos 추가
+  }, [places, date]); 
 
   const getPositions = async (places: PlaceApiType[]) => {
     const positions: { title: string; latlng: kakao.maps.LatLng }[] = [];
