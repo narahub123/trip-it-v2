@@ -1,5 +1,6 @@
+import Calendar from "pages/Planner/components/Calendar/Calendar";
 import "./plannerPcCalender.css";
-import Calendar from "pages/Plan/components/Calendar";
+
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { ColumnType } from "types/plan";
 
@@ -50,6 +51,7 @@ const PlannerPcCalendar = ({
               dates={dates}
               setDates={setDates}
               setSelectedDate={setSelectedDate}
+              setColumns={setColumns}
             />
           </span>
           <span className="calendar-pc-container-double">
