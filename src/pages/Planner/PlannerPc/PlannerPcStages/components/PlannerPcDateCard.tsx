@@ -16,6 +16,7 @@ import {
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
 import Map from "pages/Planner/components/Map/Map";
+import { getPureletter } from "utilities/place";
 
 export interface PlannerPcDateCardProps {
   date: Date;
@@ -170,8 +171,6 @@ const PlannerPcDateCard = ({
     date: Date
   ) => {
     e.stopPropagation();
-
-    console.log("호출됨");
 
     const newColumn = columns[convertDateTypeToDate2(date)].filter(
       (item) => item.place.contentid !== contentId
@@ -355,14 +354,14 @@ const PlannerPcDateCard = ({
           <span className="planner-pc-place-card-date-main-info-photo">
             <img
               src={detail.place.firstimage || defaultImage}
-              alt={`${detail.place.title} 이미지`}
+              alt={`${getPureletter(detail.place.title)} 이미지`}
               className={openDepict ? "open" : undefined}
             />
           </span>
           <span className="planner-pc-place-card-date-main-info-detail">
             <div className="planner-pc-place-card-date-main-info-detail-title">
               <p className="planner-pc-place-card-date-main-info-detail-title-name">
-                {detail.place.title}
+                {getPureletter(detail.place.title)}
               </p>
               <span className="planner-pc-place-card-date-main-info-detail-title-more">
                 <LuChevronDown />
@@ -482,7 +481,7 @@ const PlannerPcDateCard = ({
               <Map
                 key={detail.place?.contentid}
                 addr={detail.place?.addr1}
-                title={detail.place?.title}
+                title={getPureletter(detail.place?.title)}
               />
             ) : undefined}
           </p>

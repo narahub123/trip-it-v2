@@ -5,6 +5,7 @@ import { PlaceApiType } from "types/place";
 import { getCarDirection } from "utilities/map";
 import { metros } from "data/metros";
 import { useRenderCount } from "@uidotdev/usehooks";
+import { getPureletter } from "utilities/place";
 export interface MapClusterPcProps {
   metroId: string;
   column: ColumnType[];
@@ -174,7 +175,7 @@ const MapClusterPc = ({
       addressToCoords(place.addr1).then((coords) => {
         if (coords) {
           positions.push({
-            title: place.title,
+            title: getPureletter(place.title),
             latlng: coords,
           });
         }

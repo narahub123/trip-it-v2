@@ -59,6 +59,17 @@ const PlannerPcStages = ({
     });
   }, [dates]);
 
+  const moveForward = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (hash === "#calendars") {
+      navigate(`/planner`);
+    } else if (hash === "#places") {
+      navigate(`#calendars`);
+    } else {
+      navigate(`#places`);
+    }
+  };
+
   return (
     <>
       {openMenu && (
@@ -84,7 +95,7 @@ const PlannerPcStages = ({
         >
           <span
             className="planner-pc-stages-header-btn"
-            onClick={() => navigate(`/planner`)}
+            onClick={(e) => moveForward(e)}
           >
             <p className="planner-pc-stages-header-btn-icon">
               <LuChevronLeft />
@@ -152,6 +163,7 @@ const PlannerPcStages = ({
               columns={columns}
               setColumns={setColumns}
               dates={dates}
+              selectedDate={date}
               setDate={setDate}
             />
           )}

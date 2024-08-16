@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
+  transition: border 0.3s ease-in-out;
 
   .planner-pc-register-plan-date-item-title {
     padding-bottom: 20px;
@@ -38,4 +39,9 @@
       }
     }
   }
+}
+
+.planner-pc-register-plan-date-item.selected {
+  border: 2px solid var(--basic-color);
+  transition: border 0.3s ease-in-out;
 }

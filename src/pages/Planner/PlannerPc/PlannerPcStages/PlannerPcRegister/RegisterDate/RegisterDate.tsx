@@ -6,7 +6,9 @@ import { useState } from "react";
 
 export interface PlannerPcRegisterCardProps {
   index: number;
-  date: Date;
+  curDate: Date;
+  selectedDate: Date;
+  setDate: (value: Date) => void;
   dates: Date[];
   metroId: string;
   columns: { [key: string]: ColumnType[] };
@@ -24,7 +26,9 @@ export interface PlannerPcRegisterCardProps {
 }
 const RegisterDate = ({
   index,
-  date,
+  curDate,
+  selectedDate,
+  setDate,
   dates,
   metroId,
   column,
@@ -44,29 +48,36 @@ const RegisterDate = ({
   const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
   const [moveOrderGroup, setMoveOrderGroup] = useState<number[]>([]);
 
+  const selected =
+    convertDateTypeToDate1(selectedDate) === convertDateTypeToDate1(curDate);
   return (
     <section
-      className="planner-pc-register-plan-date-item"
+      className={`planner-pc-register-plan-date-item${
+        selected ? " selected" : ""
+      }`}
       draggable={column.length !== 0}
-      data-row={convertDateTypeToDate2(date)}
+      data-row={convertDateTypeToDate2(curDate)}
       onDragStart={(e) => handleDateDragStart(e)}
       onDragEnd={(e) => handleDateDragEnd(e)}
       onDragOver={(e) => handleDateDragOver(e)}
       onDrop={(e) => handleDateDrop(e)}
     >
-      <p className="planner-pc-register-plan-date-item-title">
-        {`Day${index + 1} : ${convertDateTypeToDate1(date)}`}
+      <p
+        className="planner-pc-register-plan-date-item-title"
+        onClick={() => setDate(curDate)}
+      >
+        {`Day${index + 1} : ${convertDateTypeToDate1(curDate)}`}
       </p>
       <ul className="planner-pc-register-plan-date-item-container">
         {column.length !== 0 && (
           <li
             className={`planner-pc-register-card-indicator${
-              droppable[0] === convertDateTypeToDate2(date) &&
+              droppable[0] === convertDateTypeToDate2(curDate) &&
               droppable[1] === "0"
                 ? " droppable"
                 : ""
             }`}
-            data-row={convertDateTypeToDate2(date)}
+            data-row={convertDateTypeToDate2(curDate)}
             data-col={0}
             // draggable
             onDragOver={(e) => dragOver(e)}
@@ -82,7 +93,7 @@ const RegisterDate = ({
             key={`${item.place.contentid}_${index}`}
             column={column}
             order={index}
-            date={date}
+            date={curDate}
             dates={dates}
             detail={item}
             metroId={metroId}
@@ -103,7 +114,7 @@ const RegisterDate = ({
         {column.length === 0 && (
           <li
             className="planner-pc-register-card-cover"
-            data-row={convertDateTypeToDate2(date)}
+            data-row={convertDateTypeToDate2(curDate)}
             data-col={0}
             // draggable
             onDragOver={(e) => dragOver(e)}

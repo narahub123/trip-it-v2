@@ -1,21 +1,11 @@
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import "./plannerPcRegister.css";
-import {
-  LuCar,
-  LuChevronRight,
-  LuGripVertical,
-  LuHotel,
-  LuMove,
-} from "react-icons/lu";
+import { LuChevronRight } from "react-icons/lu";
 import { ColumnType } from "types/plan";
-import { getPureletter } from "utilities/place";
+
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { useRenderCount } from "@uidotdev/usehooks";
-import PlaceItem from "./components/PlaceItem";
-import PlanDate from "./components/PlanDate";
-import PlannerPcDateCard from "../components/PlannerPcDateCard";
-import PlannerPcRegisterCard from "./components/PlannerPcRegisterCard";
 import RegisterDate from "./RegisterDate/RegisterDate";
 
 interface PlannerPcRegisterProps {
@@ -27,6 +17,7 @@ interface PlannerPcRegisterProps {
     }>
   >;
   dates: Date[];
+  selectedDate: Date;
   setDate: (value: Date) => void;
 }
 
@@ -35,6 +26,7 @@ const PlannerPcRegister = ({
   columns,
   setColumns,
   dates,
+  selectedDate,
   setDate,
 }: PlannerPcRegisterProps) => {
   const renderCount = useRenderCount();
@@ -276,12 +268,15 @@ const PlannerPcRegister = ({
           }`}
         >
           <div className="planner-pc-register-plan-date-container">
-            {dates.map((date, index) => {
-              const column = columns[convertDateTypeToDate2(date)];
+            {dates.map((item, index) => {
+              const column = columns[convertDateTypeToDate2(item)];
               return (
                 <RegisterDate
-                index={index}
-                  date={date}
+                  key={convertDateTypeToDate1(item)}
+                  index={index}
+                  curDate={item}
+                  selectedDate={selectedDate}
+                  setDate={setDate}
                   dates={dates}
                   metroId={metroId}
                   column={column}

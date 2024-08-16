@@ -7,6 +7,7 @@ import { PlaceApiType } from "types/place";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType } from "types/plan";
 import Map from "pages/Planner/components/Map/Map";
+import { getPureletter } from "utilities/place";
 export interface PlannerPcAPIPlaceCardProps {
   dates: Date[];
   place: PlaceApiType;
@@ -217,7 +218,7 @@ const PlannerPcAPIPlaceCard = ({
           <span className="planner-pc-place-card-api-main-info-detail">
             <div className="planner-pc-place-card-api-main-info-detail-title">
               <p className="planner-pc-place-card-api-main-info-detail-title-name">
-                {place.title}
+                {getPureletter(place.title)}
               </p>
               <span className="planner-pc-place-card-api-main-info-detail-title-more">
                 <LuChevronDown />
