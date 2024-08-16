@@ -155,11 +155,14 @@ const PlannerPcPlaces = ({
 
   const observer = new IntersectionObserver(callback, options);
 
+  // contentTypeId 변경하기
   const handleContentTypeId = useCallback(
     (contentTypeId: string) => {
+      // contentTypeId 변경
       setContentTypeId(contentTypeId);
-
+      // pageNo 0으로 설정하기
       setPageNo("0");
+      // 기존 places 배열 비우기
       setPlaces([]);
     },
     [contentTypeId]
@@ -240,7 +243,9 @@ const PlannerPcPlaces = ({
             <li
               key={convertDateTypeToDate1(item)}
               className={`planner-pc-places-selected-tags-tag${
-                item === date ? " active" : ""
+                convertDateTypeToDate1(item) === convertDateTypeToDate1(date)
+                  ? " active"
+                  : ""
               }`}
               onClick={() => setDate(item)}
             >

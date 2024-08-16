@@ -30,6 +30,7 @@ a {
     justify-content: space-between;
 
     .planner-pc-stages-header-btn {
+      cursor: pointer;
       .planner-pc-stages-header-btn-icon {
         display: flex;
         justify-content: center;

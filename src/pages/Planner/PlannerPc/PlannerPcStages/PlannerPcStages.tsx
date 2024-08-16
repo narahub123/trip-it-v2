@@ -46,6 +46,7 @@ const PlannerPcStages = ({
   setDate,
 }: PlannerPcStagesProps) => {
   const { hash } = useLocation();
+  const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(true);
   const today = new Date();
   const year = today.getFullYear();
@@ -81,7 +82,10 @@ const PlannerPcStages = ({
           className="planner-pc-stages-header"
           onClick={() => setOpenMenu(!openMenu)}
         >
-          <span className="planner-pc-stages-header-btn">
+          <span
+            className="planner-pc-stages-header-btn"
+            onClick={() => navigate(`/planner`)}
+          >
             <p className="planner-pc-stages-header-btn-icon">
               <LuChevronLeft />
             </p>
