@@ -7,8 +7,10 @@ import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { LuAlignJustify, LuChevronDown, LuChevronUp } from "react-icons/lu";
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
-import Map from "pages/Planner/components/Map/Map";
+
 import { getPureletter } from "utilities/place";
+import Map from "pages/Planner/PlannerPc/PlannerMap/Map";
+import { fetchPlaceAPI } from "apis/place";
 
 export interface PlannerPcRegisterCardProps {
   curDate: Date;
@@ -72,6 +74,8 @@ const PlannerPcRegisterCard = ({
   const [startMinute, setStartMinute] = useState(startTime[1]);
   const [endHour, setEndHour] = useState(endTime[0]);
   const [endMinute, setEndMinute] = useState(endTime[1]);
+
+  const [isRequesting, setIsRequesting] = useState(false);
 
   const lastOfColumn = columns[convertDateTypeToDate2(curDate)].length - 1;
 
@@ -303,9 +307,41 @@ const PlannerPcRegisterCard = ({
     setMoveOrderGroup([order, order + 1]);
   };
 
-  const handleOverview = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const handleOverview = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    contentId: string
+  ) => {
     e.stopPropagation();
     setOpenOverview(!openOverview);
+
+    if (openOverview) {
+      getOverview(contentId);
+    }
+  };
+
+  const getOverview = (contentId: string) => {
+    setLoading(true);
+    if (isRequesting) return;
+
+    setIsRequesting(true);
+
+    fetchPlaceAPI(contentId)
+      .then((res) => {
+        if (!res) return;
+        console.log(res.data);
+
+        setSelectedPlace(res.data[0]);
+        setLoading(false);
+        setIsRequesting(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.code === 0) {
+          console.log("네트워크 오류, 연결 상태 확인 요망");
+        }
+        setLoading(false);
+        setIsRequesting(false);
+      });
   };
 
   const handleOpenMap = (
@@ -468,7 +504,7 @@ const PlannerPcRegisterCard = ({
           <div className="planner-pc-register-card-overview-depict">
             <p
               className="planner-pc-register-card-overview-depict-title"
-              onClick={(e) => handleOverview(e)}
+              onClick={(e) => handleOverview(e, detail.place.contentid)}
             >
               {openOverview ? "설명 닫기" : "설명 보기"}
             </p>
@@ -477,7 +513,7 @@ const PlannerPcRegisterCard = ({
                 openOverview ? " open" : ""
               }`}
             >
-              {detail.place?.overview || "준비된 설명이 없습니다."}
+              {selectedPlace?.overview || "준비된 설명이 없습니다."}
             </p>
           </div>
 

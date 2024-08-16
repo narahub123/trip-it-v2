@@ -6,8 +6,8 @@ import { LuCheck, LuChevronDown, LuPhoneCall, LuPlus } from "react-icons/lu";
 import { PlaceApiType } from "types/place";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType } from "types/plan";
-import Map from "pages/Planner/components/Map/Map";
 import { getPureletter } from "utilities/place";
+import Map from "../../PlannerMap/Map";
 export interface PlannerPcAPIPlaceCardProps {
   dates: Date[];
   place: PlaceApiType;
@@ -72,6 +72,35 @@ const PlannerPcAPIPlaceCard = ({
     };
   }, []);
 
+  // 설명 받기
+  const getOverview = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    contentId: string
+  ) => {
+    setLoading(true);
+    if (isRequesting) return;
+
+    setIsRequesting(true);
+
+    fetchPlaceAPI(contentId)
+      .then((res) => {
+        if (!res) return;
+        console.log(res.data);
+
+        setSelectedPlace(res.data[0]);
+        setLoading(false);
+        setIsRequesting(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.code === 0) {
+          console.log("네트워크 오류, 연결 상태 확인 요망");
+        }
+        setLoading(false);
+        setIsRequesting(false);
+      });
+  };
+
   // 추가 정보 확인하기
   const getPlaceDetail = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
@@ -98,30 +127,9 @@ const PlannerPcAPIPlaceCard = ({
       setSelectedPlace(isExisted);
       return;
     }
-
-    setLoading(true);
-    if (isRequesting) return;
-
-    setIsRequesting(true);
-
-    fetchPlaceAPI(contentId)
-      .then((res) => {
-        if (!res) return;
-        console.log(res.data);
-
-        setSelectedPlace(res.data[0]);
-        setLoading(false);
-        setIsRequesting(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.code === 0) {
-          console.log("네트워크 오류, 연결 상태 확인 요망");
-        }
-        setLoading(false);
-        setIsRequesting(false);
-      });
   };
+
+  console.log(selectedPlace);
 
   const handleOpenDropdown = (
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
@@ -213,9 +221,16 @@ const PlannerPcAPIPlaceCard = ({
   };
 
   //
-  const handleOverview = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const handleOverview = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    contentId: string
+  ) => {
     e.stopPropagation();
     setOpenOverview(!openOverview);
+
+    if (!openOverview) {
+      getOverview(e, contentId);
+    }
   };
 
   const handleOpenMap = (
@@ -315,7 +330,7 @@ const PlannerPcAPIPlaceCard = ({
         <div className="planner-pc-place-card-api-overview-depict">
           <p
             className="planner-pc-place-card-api-overview-depict-title"
-            onClick={(e) => handleOverview(e)}
+            onClick={(e) => handleOverview(e, place.contentid)}
           >
             {openOverview ? "설명 닫기" : "설명 보기"}
           </p>

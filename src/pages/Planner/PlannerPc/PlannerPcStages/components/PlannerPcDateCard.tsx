@@ -4,19 +4,12 @@ import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { metros } from "data/metros";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import {
-  LuAlignJustify,
-  LuCheck,
-  LuChevronDown,
-  LuChevronUp,
-  LuMoreHorizontal,
-  LuMoreVertical,
-  LuPlus,
-} from "react-icons/lu";
+import { LuAlignJustify, LuChevronDown, LuChevronUp } from "react-icons/lu";
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
-import Map from "pages/Planner/components/Map/Map";
 import { getPureletter } from "utilities/place";
+import Map from "../../PlannerMap/Map";
+import { fetchPlaceAPI } from "apis/place";
 
 export interface PlannerPcDateCardProps {
   date: Date;
@@ -68,6 +61,8 @@ const PlannerPcDateCard = ({
   const [startMinute, setStartMinute] = useState(startTime[1]);
   const [endHour, setEndHour] = useState(endTime[0]);
   const [endMinute, setEndMinute] = useState(endTime[1]);
+
+  const [isRequesting, setIsRequesting] = useState(false);
 
   const lastOfColumn = columns[convertDateTypeToDate2(date)].length - 1;
 
@@ -138,23 +133,6 @@ const PlannerPcDateCard = ({
 
     // 설명 파트 여닫기
     setOpenDepict(!openDepict);
-
-    // 설명 부분이 열려 있는 경우 api 요청을 하지 않고 되돌아 감
-    if (openDepict) return;
-
-    // 선택한 장소에 대한 정보와 요청 정보가 일치한다면 되돌아 감
-    if (selectedPlace && selectedPlace.contentid === contentId) return;
-
-    // 선택한 장소가 선택한 장소들의 목록에 존재하는지 확인
-    const isExisted = selectedPlaces.find(
-      (selectedPlace) => selectedPlace.contentid === contentId
-    );
-
-    // 선택한 장소들에 존재하는 정보인 경우 그 정보를 선택한 장소 정보에 추가
-    if (isExisted) {
-      setSelectedPlace(isExisted);
-      return;
-    }
   };
 
   const handleOpenDropdown = (
@@ -306,11 +284,43 @@ const PlannerPcDateCard = ({
     setMoveOrderGroup([order, order + 1]);
   };
 
-  const handleOverview = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const handleOverview = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    contentId: string
+  ) => {
     e.stopPropagation();
     setOpenOverview(!openOverview);
+
+    if (openOverview) {
+      getOverview(contentId);
+    }
   };
 
+  const getOverview = (contentId: string) => {
+    setLoading(true);
+    if (isRequesting) return;
+
+    setIsRequesting(true);
+
+    fetchPlaceAPI(contentId)
+      .then((res) => {
+        if (!res) return;
+        console.log(res.data);
+
+        setSelectedPlace(res.data[0]);
+        setLoading(false);
+        setIsRequesting(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.code === 0) {
+          console.log("네트워크 오류, 연결 상태 확인 요망");
+        }
+        setLoading(false);
+        setIsRequesting(false);
+      });
+  };
+  
   const handleOpenMap = (
     e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
   ) => {
@@ -461,7 +471,7 @@ const PlannerPcDateCard = ({
         <div className="planner-pc-place-card-date-overview-depict">
           <p
             className="planner-pc-place-card-date-overview-depict-title"
-            onClick={(e) => handleOverview(e)}
+            onClick={(e) => handleOverview(e, detail.place.contentid)}
           >
             {openOverview ? "설명 닫기" : "설명 보기"}
           </p>
@@ -470,7 +480,7 @@ const PlannerPcDateCard = ({
               openOverview ? " open" : ""
             }`}
           >
-            {detail.place?.overview || "준비된 설명이 없습니다."}
+            {selectedPlace?.overview || "준비된 설명이 없습니다."}
           </p>
         </div>
 
