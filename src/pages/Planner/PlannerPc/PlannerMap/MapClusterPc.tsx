@@ -64,7 +64,7 @@ const MapClusterPc = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("loading 확인", loading); 
+      console.log("loading 확인", loading);
 
       if (loading) return; // 이전 요청이 완료될 때까지 대기
 
@@ -73,7 +73,8 @@ const MapClusterPc = ({
       try {
         kakao.maps.load(async () => {
           if (!places || places.length === 0) {
-            setLoading(false);
+            console.log("데이터 없음 에러");
+
             return;
           }
 
@@ -82,6 +83,8 @@ const MapClusterPc = ({
           );
           if (!mapContainer) {
             setLoading(true);
+            console.log("map 에러");
+
             return;
           }
 
@@ -134,15 +137,16 @@ const MapClusterPc = ({
           }
 
           map.setBounds(bounds);
-          setLoading(false);
         });
       } catch (error) {
+        console.log("에러");
+      } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [places, date]); 
+  }, [places, date]);
 
   const getPositions = async (places: PlaceApiType[]) => {
     const positions: { title: string; latlng: kakao.maps.LatLng }[] = [];
