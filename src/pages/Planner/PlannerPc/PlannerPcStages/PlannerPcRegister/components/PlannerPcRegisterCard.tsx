@@ -11,7 +11,7 @@ import Map from "pages/Planner/components/Map/Map";
 import { getPureletter } from "utilities/place";
 
 export interface PlannerPcRegisterCardProps {
-  date: Date;
+  curDate: Date;
   dates: Date[];
   detail: ColumnType;
   metroId: string;
@@ -32,7 +32,7 @@ export interface PlannerPcRegisterCardProps {
 }
 const PlannerPcRegisterCard = ({
   column,
-  date,
+  curDate,
   dates,
   detail,
   metroId,
@@ -73,7 +73,7 @@ const PlannerPcRegisterCard = ({
   const [endHour, setEndHour] = useState(endTime[0]);
   const [endMinute, setEndMinute] = useState(endTime[1]);
 
-  const lastOfColumn = columns[convertDateTypeToDate2(date)].length - 1;
+  const lastOfColumn = columns[convertDateTypeToDate2(curDate)].length - 1;
 
   // 사진이 없는 경우 기본 사진 사용
   const defaultImage = metros.find(
@@ -113,7 +113,7 @@ const PlannerPcRegisterCard = ({
   useEffect(() => {
     const updatedColumns = { ...columns };
 
-    const columnKey = convertDateTypeToDate2(date);
+    const columnKey = convertDateTypeToDate2(curDate);
     const updatedDetail = {
       ...detail,
       startTime: `${startHour}:${startMinute}`,
@@ -187,8 +187,9 @@ const PlannerPcRegisterCard = ({
   const handleSelect = (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     place: PlaceApiType,
-    date: Date,
-    order: number
+    selectedDate: Date,
+    order: number,
+    curDate: Date
   ) => {
     e.stopPropagation();
 
@@ -199,11 +200,17 @@ const PlannerPcRegisterCard = ({
       endTime: "07:00",
     };
 
-    const oldColumn: ColumnType[] = columns[convertDateTypeToDate2(date)];
+    const curColumns = columns[convertDateTypeToDate2(curDate)].filter(
+      (item) => item.place.contentid !== place.contentid
+    );
+
+    const oldColumn: ColumnType[] =
+      columns[convertDateTypeToDate2(selectedDate)];
 
     setColumns({
       ...columns,
-      [convertDateTypeToDate2(date)]: [...oldColumn, newColumnElem],
+      [convertDateTypeToDate2(curDate)]: [...curColumns],
+      [convertDateTypeToDate2(selectedDate)]: [...oldColumn, newColumnElem],
     });
   };
 
@@ -240,7 +247,7 @@ const PlannerPcRegisterCard = ({
     e.stopPropagation();
 
     // 현재 column 상태를 복사하여 cloneColumn 생성
-    const cloneColumn = [...columns[convertDateTypeToDate2(date)]];
+    const cloneColumn = [...columns[convertDateTypeToDate2(curDate)]];
 
     // contentId가 일치하는 아이템을 찾기
     const itemIndex = cloneColumn.findIndex(
@@ -258,7 +265,7 @@ const PlannerPcRegisterCard = ({
     // 상태 업데이트
     setColumns({
       ...columns,
-      [convertDateTypeToDate2(date)]: cloneColumn,
+      [convertDateTypeToDate2(curDate)]: cloneColumn,
     });
 
     setMoveClassGroup(["move-up", "move-down"]);
@@ -271,7 +278,7 @@ const PlannerPcRegisterCard = ({
   ) => {
     e.stopPropagation();
     // 현재 column 상태를 복사하여 cloneColumn 생성
-    const cloneColumn = [...columns[convertDateTypeToDate2(date)]];
+    const cloneColumn = [...columns[convertDateTypeToDate2(curDate)]];
 
     // contentId가 일치하는 아이템을 찾기
     const itemIndex = cloneColumn.findIndex(
@@ -289,7 +296,7 @@ const PlannerPcRegisterCard = ({
     // 상태 업데이트
     setColumns({
       ...columns,
-      [convertDateTypeToDate2(date)]: cloneColumn,
+      [convertDateTypeToDate2(curDate)]: cloneColumn,
     });
 
     setMoveClassGroup(["move-down", "move-up"]);
@@ -318,7 +325,7 @@ const PlannerPcRegisterCard = ({
             : undefined
         }`}
         draggable
-        data-row={convertDateTypeToDate2(date)}
+        data-row={convertDateTypeToDate2(curDate)}
         data-col={index}
         // draggable
         onDragOver={(e) => dragOver(e)}
@@ -420,12 +427,14 @@ const PlannerPcRegisterCard = ({
             >
               <li
                 className={`planner-pc-register-card-main-dropdown-item`}
-                onClick={(e) => handleDeselect(e, detail.place.contentid, date)}
+                onClick={(e) =>
+                  handleDeselect(e, detail.place.contentid, curDate)
+                }
               >
                 삭제
               </li>
               {dates.map((day, index) => {
-                if (day === date) return;
+                if (day === curDate) return;
                 return (
                   <li
                     key={convertDateTypeToDate2(day)}
@@ -437,7 +446,8 @@ const PlannerPcRegisterCard = ({
                     onClick={
                       WhereCheckedPlace(detail.place.contentid, index)
                         ? (e) => handleDeselect(e, detail.place.contentid, day)
-                        : (e) => handleSelect(e, detail.place, day, index)
+                        : (e) =>
+                            handleSelect(e, detail.place, day, index, curDate)
                     }
                   >
                     {convertDateTypeToDate1(day)}
@@ -493,7 +503,7 @@ const PlannerPcRegisterCard = ({
       </li>
       <li
         className={`planner-pc-register-card-indicator ${
-          droppable[0] === convertDateTypeToDate2(date) &&
+          droppable[0] === convertDateTypeToDate2(curDate) &&
           droppable[1] === (index + 1).toString()
             ? " droppable"
             : ""
@@ -504,7 +514,7 @@ const PlannerPcRegisterCard = ({
             ? moveClassGroup[1]
             : undefined
         }`}
-        data-row={convertDateTypeToDate2(date)}
+        data-row={convertDateTypeToDate2(curDate)}
         data-col={index + 1}
         // draggable
         onDragOver={(e) => dragOver(e)}

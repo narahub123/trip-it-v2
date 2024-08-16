@@ -187,13 +187,11 @@ const PlannerPcDateCard = ({
   const handleSelect = (
     e: React.MouseEvent<HTMLLIElement, MouseEvent>,
     place: PlaceApiType,
-    day: Date,
+    newDate: Date,
     order: number,
     date: Date
   ) => {
     e.stopPropagation();
-
-    handleDeselect(e, place.contentid, date);
 
     const newColumnElem: ColumnType = {
       place,
@@ -202,12 +200,19 @@ const PlannerPcDateCard = ({
       endTime: "07:00",
     };
 
-    const oldColumn: ColumnType[] = columns[convertDateTypeToDate2(day)];
+    const curColumns = columns[convertDateTypeToDate2(date)].filter(
+      (item) => item.place.contentid !== place.contentid
+    );
 
-    setColumns({
+    const oldColumn: ColumnType[] = columns[convertDateTypeToDate2(newDate)];
+
+    const newColumns = {
       ...columns,
-      [convertDateTypeToDate2(day)]: [...oldColumn, newColumnElem],
-    });
+      [convertDateTypeToDate2(date)]: [...curColumns],
+      [convertDateTypeToDate2(newDate)]: [...oldColumn, newColumnElem],
+    };
+
+    setColumns(newColumns);
 
     setOpenDropdown(false);
   };

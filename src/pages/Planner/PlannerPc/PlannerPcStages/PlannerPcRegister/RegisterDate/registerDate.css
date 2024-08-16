@@ -35,6 +35,11 @@
     flex-direction: column;
     margin: 10px;
 
+    .planner-pc-register-plan-date-item-warning {
+      font-size: 12px;
+      color: red;
+      transition: all 0.3s ease-in-out;
+    }
     .planner-pc-register-card-cover {
       height: 100%;
       .planner-pc-register-card-noplace {
@@ -56,5 +61,10 @@
 
 .planner-pc-register-plan-date-item.selected {
   border: 2px solid var(--basic-color);
+  transition: border 0.3s ease-in-out;
+}
+
+.planner-pc-register-plan-date-item.invalid {
+  border: 2px solid red;
   transition: border 0.3s ease-in-out;
 }

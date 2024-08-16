@@ -2,7 +2,8 @@ import "./registerDate.css";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import PlannerPcRegisterCard from "../components/PlannerPcRegisterCard";
 import { ColumnType } from "types/plan";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { link } from "fs";
 
 export interface PlannerPcRegisterCardProps {
   index: number;
@@ -24,6 +25,7 @@ export interface PlannerPcRegisterCardProps {
   handleDateDragEnd: (e: React.DragEvent<HTMLElement>) => void;
   handleDateDrop: (e: React.DragEvent<HTMLElement>) => void;
   setOpenMenu: (value: boolean) => void;
+  setPlanValid: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
 }
 const RegisterDate = ({
   index,
@@ -45,13 +47,57 @@ const RegisterDate = ({
   handleDateDragOver,
   handleDateDragEnd,
   handleDateDrop,
+
+  setPlanValid,
 }: PlannerPcRegisterCardProps) => {
   // 이동 효과 관련
   const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
   const [moveOrderGroup, setMoveOrderGroup] = useState<number[]>([]);
-
+  const [valid, setValid] = useState(true);
+  const [warning, setWarning] = useState("");
   const selected =
     convertDateTypeToDate1(selectedDate) === convertDateTypeToDate1(curDate);
+
+  useEffect(() => {
+    const countOfTours = column.filter(
+      (item) => item.place.contenttypeid !== "32"
+    ).length;
+
+    const countOfAccommos = column.filter(
+      (item) => item.place.contenttypeid === "32"
+    ).length;
+
+    if (countOfTours < 1 && countOfAccommos < 1) {
+      setValid(false);
+      setPlanValid((prev) => ({
+        ...prev,
+        [convertDateTypeToDate2(curDate)]: false,
+      }));
+      setWarning("관광지와 숙소를 선택해주세요.");
+      return;
+    } else if (countOfTours < 1) {
+      setValid(false);
+      setPlanValid((prev) => ({
+        ...prev,
+        [convertDateTypeToDate2(curDate)]: false,
+      }));
+      setWarning("관광지를 선택해주세요.");
+    } else if (countOfAccommos < 1) {
+      setValid(false);
+      setPlanValid((prev) => ({
+        ...prev,
+        [convertDateTypeToDate2(curDate)]: false,
+      }));
+      setWarning("숙소를 선택해주세요.");
+    } else {
+      setValid(true);
+      setWarning("");
+      setPlanValid((prev) => ({
+        ...prev,
+        [convertDateTypeToDate2(curDate)]: true,
+      }));
+    }
+  }, [column]);
 
   const handleOpenMap = (date: Date) => {
     setDate(curDate);
@@ -61,7 +107,7 @@ const RegisterDate = ({
     <section
       className={`planner-pc-register-plan-date-item${
         selected ? " selected" : ""
-      }`}
+      }${valid ? "" : " invalid"}`}
       draggable={column.length !== 0}
       data-row={convertDateTypeToDate2(curDate)}
       onDragStart={(e) => handleDateDragStart(e)}
@@ -84,6 +130,11 @@ const RegisterDate = ({
         </p>
       </div>
       <ul className="planner-pc-register-plan-date-item-container">
+        {warning && (
+          <li className="planner-pc-register-plan-date-item-warning">
+            {warning}
+          </li>
+        )}
         {column.length !== 0 && (
           <li
             className={`planner-pc-register-card-indicator${
@@ -108,7 +159,7 @@ const RegisterDate = ({
             key={`${item.place.contentid}_${index}`}
             column={column}
             order={index}
-            date={curDate}
+            curDate={curDate}
             dates={dates}
             detail={item}
             metroId={metroId}

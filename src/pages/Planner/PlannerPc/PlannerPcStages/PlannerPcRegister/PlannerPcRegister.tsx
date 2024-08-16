@@ -7,7 +7,7 @@ import "./plannerPcRegister.css";
 import { LuChevronRight, LuLoader2 } from "react-icons/lu";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useRenderCount } from "@uidotdev/usehooks";
 import RegisterDate from "./RegisterDate/RegisterDate";
@@ -40,6 +40,15 @@ const PlannerPcRegister = ({
   const renderCount = useRenderCount();
   const navigate = useNavigate();
   const [valid, setValid] = useState(false);
+
+  const planValidObj: Record<string, boolean> = dates.reduce((acc, date) => {
+    const dateString = convertDateTypeToDate2(date);
+    acc[dateString] = true; // 문자열을 키로, false를 값으로 설정
+    return acc;
+  }, {} as Record<string, boolean>);
+  const [planValid, setPlanValid] =
+    useState<Record<string, boolean>>(planValidObj);
+
   const [title, setTitle] = useState("");
   const [openHeader, setOpenHeader] = useState(true);
   const [openPlan, setOpenPlan] = useState(true);
@@ -267,6 +276,8 @@ const PlannerPcRegister = ({
     setColumns(updatedColumns);
   };
 
+  if (planValid) console.log(Object.values(planValid).every(Boolean));
+
   return (
     <div className="planner-pc-register">
       <div className="planner-pc-register-header">
@@ -353,6 +364,7 @@ const PlannerPcRegister = ({
                   handleDateDragOver={handleDateDragOver}
                   handleDateDragEnd={handleDateDragEnd}
                   handleDateDrop={handleDateDrop}
+                  setPlanValid={setPlanValid}
                 />
               );
             })}
@@ -361,9 +373,9 @@ const PlannerPcRegister = ({
       </div>
       <div className="planner-pc-register-btn">
         <button
-          className={`register-btn${valid ? "-valid" : ""}${
-            isSubmitting ? " submitting" : ""
-          }`}
+          className={`register-btn${
+            valid && Object.values(planValid).every(Boolean) ? "-valid" : ""
+          }${isSubmitting ? " submitting" : ""}`}
           onClick={() => handleSubmit()}
         >
           <span>
