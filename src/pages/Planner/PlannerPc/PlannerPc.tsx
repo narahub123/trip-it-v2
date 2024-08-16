@@ -3,7 +3,7 @@ import { PlannerPlacesProps } from "../PlannerPlace/PlannerPlaces";
 import { useState } from "react";
 import { ColumnType } from "types/plan";
 import { convertDateTypeToDate2 } from "utilities/date";
-import MapClusterPc from "../components/Map/MapClusterPc";
+import MapClusterPc from "./PlannerMap/MapClusterPc";
 import PlannerPcStages from "./PlannerPcStages/PlannerPcStages";
 
 const PlannerPc = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
