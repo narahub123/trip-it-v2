@@ -28,6 +28,7 @@ a {
   .planner-pc-stages-header {
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
 
     .planner-pc-stages-header-btn {
       cursor: pointer;
@@ -42,9 +43,17 @@ a {
     .planner-pc-stages-header-title {
       font-size: 14px;
       padding: 15px;
+      display: flex;
+      gap: 5px;
+      transition: color 0.3s ease-in-out;
     }
   }
 
+  .planner-pc-stages-header.close {
+    background: var(--basic-color);
+    border-radius: 25px 25px 0 0;
+    color: #fff;
+  }
   .planner-pc-stages-menus {
     display: flex;
     justify-content: space-evenly;
@@ -59,6 +68,7 @@ a {
       text-align: center;
       border-bottom: 0px solid #ccc;
       transition: border-bottom 0.2s ease-in-out;
+      cursor: pointer;
     }
     .planner-pc-stages-menus-menu.active {
       border-bottom: 3px solid var(--basic-color);

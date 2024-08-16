@@ -1,12 +1,18 @@
-import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
+import {
+  convertDateToYYYYMMDD,
+  convertDateTypeToDate1,
+  convertDateTypeToDate2,
+} from "utilities/date";
 import "./plannerPcRegister.css";
-import { LuChevronRight } from "react-icons/lu";
-import { ColumnType } from "types/plan";
+import { LuChevronRight, LuLoader2 } from "react-icons/lu";
+import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 
 import { useCallback, useState } from "react";
 
 import { useRenderCount } from "@uidotdev/usehooks";
 import RegisterDate from "./RegisterDate/RegisterDate";
+import { saveScheduleAPI } from "apis/schedule";
+import { useNavigate } from "react-router-dom";
 
 interface PlannerPcRegisterProps {
   metroId: string;
@@ -32,11 +38,13 @@ const PlannerPcRegister = ({
   setOpenMenu,
 }: PlannerPcRegisterProps) => {
   const renderCount = useRenderCount();
+  const navigate = useNavigate();
   const [valid, setValid] = useState(false);
   const [title, setTitle] = useState("");
   const [openHeader, setOpenHeader] = useState(true);
   const [openPlan, setOpenPlan] = useState(true);
   const [droppable, setDroppable] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   console.log("렌더링 횟수", renderCount);
 
@@ -62,7 +70,7 @@ const PlannerPcRegister = ({
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    const value = e.target.value.trim();
+    const value = e.target.value;
 
     setTitle(value);
 
@@ -74,7 +82,58 @@ const PlannerPcRegister = ({
   };
 
   const handleSubmit = () => {
+    if (!title) return window.alert("일정 제목을 적어주세요");
     if (!window.confirm(`일정을 등록하시겠습니까?`)) return;
+    const start = convertDateToYYYYMMDD(dates[0]);
+    const end = convertDateToYYYYMMDD(dates[dates.length - 1]);
+
+    console.log(start, end);
+
+    setIsSubmitting(true);
+
+    const scheduleDetails: ScheduleDetailDtoInputType[] = [];
+    const values = Object.values(columns);
+
+    for (let i = 0; i < values.length; i++) {
+      const column = values[i];
+      for (const detail of column) {
+        const newDetail: ScheduleDetailDtoInputType = {
+          contentId: detail.place.contentid,
+          scheduleOrder: detail.scheduleOrder,
+          startTime: detail.startTime,
+          endTime: detail.endTime,
+        };
+        scheduleDetails.push(newDetail);
+      }
+    }
+
+    const submitValue = {
+      scheduleDto: {
+        metroId: metroId,
+        startDate: start,
+        endDate: end,
+        scheduleTitle: title,
+      },
+      detailScheduleDto: scheduleDetails,
+    };
+
+    console.log(submitValue);
+
+    saveScheduleAPI(submitValue)
+      .then((res) => {
+        console.log(res.data);
+        if (!res) return;
+
+        if (res.status === 200) {
+          setIsSubmitting(false);
+          console.log("등록 성공");
+          navigate("/mypage/schedules");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsSubmitting(false);
+      });
   };
 
   const dragStart = (e: React.DragEvent<HTMLLIElement>) => {
@@ -302,10 +361,20 @@ const PlannerPcRegister = ({
       </div>
       <div className="planner-pc-register-btn">
         <button
-          className={`register-btn${valid ? "-valid" : ""}`}
+          className={`register-btn${valid ? "-valid" : ""}${
+            isSubmitting ? " submitting" : ""
+          }`}
           onClick={() => handleSubmit()}
         >
-          일정 등록 하기
+          <span>
+            {isSubmitting ? (
+              <span className="icon submitting">
+                <LuLoader2 />
+              </span>
+            ) : (
+              "일정 등록 하기"
+            )}
+          </span>
         </button>
       </div>
     </div>

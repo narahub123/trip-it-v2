@@ -8,6 +8,7 @@ import { LuAlignJustify, LuChevronDown, LuChevronUp } from "react-icons/lu";
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
 import Map from "pages/Planner/components/Map/Map";
+import { getPureletter } from "utilities/place";
 
 export interface PlannerPcRegisterCardProps {
   date: Date;
@@ -364,7 +365,7 @@ const PlannerPcRegisterCard = ({
             <span className="planner-pc-register-card-main-info-detail">
               <div className="planner-pc-register-card-main-info-detail-title">
                 <p className="planner-pc-register-card-main-info-detail-title-name">
-                  {detail.place.title}
+                  {getPureletter(detail.place.title)}
                 </p>
                 <span className="planner-pc-register-card-main-info-detail-title-more">
                   <LuChevronDown />

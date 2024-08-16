@@ -5,7 +5,7 @@
   flex-direction: column;
   border: 1px solid #ccc;
   border-radius: 10px;
-  width: 250px;
+  width: 100%;
   box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
   margin: 0 auto;
 
@@ -130,11 +130,11 @@
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 5px;
-        top: 110%;
+        top: 100%;
         right: 0;
-        max-width: 100px;
+        width: 60px;
         z-index: 1;
-        width: 50px;
+
         overflow-y: auto;
 
         visibility: hidden;

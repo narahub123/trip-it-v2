@@ -1,22 +1,10 @@
 import { useEffect, useState } from "react";
 import "./plannerPcStages.css";
-import {
-  LuAirplay,
-  LuBedSingle,
-  LuCar,
-  LuChevronLeft,
-  LuChevronRight,
-  LuChevronUp,
-  LuHotel,
-  LuX,
-} from "react-icons/lu";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import Calendar from "pages/Plan/components/Calendar";
+import { LuChevronLeft, LuChevronUp, LuX } from "react-icons/lu";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ColumnType } from "types/plan";
-
 import PlannerPcPlaces from "./PlannerPcPlaces/PlannerPcPlaces";
-import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import { getPureletter } from "utilities/place";
+import { convertDateTypeToDate2 } from "utilities/date";
 import PlannerPcCalendar from "./PlannerPcCalender/PlannerPcCalendar";
 import PlannerPcRegister from "./PlannerPcRegister/PlannerPcRegister";
 
@@ -70,6 +58,50 @@ const PlannerPcStages = ({
     }
   };
 
+  const validPlaces = () => {
+    for (const date of dates) {
+      const column = columns[convertDateTypeToDate2(date)];
+
+      const tourPlaces = column.filter(
+        (item) => item.place.contenttypeid !== "32"
+      );
+      const accommos = column.filter(
+        (item) => item.place.contenttypeid === "32"
+      );
+
+      if (tourPlaces.length < 1) {
+        window.alert(`${convertDateTypeToDate2(date)}의 장소를 선택해주세요.`);
+        return false; // 즉시 함수 종료
+      }
+
+      if (accommos.length < 1) {
+        window.alert(`${convertDateTypeToDate2(date)}의 숙소를 선택해주세요.`);
+        return false; // 즉시 함수 종료
+      }
+    }
+
+    return true; // 모든 날짜에 대해 유효한 경우
+  };
+
+  const handleMoveTo = (destiny: string) => {
+    if (destiny === "#places") {
+      if (dates.length < 2) {
+        window.alert(`날짜 선택을 완료해주세요`);
+        return;
+      }
+      navigate(`#places`);
+    } else if (destiny === "#register") {
+      if (dates.length < 2) {
+        window.alert(`날짜 선택을 완료해주세요`);
+        navigate(`#calendars`);
+        return;
+      }
+      if (validPlaces()) {
+        navigate(`#register`);
+      }
+    }
+  };
+
   return (
     <>
       {openMenu && (
@@ -90,18 +122,33 @@ const PlannerPcStages = ({
         }`}
       >
         <div
-          className="planner-pc-stages-header"
+          className={`planner-pc-stages-header${openMenu ? "" : " close"}`}
           onClick={() => setOpenMenu(!openMenu)}
         >
           <span
             className="planner-pc-stages-header-btn"
             onClick={(e) => moveForward(e)}
           >
-            <p className="planner-pc-stages-header-btn-icon">
-              <LuChevronLeft />
+            {openMenu && (
+              <p className="planner-pc-stages-header-btn-icon">
+                <LuChevronLeft />
+              </p>
+            )}
+          </span>
+          <span
+            className={`planner-pc-stages-header-title${
+              openMenu ? "" : " close"
+            }`}
+          >
+            <p>일정</p>
+            <p>
+              {hash === "#calendars"
+                ? " (날짜 선택)"
+                : hash === "#places"
+                ? " (장소 선택)"
+                : " (일정 등록)"}
             </p>
           </span>
-          <span className="planner-pc-stages-header-title">일정</span>
           <span className="planner-pc-stages-header-btn">
             <p className="planner-pc-stages-header-btn-icon">
               {openMenu ? <LuX /> : <LuChevronUp />}
@@ -109,30 +156,30 @@ const PlannerPcStages = ({
           </span>
         </div>
         <div className="planner-pc-stages-menus">
-          <Link
-            to={"#calendars"}
+          <li
             className={`planner-pc-stages-menus-menu${
               hash === "#calendars" || !hash ? " active" : ""
             }`}
+            onClick={() => navigate(`#calendars`)}
           >
             날짜
-          </Link>
-          <Link
-            to={"#places"}
+          </li>
+          <li
             className={`planner-pc-stages-menus-menu${
               hash === "#places" ? " active" : ""
             }`}
+            onClick={() => handleMoveTo(`#places`)}
           >
             장소
-          </Link>
-          <Link
-            to={"#register"}
+          </li>
+          <li
             className={`planner-pc-stages-menus-menu${
               hash === "#register" ? " active" : ""
             } `}
+            onClick={() => handleMoveTo(`#register`)}
           >
             등록
-          </Link>
+          </li>
         </div>
         <div className="planner-pc-stages-main">
           {!hash || hash === "#calendars" ? (

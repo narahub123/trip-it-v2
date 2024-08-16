@@ -71,12 +71,15 @@ const RegisterDate = ({
     >
       <div
         className="planner-pc-register-plan-date-item-title"
-        onClick={() => handleOpenMap(curDate)}
+        onClick={() => setDate(curDate)}
       >
         <p className="planner-pc-register-plan-date-item-title-name">{`Day${
           index + 1
         } : ${convertDateTypeToDate1(curDate)}`}</p>
-        <p className="planner-pc-register-plan-date-item-title-map">
+        <p
+          className="planner-pc-register-plan-date-item-title-map"
+          onClick={() => handleOpenMap(curDate)}
+        >
           지도 보기
         </p>
       </div>
