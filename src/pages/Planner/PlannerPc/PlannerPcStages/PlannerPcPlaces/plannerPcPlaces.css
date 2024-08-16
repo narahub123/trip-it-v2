@@ -37,6 +37,9 @@
           background-color: var(--basic-color);
           color: #fff;
         }
+        .planner-pc-places-place-tags-tag.loading {
+          opacity: 0.5;
+        }
       }
     }
     .planner-pc-places-place-list {
@@ -47,6 +50,21 @@
       overflow-x: hidden;
       height: 300px;
       padding-right: 5px;
+
+      .planner-pc-places-place-list-target {
+        padding: 10px;
+        height: 100%;
+        /* border: 1px solid #ccc; */
+
+        .icon {
+          transform: rotate(0deg);
+          transition: transform 1s ease-in-out;
+        }
+        .icon.loading {
+          transform: rotate(360deg);
+          transition: transform 1s ease-in-out;
+        }
+      }
     }
     .planner-pc-places-place-list.loading {
       opacity: 0.5;

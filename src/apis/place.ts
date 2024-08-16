@@ -10,17 +10,17 @@ export const fetchPlacesAPI = async (
   contentTypeId: string
 ) => {
   try {
-    const res = await axios.get(
-      `${baseURL}/home/apiList/${metroId}/${pageNo}/${contentTypeId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Access: `${localStorage.getItem("access")}`,
-          Refresh: `${getCookie("refresh")}`,
-        },
-        withCredentials: true,
-      }
-    );
+    const url = `${baseURL}/home/apiList/${metroId}/${pageNo}/${contentTypeId}`;
+    console.log(url);
+
+    const res = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Access: `${localStorage.getItem("access")}`,
+        Refresh: `${getCookie("refresh")}`,
+      },
+      withCredentials: true,
+    });
 
     const response = res.data;
 

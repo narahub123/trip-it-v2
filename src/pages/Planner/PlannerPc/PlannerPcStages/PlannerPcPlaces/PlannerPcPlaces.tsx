@@ -1,14 +1,15 @@
 import { fetchPlacesAPI, fetchPlacesByKeywordAPI } from "apis/place";
 import "./plannerPcPlaces.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import PlannerPcAPIPlaceCard from "../components/PlannerPcAPIPlaceCard";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import PlannerPcDateCard from "../components/PlannerPcDateCard";
-import { LuSearch } from "react-icons/lu";
+import { LuLoader2, LuSearch } from "react-icons/lu";
 import PlannerSearch from "pages/Planner/components/PlannerSearch/PlannerSearch";
 import { debounce } from "utilities/debounce";
+import { useRenderCount } from "@uidotdev/usehooks";
 
 export interface PlannerPcPlaces {
   metroId: string;
@@ -30,11 +31,17 @@ const PlannerPcPlaces = ({
   date,
   setDate,
 }: PlannerPcPlaces) => {
+  const renderCount = useRenderCount();
+  console.log("장소 페이지 렌더링 횟수", renderCount);
+
   const [loading, setLoading] = useState(false);
-  const [pageNo, setPageNo] = useState("1");
+  const [pageNo, setPageNo] = useState("0");
   const [places, setPlaces] = useState<PlaceApiType[]>([]);
   const [isRequesting, setIsRequesting] = useState(false);
   const [contentTypeId, setContentTypeId] = useState("12");
+
+  // 무한 스크롤링을 위한 타겟 ref
+  const targetRef = useRef<HTMLLIElement>(null);
 
   // 이동 효과 관련
   const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
@@ -100,30 +107,63 @@ const PlannerPcPlaces = ({
 
   const column = date ? columns[convertDateTypeToDate2(date)] : [];
 
+  // 무한 스크롤링을 위한 useEffect
+  useEffect(() => {
+    if (!targetRef.current) return;
+    console.log("타겟확인");
+
+    observer.observe(targetRef.current);
+  }, []);
+
   useEffect(() => {
     if (contentTypeId.length === 0) return;
+    if (pageNo === "0") {
+      return;
+    }
     setLoading(true);
 
     fetchPlacesAPI(metroId, pageNo, contentTypeId)
       .then((res) => {
         if (!res) return;
 
-        if (!res.data) {
-          setPlaces(res);
-          setLoading(false);
-        } else {
-          setPlaces(res.data);
-          setLoading(false);
-        }
+        const newPlaces = !res.data ? res : res.data;
+
+        setPlaces((prevPlaces) => {
+          return [...prevPlaces, ...newPlaces];
+        });
       })
       .catch((err) => {
         if (err.code === 0) {
           console.log("네트워크 오류, 연결 상태 확인 요망");
         }
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   }, [metroId, contentTypeId, pageNo]);
 
+  const options = {
+    threshold: 1.0,
+  };
+
+  const callback = useCallback((entries: IntersectionObserverEntry[]) => {
+    // intersecting 여부 확인하기
+    const target = entries[0];
+
+    // 타겟이 없거나 로드 중이거나 타겟이 인터섹팅 중이 아닌 경우 리턴
+    if (!targetRef.current || loading || !target.isIntersecting) return;
+    setPageNo((prev) => (Number(prev) + 1).toString());
+  }, []);
+
+  const observer = new IntersectionObserver(callback, options);
+
+  const handleContentTypeId = useCallback(
+    (contentTypeId: string) => {
+      setContentTypeId(contentTypeId);
+
+      setPageNo("0");
+      setPlaces([]);
+    },
+    [contentTypeId]
+  );
   return (
     <div className="planner-pc-places">
       <section className="planner-pc-places-place">
@@ -132,32 +172,32 @@ const PlannerPcPlaces = ({
             <li
               className={`planner-pc-places-place-tags-tag${
                 contentTypeId === "12" ? " active" : ""
-              }`}
-              onClick={() => setContentTypeId("12")}
+              }${loading ? " loading" : ""}`}
+              onClick={loading ? undefined : () => handleContentTypeId("12")}
             >
               관광
             </li>
             <li
               className={`planner-pc-places-place-tags-tag${
                 contentTypeId === "14" ? " active" : ""
-              }`}
-              onClick={() => setContentTypeId("14")}
+              }${loading ? " loading" : ""}`}
+              onClick={loading ? undefined : () => handleContentTypeId("14")}
             >
               문화
             </li>
             <li
               className={`planner-pc-places-place-tags-tag${
                 contentTypeId === "39" ? " active" : ""
-              }`}
-              onClick={() => setContentTypeId("39")}
+              }${loading ? " loading" : ""}`}
+              onClick={loading ? undefined : () => handleContentTypeId("39")}
             >
               음식
             </li>
             <li
               className={`planner-pc-places-place-tags-tag${
                 contentTypeId === "32" ? " active" : ""
-              }`}
-              onClick={() => setContentTypeId("32")}
+              }${loading ? " loading" : ""}`}
+              onClick={loading ? undefined : () => handleContentTypeId("32")}
             >
               숙소
             </li>
@@ -184,6 +224,14 @@ const PlannerPcPlaces = ({
               setColumns={setColumns}
             />
           ))}
+          {/* 무한 스크롤링을 위한 타겟 설정 */}
+          <li className={`planner-pc-places-place-list-target`} ref={targetRef}>
+            {places.length !== 0 && (
+              <span className={`icon${loading ? " loading" : ""}`}>
+                <LuLoader2 />
+              </span>
+            )}
+          </li>
         </div>
       </section>
       <section className="planner-pc-places-selected">
