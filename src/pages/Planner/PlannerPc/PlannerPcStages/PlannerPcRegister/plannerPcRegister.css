@@ -111,13 +111,9 @@
       transition: all 0.3s ease-in-out;
 
       .planner-pc-register-plan-date-container {
+        box-sizing: border-box;
         display: grid;
-        grid-template-columns:
-          1fr minmax(270px, 300px) 1fr minmax(270px, 300px) 1fr minmax(
-            270px,
-            300px
-          )
-          1fr minmax(270px, 300px);
+        grid-template-columns: minmax(270px, 1fr) minmax(270px, 1fr);
         grid-template-rows: auto;
         grid-gap: 10px;
       }
@@ -152,6 +148,59 @@
       background-color: var(--basic-color);
       color: #fff;
       transition: all 0.3s ease-in-out;
+    }
+  }
+}
+
+@media screen and (max-width: 625px) {
+  .planner-pc-register {
+    .planner-pc-register-plan {
+      .planner-pc-register-plan-container {
+        .planner-pc-register-plan-date-container {
+          grid-template-columns: minmax(270px, 1fr);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 626px) and (max-width: 890px) {
+  .planner-pc-register {
+    .planner-pc-register-plan {
+      .planner-pc-register-plan-container {
+        .planner-pc-register-plan-date-container {
+          grid-template-columns: minmax(270px, 1fr) minmax(270px, 1fr);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 891px) and (max-width: 940px) {
+  .planner-pc-register {
+    .planner-pc-register-plan {
+      .planner-pc-register-plan-container {
+        .planner-pc-register-plan-date-container {
+          grid-template-columns: minmax(270px, 1fr) minmax(270px, 1fr) minmax(
+              270px,
+              1fr
+            );
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 941px) {
+  .planner-pc-register {
+    .planner-pc-register-plan {
+      .planner-pc-register-plan-container {
+        .planner-pc-register-plan-date-container {
+          grid-template-columns:
+            minmax(270px, 1fr) minmax(270px, 1fr) minmax(270px, 1fr)
+            minmax(270px, 1fr);
+        }
+      }
     }
   }
 }
