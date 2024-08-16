@@ -286,6 +286,22 @@ const PlannerPcRegister = ({
     setColumns(updatedColumns);
   };
 
+  // 모든 일정 삭제하기
+  const deleteAll = () => {
+    if (!window.confirm(`일정을 삭제하시겠습니까?`)) {
+      return;
+    }
+    const newColumns = dates?.reduce((acc, date) => {
+      // 현재 날짜를 기반으로 빈 배열을 할당
+      acc[convertDateTypeToDate2(date)] = [];
+      return acc;
+    }, {} as Record<string, any>); // 새로운 객체를 생성
+
+    setColumns(newColumns);
+
+    navigate(`/planner`);
+  };
+
   return (
     <div className="planner-pc-register">
       <div className="planner-pc-register-header">
@@ -332,14 +348,27 @@ const PlannerPcRegister = ({
           className="planner-pc-register-plan-title"
           onClick={() => setOpenPlan(!openPlan)}
         >
-          <span
-            className={`planner-pc-register-plan-title-icon${
-              openPlan ? " open" : ""
-            }`}
-          >
-            <LuChevronRight />
+          <span className="planner-pc-register-plan-title-left">
+            <span
+              className={`planner-pc-register-plan-title-icon${
+                openPlan ? " open" : ""
+              }`}
+            >
+              <LuChevronRight />
+            </span>
+            <span className="planner-pc-register-plan-title-name">일정</span>
           </span>
-          <span className="planner-pc-register-plan-title-name">일정</span>
+
+          {openPlan && (
+            <span className="planner-pc-register-plan-title-right">
+              <p
+                className="planner-pc-register-plan-title-delete"
+                onClick={() => deleteAll()}
+              >
+                모든 일정 삭제하기
+              </p>
+            </span>
+          )}
         </div>
 
         <div

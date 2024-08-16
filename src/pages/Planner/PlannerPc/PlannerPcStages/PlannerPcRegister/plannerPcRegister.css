@@ -83,20 +83,35 @@
 
     .planner-pc-register-plan-title {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 5px;
-      .planner-pc-register-plan-title-icon {
+
+      .planner-pc-register-plan-title-left {
         display: flex;
-        justify-content: center;
         align-items: center;
-        transition: all 0.3s ease-in-out;
+        gap: 5px;
+        .planner-pc-register-plan-title-icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: all 0.3s ease-in-out;
+        }
+        .planner-pc-register-plan-title-icon.open {
+          transform: rotate(90deg);
+          transition: all 0.3s ease-in-out;
+        }
+        .planner-pc-register-plan-title-name {
+          font-size: 14px;
+        }
       }
-      .planner-pc-register-plan-title-icon.open {
-        transform: rotate(90deg);
-        transition: all 0.3s ease-in-out;
-      }
-      .planner-pc-register-plan-title-name {
-        font-size: 14px;
+
+      .planner-pc-register-plan-title-right {
+        .planner-pc-register-plan-title-delete {
+          font-size: 14px;
+          color: red;
+          cursor: pointer;
+          margin-right: 20px;
+        }
       }
     }
     .planner-pc-register-plan-container {
