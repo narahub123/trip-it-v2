@@ -98,6 +98,7 @@
         z-index: 1;
         width: 50px;
         overflow-y: auto;
+        font-size: 12px;
 
         visibility: hidden;
         max-height: 0px;
@@ -105,19 +106,23 @@
         transition: all 0.2s ease-in-out;
 
         .planner-pc-place-card-api-main-dropdown-item {
-          padding: 5px;
+          padding: 3px;
           text-align: center;
         }
 
         .planner-pc-place-card-api-main-dropdown-item.selected {
-          padding: 5px;
+          padding: 3px;
           color: var(--basic-color);
           text-align: center;
+        }
+
+        .planner-pc-place-card-api-main-dropdown-item:hover {
+          color: var(--basic-color);
         }
       }
       .planner-pc-place-card-api-main-dropdown-container.active {
         visibility: visible;
-        max-height: 100px;
+        max-height: 90px;
         opacity: 1;
 
         transition: all 0.2s ease-in-out;

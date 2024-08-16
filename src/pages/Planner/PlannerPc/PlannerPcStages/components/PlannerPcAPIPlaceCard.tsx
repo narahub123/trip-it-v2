@@ -175,6 +175,29 @@ const PlannerPcAPIPlaceCard = ({
     setOpenDropdown(!openDropdown);
   };
 
+  // 매일 선택
+  const handleSelectAll = () => {
+    let newColumns = { ...columns };
+    for (let i = 0; i < dates.length; i++) {
+      const date = dates[i];
+      const column = newColumns[convertDateTypeToDate2(date)] || [];
+
+      const newColumnElem: ColumnType = {
+        place,
+        scheduleOrder: i,
+        startTime: "06:00",
+        endTime: "07:00",
+      };
+
+      const newColumn = [...column, newColumnElem];
+      newColumns = { ...newColumns, [convertDateTypeToDate2(date)]: newColumn };
+    }
+
+    console.log(newColumns);
+
+    setColumns({ ...newColumns });
+  };
+
   // 저장된 장소의 위치 확인
   const WhereCheckedPlace = (contentId: string, index: number) => {
     return (
@@ -260,6 +283,12 @@ const PlannerPcAPIPlaceCard = ({
             }`}
             ref={listRef}
           >
+            <li
+              className="planner-pc-place-card-api-main-dropdown-item"
+              onClick={() => handleSelectAll()}
+            >
+              매일
+            </li>
             {dates.map((date, index) => (
               <li
                 key={convertDateTypeToDate2(date)}

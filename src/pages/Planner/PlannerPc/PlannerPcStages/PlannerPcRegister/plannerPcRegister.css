@@ -148,6 +148,7 @@
       background-color: var(--basic-color);
       color: #fff;
       transition: all 0.3s ease-in-out;
+      cursor: pointer;
     }
 
     .register-btn-valid.submitting {

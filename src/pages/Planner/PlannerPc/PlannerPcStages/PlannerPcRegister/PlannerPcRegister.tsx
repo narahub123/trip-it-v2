@@ -81,11 +81,18 @@ const PlannerPcRegister = ({
     e.stopPropagation();
     const value = e.target.value;
 
-    setTitle(value);
+    console.log(value.length);
 
-    if (value.length > 1) {
+    if (value.length > 1 && value.length < 50) {
       setValid(true);
+      setTitle(value);
+    }
+    if (value.length > 50) {
+      window.alert(`제목은 50자 이내로 작성해주세요`);
+      setValid(false);
+      return;
     } else {
+      setTitle(value);
       setValid(false);
     }
   };
@@ -276,8 +283,6 @@ const PlannerPcRegister = ({
     setColumns(updatedColumns);
   };
 
-  if (planValid) console.log(Object.values(planValid).every(Boolean));
-
   return (
     <div className="planner-pc-register">
       <div className="planner-pc-register-header">
@@ -342,31 +347,35 @@ const PlannerPcRegister = ({
           <div className="planner-pc-register-plan-date-container">
             {dates.map((item, index) => {
               const column = columns[convertDateTypeToDate2(item)];
-              return (
-                <RegisterDate
-                  key={convertDateTypeToDate1(item)}
-                  setOpenMenu={setOpenMenu}
-                  index={index}
-                  curDate={item}
-                  selectedDate={selectedDate}
-                  setDate={setDate}
-                  dates={dates}
-                  metroId={metroId}
-                  column={column}
-                  columns={columns}
-                  setColumns={setColumns}
-                  dragStart={dragStart}
-                  dragOver={dragOver}
-                  dragEnd={dragEnd}
-                  drop={drop}
-                  droppable={droppable}
-                  handleDateDragStart={handleDateDragStart}
-                  handleDateDragOver={handleDateDragOver}
-                  handleDateDragEnd={handleDateDragEnd}
-                  handleDateDrop={handleDateDrop}
-                  setPlanValid={setPlanValid}
-                />
-              );
+              if (column.length === 0) {
+                return <li></li>;
+              } else {
+                return (
+                  <RegisterDate
+                    key={convertDateTypeToDate1(item)}
+                    setOpenMenu={setOpenMenu}
+                    index={index}
+                    curDate={item}
+                    selectedDate={selectedDate}
+                    setDate={setDate}
+                    dates={dates}
+                    metroId={metroId}
+                    column={column}
+                    columns={columns}
+                    setColumns={setColumns}
+                    dragStart={dragStart}
+                    dragOver={dragOver}
+                    dragEnd={dragEnd}
+                    drop={drop}
+                    droppable={droppable}
+                    handleDateDragStart={handleDateDragStart}
+                    handleDateDragOver={handleDateDragOver}
+                    handleDateDragEnd={handleDateDragEnd}
+                    handleDateDrop={handleDateDrop}
+                    setPlanValid={setPlanValid}
+                  />
+                );
+              }
             })}
           </div>
         </div>
@@ -376,7 +385,11 @@ const PlannerPcRegister = ({
           className={`register-btn${
             valid && Object.values(planValid).every(Boolean) ? "-valid" : ""
           }${isSubmitting ? " submitting" : ""}`}
-          onClick={() => handleSubmit()}
+          onClick={
+            valid && Object.values(planValid).every(Boolean)
+              ? () => handleSubmit()
+              : undefined
+          }
         >
           <span>
             {isSubmitting ? (

@@ -93,6 +93,14 @@
         border-radius: 5px;
         padding: 5px;
         cursor: pointer;
+        text-align: center;
+
+        p {
+          width: 30px;
+        }
+      }
+      .planner-pc-places-selected-tags-tag-nodate {
+        padding: 5px;
       }
 
       .planner-pc-places-selected-tags-tag.active {
@@ -114,6 +122,11 @@
       overflow-x: hidden;
       height: 300px;
       padding-right: 5px;
+    }
+    .planner-pc-places-selected-list-noplace {
+      flex: 1;
+      text-align: center;
+      margin: 33% 0;
     }
   }
 }

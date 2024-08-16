@@ -155,6 +155,9 @@ const PlannerPcPlaces = ({
 
   const observer = new IntersectionObserver(callback, options);
 
+  console.log("컬럼", column);
+  console.log("날짜", dates);
+
   // contentTypeId 변경하기
   const handleContentTypeId = useCallback(
     (contentTypeId: string) => {
@@ -169,6 +172,7 @@ const PlannerPcPlaces = ({
   );
   return (
     <div className="planner-pc-places">
+      {/* api */}
       <section className="planner-pc-places-place">
         <div className="planner-pc-places-place-tags">
           <ul className="planner-pc-places-place-tags-container">
@@ -215,9 +219,9 @@ const PlannerPcPlaces = ({
         <div
           className={`planner-pc-places-place-list${loading ? " loading" : ""}`}
         >
-          {places.map((place) => (
+          {places.map((place, index) => (
             <PlannerPcAPIPlaceCard
-              key={place.contentid}
+              key={`${place.contentid}_${index}`}
               dates={dates}
               place={place}
               metroId={metroId}
@@ -237,8 +241,14 @@ const PlannerPcPlaces = ({
           </li>
         </div>
       </section>
+      {/* 선택한 장소들 */}
       <section className="planner-pc-places-selected">
         <div className="planner-pc-places-selected-tags">
+          {dates.length === 0 && (
+            <li className="planner-pc-places-selected-tags-tag-nodate">
+              날짜를 선택해주세요
+            </li>
+          )}
           {dates.map((item) => (
             <li
               key={convertDateTypeToDate1(item)}
@@ -249,13 +259,17 @@ const PlannerPcPlaces = ({
               }`}
               onClick={() => setDate(item)}
             >
-              {convertDateTypeToDate1(item)}
+              <p>{convertDateTypeToDate1(item)}</p>
             </li>
           ))}
         </div>
         <div className="planner-pc-places-selected-list">
-          {!date && <li>날짜를 선택해주세요</li>}
-          {date && !column && <li>장소를 선택해주세요</li>}
+          {((column && column.length === 0) ||
+            (!column && dates.length === 0)) && (
+            <li className="planner-pc-places-selected-list-noplace">
+              <p>장소를 선택해주세요</p>
+            </li>
+          )}
           {date &&
             column &&
             column.map((item, index) => (
