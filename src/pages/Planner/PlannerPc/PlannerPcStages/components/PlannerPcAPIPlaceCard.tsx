@@ -1,7 +1,7 @@
 import { fetchPlaceAPI } from "apis/place";
 import "./plannerPcAPIPlaceCard.css";
 import { metros } from "data/metros";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { LuCheck, LuChevronDown, LuPhoneCall, LuPlus } from "react-icons/lu";
 import { PlaceApiType } from "types/place";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
@@ -71,6 +71,32 @@ const PlannerPcAPIPlaceCard = ({
       document.removeEventListener("mousedown", handleClickOutside); // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
     };
   }, []);
+
+  useLayoutEffect(() => {
+    if (listRef.current && openDropdown) {
+      const checkContentLoad = () => {
+        if (!listRef.current) return;
+        const rect = listRef.current.getBoundingClientRect();
+        console.log("Measured height after content load:", rect.height);
+
+        const bottomSpace = window.innerHeight - rect.bottom;
+
+        console.log(bottomSpace);
+
+        if (bottomSpace < rect.height) {
+          listRef.current.style.top = `-${rect.height}px`;
+        } else {
+          listRef.current.style.top = "48px"; // 기본 위치 유지
+        }
+      };
+
+      // 예: 콘텐츠가 로드된 후 실행
+      setTimeout(checkContentLoad, 300);
+    } else {
+      if (!listRef.current) return;
+      listRef.current.style.top = "48px"; // 기본 위치 유지
+    }
+  }, [openDropdown]);
 
   // 설명 받기
   const getOverview = (
@@ -256,8 +282,24 @@ const PlannerPcAPIPlaceCard = ({
               <p className="planner-pc-place-card-api-main-info-detail-title-name">
                 {getPureletter(place.title)}
               </p>
-              <span className="planner-pc-place-card-api-main-info-detail-title-more">
-                <LuChevronDown />
+              <span
+                className={`planner-pc-place-card-api-main-info-detail-title-tag${
+                  place.contenttypeid === "12"
+                    ? " tour"
+                    : place.contenttypeid === "14"
+                    ? " culture"
+                    : place.contenttypeid === "39"
+                    ? " food"
+                    : " accommo"
+                }`}
+              >
+                {place.contenttypeid === "12"
+                  ? "관광"
+                  : place.contenttypeid === "14"
+                  ? "문화"
+                  : place.contenttypeid === "39"
+                  ? "음식"
+                  : "숙소"}
               </span>
             </div>
             <div className="planner-pc-place-card-api-main-info-detail-addr">

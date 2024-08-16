@@ -45,8 +45,20 @@
             font-size: 12px;
             font-weight: bold;
           }
-          .planner-pc-place-card-api-main-info-detail-title-more {
+          .planner-pc-place-card-api-main-info-detail-title-tag {
             font-size: 12px;
+          }
+          .planner-pc-place-card-api-main-info-detail-title-tag.tour {
+            color: blue;
+          }
+          .planner-pc-place-card-api-main-info-detail-title-tag.culture {
+            color: red;
+          }
+          .planner-pc-place-card-api-main-info-detail-title-tag.food {
+            color: green;
+          }
+          .planner-pc-place-card-api-main-info-detail-title-tag.accommo {
+            color: pink;
           }
         }
         .planner-pc-place-card-api-main-info-detail-addr {

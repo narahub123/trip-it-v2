@@ -89,6 +89,7 @@ const PlannerPcRegister = ({
     if (value.length > 1 && value.length < 50) {
       setValid(true);
       setTitle(value);
+      return;
     }
     if (value.length > 50) {
       window.alert(`제목은 50자 이내로 작성해주세요`);
@@ -97,6 +98,7 @@ const PlannerPcRegister = ({
     } else {
       setTitle(value);
       setValid(false);
+      return
     }
   };
 
@@ -301,6 +303,10 @@ const PlannerPcRegister = ({
 
     navigate(`/planner`);
   };
+
+  console.log(valid);
+
+  console.log(Object.values(planValid).every(Boolean));
 
   return (
     <div className="planner-pc-register">

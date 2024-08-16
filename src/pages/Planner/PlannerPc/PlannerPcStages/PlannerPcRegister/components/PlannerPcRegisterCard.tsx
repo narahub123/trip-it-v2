@@ -410,8 +410,24 @@ const PlannerPcRegisterCard = ({
                 <p className="planner-pc-register-card-main-info-detail-title-name">
                   {getPureletter(detail.place.title)}
                 </p>
-                <span className="planner-pc-register-card-main-info-detail-title-more">
-                  <LuChevronDown />
+                <span
+                  className={`planner-pc-register-card-main-info-detail-title-tag${
+                    detail.place.contenttypeid === "12"
+                      ? " tour"
+                      : detail.place.contenttypeid === "14"
+                      ? " culture"
+                      : detail.place.contenttypeid === "39"
+                      ? " food"
+                      : " accommo"
+                  }`}
+                >
+                  {detail.place.contenttypeid === "12"
+                    ? "관광"
+                    : detail.place.contenttypeid === "14"
+                    ? "문화"
+                    : detail.place.contenttypeid === "39"
+                    ? "음식"
+                    : "숙소"}
                 </span>
               </div>
               <div className="planner-pc-register-card-main-info-detail-addr">

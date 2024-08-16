@@ -88,8 +88,20 @@
             overflow: hidden;
             text-overflow: ellipsis;
           }
-          .planner-pc-place-card-date-main-info-detail-title-more {
+          .planner-pc-place-card-date-main-info-detail-title-tag {
             font-size: 12px;
+          }
+          .planner-pc-place-card-date-main-info-detail-title-tag.tour {
+            color: blue;
+          }
+          .planner-pc-place-card-date-main-info-detail-title-tag.culture {
+            color: red;
+          }
+          .planner-pc-place-card-date-main-info-detail-title-tag.food {
+            color: green;
+          }
+          .planner-pc-place-card-date-main-info-detail-title-tag.accommo {
+            color: pink;
           }
         }
         .planner-pc-place-card-date-main-info-detail-addr {

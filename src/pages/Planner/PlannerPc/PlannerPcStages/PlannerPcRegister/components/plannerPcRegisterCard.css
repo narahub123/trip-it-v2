@@ -91,8 +91,20 @@
             overflow: hidden;
             text-overflow: ellipsis;
           }
-          .planner-pc-register-card-main-info-detail-title-more {
+          .planner-pc-register-card-main-info-detail-title-tag {
             font-size: 12px;
+          }
+          .planner-pc-register-card-main-info-detail-title-tag.tour {
+            color: blue;
+          }
+          .planner-pc-register-card-main-info-detail-title-tag.culture {
+            color: red;
+          }
+          .planner-pc-register-card-main-info-detail-title-tag.food {
+            color: green;
+          }
+          .planner-pc-register-card-main-info-detail-title-tag.accommo {
+            color: pink;
           }
         }
         .planner-pc-register-card-main-info-detail-addr {
