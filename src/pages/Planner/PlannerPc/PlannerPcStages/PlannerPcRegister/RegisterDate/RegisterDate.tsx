@@ -23,9 +23,11 @@ export interface PlannerPcRegisterCardProps {
   handleDateDragOver: (e: React.DragEvent<HTMLElement>) => void;
   handleDateDragEnd: (e: React.DragEvent<HTMLElement>) => void;
   handleDateDrop: (e: React.DragEvent<HTMLElement>) => void;
+  setOpenMenu: (value: boolean) => void;
 }
 const RegisterDate = ({
   index,
+  setOpenMenu,
   curDate,
   selectedDate,
   setDate,
@@ -50,6 +52,11 @@ const RegisterDate = ({
 
   const selected =
     convertDateTypeToDate1(selectedDate) === convertDateTypeToDate1(curDate);
+
+  const handleOpenMap = (date: Date) => {
+    setDate(curDate);
+    setOpenMenu(false);
+  };
   return (
     <section
       className={`planner-pc-register-plan-date-item${
@@ -62,12 +69,17 @@ const RegisterDate = ({
       onDragOver={(e) => handleDateDragOver(e)}
       onDrop={(e) => handleDateDrop(e)}
     >
-      <p
+      <div
         className="planner-pc-register-plan-date-item-title"
-        onClick={() => setDate(curDate)}
+        onClick={() => handleOpenMap(curDate)}
       >
-        {`Day${index + 1} : ${convertDateTypeToDate1(curDate)}`}
-      </p>
+        <p className="planner-pc-register-plan-date-item-title-name">{`Day${
+          index + 1
+        } : ${convertDateTypeToDate1(curDate)}`}</p>
+        <p className="planner-pc-register-plan-date-item-title-map">
+          지도 보기
+        </p>
+      </div>
       <ul className="planner-pc-register-plan-date-item-container">
         {column.length !== 0 && (
           <li

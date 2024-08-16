@@ -165,6 +165,7 @@ const PlannerPcStages = ({
               dates={dates}
               selectedDate={date}
               setDate={setDate}
+              setOpenMenu={setOpenMenu}
             />
           )}
         </div>

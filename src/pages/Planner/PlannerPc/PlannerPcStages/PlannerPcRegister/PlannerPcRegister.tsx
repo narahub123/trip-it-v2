@@ -19,6 +19,7 @@ interface PlannerPcRegisterProps {
   dates: Date[];
   selectedDate: Date;
   setDate: (value: Date) => void;
+  setOpenMenu: (value: boolean) => void;
 }
 
 const PlannerPcRegister = ({
@@ -28,6 +29,7 @@ const PlannerPcRegister = ({
   dates,
   selectedDate,
   setDate,
+  setOpenMenu,
 }: PlannerPcRegisterProps) => {
   const renderCount = useRenderCount();
   const [valid, setValid] = useState(false);
@@ -273,6 +275,7 @@ const PlannerPcRegister = ({
               return (
                 <RegisterDate
                   key={convertDateTypeToDate1(item)}
+                  setOpenMenu={setOpenMenu}
                   index={index}
                   curDate={item}
                   selectedDate={selectedDate}
