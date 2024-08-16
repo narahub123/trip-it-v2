@@ -130,7 +130,8 @@
         right: 0;
         top: 45px;
         z-index: 1;
-        width: 70px;
+        width: 50px;
+        font-size: 14px;
         overflow-y: auto;
 
         visibility: hidden;
@@ -139,12 +140,12 @@
         transition: all 0.2s ease-in-out;
 
         .planner-pc-place-card-date-main-dropdown-item {
-          padding: 5px;
+          padding: 4px;
           text-align: center;
         }
 
         .planner-pc-place-card-date-main-dropdown-item.selected {
-          padding: 5px;
+          padding: 4px;
           color: var(--basic-color);
           text-align: center;
         }

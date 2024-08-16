@@ -132,8 +132,9 @@
         border-radius: 5px;
         top: 100%;
         right: 0;
-        width: 60px;
+        width: 50px;
         z-index: 1;
+        font-size: 14px;
 
         overflow-y: auto;
 
@@ -143,12 +144,12 @@
         transition: all 0.2s ease-in-out;
 
         .planner-pc-register-card-main-dropdown-item {
-          padding: 5px;
+          padding: 4px;
           text-align: center;
         }
 
         .planner-pc-register-card-main-dropdown-item.selected {
-          padding: 5px;
+          padding: 4px;
           color: var(--basic-color);
           text-align: center;
         }

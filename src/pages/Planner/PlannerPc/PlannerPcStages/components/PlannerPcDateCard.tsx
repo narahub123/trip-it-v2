@@ -428,6 +428,10 @@ const PlannerPcDateCard = ({
             {dates.map((day, index) => {
               if (convertDateTypeToDate2(day) === convertDateTypeToDate2(date))
                 return;
+
+              if (WhereCheckedPlace(detail.place.contentid, index)) {
+                return;
+              }
               return (
                 <li
                   key={convertDateTypeToDate2(day)}

@@ -435,6 +435,9 @@ const PlannerPcRegisterCard = ({
               </li>
               {dates.map((day, index) => {
                 if (day === curDate) return;
+                if (WhereCheckedPlace(detail.place.contentid, index)) {
+                  return;
+                }
                 return (
                   <li
                     key={convertDateTypeToDate2(day)}
