@@ -37,9 +37,13 @@
         font-size: 12px;
         padding: 5px 0;
         display: flex;
+        align-items: center;
         gap: 3px;
         align-items: baseline;
         .mobile-mypage-template-item-textarea-duration-icon {
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .mobile-mypage-template-item-textarea-duration-text {
         }
@@ -51,9 +55,13 @@
         .mobile-mypage-template-item-textarea-regdate {
           font-size: 12px;
           display: flex;
+          align-items: center;
           gap: 3px;
           align-items: baseline;
           .mobile-mypage-template-item-textarea-regdate-duration-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
           .mobile-mypage-template-item-textarea-regdate-duration-text {
           }

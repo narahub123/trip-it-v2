@@ -42,7 +42,6 @@ const TemplateTable = ({
 }: TemplateTableProps) => {
   const renderCount = useRenderCount();
 
-  console.log("아이템", items);
   // 페이징
   const offset = (page - 1) * size;
 
@@ -51,8 +50,6 @@ const TemplateTable = ({
   const lengthOfItems =
     items.length !== 0
       ? items.filter((item) => {
-          console.log("중첩", field.nested);
-
           return field.nested
             ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
             : item[field.name].includes(search);
@@ -120,10 +117,6 @@ const TemplateTable = ({
           loading === false &&
           items
             .filter((item) => {
-              console.log("아이템", item);
-
-              console.log("중첩 ", field.nested);
-
               return field.nested
                 ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
                 : item[field.name].includes(search);
@@ -137,22 +130,20 @@ const TemplateTable = ({
                 >
                   {tempArray.map((body, i) => {
                     return (
-                      <>
-                        <td
-                          className="mypage-template-main-table-body-td"
-                          key={`${item._id}_${tempArray[i].field}_${i}`}
-                        >
-                          {getResult(
-                            body,
-                            item,
-                            index,
-                            items,
-                            setItems,
-                            setMessage,
-                            setDeletes
-                          )}
-                        </td>
-                      </>
+                      <td
+                        className="mypage-template-main-table-body-td"
+                        key={`${item._id}_${tempArray[i].field}_${i}`}
+                      >
+                        {getResult(
+                          body,
+                          item,
+                          index,
+                          items,
+                          setItems,
+                          setMessage,
+                          setDeletes
+                        )}
+                      </td>
                     );
                   })}
                 </tr>

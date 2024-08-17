@@ -85,12 +85,12 @@ export const fetchSchedulesAAPI = async (
 };
 
 // 마이페이지 일정 삭제
-export const deleteSchedulesMAPI = async (sheduleIds: (string | number)[]) => {
+export const deleteSchedulesMAPI = async (scheduleIds: (string | number)[]) => {
   try {
     const response = await axios.post(
-      `${baseURL}/mypage/schedules/delete`,
+      `${baseURL}/mypage/schedules/delete-schedules`,
       {
-        sheduleIds,
+        scheduleIds,
       },
       {
         headers: {
@@ -103,8 +103,16 @@ export const deleteSchedulesMAPI = async (sheduleIds: (string | number)[]) => {
     );
 
     return response;
-  } catch (err) {
-    throw { err };
+  } catch (err: any) {
+    console.log(err);
+
+    const code = err.response.data.code;
+
+    if (code === 1) {
+      console.log("권한 없음");
+    }
+
+    throw { code: 1 };
   }
 };
 

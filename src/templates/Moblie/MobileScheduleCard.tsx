@@ -10,6 +10,7 @@ import { convertYYYYMMDDToDate2 } from "utilities/date";
 import { getMetroName } from "utilities/metros";
 import { convertDataToDate } from "utilities/profile";
 import { handleSelect } from "./utilities/schedule";
+import { metros } from "data/metros";
 
 export interface MobileScheduleCardProps {
   selections: (string | number)[];
@@ -22,6 +23,10 @@ const MobileScheduleCard = ({
   setSelections,
   item,
 }: MobileScheduleCardProps) => {
+  const defaultImage = metros.find(
+    (metro) => metro.areaCode === item.metroId
+  )?.imgUrl;
+
   return (
     <li className="mobile-mypapage-template-schedule-card">
       <div className="moblie-mypage-template-item-select">
@@ -43,7 +48,7 @@ const MobileScheduleCard = ({
         className="mobile-mypage-template-link"
       >
         <div className="mobile-mypage-template-item-photoarea">
-          <img src="/images/defaultImage.jpg" alt="지역사진" />
+          <img src={defaultImage} alt="지역사진" />
         </div>
         <div className="mobile-mypage-template-item-textarea">
           <p className="mobile-mypage-template-item-textarea-title">

@@ -1,8 +1,6 @@
 import { deleteSchedulesMAPI, fetchSchedulesMAPI } from "apis/schedule";
-import React from "react";
 import { schedulesMsgs } from "templates/data/message";
 import { scheduleMArray } from "templates/data/template";
-import MobileScheduleCard from "templates/Moblie/MobileScheduleCard";
 import MoblieTemplateM from "templates/Moblie/MoblieTemplateM";
 import Template from "templates/mypage/Template";
 import { scheduleArray } from "test/data/schedules";

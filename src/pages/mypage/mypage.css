@@ -80,8 +80,11 @@
   .chat {
     display: none;
   }
+  .mypage-title {
+    display: none;
+  }
   .mypage {
-    margin-top: 10px;
+    margin-top: 80px;
   }
   .mypage-header {
     display: none;
@@ -89,8 +92,12 @@
 
   .mypage-header-chip {
     display: block;
+    margin-top: 100px;
   }
 
+  .mobile-template-header {
+    display: none;
+  }
   .mypage-profile {
     display: none;
   }

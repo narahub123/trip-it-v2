@@ -14,6 +14,7 @@ import MobilePostCard from "./MobilePostCard";
 import MobileBlockCard from "./MobileBlockCard";
 import MobileReportCard from "./MobileReportCard";
 import { fetchMessage } from "templates/utilities/template";
+import { handleDeleteSchedules } from "./utilities/schedule";
 
 interface MobileTEmplateMProps {
   pageName: string;
@@ -79,11 +80,7 @@ const MoblieTemplateM = ({
       });
   }, []);
 
-  console.log("정렬 정보", sort);
-  console.log("목록 정보", items);
-  console.log("검색 필드", field);
-  console.log("선택 목록", selections);
-  console.log("검색어", search);
+  const handleDelete = () => {};
 
   return (
     <div className="mobile-mypage-template">
@@ -125,7 +122,17 @@ const MoblieTemplateM = ({
             selections.length === 0 ? "" : "-active"
           }`}
         >
-          {selections.length !== 0 && <p>삭제</p>}
+          {selections.length !== 0 && (
+            <p
+              onClick={
+                pageName === "mypage-schedules"
+                  ? () => handleDeleteSchedules(selections, items, setItems)
+                  : () => handleDelete()
+              }
+            >
+              삭제
+            </p>
+          )}
         </section>
         <section className="mobile-mypage-template-list">
           {items
@@ -162,13 +169,14 @@ const MoblieTemplateM = ({
                 return item[field.name].includes(search);
               })
               .slice(offset, offset + size)
-              .map((item) => (
-                <li className="mobile-mypage-template-item">
+              .map((item, index) => (
+                <div className="mobile-mypage-template-item" key={index}>
                   {pageName === "mypage-schedules" ? (
                     <MobileScheduleCard
                       selections={selections}
                       setSelections={setSelections}
                       item={item}
+                      key={item.scheduleId}
                     />
                   ) : (
                     pageName === "mypage-posts" && (
@@ -176,10 +184,11 @@ const MoblieTemplateM = ({
                         selections={selections}
                         setSelections={setSelections}
                         item={item}
+                        key={item.postId}
                       />
                     )
                   )}
-                </li>
+                </div>
               ))}
         </section>
       </div>

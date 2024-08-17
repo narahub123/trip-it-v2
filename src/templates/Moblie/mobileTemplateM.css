@@ -45,3 +45,65 @@
     }
   }
 }
+
+@media screen and (max-width: 761px) {
+  .mobile-mypage-template {
+    .mobile-mypage-template-container {
+      .mobile-mypage-template-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 761px) and (max-width: 950px) {
+  .mobile-mypage-template {
+    .mobile-mypage-template-container {
+      .mobile-mypage-template-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+  }
+}
+@media screen and (min-width: 951px) {
+  .mobile-mypage-template {
+    .mobile-mypage-template-container {
+      .mobile-mypage-template-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(
+            0,
+            1fr
+          );
+      }
+    }
+  }
+}
+
+.scroll {
+  display: inline-block;
+  width: 250px;
+  height: 250px;
+  padding: 20px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  box-sizing: border-box;
+  color: white;
+  font-family: "Nanum Gothic";
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 스크롤바 설정*/
+.schedule-pc-stages-main-update::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* 스크롤바 막대 설정*/
+.schedule-pc-stages-main-update::-webkit-scrollbar-thumb {
+  background-color: var(--basic-color);
+  /* 스크롤바 둥글게 설정    */
+  /* border-radius: 10px; */
+}
+
+/* 스크롤바 뒷 배경 설정*/
+.schedule-pc-stages-main-update::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
