@@ -158,6 +158,7 @@ const PlannerPcStages = ({
                   : hash === "#places"
                   ? " (장소 선택 중)"
                   : " (일정 등록 중)"}
+                {" - " + convertDateTypeToDate2(date)}
               </p>
             )}
           </span>
