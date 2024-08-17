@@ -219,19 +219,23 @@ export const getPositions = async (places: PlaceApiType[]) => {
     });
   };
 
-  const promises = places.map((place) =>
+  const promises = places.map((place, index) =>
     addressToCoords(place.addr1).then((coords) => {
       if (coords) {
-        positions.push({
+        // 인덱스에 맞게 positions 배열에 값을 설정합니다.
+        positions[index] = {
           title: getPureletter(place.title),
           latlng: coords,
-        });
+        };
       }
     })
   );
 
   await Promise.all(promises);
-  return positions;
+
+  console.log("재배치 배열", positions);
+
+  return positions.filter((position) => position !== undefined);
 };
 
 export const calcMinutes = (duration: number) => {

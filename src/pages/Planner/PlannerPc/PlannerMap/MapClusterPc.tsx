@@ -98,6 +98,7 @@ const MapClusterPc = ({
           };
 
           const positions = await getPositions(places);
+
           const map = new kakao.maps.Map(mapContainer, mapOption);
 
           // 최저 레벨 설정하기
