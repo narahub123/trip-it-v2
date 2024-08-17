@@ -1,5 +1,6 @@
+import "./schedule.css";
 import React, { useEffect, useState } from "react";
-import MobileSchedule from "./MobileSchedule";
+
 import Footer from "templates/Moblie/components/Footer";
 import { fetchScheduleDetails } from "apis/schedule";
 import { useLocation } from "react-router-dom";
@@ -13,9 +14,11 @@ import { fetchPlaceAPI } from "apis/place";
 import { ColumnType } from "types/plan";
 import ScheduleMobile from "./Mobile/ScheduleMobile";
 import { MessageType } from "types/template";
+import SchedulePc from "./Pc/SchedulePc";
+import { InfoType } from "pages/Planner/PlannerPc/PlannerPc";
+import useFetchInfos from "hooks/useFetchInfos";
 
 const Schedule = () => {
-  const { hash, pathname } = useLocation();
   const [message, setMessage] = useState<MessageType>();
   const { state } = useLocation();
   const [scheduleDetails, setScheduleDetails] = useState<ScheduleDetailType[]>(
@@ -32,16 +35,18 @@ const Schedule = () => {
     registerDate,
   } = state;
 
+  console.log(state);
+
   const [title, setTitle] = useState(scheduleTitle);
 
-  console.log(startDate, endDate);
+  // 시작일과 종료일
+  console.log(state);
 
   const start = convertYYYYMMDDToDateType(startDate);
   const end = convertYYYYMMDDToDateType(endDate);
-
-  console.log(start, end);
-
   const [dates, setDates] = useState(getDateArr(start, end));
+  const [selectedDate, setSelectedDate] = useState(dates[0]);
+
   // 일정 상세 받기
   useEffect(() => {
     const fetchDetails = async () => {
@@ -109,12 +114,25 @@ const Schedule = () => {
     }
   }, [scheduleDetails]);
 
-  console.log(columns);
+  const allInfos = useFetchInfos({ columns, dates });
 
   return (
-    <>
+    <div className="schedule">
       {message ? <div className="planner-modal"></div> : undefined}
 
+      <SchedulePc
+        title={title}
+        setTitle={setTitle}
+        metroId={metroId}
+        dates={dates}
+        setDates={setDates}
+        columns={columns}
+        setColumns={setColumns}
+        registerDate={registerDate}
+        schedule={state}
+        scheduleDetails={scheduleDetails}
+        allInfos={allInfos}
+      />
       <ScheduleMobile
         title={title}
         setTitle={setTitle}
@@ -127,10 +145,9 @@ const Schedule = () => {
         schedule={state}
         scheduleDetails={scheduleDetails}
       />
-
       <div className="mypage-footer-blank" />
       <Footer />
-    </>
+    </div>
   );
 };
 

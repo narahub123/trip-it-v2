@@ -1,37 +1,19 @@
-import { useEffect, useState } from "react";
-import "./plannerPcStages.css";
+import "./schedulePcStages.css";
+import { PlannerPcStagesProps } from "pages/Planner/PlannerPc/PlannerPcStages/PlannerPcStages";
+import { useState } from "react";
 import { LuChevronLeft, LuChevronUp, LuX } from "react-icons/lu";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ColumnType } from "types/plan";
-import PlannerPcPlaces from "./PlannerPcPlaces/PlannerPcPlaces";
 import { convertDateTypeToDate2 } from "utilities/date";
-import PlannerPcCalendar from "./PlannerPcCalender/PlannerPcCalendar";
-import PlannerPcRegister from "./PlannerPcRegister/PlannerPcRegister";
-import { InfoType } from "../PlannerPc";
+import SchedulePcUpdate from "./SchedulePcUpdate/SchedulePcUpdate";
+import SchedulePcPlaces from "./SchedulePcPlaces/SchedulePcPlaces";
+import SchedulePcCalendars from "./SchedulePcCalendar/SchedulePcCalendars";
 
-export interface PlannerPcStagesProps {
-  metroId: string;
-  setSelectedDate: (value: Date) => void;
-  dates: Date[];
-  setDates: (value: Date[]) => void;
-  columns: { [key: string]: ColumnType[] };
-  setColumns: React.Dispatch<
-    React.SetStateAction<{
-      [key: string]: ColumnType[];
-    }>
-  >;
-  date: Date;
-  setDate: (value: Date) => void;
-  infos: (
-    | { distance: number | string; duration: number | string }
-    | undefined
-  )[];
-  allInfos: {
-    [key: string]: (InfoType | undefined)[];
-  };
+export interface SchedulePcStageProps extends PlannerPcStagesProps {
+  title: string;
+  setTitle: (value: string) => void;
 }
 
-const PlannerPcStages = ({
+const SchedulePcStages = ({
   metroId,
   setSelectedDate,
   dates,
@@ -42,8 +24,10 @@ const PlannerPcStages = ({
   setDate,
   infos,
   allInfos,
-}: PlannerPcStagesProps) => {
-  const { hash } = useLocation();
+  title,
+  setTitle,
+}: SchedulePcStageProps) => {
+  const { hash, state } = useLocation();
   const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(true);
   const today = new Date();
@@ -51,16 +35,10 @@ const PlannerPcStages = ({
   const curMonth = today.getMonth();
   const [month, setMonth] = useState(curMonth);
 
-  useEffect(() => {
-    dates.forEach((date) => {
-      columns[convertDateTypeToDate2(date)] = [];
-    });
-  }, [dates]);
-
   const moveForward = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
     if (hash === "#calendars") {
-      navigate(`/planner`);
+      navigate(`/mypage/schedules`);
     } else if (hash === "#places") {
       navigate(`#calendars`);
     } else {
@@ -99,15 +77,15 @@ const PlannerPcStages = ({
         window.alert(`날짜 선택을 완료해주세요`);
         return;
       }
-      navigate(`#places`);
-    } else if (destiny === "#register") {
+      navigate(`#places`, { state });
+    } else if (destiny === "#update") {
       if (dates.length < 2) {
         window.alert(`날짜 선택을 완료해주세요`);
-        navigate(`#calendars`);
+        navigate(`#calendars`, { state });
         return;
       }
       if (validPlaces()) {
-        navigate(`#register`);
+        navigate(`#update`, { state });
       }
     }
   };
@@ -116,37 +94,37 @@ const PlannerPcStages = ({
     <>
       {openMenu && (
         <div
-          className="planner-pc-cover"
+          className="schedule-pc-cover"
           onClick={() => setOpenMenu(!openMenu)}
         />
       )}
       <div
-        className={`planner-pc-stages${
-          openMenu && (hash === "#calendars" || !hash)
+        className={`schedule-pc-stages${
+          openMenu && hash === "#calendars"
             ? " calendars"
             : openMenu && hash === "#places"
             ? " places"
-            : openMenu && hash === "#register"
-            ? " register"
+            : openMenu && (hash === "#update" || !hash)
+            ? " update"
             : ""
         }`}
       >
         <div
-          className={`planner-pc-stages-header${openMenu ? "" : " close"}`}
+          className={`schedule-pc-stages-header${openMenu ? "" : " close"}`}
           onClick={() => setOpenMenu(!openMenu)}
         >
           <span
-            className="planner-pc-stages-header-btn"
+            className="schedule-pc-stages-header-btn"
             onClick={(e) => moveForward(e)}
           >
             {openMenu && (
-              <p className="planner-pc-stages-header-btn-icon">
+              <p className="schedule-pc-stages-header-btn-icon">
                 <LuChevronLeft />
               </p>
             )}
           </span>
           <span
-            className={`planner-pc-stages-header-title${
+            className={`schedule-pc-stages-header-title${
               openMenu ? "" : " close"
             }`}
           >
@@ -157,27 +135,27 @@ const PlannerPcStages = ({
                   ? " (날짜 선택 중)"
                   : hash === "#places"
                   ? " (장소 선택 중)"
-                  : " (일정 등록 중)"}
+                  : " (일정 수정 중)"}
               </p>
             )}
           </span>
-          <span className="planner-pc-stages-header-btn">
-            <p className="planner-pc-stages-header-btn-icon">
+          <span className="schedule-pc-stages-header-btn">
+            <p className="schedule-pc-stages-header-btn-icon">
               {openMenu ? <LuX /> : <LuChevronUp />}
             </p>
           </span>
         </div>
-        <div className="planner-pc-stages-menus">
+        <div className="schedule-pc-stages-menus">
           <li
-            className={`planner-pc-stages-menus-menu${
-              hash === "#calendars" || !hash ? " active" : ""
+            className={`schedule-pc-stages-menus-menu${
+              hash === "#calendars" ? " active" : ""
             }`}
-            onClick={() => navigate(`#calendars`)}
+            onClick={() => navigate(`#calendars`, { state })}
           >
             날짜
           </li>
           <li
-            className={`planner-pc-stages-menus-menu${
+            className={`schedule-pc-stages-menus-menu${
               hash === "#places" ? " active" : ""
             }`}
             onClick={() => handleMoveTo(`#places`)}
@@ -185,17 +163,17 @@ const PlannerPcStages = ({
             장소
           </li>
           <li
-            className={`planner-pc-stages-menus-menu${
-              hash === "#register" ? " active" : ""
+            className={`schedule-pc-stages-menus-menu${
+              hash === "#update" || !hash ? " active" : ""
             } `}
-            onClick={() => handleMoveTo(`#register`)}
+            onClick={() => handleMoveTo(`#update`)}
           >
             등록
           </li>
         </div>
-        <div className="planner-pc-stages-main">
-          {!hash || hash === "#calendars" ? (
-            <PlannerPcCalendar
+        <div className="schedule-pc-stages-main">
+          {hash === "#calendars" ? (
+            <SchedulePcCalendars
               year={year}
               month={month}
               setMonth={setMonth}
@@ -206,8 +184,8 @@ const PlannerPcStages = ({
               setColumns={setColumns}
             />
           ) : hash === "#places" ? (
-            <div className="planner-pc-stages-main-places">
-              <PlannerPcPlaces
+            <div className="schedule-pc-stages-main-places">
+              <SchedulePcPlaces
                 metroId={metroId}
                 date={date}
                 setDate={setDate}
@@ -217,8 +195,8 @@ const PlannerPcStages = ({
                 infos={infos}
               />
             </div>
-          ) : (
-            <PlannerPcRegister
+          ) : !hash || hash === "#update" ? (
+            <SchedulePcUpdate
               metroId={metroId}
               columns={columns}
               setColumns={setColumns}
@@ -227,7 +205,11 @@ const PlannerPcStages = ({
               setDate={setDate}
               setOpenMenu={setOpenMenu}
               allInfos={allInfos}
+              title={title}
+              setTitle={setTitle}
             />
+          ) : (
+            <div></div>
           )}
         </div>
       </div>
@@ -235,4 +217,4 @@ const PlannerPcStages = ({
   );
 };
 
-export default PlannerPcStages;
+export default SchedulePcStages;
