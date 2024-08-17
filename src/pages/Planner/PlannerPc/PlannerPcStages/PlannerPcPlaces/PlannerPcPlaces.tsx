@@ -226,9 +226,10 @@ const PlannerPcPlaces = ({
         <div
           className={`planner-pc-places-place-list${loading ? " loading" : ""}`}
         >
+          {/* 처음 api 데이터를 받을 때 loading 표시 */}
           {places.length === 0 && (
-            <li className="planner-pc-places-place-list-empty">
-              <span className="icon">
+            <li className={`planner-pc-places-place-list-empty`}>
+              <span className={`icon${loading ? " loading" : ""}`}>
                 <LuLoader2 />
               </span>
             </li>
