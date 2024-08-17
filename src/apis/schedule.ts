@@ -190,18 +190,14 @@ export const fetchScheduleDetails = async (scheduleId: string | number) => {
   }
 };
 
-export const updateScheduleAPI = async (
-  scheduleId: string | number,
-  value: {
-    scheduleDto: ScheduleDtoInputType;
-    detailScheduleDto: ScheduleDetailDtoInputType[];
-  }
-) => {
+export const updateScheduleAPI = async (value: {
+  scheduleDto: ScheduleDtoInputType;
+  detailScheduleDto: ScheduleDetailDtoInputType[];
+}) => {
   try {
     const response = await axios.patch(
       `${baseURL}/mypage/update-schedules`,
-        value
-      ,
+      value,
       {
         headers: {
           "Content-Type": "application/json", // 요청의 콘텐츠 타입을 JSON으로 설정

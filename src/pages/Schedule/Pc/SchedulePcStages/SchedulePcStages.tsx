@@ -7,10 +7,13 @@ import { convertDateTypeToDate2 } from "utilities/date";
 import SchedulePcUpdate from "./SchedulePcUpdate/SchedulePcUpdate";
 import SchedulePcPlaces from "./SchedulePcPlaces/SchedulePcPlaces";
 import SchedulePcCalendars from "./SchedulePcCalendar/SchedulePcCalendars";
+import { ScheduleDetailType, ScheduleType } from "types/schedule";
 
 export interface SchedulePcStageProps extends PlannerPcStagesProps {
   title: string;
   setTitle: (value: string) => void;
+  schedule: ScheduleType;
+  scheduleDetails: ScheduleDetailType[];
 }
 
 const SchedulePcStages = ({
@@ -26,6 +29,8 @@ const SchedulePcStages = ({
   allInfos,
   title,
   setTitle,
+  schedule,
+  scheduleDetails,
 }: SchedulePcStageProps) => {
   const { hash, state } = useLocation();
   const navigate = useNavigate();
@@ -207,6 +212,8 @@ const SchedulePcStages = ({
               allInfos={allInfos}
               title={title}
               setTitle={setTitle}
+              schedule={schedule}
+              scheduleDetails={scheduleDetails}
             />
           ) : (
             <div></div>

@@ -3,7 +3,7 @@ import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import PlannerPcRegisterCard from "../components/PlannerPcRegisterCard";
 import { ColumnType } from "types/plan";
 import React, { useEffect, useState } from "react";
-import { link } from "fs";
+
 import { LuArrowDown } from "react-icons/lu";
 import { calcMinutes } from "utilities/map";
 
@@ -114,16 +114,16 @@ const RegisterDate = ({
       className={`planner-pc-register-plan-date-item${
         selected ? " selected" : ""
       }${valid ? "" : " invalid"}`}
-      draggable={column.length !== 0}
-      data-row={convertDateTypeToDate2(curDate)}
-      onDragStart={(e) => handleDateDragStart(e)}
-      onDragEnd={(e) => handleDateDragEnd(e)}
-      onDragOver={(e) => handleDateDragOver(e)}
-      onDrop={(e) => handleDateDrop(e)}
     >
       <div
         className="planner-pc-register-plan-date-item-title"
         onClick={() => setDate(curDate)}
+        draggable={column.length !== 0}
+        data-row={convertDateTypeToDate2(curDate)}
+        onDragStart={(e) => handleDateDragStart(e)}
+        onDragEnd={(e) => handleDateDragEnd(e)}
+        onDragOver={(e) => handleDateDragOver(e)}
+        onDrop={(e) => handleDateDrop(e)}
       >
         <p className="planner-pc-register-plan-date-item-title-name">{`Day${
           index + 1
@@ -141,6 +141,21 @@ const RegisterDate = ({
             {warning}
           </li>
         )}
+        {column.length === 0 && (
+          <li
+            className="planner-pc-register-card-cover"
+            data-row={convertDateTypeToDate2(curDate)}
+            data-col={0}
+            onDragOver={(e) => dragOver(e)}
+            onDragStart={(e) => dragStart(e)}
+            onDragEnd={(e) => dragEnd(e)}
+            onDrop={(e) => drop(e)}
+          >
+            <p className="planner-pc-register-card-noplace">
+              장소를 선택해주세요
+            </p>
+          </li>
+        )}
         {column.length !== 0 && (
           <li
             className={`planner-pc-register-card-indicator${
@@ -151,15 +166,13 @@ const RegisterDate = ({
             }`}
             data-row={convertDateTypeToDate2(curDate)}
             data-col={0}
-            // draggable
             onDragOver={(e) => dragOver(e)}
             onDragStart={(e) => dragStart(e)}
             onDragEnd={(e) => dragEnd(e)}
             onDrop={(e) => drop(e)}
-          >
-            <p />
-          </li>
+          ></li>
         )}
+
         {column.map((item, index, arr) => (
           <>
             <PlannerPcRegisterCard
@@ -182,8 +195,9 @@ const RegisterDate = ({
               dragEnd={dragEnd}
               drop={drop}
               droppable={droppable}
+              infos={infos}
             />
-            <li className="planner-pc-register-plan-date-item-duration">
+            {/* <li className="planner-pc-register-plan-date-item-duration">
               {index !== arr.length - 1 && infos[index] ? (
                 typeof infos[index]?.duration === "number" ? (
                   <span className="icon">
@@ -204,25 +218,9 @@ const RegisterDate = ({
                       : infos[index]?.duration
                   }`
                 : ""}
-            </li>
+            </li> */}
           </>
         ))}
-        {column.length === 0 && (
-          <li
-            className="planner-pc-register-card-cover"
-            data-row={convertDateTypeToDate2(curDate)}
-            data-col={0}
-            // draggable
-            onDragOver={(e) => dragOver(e)}
-            onDragStart={(e) => dragStart(e)}
-            onDragEnd={(e) => dragEnd(e)}
-            onDrop={(e) => drop(e)}
-          >
-            <p className="planner-pc-register-card-noplace">
-              장소를 선택해주세요
-            </p>
-          </li>
-        )}
       </ul>
     </section>
   );

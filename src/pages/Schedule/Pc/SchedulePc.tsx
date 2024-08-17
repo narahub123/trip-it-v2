@@ -46,6 +46,8 @@ const SchedulePc = ({
         allInfos={allInfos}
         title={title}
         setTitle={setTitle}
+        schedule={schedule}
+        scheduleDetails={scheduleDetails}
       />
       <MapClusterPc
         key={`mapCluster${selectedDate.toDateString()}`}

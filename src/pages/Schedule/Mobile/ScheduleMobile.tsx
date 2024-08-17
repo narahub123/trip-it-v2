@@ -196,7 +196,7 @@ const ScheduleMobile = ({
     console.log(submitValue);
 
     // 수정 api 필요
-    updateScheduleAPI(schedule.scheduleId, submitValue)
+    updateScheduleAPI(submitValue)
       .then((res) => {
         console.log(res.data);
         if (!res) return;

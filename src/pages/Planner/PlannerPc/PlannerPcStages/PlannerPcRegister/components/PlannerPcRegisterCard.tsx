@@ -4,13 +4,19 @@ import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { metros } from "data/metros";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import { LuAlignJustify, LuChevronDown, LuChevronUp } from "react-icons/lu";
+import {
+  LuAlignJustify,
+  LuArrowDown,
+  LuChevronDown,
+  LuChevronUp,
+} from "react-icons/lu";
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
 
 import { getPureletter } from "utilities/place";
 import Map from "pages/Planner/PlannerPc/PlannerMap/Map";
 import { fetchPlaceAPI } from "apis/place";
+import { calcMinutes } from "utilities/map";
 
 export interface PlannerPcRegisterCardProps {
   curDate: Date;
@@ -31,6 +37,10 @@ export interface PlannerPcRegisterCardProps {
   dragEnd: (e: React.DragEvent<HTMLLIElement>) => void;
   drop: (e: React.DragEvent<HTMLLIElement>) => void;
   droppable: string[];
+  infos: (
+    | { distance: number | string; duration: number | string }
+    | undefined
+  )[];
 }
 const PlannerPcRegisterCard = ({
   column,
@@ -51,6 +61,7 @@ const PlannerPcRegisterCard = ({
   dragEnd,
   drop,
   droppable,
+  infos,
 }: PlannerPcRegisterCardProps) => {
   const dropdownRef = useRef<HTMLSpanElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -571,13 +582,31 @@ const PlannerPcRegisterCard = ({
         }`}
         data-row={convertDateTypeToDate2(curDate)}
         data-col={index + 1}
-        // draggable
         onDragOver={(e) => dragOver(e)}
         onDragStart={(e) => dragStart(e)}
         onDragEnd={(e) => dragEnd(e)}
         onDrop={(e) => drop(e)}
       >
-        <p />
+        {index !== column.length - 1 && infos[index] ? (
+          typeof infos[index]?.duration === "number" ? (
+            <span className="icon">
+              <LuArrowDown />
+            </span>
+          ) : (
+            <p></p>
+          )
+        ) : (
+          ""
+        )}
+        {index !== column.length - 1 && infos[index]
+          ? `${
+              typeof infos[index]?.duration === "number"
+                ? "이동시간 : " +
+                  calcMinutes(infos[index]?.duration as number) +
+                  "분"
+                : infos[index]?.duration
+            }`
+          : ""}
       </li>
     </>
   );

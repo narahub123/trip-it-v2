@@ -317,6 +317,12 @@
   box-sizing: border-box;
   height: 10px;
   opacity: 0.4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  margin: 10px;
   p {
   }
 }

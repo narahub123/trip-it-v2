@@ -98,7 +98,7 @@ const PlannerPcRegister = ({
     } else {
       setTitle(value);
       setValid(false);
-      return
+      return;
     }
   };
 
@@ -304,143 +304,141 @@ const PlannerPcRegister = ({
     navigate(`/planner`);
   };
 
-  console.log(valid);
-
-  console.log(Object.values(planValid).every(Boolean));
-
   return (
     <div className="planner-pc-register">
-      <div className="planner-pc-register-header">
-        <div
-          className="planner-pc-register-header-title"
-          onClick={() => setOpenHeader(!openHeader)}
-        >
-          <span className="planner-pc-register-header-title-name">
-            <span
-              className={`planner-pc-register-header-title-icon${
-                openHeader ? " open" : ""
-              }`}
-            >
-              <LuChevronRight />
-            </span>
-            제목<span style={{ color: "red" }}>*</span>
-          </span>
-        </div>
-        <div
-          className={`planner-pc-register-header-container${
-            openHeader ? " open" : ""
-          }`}
-        >
-          <div className="planner-pc-register-header-example">
-            <p className="example"> ex. 인천 일정 </p>
-            <p className="validation"> 최소 2개 이상 50 이내</p>
-          </div>
-          <div className="planner-pc-register-header-text">
-            <input
-              type="text"
-              className="planner-pc-register-header-textbox"
-              value={title}
-              onChange={(e) => handleTitle(e)}
-            />
-            <span className="planner-pc-register-header-title-detail">
-              {title.length}/50
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="planner-pc-register-plan">
-        <div
-          className="planner-pc-register-plan-title"
-          onClick={() => setOpenPlan(!openPlan)}
-        >
-          <span className="planner-pc-register-plan-title-left">
-            <span
-              className={`planner-pc-register-plan-title-icon${
-                openPlan ? " open" : ""
-              }`}
-            >
-              <LuChevronRight />
-            </span>
-            <span className="planner-pc-register-plan-title-name">일정</span>
-          </span>
-
-          {openPlan && (
-            <span className="planner-pc-register-plan-title-right">
-              <p
-                className="planner-pc-register-plan-title-delete"
-                onClick={() => deleteAll()}
+      <div className="planner-pc-register-content">
+        <div className="planner-pc-register-header">
+          <div
+            className="planner-pc-register-header-title"
+            onClick={() => setOpenHeader(!openHeader)}
+          >
+            <span className="planner-pc-register-header-title-name">
+              <span
+                className={`planner-pc-register-header-title-icon${
+                  openHeader ? " open" : ""
+                }`}
               >
-                모든 일정 삭제하기
-              </p>
+                <LuChevronRight />
+              </span>
+              제목<span style={{ color: "red" }}>*</span>
             </span>
-          )}
-        </div>
-
-        <div
-          className={`planner-pc-register-plan-container${
-            openPlan ? " open" : ""
-          }`}
-        >
-          <div className="planner-pc-register-plan-date-container">
-            {dates.map((item, index) => {
-              const column = columns[convertDateTypeToDate2(item)];
-              const infos = allInfos[convertDateTypeToDate2(item)];
-              if (column.length === 0) {
-                return <li></li>;
-              } else {
-                return (
-                  <RegisterDate
-                    key={convertDateTypeToDate1(item)}
-                    setOpenMenu={setOpenMenu}
-                    index={index}
-                    curDate={item}
-                    selectedDate={selectedDate}
-                    setDate={setDate}
-                    dates={dates}
-                    metroId={metroId}
-                    column={column}
-                    columns={columns}
-                    setColumns={setColumns}
-                    dragStart={dragStart}
-                    dragOver={dragOver}
-                    dragEnd={dragEnd}
-                    drop={drop}
-                    droppable={droppable}
-                    handleDateDragStart={handleDateDragStart}
-                    handleDateDragOver={handleDateDragOver}
-                    handleDateDragEnd={handleDateDragEnd}
-                    handleDateDrop={handleDateDrop}
-                    setPlanValid={setPlanValid}
-                    infos={infos}
-                  />
-                );
-              }
-            })}
+          </div>
+          <div
+            className={`planner-pc-register-header-container${
+              openHeader ? " open" : ""
+            }`}
+          >
+            <div className="planner-pc-register-header-example">
+              <p className="example"> ex. 인천 일정 </p>
+              <p className="validation"> 최소 2개 이상 50 이내</p>
+            </div>
+            <div className="planner-pc-register-header-text">
+              <input
+                type="text"
+                className="planner-pc-register-header-textbox"
+                value={title}
+                onChange={(e) => handleTitle(e)}
+              />
+              <span className="planner-pc-register-header-title-detail">
+                {title.length}/50
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="planner-pc-register-btn">
-        <button
-          className={`register-btn${
-            valid && Object.values(planValid).every(Boolean) ? "-valid" : ""
-          }${isSubmitting ? " submitting" : ""}`}
-          onClick={
-            valid && Object.values(planValid).every(Boolean)
-              ? () => handleSubmit()
-              : undefined
-          }
-        >
-          <span>
-            {isSubmitting ? (
-              <span className="icon submitting">
-                <LuLoader2 />
+
+        <div className="planner-pc-register-plan">
+          <div
+            className="planner-pc-register-plan-title"
+            onClick={() => setOpenPlan(!openPlan)}
+          >
+            <span className="planner-pc-register-plan-title-left">
+              <span
+                className={`planner-pc-register-plan-title-icon${
+                  openPlan ? " open" : ""
+                }`}
+              >
+                <LuChevronRight />
               </span>
-            ) : (
-              "일정 등록 하기"
+              <span className="planner-pc-register-plan-title-name">일정</span>
+            </span>
+
+            {openPlan && (
+              <span className="planner-pc-register-plan-title-right">
+                <p
+                  className="planner-pc-register-plan-title-delete"
+                  onClick={() => deleteAll()}
+                >
+                  모든 일정 삭제하기
+                </p>
+              </span>
             )}
-          </span>
-        </button>
+          </div>
+
+          <div
+            className={`planner-pc-register-plan-container${
+              openPlan ? " open" : ""
+            }`}
+          >
+            <div className="planner-pc-register-plan-date-container">
+              {dates.map((item, index) => {
+                const column = columns[convertDateTypeToDate2(item)];
+                const infos = allInfos[convertDateTypeToDate2(item)];
+                if (column.length === 0) {
+                  return <li></li>;
+                } else {
+                  return (
+                    <RegisterDate
+                      key={convertDateTypeToDate1(item)}
+                      setOpenMenu={setOpenMenu}
+                      index={index}
+                      curDate={item}
+                      selectedDate={selectedDate}
+                      setDate={setDate}
+                      dates={dates}
+                      metroId={metroId}
+                      column={column}
+                      columns={columns}
+                      setColumns={setColumns}
+                      dragStart={dragStart}
+                      dragOver={dragOver}
+                      dragEnd={dragEnd}
+                      drop={drop}
+                      droppable={droppable}
+                      handleDateDragStart={handleDateDragStart}
+                      handleDateDragOver={handleDateDragOver}
+                      handleDateDragEnd={handleDateDragEnd}
+                      handleDateDrop={handleDateDrop}
+                      setPlanValid={setPlanValid}
+                      infos={infos}
+                    />
+                  );
+                }
+              })}
+            </div>
+          </div>
+        </div>
+        <div className="planner-pc-register-btn">
+          <button
+            className={`register-btn${
+              valid && Object.values(planValid).every(Boolean) ? "-valid" : ""
+            }${isSubmitting ? " submitting" : ""}`}
+            onClick={
+              valid && Object.values(planValid).every(Boolean)
+                ? () => handleSubmit()
+                : undefined
+            }
+          >
+            <span>
+              {isSubmitting ? (
+                <span className="icon submitting">
+                  <LuLoader2 />
+                </span>
+              ) : (
+                "일정 등록 하기"
+              )}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );
