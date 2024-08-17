@@ -157,23 +157,6 @@ const PlannerPcRegisterCard = ({
 
     // 설명 파트 여닫기
     setOpenDepict(!openDepict);
-
-    // 설명 부분이 열려 있는 경우 api 요청을 하지 않고 되돌아 감
-    if (openDepict) return;
-
-    // 선택한 장소에 대한 정보와 요청 정보가 일치한다면 되돌아 감
-    if (selectedPlace && selectedPlace.contentid === contentId) return;
-
-    // 선택한 장소가 선택한 장소들의 목록에 존재하는지 확인
-    const isExisted = selectedPlaces.find(
-      (selectedPlace) => selectedPlace.contentid === contentId
-    );
-
-    // 선택한 장소들에 존재하는 정보인 경우 그 정보를 선택한 장소 정보에 추가
-    if (isExisted) {
-      setSelectedPlace(isExisted);
-      return;
-    }
   };
 
   const handleOpenDropdown = (
@@ -325,12 +308,14 @@ const PlannerPcRegisterCard = ({
     e.stopPropagation();
     setOpenOverview(!openOverview);
 
-    if (openOverview) {
+    if (!openOverview) {
       getOverview(contentId);
     }
   };
 
   const getOverview = (contentId: string) => {
+    if (selectedPlace?.contentid === contentId) return;
+
     setLoading(true);
     if (isRequesting) return;
 
@@ -540,7 +525,13 @@ const PlannerPcRegisterCard = ({
                 openOverview ? " open" : ""
               }`}
             >
-              {selectedPlace?.overview || "준비된 설명이 없습니다."}
+              {isRequesting ? (
+                <span className={`icon ${isRequesting ? " requesting" : ""}`}>
+                  확인중..
+                </span>
+              ) : (
+                selectedPlace?.overview || "준비된 설명이 없습니다."
+              )}
             </p>
           </div>
 

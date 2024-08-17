@@ -2,7 +2,14 @@ import { fetchPlaceAPI } from "apis/place";
 import "./plannerPcAPIPlaceCard.css";
 import { metros } from "data/metros";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { LuCheck, LuChevronDown, LuPhoneCall, LuPlus } from "react-icons/lu";
+import {
+  LuCheck,
+  LuChevronDown,
+  LuLoader,
+  LuLoader2,
+  LuPhoneCall,
+  LuPlus,
+} from "react-icons/lu";
 import { PlaceApiType } from "types/place";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType } from "types/plan";
@@ -103,6 +110,8 @@ const PlannerPcAPIPlaceCard = ({
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
     contentId: string
   ) => {
+    if (selectedPlace?.contentid === contentId) return;
+
     setLoading(true);
     if (isRequesting) return;
 
@@ -374,13 +383,19 @@ const PlannerPcAPIPlaceCard = ({
           >
             {openOverview ? "설명 닫기" : "설명 보기"}
           </p>
-          <p
+          <div
             className={`planner-pc-place-card-api-overview-depict-detail${
               openOverview ? " open" : ""
             }`}
           >
-            {selectedPlace?.overview || "준비된 설명이 없습니다."}
-          </p>
+            {isRequesting ? (
+              <span className={`icon ${isRequesting ? " requesting" : ""}`}>
+                확인중..
+              </span>
+            ) : (
+              selectedPlace?.overview || "준비된 설명이 없습니다."
+            )}
+          </div>
         </div>
 
         <div className={`planner-pc-place-card-api-overview-map`}>

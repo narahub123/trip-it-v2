@@ -4,7 +4,12 @@ import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { metros } from "data/metros";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import { LuAlignJustify, LuChevronDown, LuChevronUp } from "react-icons/lu";
+import {
+  LuAlignJustify,
+  LuChevronDown,
+  LuChevronUp,
+  LuLoader2,
+} from "react-icons/lu";
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
 import { getPureletter } from "utilities/place";
@@ -291,12 +296,14 @@ const PlannerPcDateCard = ({
     e.stopPropagation();
     setOpenOverview(!openOverview);
 
-    if (openOverview) {
+    if (!openOverview) {
       getOverview(contentId);
     }
   };
 
   const getOverview = (contentId: string) => {
+    if (selectedPlace?.contentid === contentId) return;
+
     setLoading(true);
     if (isRequesting) return;
 
@@ -496,7 +503,13 @@ const PlannerPcDateCard = ({
               openOverview ? " open" : ""
             }`}
           >
-            {selectedPlace?.overview || "준비된 설명이 없습니다."}
+            {isRequesting ? (
+              <span className={`icon ${isRequesting ? " requesting" : ""}`}>
+                확인중..
+              </span>
+            ) : (
+              selectedPlace?.overview || "준비된 설명이 없습니다."
+            )}
           </p>
         </div>
 

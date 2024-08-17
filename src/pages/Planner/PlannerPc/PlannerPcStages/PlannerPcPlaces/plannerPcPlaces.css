@@ -74,11 +74,11 @@
         span.icon {
           font-size: 20px;
           transform: rotate(0deg);
-          transition: transform 1s ease-in-out;
+          transition: transform 5s ease-in-out;
         }
         span.icon.loading {
-          transform: rotate(360deg);
-          transition: transform 1s ease-in-out;
+          transform: rotate(5400deg);
+          transition: transform 5s ease-in-out;
         }
       }
     }
