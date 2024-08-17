@@ -137,7 +137,7 @@
         .planner-pc-register-plan-date-container {
           box-sizing: border-box;
           display: grid;
-          grid-template-columns: minmax(270px, 1fr) minmax(270px, 1fr);
+          grid-template-columns: minmax(270px, 1fr);
           grid-template-rows: auto;
           grid-gap: 10px;
         }
@@ -236,7 +236,7 @@
   .planner-pc-register {
     .planner-pc-register-content {
       .planner-pc-register-plan {
-        .planner-pc-register-plan-container {
+        .planner-pc-register-plan-container.open {
           .planner-pc-register-plan-date-container {
             grid-template-columns: minmax(270px, 1fr);
           }
@@ -250,7 +250,7 @@
   .planner-pc-register {
     .planner-pc-register-content {
       .planner-pc-register-plan {
-        .planner-pc-register-plan-container {
+        .planner-pc-register-plan-container.open {
           .planner-pc-register-plan-date-container {
             grid-template-columns: minmax(270px, 1fr) minmax(270px, 1fr);
           }
@@ -264,7 +264,7 @@
   .planner-pc-register {
     .planner-pc-register-content {
       .planner-pc-register-plan {
-        .planner-pc-register-plan-container {
+        .planner-pc-register-plan-container.open {
           .planner-pc-register-plan-date-container {
             grid-template-columns: minmax(270px, 1fr) minmax(270px, 1fr) minmax(
                 270px,
@@ -281,7 +281,7 @@
   .planner-pc-register {
     .planner-pc-register-content {
       .planner-pc-register-plan {
-        .planner-pc-register-plan-container {
+        .planner-pc-register-plan-container.open {
           .planner-pc-register-plan-date-container {
             grid-template-columns:
               minmax(270px, 1fr) minmax(270px, 1fr) minmax(270px, 1fr)
