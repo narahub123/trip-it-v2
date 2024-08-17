@@ -1,5 +1,6 @@
 :root {
   --basic-color: rgb(0, 206, 124);
+  --basic-hover-color: rgba(0, 206, 124, 0.6);
 }
 .mypage {
   /* 기본 속성 제거 */

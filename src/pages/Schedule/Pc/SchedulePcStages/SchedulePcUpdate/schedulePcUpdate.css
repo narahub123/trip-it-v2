@@ -3,7 +3,6 @@
   outline: none;
   display: flex;
   flex-direction: column;
-  gap: 40px;
 
   .schedule-pc-update-content {
     flex: 1;
@@ -12,6 +11,7 @@
     flex-direction: column;
     gap: 40px;
     padding-left: 10px;
+    flex-grow: 1;
 
     .schedule-pc-update-header {
       box-sizing: border-box;
@@ -145,7 +145,7 @@
       }
       .schedule-pc-update-plan-container.open {
         visibility: visible;
-        max-height: 400px;
+        max-height: 100%;
         opacity: 1;
         transition: all 0.3s ease-in-out;
       }
@@ -207,9 +207,15 @@
 
 /* 스크롤바 막대 설정*/
 .schedule-pc-update-content::-webkit-scrollbar-thumb {
+  background-color: var(--basic-hover-color);
+  /* 스크롤바 둥글게 설정    */
+  border-radius: 7px;
+}
+
+.schedule-pc-update-content::-webkit-scrollbar-thumb:hover {
   background-color: var(--basic-color);
   /* 스크롤바 둥글게 설정    */
-  /* border-radius: 10px; */
+  border-radius: 7px;
 }
 
 /* 스크롤바 뒷 배경 설정*/

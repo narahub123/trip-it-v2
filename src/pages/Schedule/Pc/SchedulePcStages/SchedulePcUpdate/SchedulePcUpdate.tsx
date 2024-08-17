@@ -33,6 +33,7 @@ interface SchedulePcUpdateProps {
   setTitle: (value: string) => void;
   schedule: ScheduleType;
   scheduleDetails: ScheduleDetailType[];
+  requesting: boolean;
 }
 
 const SchedulePcUpdate = ({
@@ -44,9 +45,9 @@ const SchedulePcUpdate = ({
   setDate,
   setOpenMenu,
   allInfos,
-
   schedule,
   scheduleDetails,
+  requesting,
 }: SchedulePcUpdateProps) => {
   const renderCount = useRenderCount();
   const navigate = useNavigate();
@@ -225,10 +226,17 @@ const SchedulePcUpdate = ({
       // 변경된 현재 날짜 컬럼 업데이트
       updatedColumns[curRow] = curColumn;
 
-      // 다른 날짜로 이동하는 경우
+      // 다른 날짜로 이동하는 경우, order도 바꿔야 함
     } else {
       const [movedItem] = curColumn.splice(curColIndex, 1);
-      targetColumn.splice(newColIndex, 0, movedItem);
+
+      const order = dates.findIndex(
+        (date) => convertDateTypeToDate2(date) === newRow
+      );
+
+      const newItem: ColumnType = { ...movedItem, scheduleOrder: order };
+
+      targetColumn.splice(newColIndex, 0, newItem);
 
       updatedColumns[curRow] = curColumn;
       updatedColumns[newRow] = targetColumn;
@@ -328,7 +336,7 @@ const SchedulePcUpdate = ({
             scheduleDetailId: oldDetail?.scheduleDetailId,
             scheduleId: oldDetail.scheduleId,
             contentId: detail.place.contentid,
-            scheduleOrder: detail.scheduleOrder,
+            scheduleOrder: i,
             startTime: detail.startTime,
             endTime: detail.endTime,
           };
@@ -338,7 +346,7 @@ const SchedulePcUpdate = ({
           const newDetail: ScheduleDetailDtoUpdateType = {
             scheduleId,
             contentId: detail.place.contentid,
-            scheduleOrder: detail.scheduleOrder,
+            scheduleOrder: i,
             startTime: detail.startTime,
             endTime: detail.endTime,
           };
@@ -379,11 +387,6 @@ const SchedulePcUpdate = ({
         setIsSubmitting(false);
       });
   };
-
-  console.log(valid);
-  console.log(planValid);
-  console.log(changed);
-  console.log(title);
 
   return (
     <div className="schedule-pc-update">
@@ -489,6 +492,7 @@ const SchedulePcUpdate = ({
                     handleDateDrop={handleDateDrop}
                     setPlanValid={setPlanValid}
                     infos={infos}
+                    requesting={requesting}
                   />
                 );
               })}

@@ -4,7 +4,7 @@ import PlannerPcRegisterCard from "../components/PlannerPcRegisterCard";
 import { ColumnType } from "types/plan";
 import React, { useEffect, useState } from "react";
 
-import { LuArrowDown } from "react-icons/lu";
+import { LuArrowDown, LuLoader2 } from "react-icons/lu";
 import { calcMinutes } from "utilities/map";
 
 export interface PlannerPcRegisterCardProps {
@@ -32,6 +32,7 @@ export interface PlannerPcRegisterCardProps {
     | { distance: number | string; duration: number | string }
     | undefined
   )[];
+  requesting?: boolean;
 }
 const RegisterDate = ({
   index,
@@ -55,6 +56,7 @@ const RegisterDate = ({
   handleDateDrop,
   setPlanValid,
   infos,
+  requesting,
 }: PlannerPcRegisterCardProps) => {
   // 이동 효과 관련
   const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
@@ -136,25 +138,35 @@ const RegisterDate = ({
         </p>
       </div>
       <ul className="planner-pc-register-plan-date-item-container">
-        {warning && (
+        {column.length !== 0 && warning && (
           <li className="planner-pc-register-plan-date-item-warning">
             {warning}
           </li>
         )}
-        {column.length === 0 && (
-          <li
-            className="planner-pc-register-card-cover"
-            data-row={convertDateTypeToDate2(curDate)}
-            data-col={0}
-            onDragOver={(e) => dragOver(e)}
-            onDragStart={(e) => dragStart(e)}
-            onDragEnd={(e) => dragEnd(e)}
-            onDrop={(e) => drop(e)}
-          >
-            <p className="planner-pc-register-card-noplace">
-              장소를 선택해주세요
-            </p>
+
+        {requesting ? (
+          <li className="planner-pc-register-plan-date-item-requesting">
+            <span className={`icon${requesting ? " requesting" : ""}`}>
+              <LuLoader2 />
+            </span>
           </li>
+        ) : (
+          !requesting &&
+          column.length === 0 && (
+            <li
+              className="planner-pc-register-card-cover"
+              data-row={convertDateTypeToDate2(curDate)}
+              data-col={0}
+              onDragOver={(e) => dragOver(e)}
+              onDragStart={(e) => dragStart(e)}
+              onDragEnd={(e) => dragEnd(e)}
+              onDrop={(e) => drop(e)}
+            >
+              <p className="planner-pc-register-card-noplace">
+                장소를 선택해주세요
+              </p>
+            </li>
+          )
         )}
         {column.length !== 0 && (
           <li
@@ -197,28 +209,6 @@ const RegisterDate = ({
               droppable={droppable}
               infos={infos}
             />
-            {/* <li className="planner-pc-register-plan-date-item-duration">
-              {index !== arr.length - 1 && infos[index] ? (
-                typeof infos[index]?.duration === "number" ? (
-                  <span className="icon">
-                    <LuArrowDown />
-                  </span>
-                ) : (
-                  <p></p>
-                )
-              ) : (
-                ""
-              )}
-              {index !== arr.length - 1 && infos[index]
-                ? `${
-                    typeof infos[index]?.duration === "number"
-                      ? "이동시간 : " +
-                        calcMinutes(infos[index]?.duration as number) +
-                        "분"
-                      : infos[index]?.duration
-                  }`
-                : ""}
-            </li> */}
           </>
         ))}
       </ul>

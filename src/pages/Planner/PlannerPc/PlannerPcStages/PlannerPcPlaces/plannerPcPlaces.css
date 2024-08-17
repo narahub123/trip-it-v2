@@ -65,6 +65,22 @@
           transition: transform 1s ease-in-out;
         }
       }
+      .planner-pc-places-place-list-empty {
+        margin-top: 20%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        span.icon {
+          font-size: 20px;
+          transform: rotate(0deg);
+          transition: transform 1s ease-in-out;
+        }
+        span.icon.loading {
+          transform: rotate(360deg);
+          transition: transform 1s ease-in-out;
+        }
+      }
     }
     .planner-pc-places-place-list.loading {
       opacity: 0.5;
@@ -154,14 +170,19 @@
 
 /* 스크롤바 설정*/
 .planner-pc-places-place-list::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 /* 스크롤바 막대 설정*/
 .planner-pc-places-place-list::-webkit-scrollbar-thumb {
+  background-color: var(--basic-hover-color);
+  /* 스크롤바 둥글게 설정    */
+  border-radius: 10px;
+}
+.planner-pc-places-place-list::-webkit-scrollbar-thumb:hover {
   background-color: var(--basic-color);
   /* 스크롤바 둥글게 설정    */
-  /* border-radius: 10px; */
+  border-radius: 10px;
 }
 
 /* 스크롤바 뒷 배경 설정*/
@@ -171,14 +192,20 @@
 
 /* 스크롤바 설정*/
 .planner-pc-places-selected-list::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 /* 스크롤바 막대 설정*/
 .planner-pc-places-selected-list::-webkit-scrollbar-thumb {
+  background-color: var(--basic-hover-color);
+  /* 스크롤바 둥글게 설정    */
+  border-radius: 10px;
+}
+
+.planner-pc-places-selected-list::-webkit-scrollbar-thumb:hover {
   background-color: var(--basic-color);
   /* 스크롤바 둥글게 설정    */
-  /* border-radius: 10px; */
+  border-radius: 10px;
 }
 
 /* 스크롤바 뒷 배경 설정*/

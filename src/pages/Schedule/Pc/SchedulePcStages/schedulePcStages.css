@@ -21,6 +21,7 @@ a {
   bottom: 0;
   border: 1px solid #ccc;
   border-radius: 25px 25px 0 0;
+  box-shadow: -15px 0 30px rgba(0, 0, 0, 0.2), 15px 0 30px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   height: 50px;
   transition: height 0.3s ease-in-out;
@@ -127,48 +128,6 @@ a {
   justify-content: center;
   align-items: center;
 }
-@media screen and (max-width: 480px) {
-  .schedule-pc {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 850px) {
-}
-@media screen and (min-width: 851px) {
-  .schedule-pc-stages-main-calendars-month {
-    .month-title {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      max-width: 70%;
-      .title-single {
-        padding: 10px;
-        width: 300px;
-        text-align: center;
-      }
-      .title-double {
-        padding: 10px;
-        width: 300px;
-        text-align: center;
-      }
-    }
-  }
-  .schedule-pc-stages-main-calendars-container {
-    .calendar-container {
-      display: flex;
-      justify-content: center;
-      max-width: 70%;
-      .calendar-container-single {
-        width: 300px;
-      }
-      .calendar-container-double {
-        display: block;
-        width: 300px;
-      }
-    }
-  }
-}
 
 .scroll {
   display: inline-block;
@@ -192,7 +151,7 @@ a {
 .schedule-pc-stages-main-update::-webkit-scrollbar-thumb {
   background-color: var(--basic-color);
   /* 스크롤바 둥글게 설정    */
-  /* border-radius: 10px; */
+  border-radius: 5px;
 }
 
 /* 스크롤바 뒷 배경 설정*/

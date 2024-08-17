@@ -14,6 +14,7 @@ export interface SchedulePcStageProps extends PlannerPcStagesProps {
   setTitle: (value: string) => void;
   schedule: ScheduleType;
   scheduleDetails: ScheduleDetailType[];
+  requesting: boolean;
 }
 
 const SchedulePcStages = ({
@@ -31,6 +32,7 @@ const SchedulePcStages = ({
   setTitle,
   schedule,
   scheduleDetails,
+  requesting,
 }: SchedulePcStageProps) => {
   const { hash, state } = useLocation();
   const navigate = useNavigate();
@@ -214,6 +216,7 @@ const SchedulePcStages = ({
               setTitle={setTitle}
               schedule={schedule}
               scheduleDetails={scheduleDetails}
+              requesting={requesting}
             />
           ) : (
             <div></div>

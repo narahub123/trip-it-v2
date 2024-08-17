@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import Footer from "templates/Moblie/components/Footer";
 import { fetchScheduleDetails } from "apis/schedule";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ScheduleDetailType } from "types/schedule";
 import {
   convertDateTypeToDate2,
@@ -25,6 +25,9 @@ const Schedule = () => {
     []
   );
   const [columns, setColumns] = useState<{ [key: string]: ColumnType[] }>({});
+  const navigate = useNavigate();
+
+  const [requesting, setRequesting] = useState(false);
 
   const {
     scheduleId,
@@ -67,6 +70,8 @@ const Schedule = () => {
 
   // 일정 상세를 통해서 공공 데이터에서 장소 정보 받아오기
   useEffect(() => {
+    setRequesting(true);
+
     const fetchPlaces = async () => {
       const newColumns: { [key: string]: ColumnType[] } = {};
 
@@ -101,8 +106,11 @@ const Schedule = () => {
           console.error(err);
           if (err.code === 6) {
             alert("데이터 소진");
+            navigate(`#calendars`, { state });
             break;
           }
+        } finally {
+          setRequesting(false);
         }
       }
 
@@ -132,6 +140,7 @@ const Schedule = () => {
         schedule={state}
         scheduleDetails={scheduleDetails}
         allInfos={allInfos}
+        requesting={requesting}
       />
       <ScheduleMobile
         title={title}

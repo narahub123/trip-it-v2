@@ -226,6 +226,13 @@ const SchedulePcPlaces = ({
         <div
           className={`planner-pc-places-place-list${loading ? " loading" : ""}`}
         >
+          {places.length === 0 && (
+            <li className="planner-pc-places-place-list-empty">
+              <span className={`icon${loading ? " loading" : ""}`}>
+                <LuLoader2 />
+              </span>
+            </li>
+          )}
           {places.map((place, index) => (
             <PlannerPcAPIPlaceCard
               key={`${place.contentid}_${index}`}

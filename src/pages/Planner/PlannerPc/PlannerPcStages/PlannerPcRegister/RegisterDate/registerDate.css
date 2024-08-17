@@ -41,6 +41,23 @@
       transition: all 0.3s ease-in-out;
     }
 
+    .planner-pc-register-plan-date-item-requesting {
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span.icon {
+        font-size: 20px;
+        transform: rotate(0deg);
+        transition: transform 1s ease-in-out;
+      }
+      span.icon.requesting {
+        transform: rotate(360deg);
+        transition: transform 1s ease-in-out;
+      }
+    }
+
     .planner-pc-register-plan-date-item-duration {
       display: flex;
       justify-content: center;
@@ -71,6 +88,7 @@
 .planner-pc-register-plan-date-item.selected {
   border: 2px solid var(--basic-color);
   transition: border 0.3s ease-in-out;
+  box-shadow: -5px 0 5px rgba(0, 0, 0, 0.2), 5px 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .planner-pc-register-plan-date-item.invalid {

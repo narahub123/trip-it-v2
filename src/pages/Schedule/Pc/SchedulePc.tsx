@@ -11,6 +11,7 @@ export interface SchedulePcProps extends ScheduleMobileProps {
   allInfos: {
     [key: string]: (InfoType | undefined)[];
   };
+  requesting: boolean;
 }
 
 const SchedulePc = ({
@@ -25,6 +26,7 @@ const SchedulePc = ({
   schedule,
   scheduleDetails,
   allInfos,
+  requesting,
 }: SchedulePcProps) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const column = columns[convertDateTypeToDate2(selectedDate)] || [];
@@ -48,6 +50,7 @@ const SchedulePc = ({
         setTitle={setTitle}
         schedule={schedule}
         scheduleDetails={scheduleDetails}
+        requesting={requesting}
       />
       <MapClusterPc
         key={`mapCluster${selectedDate.toDateString()}`}

@@ -21,6 +21,8 @@ a {
   bottom: 0;
   border: 1px solid #ccc;
   border-radius: 25px 25px 0 0;
+  box-shadow: -15px 0 30px rgba(0, 0, 0, 0.2), 15px 0 30px rgba(0, 0, 0, 0.2);
+
   background-color: #fff;
   height: 50px;
   transition: height 0.3s ease-in-out;
