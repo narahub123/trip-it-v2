@@ -7,8 +7,6 @@ export const getCarDirection = async (
   endPoint: kakao.maps.LatLng,
   map: kakao.maps.Map
 ) => {
-  console.log(startPoint, endPoint);
-
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_KEY;
 
   const url = "https://apis-navi.kakaomobility.com/v1/directions";
@@ -42,8 +40,6 @@ export const getCarDirection = async (
     }
 
     const data = await response.json();
-
-    console.log(data);
 
     const linePath: kakao.maps.LatLng[] = [];
     const resultCode = data.routes[0].result_code;
@@ -91,7 +87,6 @@ export const getCarDirection = async (
         ? "도착 지점 주변의 도로를 탐색할 수 없음"
         : data.routes[0].sections[0].duration;
 
-    console.log(distance, duration);
     return {
       distance,
       duration,
@@ -139,8 +134,6 @@ export const getInfos = async (
     }
 
     const data = await response.json();
-
-    console.log(data);
 
     const resultCode = data.routes[0].result_code;
 
@@ -232,8 +225,6 @@ export const getPositions = async (places: PlaceApiType[]) => {
   );
 
   await Promise.all(promises);
-
-  console.log("재배치 배열", positions);
 
   return positions.filter((position) => position !== undefined);
 };

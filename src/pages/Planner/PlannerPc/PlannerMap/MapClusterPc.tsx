@@ -68,8 +68,6 @@ const MapClusterPc = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("loading 확인", loading);
-
       if (loading) return; // 이전 요청이 완료될 때까지 대기
 
       setLoading(true);

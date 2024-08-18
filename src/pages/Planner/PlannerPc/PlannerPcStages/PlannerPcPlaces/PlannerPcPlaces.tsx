@@ -117,7 +117,6 @@ const PlannerPcPlaces = ({
   // 무한 스크롤링을 위한 useEffect
   useEffect(() => {
     if (!targetRef.current) return;
-    console.log("타겟확인");
 
     observer.observe(targetRef.current);
   }, []);
@@ -161,9 +160,6 @@ const PlannerPcPlaces = ({
   }, []);
 
   const observer = new IntersectionObserver(callback, options);
-
-  console.log("컬럼", column);
-  console.log("날짜", dates);
 
   // contentTypeId 변경하기
   const handleContentTypeId = useCallback(
@@ -281,7 +277,10 @@ const PlannerPcPlaces = ({
         <div className="planner-pc-places-selected-list">
           {((column && column.length === 0) ||
             (!column && dates.length === 0)) && (
-            <li className="planner-pc-places-selected-list-noplace">
+            <li
+              className="planner-pc-places-selected-list-noplace"
+              key={"column"}
+            >
               <p>장소를 선택해주세요</p>
             </li>
           )}

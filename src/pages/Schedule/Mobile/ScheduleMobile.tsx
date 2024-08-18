@@ -1,20 +1,17 @@
-import PlannerInfoAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerInfoAccordian";
 import "./scheduleMobile.css";
 import { useEffect, useState } from "react";
-import PlannerDateAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerDateAccordian";
 import { convertDateToYYYYMMDD, convertDateTypeToDate2 } from "utilities/date";
-import {
-  ColumnType,
-  ScheduleDetailDtoInputType,
-  ScheduleDetailDtoUpdateType,
-} from "types/plan";
+import { ColumnType, ScheduleDetailDtoUpdateType } from "types/plan";
 import { plannerAPIAccordianArr } from "pages/Planner/data/plannerPlace";
-import PlannerAPIAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerAPIAccordian";
 import { useNavigate } from "react-router-dom";
 import { LuLoader2 } from "react-icons/lu";
-import PlannerCalendarAccordian from "pages/Planner/PlannerPlace/PlannerAccordians/PlannerCalendarAccordian";
 import { ScheduleDetailType, ScheduleType } from "types/schedule";
 import { updateScheduleAPI } from "apis/schedule";
+import PlannerInfoAccordian from "pages/Planner/PlannerMobile/PlannerPlace/PlannerAccordians/PlannerInfoAccordian";
+import PlannerCalendarAccordian from "pages/Planner/PlannerMobile/PlannerPlace/PlannerAccordians/PlannerCalendarAccordian";
+import PlannerAPIAccordian from "pages/Planner/PlannerMobile/PlannerPlace/PlannerAccordians/PlannerAPIAccordian";
+import PlannerDateAccordian from "pages/Planner/PlannerMobile/PlannerPlace/PlannerAccordians/PlannerDateAccordian";
+
 export interface ScheduleMobileProps {
   title: string;
   setTitle: (value: string) => void;

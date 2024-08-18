@@ -84,11 +84,8 @@ const PlannerPcAPIPlaceCard = ({
       const checkContentLoad = () => {
         if (!listRef.current) return;
         const rect = listRef.current.getBoundingClientRect();
-        console.log("Measured height after content load:", rect.height);
 
         const bottomSpace = window.innerHeight - rect.bottom;
-
-        console.log(bottomSpace);
 
         if (bottomSpace < rect.height) {
           listRef.current.style.top = `-${rect.height}px`;
@@ -145,23 +142,6 @@ const PlannerPcAPIPlaceCard = ({
 
     // 설명 파트 여닫기
     setOpenDepict(!openDepict);
-
-    // 설명 부분이 열려 있는 경우 api 요청을 하지 않고 되돌아 감
-    if (openDepict) return;
-
-    // 선택한 장소에 대한 정보와 요청 정보가 일치한다면 되돌아 감
-    if (selectedPlace && selectedPlace.contentid === contentId) return;
-
-    // 선택한 장소가 선택한 장소들의 목록에 존재하는지 확인
-    const isExisted = selectedPlaces.find(
-      (selectedPlace) => selectedPlace.contentid === contentId
-    );
-
-    // 선택한 장소들에 존재하는 정보인 경우 그 정보를 선택한 장소 정보에 추가
-    if (isExisted) {
-      setSelectedPlace(isExisted);
-      return;
-    }
   };
 
   const handleOpenDropdown = (
@@ -233,8 +213,6 @@ const PlannerPcAPIPlaceCard = ({
       const newColumn = [...column, newColumnElem];
       newColumns = { ...newColumns, [convertDateTypeToDate2(date)]: newColumn };
     }
-
-    console.log(newColumns);
 
     setColumns({ ...newColumns });
   };

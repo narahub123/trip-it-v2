@@ -1,20 +1,18 @@
 import "./plannerPc.css";
-import { PlannerPlacesProps } from "../PlannerPlace/PlannerPlaces";
 import { useEffect, useState } from "react";
 import { ColumnType } from "types/plan";
 import { convertDateTypeToDate2 } from "utilities/date";
 import MapClusterPc from "./PlannerMap/MapClusterPc";
 import PlannerPcStages from "./PlannerPcStages/PlannerPcStages";
-import { getInfos, getPositions } from "utilities/map";
-import { PlaceApiType } from "types/place";
 import useFetchInfos from "hooks/useFetchInfos";
+import { PlannerMobileProps } from "../PlannerMobile/PlannerPlace/PlannerMobile";
 
 export interface InfoType {
   distance: number | string;
   duration: number | string;
 }
 
-const PlannerPc = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
+const PlannerPc = ({ metroId, dates, setDates }: PlannerMobileProps) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   // 이동거리, 시간 정보
   const [infos, setInfos] = useState<(InfoType | undefined)[]>([]);
