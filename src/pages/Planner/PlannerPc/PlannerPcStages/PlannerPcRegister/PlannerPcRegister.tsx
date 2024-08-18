@@ -202,37 +202,35 @@ const PlannerPcRegister = ({
               {dates.map((item, index) => {
                 const column = columns[convertDateTypeToDate2(item)];
                 const infos = allInfos[convertDateTypeToDate2(item)];
-                if (column.length === 0) {
-                  return <li></li>;
-                } else {
-                  return (
-                    <RegisterDate
-                      key={convertDateTypeToDate1(item)}
-                      setOpenMenu={setOpenMenu}
-                      index={index}
-                      curDate={item}
-                      selectedDate={selectedDate}
-                      setDate={setDate}
-                      dates={dates}
-                      metroId={metroId}
-                      column={column}
-                      columns={columns}
-                      setColumns={setColumns}
-                      dragStart={dragStart}
-                      dragOver={dragOver}
-                      dragEnd={dragEnd}
-                      drop={drop}
-                      droppable={droppable}
-                      handleDateDragStart={handleDateDragStart}
-                      handleDateDragOver={handleDateDragOver}
-                      handleDateDragEnd={handleDateDragEnd}
-                      handleDateDrop={handleDateDrop}
-                      setPlanValid={setPlanValid}
-                      infos={infos}
-                      setDroppable={setDroppable}
-                    />
-                  );
-                }
+                return column.length === 0 ? (
+                  <li key={"empty"}></li>
+                ) : (
+                  <RegisterDate
+                    key={convertDateTypeToDate2(item)}
+                    setOpenMenu={setOpenMenu}
+                    index={index}
+                    curDate={item}
+                    selectedDate={selectedDate}
+                    setDate={setDate}
+                    dates={dates}
+                    metroId={metroId}
+                    column={column}
+                    columns={columns}
+                    setColumns={setColumns}
+                    dragStart={dragStart}
+                    dragOver={dragOver}
+                    dragEnd={dragEnd}
+                    drop={drop}
+                    droppable={droppable}
+                    handleDateDragStart={handleDateDragStart}
+                    handleDateDragOver={handleDateDragOver}
+                    handleDateDragEnd={handleDateDragEnd}
+                    handleDateDrop={handleDateDrop}
+                    setPlanValid={setPlanValid}
+                    infos={infos}
+                    setDroppable={setDroppable}
+                  />
+                );
               })}
             </div>
           </div>

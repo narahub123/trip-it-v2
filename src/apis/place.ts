@@ -38,8 +38,10 @@ export const fetchPlacesAPI = async (
 };
 
 export const fetchPlaceAPI = async (contentId: string) => {
+  const url = `${baseURL}/home/apiDetail/${contentId}`;
+  console.log(url);
   try {
-    const place = await axios.get(`${baseURL}/home/apiDetail/${contentId}`, {
+    const place = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
         Access: `${localStorage.getItem("access")}`,
@@ -68,17 +70,16 @@ export const fetchPlacesByKeywordAPI = async (
   keyword: string
 ) => {
   try {
-    const res = await axios.get(
-      `${baseURL}/home/apiSearch/${metroId}/${pageNo}/${contentTypeId}/${keyword}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Access: `${localStorage.getItem("access")}`,
-          Refresh: `${getCookie("refresh")}`,
-        },
-        withCredentials: true,
-      }
-    );
+    const url = `${baseURL}/home/apiSearch/${metroId}/${pageNo}/${contentTypeId}/${keyword}`;
+    console.log(url);
+    const res = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Access: `${localStorage.getItem("access")}`,
+        Refresh: `${getCookie("refresh")}`,
+      },
+      withCredentials: true,
+    });
 
     const response = res.data;
 

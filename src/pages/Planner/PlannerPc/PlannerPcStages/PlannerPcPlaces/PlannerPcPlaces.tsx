@@ -1,6 +1,6 @@
 import { fetchPlacesAPI, fetchPlacesByKeywordAPI } from "apis/place";
 import "./plannerPcPlaces.css";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
@@ -283,7 +283,7 @@ const PlannerPcPlaces = ({
           {date &&
             column &&
             column.map((item, index, arr) => (
-              <>
+              <React.Fragment key={`${item.place.contentid}_${index}`}>
                 <PlannerPcDateCard
                   key={`${item.place.contentid}_${index}`}
                   column={column}
@@ -319,7 +319,7 @@ const PlannerPcPlaces = ({
                       }`
                     : ""}
                 </li>
-              </>
+              </React.Fragment>
             ))}
         </div>
       </section>

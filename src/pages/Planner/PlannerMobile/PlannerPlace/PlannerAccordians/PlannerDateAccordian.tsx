@@ -3,7 +3,7 @@ import { IoIosArrowDropup } from "react-icons/io";
 import { ColumnType } from "types/plan";
 import { convertDateTypeToDate2 } from "utilities/date";
 import PlannerDateCard from "../PlannerCards/PlannerDateCard";
-import { useState } from "react";
+import React, { useState } from "react";
 import MapCluster from "pages/Planner/components/Map/MapCluster";
 import { LuArrowDown } from "react-icons/lu";
 export interface PlannerDateAccordianProps {
@@ -26,7 +26,6 @@ const PlannerDateAccordian = ({
   setColumns,
 }: PlannerDateAccordianProps) => {
   const column = columns[convertDateTypeToDate2(date)] || [];
-  console.log("column", column);
 
   // 이동 효과 관련
   const [moveClassGroup, setMoveClassGroup] = useState<string[]>([]);
@@ -97,7 +96,7 @@ const PlannerDateAccordian = ({
       >
         {column &&
           column.map((item, index) => (
-            <>
+            <React.Fragment key={item.place.contentid}>
               <PlannerDateCard
                 key={item.place.contentid}
                 column={column}
@@ -126,7 +125,7 @@ const PlannerDateAccordian = ({
                   )}
                 </div>
               )}
-            </>
+            </React.Fragment>
           ))}
       </ul>
       <div

@@ -133,10 +133,10 @@ const RegisterDate = ({
     <section
       className={`planner-pc-register-plan-date-item${
         selected ? " selected" : ""
-      }${valid ? "" : " invalid"}`}
+      }${!requesting ? "" : valid ? "" : " invalid"}`}
+      key={convertDateTypeToDate2(curDate)}
     >
       <div
-        key={convertDateTypeToDate2(curDate)}
         className="planner-pc-register-plan-date-item-title"
         onClick={() => setDate(curDate)}
         draggable={column.length !== 0}
@@ -205,31 +205,29 @@ const RegisterDate = ({
         )}
 
         {column.map((item, index, arr) => (
-          <>
-            <PlannerPcRegisterCard
-              key={`${item.place.contentid}_${index}`}
-              column={column}
-              order={index}
-              curDate={curDate}
-              dates={dates}
-              detail={item}
-              metroId={metroId}
-              columns={columns}
-              setColumns={setColumns}
-              moveClassGroup={moveClassGroup}
-              setMoveClassGroup={setMoveClassGroup}
-              moveOrderGroup={moveOrderGroup}
-              setMoveOrderGroup={setMoveOrderGroup}
-              index={index}
-              dragStart={dragStart}
-              dragOver={dragOver}
-              dragEnd={dragEnd}
-              drop={drop}
-              droppable={droppable}
-              setDroppable={setDroppable}
-              infos={infos}
-            />
-          </>
+          <PlannerPcRegisterCard
+            key={`${item.place.contentid}_${index}`}
+            column={column}
+            order={index}
+            curDate={curDate}
+            dates={dates}
+            detail={item}
+            metroId={metroId}
+            columns={columns}
+            setColumns={setColumns}
+            moveClassGroup={moveClassGroup}
+            setMoveClassGroup={setMoveClassGroup}
+            moveOrderGroup={moveOrderGroup}
+            setMoveOrderGroup={setMoveOrderGroup}
+            index={index}
+            dragStart={dragStart}
+            dragOver={dragOver}
+            dragEnd={dragEnd}
+            drop={drop}
+            droppable={droppable}
+            setDroppable={setDroppable}
+            infos={infos}
+          />
         ))}
       </ul>
     </section>

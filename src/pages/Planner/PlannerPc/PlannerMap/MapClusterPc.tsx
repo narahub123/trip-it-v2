@@ -9,7 +9,7 @@ import { getPureletter } from "utilities/place";
 export interface MapClusterPcProps {
   metroId: string;
   column: ColumnType[];
-  date: Date;
+  selectedDate: Date;
   infos: (
     | { distance: number | string; duration: number | string }
     | undefined
@@ -21,7 +21,7 @@ export interface MapClusterPcProps {
 const MapClusterPc = ({
   metroId,
   column,
-  date,
+  selectedDate,
   infos,
   setInfos,
 }: MapClusterPcProps) => {
@@ -81,7 +81,7 @@ const MapClusterPc = ({
           }
 
           const mapContainer = document.getElementById(
-            `map-cluster-${date.toDateString()}`
+            `map-cluster-${selectedDate.toDateString()}`
           );
           if (!mapContainer) {
             setLoading(true);
@@ -135,9 +135,7 @@ const MapClusterPc = ({
             newInfos.push(info);
           }
 
-          if (JSON.stringify(newInfos) !== JSON.stringify(infos)) {
-            setInfos(newInfos);
-          }
+          setInfos(newInfos);
 
           map.setBounds(bounds);
         });
@@ -149,12 +147,12 @@ const MapClusterPc = ({
     };
 
     fetchData();
-  }, [places, date]);
+  }, [places, selectedDate]);
 
   return (
     <div
       className="map-cluster"
-      id={`map-cluster-${date.toDateString()}`}
+      id={`map-cluster-${selectedDate.toDateString()}`}
     ></div>
   );
 };

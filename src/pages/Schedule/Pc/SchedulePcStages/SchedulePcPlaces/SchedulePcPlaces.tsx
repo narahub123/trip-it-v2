@@ -1,6 +1,6 @@
 import { fetchPlacesAPI, fetchPlacesByKeywordAPI } from "apis/place";
 import "./schedulePcPlaces.css";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
@@ -56,16 +56,6 @@ const SchedulePcPlaces = ({
   // 검색 창 열기
   const [openSearch, setOpenSearch] = useState(false);
   const [search, setSearch] = useState("");
-
-  // 검색 관련 함수
-  // 검색창 열기
-  const handleOpenSearch = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-
-    setOpenSearch(!openSearch);
-  };
 
   // 검색어 저장
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,6 +163,7 @@ const SchedulePcPlaces = ({
     },
     [contentTypeId]
   );
+
   return (
     <div className="planner-pc-places">
       {/* api */}
@@ -284,7 +275,7 @@ const SchedulePcPlaces = ({
           {date &&
             column &&
             column.map((item, index, arr) => (
-              <>
+              <React.Fragment key={`${item.place.contentid}_${index}`}>
                 <PlannerPcDateCard
                   key={`${item.place.contentid}_${index}`}
                   column={column}
@@ -320,7 +311,7 @@ const SchedulePcPlaces = ({
                       }`
                     : ""}
                 </li>
-              </>
+              </React.Fragment>
             ))}
         </div>
       </section>

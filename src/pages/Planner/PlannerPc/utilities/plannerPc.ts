@@ -280,6 +280,10 @@ export const handleOverview = (
   e.stopPropagation();
   setOpenOverview(!openOverview);
 
+  if (selectedPlace && selectedPlace.overview) return;
+
+  console.log("여기?");
+
   if (!openOverview) {
     getOverview(
       contentId,
@@ -303,8 +307,6 @@ const getOverview = (
   isRequesting: boolean,
   setIsRequesting: (value: boolean) => void
 ) => {
-  if (selectedPlace?.contentid === contentId) return;
-
   setLoading(true);
   if (isRequesting) return;
 

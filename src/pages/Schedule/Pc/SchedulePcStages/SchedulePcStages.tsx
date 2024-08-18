@@ -131,6 +131,7 @@ const SchedulePcStages = ({
         <div className="schedule-pc-stages-main">
           {hash === "#calendars" ? (
             <SchedulePcCalendars
+              key={`calenders`}
               year={year}
               month={month}
               setMonth={setMonth}
@@ -143,6 +144,7 @@ const SchedulePcStages = ({
           ) : hash === "#places" ? (
             <div className="schedule-pc-stages-main-places">
               <SchedulePcPlaces
+                key={`places`}
                 metroId={metroId}
                 date={date}
                 setDate={setDate}
@@ -154,6 +156,7 @@ const SchedulePcStages = ({
             </div>
           ) : (
             <SchedulePcUpdate
+              key={`update`}
               metroId={metroId}
               columns={columns}
               setColumns={setColumns}

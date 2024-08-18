@@ -44,8 +44,6 @@ export const getCarDirection = async (
     const linePath: kakao.maps.LatLng[] = [];
     const resultCode = data.routes[0].result_code;
     if (resultCode === 102 || resultCode === 103) {
-      console.log(`장소 주변에 도로가 없어서 길찾기 불가`);
-
       linePath.push(startPoint, endPoint);
     } else {
       data.routes[0].sections[0].roads.forEach((router: any) => {

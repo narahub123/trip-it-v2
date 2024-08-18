@@ -27,7 +27,7 @@ const SchedulePc = ({
   allInfos,
   requesting,
 }: SchedulePcProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(dates[0]);
   const column = columns[convertDateTypeToDate2(selectedDate)] || [];
   // 이동거리, 시간 정보
   const [infos, setInfos] = useState<(InfoType | undefined)[]>([]);
@@ -55,7 +55,7 @@ const SchedulePc = ({
         key={`mapCluster${selectedDate.toDateString()}`}
         metroId={metroId}
         column={column}
-        date={selectedDate}
+        selectedDate={selectedDate}
         infos={infos}
         setInfos={setInfos}
       />

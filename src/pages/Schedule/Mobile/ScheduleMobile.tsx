@@ -211,8 +211,6 @@ const ScheduleMobile = ({
       });
   };
 
-  console.log(valid);
-
   return (
     <div className="schedule-mobile">
       <section className="schedule-mobile-title">

@@ -72,7 +72,6 @@ const Schedule = () => {
         const contentId = detail.contentId;
         try {
           const res = await fetchPlaceAPI(contentId);
-          console.log(res);
 
           const dateKey = convertDateTypeToDate2(dates[detail.scheduleOrder]);
 
@@ -93,8 +92,6 @@ const Schedule = () => {
             startTime: detail.startTime,
             endTime: detail.endTime,
           });
-
-          console.log("여기", newColumns);
         } catch (err: any) {
           console.error(err);
           if (err.code === 6) {

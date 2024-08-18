@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./plannerPcRegisterCard.css";
 import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
@@ -99,7 +99,9 @@ const PlannerPcRegisterCard = ({
   // 맵 열기
   const [openMap, setOpenMap] = useState(false);
   // 장소 선택하기
-  const [selectedPlace, setSelectedPlace] = useState<PlaceApiType>();
+  const [selectedPlace, setSelectedPlace] = useState<PlaceApiType | undefined>(
+    detail.place
+  );
   // 드롭다운 열기
   const [openDropdown, setOpenDropdown] = useState(false);
   // 설명 열기
@@ -174,7 +176,7 @@ const PlannerPcRegisterCard = ({
   }, [startHour, startMinute, endHour, endMinute]);
 
   return (
-    <>
+    <React.Fragment key={detail.place.contentid}>
       <li
         className={`planner-pc-register-card  ${
           order === moveOrderGroup[0]
@@ -489,7 +491,7 @@ const PlannerPcRegisterCard = ({
             }`
           : ""}
       </li>
-    </>
+    </React.Fragment>
   );
 };
 

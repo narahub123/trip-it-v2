@@ -143,6 +143,7 @@ const PlannerPcStages = ({
         <div className="planner-pc-stages-main">
           {!hash || hash === "#calendars" ? (
             <PlannerPcCalendar
+              key={`calenders`}
               year={year}
               month={month}
               setMonth={setMonth}
@@ -155,6 +156,7 @@ const PlannerPcStages = ({
           ) : hash === "#places" ? (
             <div className="planner-pc-stages-main-places">
               <PlannerPcPlaces
+                key={`places`}
                 metroId={metroId}
                 date={date}
                 setDate={setDate}
@@ -166,6 +168,7 @@ const PlannerPcStages = ({
             </div>
           ) : (
             <PlannerPcRegister
+              key={`register`}
               metroId={metroId}
               columns={columns}
               setColumns={setColumns}

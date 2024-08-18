@@ -252,7 +252,7 @@ const SchedulePcUpdate = ({
 
                 return (
                   <RegisterDate
-                    key={convertDateTypeToDate1(item)}
+                    key={convertDateTypeToDate2(item)}
                     setOpenMenu={setOpenMenu}
                     index={index}
                     curDate={item}

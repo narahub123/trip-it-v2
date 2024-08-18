@@ -42,7 +42,7 @@ const PlannerPc = ({ metroId, dates, setDates }: PlannerMobileProps) => {
           key={`mapCluster${selectedDate.toDateString()}`}
           metroId={metroId}
           column={column}
-          date={selectedDate}
+          selectedDate={selectedDate}
           infos={infos}
           setInfos={setInfos}
         />

@@ -54,7 +54,7 @@ export const convertYYYYMMDDToDateType = (origin: string) => {
 export const getDateArr = (start: Date, end: Date) => {
   const sd = start.getDate();
   const ed = end.getDate();
-  console.log(ed - sd);
+
   const diff = ed - sd;
   const dates = [];
   for (let i = 0; i <= diff; i++) {
