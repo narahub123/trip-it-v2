@@ -1,22 +1,23 @@
+import { handleOpenSearch } from "pages/Planner/PlannerPc/utilities/plannerPc";
 import "./plannerSearch.css";
 import React from "react";
 import { LuSearch } from "react-icons/lu";
 export interface PlannerSearchProps {
   openSearch: boolean;
+  setOpenSearch: (value: boolean) => void;
   search: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleOpenSearch: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
 }
 const PlannerSearch = ({
   openSearch,
+  setOpenSearch,
   search,
   onChange,
-  handleOpenSearch,
 }: PlannerSearchProps) => {
   return (
     <span
       className={`planner-search${openSearch ? " active" : ""}`}
-      onClick={(e) => handleOpenSearch(e)}
+      onClick={(e) => handleOpenSearch(e, openSearch, setOpenSearch)}
     >
       <input
         type="text"

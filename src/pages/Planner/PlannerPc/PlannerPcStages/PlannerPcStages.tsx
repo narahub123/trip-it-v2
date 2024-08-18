@@ -8,6 +8,7 @@ import { convertDateTypeToDate2 } from "utilities/date";
 import PlannerPcCalendar from "./PlannerPcCalender/PlannerPcCalendar";
 import PlannerPcRegister from "./PlannerPcRegister/PlannerPcRegister";
 import { InfoType } from "../PlannerPc";
+import { handleMoveTo, moveForward } from "../utilities/plannerPc";
 
 export interface PlannerPcStagesProps {
   metroId: string;
@@ -57,61 +58,6 @@ const PlannerPcStages = ({
     });
   }, [dates]);
 
-  const moveForward = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    e.stopPropagation();
-    if (hash === "#calendars") {
-      navigate(`/planner`);
-    } else if (hash === "#places") {
-      navigate(`#calendars`);
-    } else {
-      navigate(`#places`);
-    }
-  };
-
-  const validPlaces = () => {
-    for (const date of dates) {
-      const column = columns[convertDateTypeToDate2(date)];
-
-      const tourPlaces = column.filter(
-        (item) => item.place.contenttypeid !== "32"
-      );
-      const accommos = column.filter(
-        (item) => item.place.contenttypeid === "32"
-      );
-
-      if (tourPlaces.length < 1) {
-        window.alert(`${convertDateTypeToDate2(date)}의 장소를 선택해주세요.`);
-        return false; // 즉시 함수 종료
-      }
-
-      if (accommos.length < 1) {
-        window.alert(`${convertDateTypeToDate2(date)}의 숙소를 선택해주세요.`);
-        return false; // 즉시 함수 종료
-      }
-    }
-
-    return true; // 모든 날짜에 대해 유효한 경우
-  };
-
-  const handleMoveTo = (destiny: string) => {
-    if (destiny === "#places") {
-      if (dates.length < 2) {
-        window.alert(`날짜 선택을 완료해주세요`);
-        return;
-      }
-      navigate(`#places`);
-    } else if (destiny === "#register") {
-      if (dates.length < 2) {
-        window.alert(`날짜 선택을 완료해주세요`);
-        navigate(`#calendars`);
-        return;
-      }
-      if (validPlaces()) {
-        navigate(`#register`);
-      }
-    }
-  };
-
   return (
     <>
       {openMenu && (
@@ -137,7 +83,7 @@ const PlannerPcStages = ({
         >
           <span
             className="planner-pc-stages-header-btn"
-            onClick={(e) => moveForward(e)}
+            onClick={(e) => moveForward(e, hash, navigate)}
           >
             {openMenu && (
               <p className="planner-pc-stages-header-btn-icon">
@@ -181,7 +127,7 @@ const PlannerPcStages = ({
             className={`planner-pc-stages-menus-menu${
               hash === "#places" ? " active" : ""
             }`}
-            onClick={() => handleMoveTo(`#places`)}
+            onClick={() => handleMoveTo(`#places`, dates, columns, navigate)}
           >
             장소
           </li>
@@ -189,7 +135,7 @@ const PlannerPcStages = ({
             className={`planner-pc-stages-menus-menu${
               hash === "#register" ? " active" : ""
             } `}
-            onClick={() => handleMoveTo(`#register`)}
+            onClick={() => handleMoveTo(`#register`, dates, columns, navigate)}
           >
             등록
           </li>

@@ -4,7 +4,6 @@ import "./schedulePc.css";
 import MapClusterPc from "pages/Planner/PlannerPc/PlannerMap/MapClusterPc";
 import { useState } from "react";
 import { convertDateTypeToDate2 } from "utilities/date";
-import PlannerPcStages from "pages/Planner/PlannerPc/PlannerPcStages/PlannerPcStages";
 import SchedulePcStages from "./SchedulePcStages/SchedulePcStages";
 
 export interface SchedulePcProps extends ScheduleMobileProps {

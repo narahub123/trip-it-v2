@@ -8,6 +8,7 @@ import SchedulePcUpdate from "./SchedulePcUpdate/SchedulePcUpdate";
 import SchedulePcPlaces from "./SchedulePcPlaces/SchedulePcPlaces";
 import SchedulePcCalendars from "./SchedulePcCalendar/SchedulePcCalendars";
 import { ScheduleDetailType, ScheduleType } from "types/schedule";
+import { handleMoveTo, moveForward } from "pages/Schedule/Utilities/schedule";
 
 export interface SchedulePcStageProps extends PlannerPcStagesProps {
   title: string;
@@ -42,61 +43,6 @@ const SchedulePcStages = ({
   const curMonth = today.getMonth();
   const [month, setMonth] = useState(curMonth);
 
-  const moveForward = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    e.stopPropagation();
-    if (hash === "#calendars") {
-      navigate(`/mypage/schedules`);
-    } else if (hash === "#places") {
-      navigate(`#calendars`);
-    } else {
-      navigate(`#places`);
-    }
-  };
-
-  const validPlaces = () => {
-    for (const date of dates) {
-      const column = columns[convertDateTypeToDate2(date)];
-
-      const tourPlaces = column.filter(
-        (item) => item.place.contenttypeid !== "32"
-      );
-      const accommos = column.filter(
-        (item) => item.place.contenttypeid === "32"
-      );
-
-      if (tourPlaces.length < 1) {
-        window.alert(`${convertDateTypeToDate2(date)}의 장소를 선택해주세요.`);
-        return false; // 즉시 함수 종료
-      }
-
-      if (accommos.length < 1) {
-        window.alert(`${convertDateTypeToDate2(date)}의 숙소를 선택해주세요.`);
-        return false; // 즉시 함수 종료
-      }
-    }
-
-    return true; // 모든 날짜에 대해 유효한 경우
-  };
-
-  const handleMoveTo = (destiny: string) => {
-    if (destiny === "#places") {
-      if (dates.length < 2) {
-        window.alert(`날짜 선택을 완료해주세요`);
-        return;
-      }
-      navigate(`#places`, { state });
-    } else if (destiny === "#update") {
-      if (dates.length < 2) {
-        window.alert(`날짜 선택을 완료해주세요`);
-        navigate(`#calendars`, { state });
-        return;
-      }
-      if (validPlaces()) {
-        navigate(`#update`, { state });
-      }
-    }
-  };
-
   return (
     <>
       {openMenu && (
@@ -122,7 +68,7 @@ const SchedulePcStages = ({
         >
           <span
             className="schedule-pc-stages-header-btn"
-            onClick={(e) => moveForward(e)}
+            onClick={(e) => moveForward(e, hash, navigate, state)}
           >
             {openMenu && (
               <p className="schedule-pc-stages-header-btn-icon">
@@ -165,7 +111,9 @@ const SchedulePcStages = ({
             className={`schedule-pc-stages-menus-menu${
               hash === "#places" ? " active" : ""
             }`}
-            onClick={() => handleMoveTo(`#places`)}
+            onClick={() =>
+              handleMoveTo(`#places`, dates, columns, navigate, state)
+            }
           >
             장소
           </li>
@@ -173,7 +121,9 @@ const SchedulePcStages = ({
             className={`schedule-pc-stages-menus-menu${
               hash === "#update" || !hash ? " active" : ""
             } `}
-            onClick={() => handleMoveTo(`#update`)}
+            onClick={() =>
+              handleMoveTo(`#update`, dates, columns, navigate, state)
+            }
           >
             등록
           </li>
@@ -202,7 +152,7 @@ const SchedulePcStages = ({
                 infos={infos}
               />
             </div>
-          ) : !hash || hash === "#update" ? (
+          ) : (
             <SchedulePcUpdate
               metroId={metroId}
               columns={columns}
@@ -218,8 +168,6 @@ const SchedulePcStages = ({
               scheduleDetails={scheduleDetails}
               requesting={requesting}
             />
-          ) : (
-            <div></div>
           )}
         </div>
       </div>

@@ -161,9 +161,6 @@ const SchedulePcPlaces = ({
 
   const observer = new IntersectionObserver(callback, options);
 
-  console.log("컬럼", column);
-  console.log("날짜", dates);
-
   // contentTypeId 변경하기
   const handleContentTypeId = useCallback(
     (contentTypeId: string) => {
@@ -216,9 +213,9 @@ const SchedulePcPlaces = ({
             </li>
             <PlannerSearch
               openSearch={openSearch}
+              setOpenSearch={setOpenSearch}
               search={search}
               onChange={onChange}
-              handleOpenSearch={handleOpenSearch}
             />
           </ul>
         </div>

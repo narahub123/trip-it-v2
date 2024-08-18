@@ -38,17 +38,12 @@ const Schedule = () => {
     registerDate,
   } = state;
 
-  console.log(state);
-
   const [title, setTitle] = useState(scheduleTitle);
 
   // 시작일과 종료일
-  console.log(state);
-
   const start = convertYYYYMMDDToDateType(startDate);
   const end = convertYYYYMMDDToDateType(endDate);
   const [dates, setDates] = useState(getDateArr(start, end));
-  const [selectedDate, setSelectedDate] = useState(dates[0]);
 
   // 일정 상세 받기
   useEffect(() => {

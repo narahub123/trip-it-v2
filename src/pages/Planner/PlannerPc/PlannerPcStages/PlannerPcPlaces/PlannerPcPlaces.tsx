@@ -11,6 +11,7 @@ import { useRenderCount } from "@uidotdev/usehooks";
 import { calcMinutes } from "utilities/map";
 import PlannerPcAPIPlaceCard from "./components/PlannerPcAPIPlaceCard";
 import PlannerPcDateCard from "./components/PlannerPcDateCard";
+import { handleOpenSearch } from "../../utilities/plannerPc";
 
 export interface PlannerPcPlaces {
   metroId: string;
@@ -58,14 +59,6 @@ const PlannerPcPlaces = ({
   const [search, setSearch] = useState("");
 
   // 검색 관련 함수
-  // 검색창 열기
-  const handleOpenSearch = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-
-    setOpenSearch(!openSearch);
-  };
 
   // 검색어 저장
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -216,9 +209,9 @@ const PlannerPcPlaces = ({
             </li>
             <PlannerSearch
               openSearch={openSearch}
+              setOpenSearch={setOpenSearch}
               search={search}
               onChange={onChange}
-              handleOpenSearch={handleOpenSearch}
             />
           </ul>
         </div>

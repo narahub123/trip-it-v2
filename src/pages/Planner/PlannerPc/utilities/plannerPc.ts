@@ -5,7 +5,87 @@ import { PlaceApiType } from "types/place";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { convertDateToYYYYMMDD, convertDateTypeToDate2 } from "utilities/date";
 
+// PlannerPcStages methods
+// 앞으로 이동
+export const moveForward = (
+  e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+  hash: string,
+  navigate: NavigateFunction
+) => {
+  e.stopPropagation();
+  if (hash === "#calendars") {
+    navigate(`/mypage/schedules`);
+  } else if (hash === "#places") {
+    navigate(`#calendars`);
+  } else {
+    navigate(`#places`);
+  }
+};
+
+// 다른 탭으로 이동
+export const handleMoveTo = (
+  destiny: string,
+  dates: Date[],
+  columns: { [key: string]: ColumnType[] },
+  navigate: NavigateFunction
+) => {
+  if (destiny === "#places") {
+    if (dates.length < 2) {
+      window.alert(`날짜 선택을 완료해주세요`);
+      return;
+    }
+    navigate(`#places`);
+  } else if (destiny === "#register") {
+    if (dates.length < 2) {
+      window.alert(`날짜 선택을 완료해주세요`);
+      navigate(`#calendars`);
+      return;
+    }
+    if (validPlaces(dates, columns)) {
+      navigate(`#register`);
+    }
+  }
+};
+
+// 이동시 유효성 검사
+const validPlaces = (
+  dates: Date[],
+  columns: { [key: string]: ColumnType[] }
+) => {
+  for (const date of dates) {
+    const column = columns[convertDateTypeToDate2(date)];
+
+    const tourPlaces = column.filter(
+      (item) => item.place.contenttypeid !== "32"
+    );
+    const accommos = column.filter((item) => item.place.contenttypeid === "32");
+
+    if (tourPlaces.length < 1) {
+      window.alert(`${convertDateTypeToDate2(date)}의 장소를 선택해주세요.`);
+      return false; // 즉시 함수 종료
+    }
+
+    if (accommos.length < 1) {
+      window.alert(`${convertDateTypeToDate2(date)}의 숙소를 선택해주세요.`);
+      return false; // 즉시 함수 종료
+    }
+  }
+
+  return true; // 모든 날짜에 대해 유효한 경우
+};
+
 // PlannerPcPlaces methods
+// 검색창 열기
+export const handleOpenSearch = (
+  e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+  openSearch: boolean,
+  setOpenSearch: (value: boolean) => void
+) => {
+  e.stopPropagation();
+
+  setOpenSearch(!openSearch);
+};
+
 // 드롭 다운 여닫기
 export const handleOpenDropdown = (
   e: React.MouseEvent<HTMLSpanElement, MouseEvent>,

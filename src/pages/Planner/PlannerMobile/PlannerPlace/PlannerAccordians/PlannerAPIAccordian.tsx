@@ -8,6 +8,7 @@ import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
 import { fetchPlacesAPI, fetchPlacesByKeywordAPI } from "apis/place";
 import PlannerSearch from "pages/Planner/components/PlannerSearch/PlannerSearch";
+
 export interface PlannerAPIAccordianProps {
   dates: Date[];
   metroId: string;
@@ -206,9 +207,9 @@ const PlannerAPIAccordian = ({
           ))}
           <PlannerSearch
             openSearch={openSearch}
+            setOpenSearch={setOpenSearch}
             search={search}
             onChange={onChange}
-            handleOpenSearch={handleOpenSearch}
           />
         </ul>
         <ul
