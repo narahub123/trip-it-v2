@@ -2,10 +2,11 @@ import { useLocation } from "react-router-dom";
 import "./planner.css";
 import { metros } from "data/metros";
 import { useState } from "react";
-import PlannerCalendar from "./PlannerCalendar/PlannerCalendar";
-import PlannerPlaces from "./PlannerPlace/PlannerPlaces";
+import PlannerCalendar from "./PlannerMobile/PlannerCalendar/PlannerCalendar";
+
 import { MessageType } from "types/template";
 import PlannerPc from "./PlannerPc/PlannerPc";
+import PlannerMobile from "./PlannerMobile/PlannerPlace/PlannerMobile";
 
 const Planner = () => {
   const { hash, pathname } = useLocation();
@@ -25,7 +26,7 @@ const Planner = () => {
   return (
     <div className="planner">
       {message ? <div className="planner-modal"></div> : undefined}
-      <PlannerPlaces metroId={metroId} dates={dates} setDates={setDates} />
+      <PlannerMobile metroId={metroId} dates={dates} setDates={setDates} />
       <PlannerPc metroId={metroId} dates={dates} setDates={setDates} />
     </div>
   );

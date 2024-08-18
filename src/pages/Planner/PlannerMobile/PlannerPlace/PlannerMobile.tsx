@@ -3,19 +3,20 @@ import "./plannerPlaces.css";
 import { useEffect, useState } from "react";
 import PlannerInfoAccordian from "./PlannerAccordians/PlannerInfoAccordian";
 import PlannerAPIAccordian from "./PlannerAccordians/PlannerAPIAccordian";
-import { plannerAPIAccordianArr } from "../data/plannerPlace";
+
 import PlannerDateAccordian from "./PlannerAccordians/PlannerDateAccordian";
 import { ColumnType, ScheduleDetailDtoInputType } from "types/plan";
 import { useNavigate } from "react-router-dom";
 import { saveScheduleAPI } from "apis/schedule";
 import { LuLoader2 } from "react-icons/lu";
 import PlannerCalendarAccordian from "./PlannerAccordians/PlannerCalendarAccordian";
-export interface PlannerPlacesProps {
+import { plannerAPIAccordianArr } from "pages/Planner/data/plannerPlace";
+export interface PlannerMobileProps {
   metroId: string;
   dates: Date[];
   setDates: (value: Date[]) => void;
 }
-const PlannerPlaces = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
+const PlannerMobile = ({ metroId, dates, setDates }: PlannerMobileProps) => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [openAccordian, setOpenAccordian] = useState("");
@@ -199,4 +200,4 @@ const PlannerPlaces = ({ metroId, dates, setDates }: PlannerPlacesProps) => {
   );
 };
 
-export default PlannerPlaces;
+export default PlannerMobile;
