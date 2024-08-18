@@ -15,7 +15,7 @@ import { ColumnType } from "types/plan";
 import ScheduleMobile from "./Mobile/ScheduleMobile";
 import { MessageType } from "types/template";
 import SchedulePc from "./Pc/SchedulePc";
-import { InfoType } from "pages/Planner/PlannerPc/PlannerPc";
+
 import useFetchInfos from "hooks/useFetchInfos";
 
 const Schedule = () => {
@@ -60,8 +60,6 @@ const Schedule = () => {
 
     fetchDetails();
   }, [scheduleId]);
-
-  console.log(scheduleDetails);
 
   // 일정 상세를 통해서 공공 데이터에서 장소 정보 받아오기
   useEffect(() => {

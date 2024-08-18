@@ -94,7 +94,6 @@ const RegisterDate = ({
   const selected =
     convertDateTypeToDate1(selectedDate) === convertDateTypeToDate1(curDate);
 
-  // 유효성 검사
   useEffect(() => {
     const countOfTours = column.filter(
       (item) => item.place.contenttypeid !== "32"
@@ -104,37 +103,31 @@ const RegisterDate = ({
       (item) => item.place.contenttypeid === "32"
     ).length;
 
-    if (countOfTours < 1 && countOfAccommos < 1) {
-      setValid(false);
-      setPlanValid((prev) => ({
-        ...prev,
-        [convertDateTypeToDate2(curDate)]: false,
-      }));
-      setWarning("관광지와 숙소를 선택해주세요.");
-      return;
-    } else if (countOfTours < 1) {
-      setValid(false);
-      setPlanValid((prev) => ({
-        ...prev,
-        [convertDateTypeToDate2(curDate)]: false,
-      }));
-      setWarning("관광지를 선택해주세요.");
-    } else if (countOfAccommos < 1) {
-      setValid(false);
-      setPlanValid((prev) => ({
-        ...prev,
-        [convertDateTypeToDate2(curDate)]: false,
-      }));
-      setWarning("숙소를 선택해주세요.");
-    } else {
-      setValid(true);
-      setWarning("");
-      setPlanValid((prev) => ({
-        ...prev,
-        [convertDateTypeToDate2(curDate)]: true,
-      }));
+    let newValid = countOfTours >= 1 && countOfAccommos >= 1;
+    let newWarning = newValid
+      ? ""
+      : countOfTours < 1
+      ? "관광지를 선택해주세요."
+      : "숙소를 선택해주세요.";
+
+    if (valid !== newValid || warning !== newWarning) {
+      setValid(newValid);
+      setWarning(newWarning);
     }
-  }, [column]);
+  }, [column, valid, warning]);
+
+  useEffect(() => {
+    const dateKey = convertDateTypeToDate2(curDate);
+    setPlanValid((prev) => {
+      if (prev[dateKey] !== valid) {
+        return {
+          ...prev,
+          [dateKey]: valid,
+        };
+      }
+      return prev;
+    });
+  }, [curDate, valid]);
 
   return (
     <section
@@ -143,6 +136,7 @@ const RegisterDate = ({
       }${valid ? "" : " invalid"}`}
     >
       <div
+        key={convertDateTypeToDate2(curDate)}
         className="planner-pc-register-plan-date-item-title"
         onClick={() => setDate(curDate)}
         draggable={column.length !== 0}
@@ -163,13 +157,13 @@ const RegisterDate = ({
         </p>
       </div>
       <ul className="planner-pc-register-plan-date-item-container">
-        {column.length !== 0 && warning && (
+        {!requesting && column.length !== 0 && warning && (
           <li className="planner-pc-register-plan-date-item-warning">
             {warning}
           </li>
         )}
 
-        {requesting ? (
+        {column.length === 0 || requesting ? (
           <li className="planner-pc-register-plan-date-item-requesting">
             <span className={`icon${requesting ? " requesting" : ""}`}>
               <LuLoader2 />
@@ -193,7 +187,7 @@ const RegisterDate = ({
             </li>
           )
         )}
-        {column.length !== 0 && (
+        {column.length !== 0 && !requesting && (
           <li
             className={`planner-pc-register-card-indicator${
               droppable[0] === convertDateTypeToDate2(curDate) &&
