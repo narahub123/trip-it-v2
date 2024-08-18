@@ -2,19 +2,24 @@ import { fetchPlaceAPI } from "apis/place";
 import "./plannerPcAPIPlaceCard.css";
 import { metros } from "data/metros";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import {
-  LuCheck,
-  LuChevronDown,
-  LuLoader,
-  LuLoader2,
-  LuPhoneCall,
-  LuPlus,
-} from "react-icons/lu";
+import { LuCheck, LuChevronDown, LuPhoneCall, LuPlus } from "react-icons/lu";
 import { PlaceApiType } from "types/place";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import { ColumnType } from "types/plan";
 import { getPureletter } from "utilities/place";
-import Map from "../../PlannerMap/Map";
+import Map from "pages/Planner/PlannerPc/PlannerMap/Map";
+import {
+  CheckPlace,
+  getPlaceDetail,
+  handleDeselect,
+  handleOpenDropdown,
+  handleOpenMap,
+  handleOverview,
+  handleSelect,
+  handleSelectAll,
+  WhereCheckedPlace,
+} from "pages/Planner/PlannerPc/utilities/plannerPc";
+
 export interface PlannerPcAPIPlaceCardProps {
   dates: Date[];
   place: PlaceApiType;
@@ -61,6 +66,7 @@ const PlannerPcAPIPlaceCard = ({
     .flat()
     .map((item) => item.place);
 
+  // 드롭 다운 닫기
   useEffect(() => {
     // 드롭다운 외부 클릭 시 드롭다운을 닫기 위한 이벤트 핸들러
     const handleClickOutside = (e: MouseEvent) => {
@@ -79,6 +85,7 @@ const PlannerPcAPIPlaceCard = ({
     };
   }, []);
 
+  // 드롭 다운이 창보다 아래에서 켜지는 경우
   useLayoutEffect(() => {
     if (listRef.current && openDropdown) {
       const checkContentLoad = () => {
@@ -102,160 +109,12 @@ const PlannerPcAPIPlaceCard = ({
     }
   }, [openDropdown]);
 
-  // 설명 받기
-  const getOverview = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    contentId: string
-  ) => {
-    if (selectedPlace?.contentid === contentId) return;
-
-    setLoading(true);
-    if (isRequesting) return;
-
-    setIsRequesting(true);
-
-    fetchPlaceAPI(contentId)
-      .then((res) => {
-        if (!res) return;
-        console.log(res.data);
-
-        setSelectedPlace(res.data[0]);
-        setLoading(false);
-        setIsRequesting(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.code === 0) {
-          console.log("네트워크 오류, 연결 상태 확인 요망");
-        }
-        setLoading(false);
-        setIsRequesting(false);
-      });
-  };
-
-  // 추가 정보 확인하기
-  const getPlaceDetail = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    contentId: string
-  ) => {
-    e.stopPropagation();
-
-    // 설명 파트 여닫기
-    setOpenDepict(!openDepict);
-  };
-
-  const handleOpenDropdown = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-
-    setOpenDropdown(!openDropdown);
-  };
-
-  const handleDeselect = (
-    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    contentId: string,
-    date: Date
-  ) => {
-    e.stopPropagation();
-    const newColumn = columns[convertDateTypeToDate2(date)].filter(
-      (item) => item.place.contentid !== contentId
-    );
-
-    setColumns({
-      ...columns,
-      [convertDateTypeToDate2(date)]: newColumn,
-    });
-
-    setOpenDropdown(!openDropdown);
-  };
-
-  // 장소 추가하기
-  const handleSelect = (
-    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    place: PlaceApiType,
-    date: Date,
-    order: number
-  ) => {
-    e.stopPropagation();
-
-    const newColumnElem: ColumnType = {
-      place,
-      scheduleOrder: order,
-      startTime: "06:00",
-      endTime: "07:00",
-    };
-
-    const oldColumn: ColumnType[] = columns[convertDateTypeToDate2(date)] || [];
-
-    setColumns({
-      ...columns,
-      [convertDateTypeToDate2(date)]: [...oldColumn, newColumnElem],
-    });
-
-    setOpenDropdown(!openDropdown);
-  };
-
-  // 매일 선택
-  const handleSelectAll = () => {
-    let newColumns = { ...columns };
-    for (let i = 0; i < dates.length; i++) {
-      const date = dates[i];
-      const column = newColumns[convertDateTypeToDate2(date)] || [];
-
-      const newColumnElem: ColumnType = {
-        place,
-        scheduleOrder: i,
-        startTime: "06:00",
-        endTime: "07:00",
-      };
-
-      const newColumn = [...column, newColumnElem];
-      newColumns = { ...newColumns, [convertDateTypeToDate2(date)]: newColumn };
-    }
-
-    setColumns({ ...newColumns });
-  };
-
-  // 저장된 장소의 위치 확인
-  const WhereCheckedPlace = (contentId: string, index: number) => {
-    return (
-      Object.values(columns)[index]?.some(
-        (item) => item.place.contentid === contentId
-      ) || false
-    );
-  };
-
-  // 저장된 장소인지 여부 확인
-  const CheckPlace = (contentId: string) => {
-    return selectedPlaces.some((item) => item.contentid === contentId);
-  };
-
-  //
-  const handleOverview = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    contentId: string
-  ) => {
-    e.stopPropagation();
-    setOpenOverview(!openOverview);
-
-    if (!openOverview) {
-      getOverview(e, contentId);
-    }
-  };
-
-  const handleOpenMap = (
-    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    setOpenMap(!openMap);
-  };
   return (
     <li className="planner-pc-place-card-api">
       <div className="planner-pc-place-card-api-main">
         <span
           className="planner-pc-place-card-api-main-info"
-          onClick={(e) => getPlaceDetail(e, place.contentid)}
+          onClick={(e) => getPlaceDetail(e, openDepict, setOpenDepict)}
         >
           <span className="planner-pc-place-card-api-main-info-photo">
             <img
@@ -307,12 +166,12 @@ const PlannerPcAPIPlaceCard = ({
             openDepict ? " open" : ""
           }`}
           ref={dropdownRef}
-          onClick={(e) => handleOpenDropdown(e)}
+          onClick={(e) => handleOpenDropdown(e, openDropdown, setOpenDropdown)}
         >
           <p className={`planner-pc-place-card-api-main-dropdown-title`}>
             {openDropdown ? (
               <LuChevronDown />
-            ) : CheckPlace(place.contentid) ? (
+            ) : CheckPlace(selectedPlaces, place.contentid) ? (
               <LuCheck />
             ) : (
               <LuPlus />
@@ -327,7 +186,7 @@ const PlannerPcAPIPlaceCard = ({
           >
             <li
               className="planner-pc-place-card-api-main-dropdown-item"
-              onClick={() => handleSelectAll()}
+              onClick={() => handleSelectAll(columns, setColumns, dates, place)}
             >
               매일
             </li>
@@ -335,12 +194,33 @@ const PlannerPcAPIPlaceCard = ({
               <li
                 key={convertDateTypeToDate2(date)}
                 className={`planner-pc-place-card-api-main-dropdown-item${
-                  WhereCheckedPlace(place.contentid, index) ? " selected" : ""
+                  WhereCheckedPlace(place.contentid, index, columns)
+                    ? " selected"
+                    : ""
                 }`}
                 onClick={
-                  WhereCheckedPlace(place.contentid, index)
-                    ? (e) => handleDeselect(e, place.contentid, date)
-                    : (e) => handleSelect(e, place, date, index)
+                  WhereCheckedPlace(place.contentid, index, columns)
+                    ? (e) =>
+                        handleDeselect(
+                          e,
+                          place.contentid,
+                          date,
+                          columns,
+                          setColumns,
+                          openDropdown,
+                          setOpenDropdown
+                        )
+                    : (e) =>
+                        handleSelect(
+                          e,
+                          place,
+                          date,
+                          index,
+                          columns,
+                          setColumns,
+                          openDropdown,
+                          setOpenDropdown
+                        )
                 }
               >
                 {convertDateTypeToDate1(date)}
@@ -354,10 +234,23 @@ const PlannerPcAPIPlaceCard = ({
           openDepict ? " active" : ""
         }`}
       >
+        {/* 설명 보기 */}
         <div className="planner-pc-place-card-api-overview-depict">
           <p
             className="planner-pc-place-card-api-overview-depict-title"
-            onClick={(e) => handleOverview(e, place.contentid)}
+            onClick={(e) =>
+              handleOverview(
+                e,
+                place.contentid,
+                openOverview,
+                setOpenOverview,
+                selectedPlace,
+                setSelectedPlace,
+                setLoading,
+                isRequesting,
+                setIsRequesting
+              )
+            }
           >
             {openOverview ? "설명 닫기" : "설명 보기"}
           </p>
@@ -375,11 +268,11 @@ const PlannerPcAPIPlaceCard = ({
             )}
           </div>
         </div>
-
+        {/* 지도 보기 */}
         <div className={`planner-pc-place-card-api-overview-map`}>
           <p
             className={`planner-pc-place-card-api-overview-map-title`}
-            onClick={(e) => handleOpenMap(e)}
+            onClick={(e) => handleOpenMap(e, openMap, setOpenMap)}
           >
             {openMap ? "지도 닫기" : "지도 보기"}
           </p>

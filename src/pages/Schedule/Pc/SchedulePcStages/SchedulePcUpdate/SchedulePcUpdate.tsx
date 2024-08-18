@@ -493,6 +493,7 @@ const SchedulePcUpdate = ({
                     setPlanValid={setPlanValid}
                     infos={infos}
                     requesting={requesting}
+                    setDroppable={setDroppable}
                   />
                 );
               })}

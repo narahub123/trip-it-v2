@@ -12,6 +12,17 @@ import RegisterDate from "./RegisterDate/RegisterDate";
 import { saveScheduleAPI } from "apis/schedule";
 import { useNavigate } from "react-router-dom";
 import { InfoType } from "../../PlannerPc";
+import {
+  deleteAll,
+  dragEnd,
+  dragStart,
+  drop,
+  handleDateDragEnd,
+  handleDateDragStart,
+  handleDateDrop,
+  handleSubmit,
+  handleTitle,
+} from "../../utilities/plannerPc";
 
 interface PlannerPcRegisterProps {
   metroId: string;
@@ -80,94 +91,7 @@ const PlannerPcRegister = ({
     return count;
   };
 
-  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-    const value = e.target.value;
-
-    console.log(value.length);
-
-    if (value.length > 1 && value.length < 50) {
-      setValid(true);
-      setTitle(value);
-      return;
-    }
-    if (value.length > 50) {
-      window.alert(`제목은 50자 이내로 작성해주세요`);
-      setValid(false);
-      return;
-    } else {
-      setTitle(value);
-      setValid(false);
-      return;
-    }
-  };
-
-  const handleSubmit = () => {
-    if (!title) return window.alert("일정 제목을 적어주세요");
-    if (!window.confirm(`일정을 등록하시겠습니까?`)) return;
-    const start = convertDateToYYYYMMDD(dates[0]);
-    const end = convertDateToYYYYMMDD(dates[dates.length - 1]);
-
-    console.log(start, end);
-
-    setIsSubmitting(true);
-
-    const scheduleDetails: ScheduleDetailDtoInputType[] = [];
-    const values = Object.values(columns);
-
-    for (let i = 0; i < values.length; i++) {
-      const column = values[i];
-      for (const detail of column) {
-        const newDetail: ScheduleDetailDtoInputType = {
-          contentId: detail.place.contentid,
-          scheduleOrder: detail.scheduleOrder,
-          startTime: detail.startTime,
-          endTime: detail.endTime,
-        };
-        scheduleDetails.push(newDetail);
-      }
-    }
-
-    const submitValue = {
-      scheduleDto: {
-        metroId: metroId,
-        startDate: start,
-        endDate: end,
-        scheduleTitle: title,
-      },
-      detailScheduleDto: scheduleDetails,
-    };
-
-    console.log(submitValue);
-
-    saveScheduleAPI(submitValue)
-      .then((res) => {
-        console.log(res.data);
-        if (!res) return;
-
-        if (res.status === 200) {
-          setIsSubmitting(false);
-          console.log("등록 성공");
-          navigate("/mypage/schedules");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsSubmitting(false);
-      });
-  };
-
-  const dragStart = (e: React.DragEvent<HTMLLIElement>) => {
-    e.stopPropagation();
-    const curCol = e.currentTarget.dataset.col;
-    const curRow = e.currentTarget.dataset.row;
-
-    if (!curCol || !curRow) return;
-
-    e.dataTransfer.setData("curCol", curCol);
-    e.dataTransfer.setData("curRow", curRow);
-  };
-
+  // 카드 dragOver
   const dragOver = useCallback((e: React.DragEvent<HTMLLIElement>) => {
     e.preventDefault(); // 기본 동작 방지
     e.stopPropagation();
@@ -175,8 +99,6 @@ const PlannerPcRegister = ({
     // 현재 드래그 대상의 데이터 가져오기
     const newCol = e.currentTarget.dataset.col;
     const newRow = e.currentTarget.dataset.row;
-
-    console.log(newCol, newRow);
 
     // 데이터가 모두 있는지 확인
     if (!newCol || !newRow) return;
@@ -189,75 +111,8 @@ const PlannerPcRegister = ({
     });
   }, []);
 
-  const dragEnd = (e: React.DragEvent<HTMLLIElement>) => {
-    e.preventDefault(); // 기본 동작 방지
-    e.stopPropagation();
-
-    setDroppable([]);
-  };
-
-  const drop = (e: React.DragEvent<HTMLLIElement>) => {
-    e.preventDefault(); // 기본 동작 방지 필수
-    e.stopPropagation();
-    const curCol = e.dataTransfer.getData("curCol"); // index
-    const curRow = e.dataTransfer.getData("curRow"); // date
-    const newCol = e.currentTarget.dataset.col; // index
-    const newRow = e.currentTarget.dataset.row; // date
-
-    if (!newCol || !newRow || !curCol || !curRow) return;
-
-    const curColIndex = Number(curCol);
-    const newColIndex = Number(newCol);
-
-    if (curRow === newRow && curColIndex === newColIndex) return;
-
-    // 상태 복사 : 불변성 유지를 위해서
-    const updatedColumns = { ...columns };
-
-    // 현재 날짜 컬럼
-    const curColumn = [...(updatedColumns[curRow] || [])];
-    // 대상 날짜 컬럼
-    const targetColumn = [...(updatedColumns[newRow] || [])];
-
-    // 같은 날짜 안에서 이동하는  경우: 순서만 바꿔주면 됨
-    if (curRow === newRow) {
-      // 기존 데이터 삭제
-      const [movedItem] = curColumn.splice(curColIndex, 1);
-
-      curColumn.splice(newColIndex, 0, movedItem);
-
-      // 변경된 현재 날짜 컬럼 업데이트
-      updatedColumns[curRow] = curColumn;
-
-      // 다른 날짜로 이동하는 경우
-    } else {
-      const [movedItem] = curColumn.splice(curColIndex, 1);
-      targetColumn.splice(newColIndex, 0, movedItem);
-
-      updatedColumns[curRow] = curColumn;
-      updatedColumns[newRow] = targetColumn;
-    }
-
-    setColumns(updatedColumns);
-
-    setDroppable([]);
-  };
-
-  const handleDateDragStart = (e: React.DragEvent<HTMLElement>) => {
-    e.stopPropagation();
-    if (droppable.length !== 0) return;
-    const curRow = e.currentTarget.dataset.row;
-
-    console.log(curRow);
-    if (!curRow) return;
-    e.dataTransfer.setData("curRow", curRow);
-  };
-
-  const handleDateDragEnd = (e: React.DragEvent<HTMLElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-  const handleDateDragOver = (e: React.DragEvent<HTMLElement>) => {
+  // 날짜 dragOver
+  const handleDateDragOver = useCallback((e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -266,43 +121,7 @@ const PlannerPcRegister = ({
     const newRow = e.currentTarget.dataset.row;
 
     if (!newRow) return;
-  };
-  const handleDateDrop = (e: React.DragEvent<HTMLElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const newRow = e.currentTarget.dataset.row;
-    const curRow = e.dataTransfer.getData("curRow");
-
-    if (curRow === newRow || !newRow) return;
-
-    const updatedColumns = { ...columns };
-
-    // 현재 날짜 컬럼
-    const curColumn = [...(updatedColumns[curRow] || [])];
-    // 대상 날짜 컬럼
-    const targetColumn = [...(updatedColumns[newRow] || [])];
-
-    updatedColumns[newRow] = curColumn;
-    updatedColumns[curRow] = targetColumn;
-
-    setColumns(updatedColumns);
-  };
-
-  // 모든 일정 삭제하기
-  const deleteAll = () => {
-    if (!window.confirm(`일정을 삭제하시겠습니까?`)) {
-      return;
-    }
-    const newColumns = dates?.reduce((acc, date) => {
-      // 현재 날짜를 기반으로 빈 배열을 할당
-      acc[convertDateTypeToDate2(date)] = [];
-      return acc;
-    }, {} as Record<string, any>); // 새로운 객체를 생성
-
-    setColumns(newColumns);
-
-    navigate(`/planner`);
-  };
+  }, []);
 
   return (
     <div className="planner-pc-register">
@@ -337,7 +156,7 @@ const PlannerPcRegister = ({
                 type="text"
                 className="planner-pc-register-header-textbox"
                 value={title}
-                onChange={(e) => handleTitle(e)}
+                onChange={(e) => handleTitle(e, setValid, setTitle)}
               />
               <span className="planner-pc-register-header-title-detail">
                 {title.length}/50
@@ -366,7 +185,7 @@ const PlannerPcRegister = ({
               <span className="planner-pc-register-plan-title-right">
                 <p
                   className="planner-pc-register-plan-title-delete"
-                  onClick={() => deleteAll()}
+                  onClick={() => deleteAll(dates, setColumns, navigate)}
                 >
                   모든 일정 삭제하기
                 </p>
@@ -410,6 +229,7 @@ const PlannerPcRegister = ({
                       handleDateDrop={handleDateDrop}
                       setPlanValid={setPlanValid}
                       infos={infos}
+                      setDroppable={setDroppable}
                     />
                   );
                 }
@@ -424,7 +244,15 @@ const PlannerPcRegister = ({
             }${isSubmitting ? " submitting" : ""}`}
             onClick={
               valid && Object.values(planValid).every(Boolean)
-                ? () => handleSubmit()
+                ? () =>
+                    handleSubmit(
+                      title,
+                      dates,
+                      setIsSubmitting,
+                      columns,
+                      metroId,
+                      navigate
+                    )
                 : undefined
             }
           >

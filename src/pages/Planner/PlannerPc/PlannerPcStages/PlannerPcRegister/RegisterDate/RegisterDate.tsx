@@ -3,9 +3,8 @@ import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
 import PlannerPcRegisterCard from "../components/PlannerPcRegisterCard";
 import { ColumnType } from "types/plan";
 import React, { useEffect, useState } from "react";
-
-import { LuArrowDown, LuLoader2 } from "react-icons/lu";
-import { calcMinutes } from "utilities/map";
+import { LuLoader2 } from "react-icons/lu";
+import { handleShowMap } from "pages/Planner/PlannerPc/utilities/plannerPc";
 
 export interface PlannerPcRegisterCardProps {
   index: number;
@@ -15,17 +14,45 @@ export interface PlannerPcRegisterCardProps {
   dates: Date[];
   metroId: string;
   columns: { [key: string]: ColumnType[] };
-  setColumns: (value: { [key: string]: ColumnType[] }) => void;
+  setColumns: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: ColumnType[];
+    }>
+  >;
   column: ColumnType[];
   dragOver: (e: React.DragEvent<HTMLLIElement>) => void;
   dragStart: (e: React.DragEvent<HTMLLIElement>) => void;
-  dragEnd: (e: React.DragEvent<HTMLLIElement>) => void;
-  drop: (e: React.DragEvent<HTMLLIElement>) => void;
+  dragEnd: (
+    e: React.DragEvent<HTMLLIElement>,
+    setDroppable: (value: string[]) => void
+  ) => void;
+  drop: (
+    e: React.DragEvent<HTMLLIElement>,
+    columns: { [key: string]: ColumnType[] },
+    setColumns: React.Dispatch<
+      React.SetStateAction<{
+        [key: string]: ColumnType[];
+      }>
+    >,
+    setDroppable: (value: string[]) => void
+  ) => void;
   droppable: string[];
-  handleDateDragStart: (e: React.DragEvent<HTMLElement>) => void;
+  setDroppable: (value: string[]) => void;
+  handleDateDragStart: (
+    e: React.DragEvent<HTMLElement>,
+    droppable: string[]
+  ) => void;
   handleDateDragOver: (e: React.DragEvent<HTMLElement>) => void;
   handleDateDragEnd: (e: React.DragEvent<HTMLElement>) => void;
-  handleDateDrop: (e: React.DragEvent<HTMLElement>) => void;
+  handleDateDrop: (
+    e: React.DragEvent<HTMLElement>,
+    columns: { [key: string]: ColumnType[] },
+    setColumns: React.Dispatch<
+      React.SetStateAction<{
+        [key: string]: ColumnType[];
+      }>
+    >
+  ) => void;
   setOpenMenu: (value: boolean) => void;
   setPlanValid: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
   infos: (
@@ -50,6 +77,7 @@ const RegisterDate = ({
   dragEnd,
   drop,
   droppable,
+  setDroppable,
   handleDateDragStart,
   handleDateDragOver,
   handleDateDragEnd,
@@ -66,6 +94,7 @@ const RegisterDate = ({
   const selected =
     convertDateTypeToDate1(selectedDate) === convertDateTypeToDate1(curDate);
 
+  // 유효성 검사
   useEffect(() => {
     const countOfTours = column.filter(
       (item) => item.place.contenttypeid !== "32"
@@ -107,10 +136,6 @@ const RegisterDate = ({
     }
   }, [column]);
 
-  const handleOpenMap = (date: Date) => {
-    setDate(curDate);
-    setOpenMenu(false);
-  };
   return (
     <section
       className={`planner-pc-register-plan-date-item${
@@ -122,17 +147,17 @@ const RegisterDate = ({
         onClick={() => setDate(curDate)}
         draggable={column.length !== 0}
         data-row={convertDateTypeToDate2(curDate)}
-        onDragStart={(e) => handleDateDragStart(e)}
+        onDragStart={(e) => handleDateDragStart(e, droppable)}
         onDragEnd={(e) => handleDateDragEnd(e)}
         onDragOver={(e) => handleDateDragOver(e)}
-        onDrop={(e) => handleDateDrop(e)}
+        onDrop={(e) => handleDateDrop(e, columns, setColumns)}
       >
         <p className="planner-pc-register-plan-date-item-title-name">{`Day${
           index + 1
         } : ${convertDateTypeToDate1(curDate)}`}</p>
         <p
           className="planner-pc-register-plan-date-item-title-map"
-          onClick={() => handleOpenMap(curDate)}
+          onClick={() => handleShowMap(curDate, setDate, setOpenMenu)}
         >
           지도 보기
         </p>
@@ -159,8 +184,8 @@ const RegisterDate = ({
               data-col={0}
               onDragOver={(e) => dragOver(e)}
               onDragStart={(e) => dragStart(e)}
-              onDragEnd={(e) => dragEnd(e)}
-              onDrop={(e) => drop(e)}
+              onDragEnd={(e) => dragEnd(e, setDroppable)}
+              onDrop={(e) => drop(e, columns, setColumns, setDroppable)}
             >
               <p className="planner-pc-register-card-noplace">
                 장소를 선택해주세요
@@ -180,8 +205,8 @@ const RegisterDate = ({
             data-col={0}
             onDragOver={(e) => dragOver(e)}
             onDragStart={(e) => dragStart(e)}
-            onDragEnd={(e) => dragEnd(e)}
-            onDrop={(e) => drop(e)}
+            onDragEnd={(e) => dragEnd(e, setDroppable)}
+            onDrop={(e) => drop(e, columns, setColumns, setDroppable)}
           ></li>
         )}
 
@@ -207,6 +232,7 @@ const RegisterDate = ({
               dragEnd={dragEnd}
               drop={drop}
               droppable={droppable}
+              setDroppable={setDroppable}
               infos={infos}
             />
           </>

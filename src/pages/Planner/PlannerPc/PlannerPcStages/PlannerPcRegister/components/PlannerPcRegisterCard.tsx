@@ -12,11 +12,20 @@ import {
 } from "react-icons/lu";
 import TimeDropdown from "pages/Planner/components/TimeDropdown";
 import { hourArr, minuteArr } from "data/plan";
-
 import { getPureletter } from "utilities/place";
 import Map from "pages/Planner/PlannerPc/PlannerMap/Map";
-import { fetchPlaceAPI } from "apis/place";
 import { calcMinutes } from "utilities/map";
+import {
+  getPlaceDetail,
+  handleDeselect,
+  handleOpenDropdown,
+  handleOpenMap,
+  handleOverview,
+  handleSelectAndMove,
+  MoveCardDown,
+  MoveCardUp,
+  WhereCheckedPlace,
+} from "pages/Planner/PlannerPc/utilities/plannerPc";
 
 export interface PlannerPcRegisterCardProps {
   curDate: Date;
@@ -24,9 +33,13 @@ export interface PlannerPcRegisterCardProps {
   detail: ColumnType;
   metroId: string;
   columns: { [key: string]: ColumnType[] };
-  setColumns: (value: { [key: string]: ColumnType[] }) => void;
   order: number;
   column: ColumnType[];
+  setColumns: React.Dispatch<
+    React.SetStateAction<{
+      [key: string]: ColumnType[];
+    }>
+  >;
   moveClassGroup: string[];
   setMoveClassGroup: (value: string[]) => void;
   moveOrderGroup: number[];
@@ -34,9 +47,22 @@ export interface PlannerPcRegisterCardProps {
   setMoveOrderGroup: (value: number[]) => void;
   dragOver: (e: React.DragEvent<HTMLLIElement>) => void;
   dragStart: (e: React.DragEvent<HTMLLIElement>) => void;
-  dragEnd: (e: React.DragEvent<HTMLLIElement>) => void;
-  drop: (e: React.DragEvent<HTMLLIElement>) => void;
+  dragEnd: (
+    e: React.DragEvent<HTMLLIElement>,
+    setDroppable: (value: string[]) => void
+  ) => void;
+  drop: (
+    e: React.DragEvent<HTMLLIElement>,
+    columns: { [key: string]: ColumnType[] },
+    setColumns: React.Dispatch<
+      React.SetStateAction<{
+        [key: string]: ColumnType[];
+      }>
+    >,
+    setDroppable: (value: string[]) => void
+  ) => void;
   droppable: string[];
+  setDroppable: (value: string[]) => void;
   infos: (
     | { distance: number | string; duration: number | string }
     | undefined
@@ -61,6 +87,7 @@ const PlannerPcRegisterCard = ({
   dragEnd,
   drop,
   droppable,
+  setDroppable,
   infos,
 }: PlannerPcRegisterCardProps) => {
   const dropdownRef = useRef<HTMLSpanElement>(null);
@@ -95,10 +122,7 @@ const PlannerPcRegisterCard = ({
     (metro) => metro.areaCode === metroId
   )?.imgUrl;
 
-  const selectedPlaces = Object.values(columns)
-    .flat()
-    .map((item) => item.place);
-
+  // 드롭 다운 닫기
   useEffect(() => {
     // 드롭다운 외부 클릭 시 드롭다운을 닫기 위한 이벤트 핸들러
     const handleClickOutside = (e: MouseEvent) => {
@@ -117,6 +141,7 @@ const PlannerPcRegisterCard = ({
     };
   }, []);
 
+  // 이동 관련 애니메이션
   useEffect(() => {
     if (moveClassGroup[0]) {
       const timer = setTimeout(() => setMoveClassGroup([]), 100); // 애니메이션 길이와 동일하게 설정
@@ -148,204 +173,6 @@ const PlannerPcRegisterCard = ({
     setColumns(updatedColumns);
   }, [startHour, startMinute, endHour, endMinute]);
 
-  // 추가 정보 확인하기
-  const getPlaceDetail = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    contentId: string
-  ) => {
-    e.stopPropagation();
-
-    // 설명 파트 여닫기
-    setOpenDepict(!openDepict);
-  };
-
-  const handleOpenDropdown = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-
-    setOpenDropdown(!openDropdown);
-  };
-
-  const handleDeselect = (
-    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    contentId: string,
-    date: Date
-  ) => {
-    e.stopPropagation();
-    const newColumn = columns[convertDateTypeToDate2(date)].filter(
-      (item) => item.place.contentid !== contentId
-    );
-
-    setColumns({
-      ...columns,
-      [convertDateTypeToDate2(date)]: newColumn,
-    });
-  };
-  const handleSelect = (
-    e: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    place: PlaceApiType,
-    selectedDate: Date,
-    order: number,
-    curDate: Date
-  ) => {
-    e.stopPropagation();
-
-    const newColumnElem: ColumnType = {
-      place,
-      scheduleOrder: order,
-      startTime: "06:00",
-      endTime: "07:00",
-    };
-
-    const curColumns = columns[convertDateTypeToDate2(curDate)].filter(
-      (item) => item.place.contentid !== place.contentid
-    );
-
-    const oldColumn: ColumnType[] =
-      columns[convertDateTypeToDate2(selectedDate)];
-
-    setColumns({
-      ...columns,
-      [convertDateTypeToDate2(curDate)]: [...curColumns],
-      [convertDateTypeToDate2(selectedDate)]: [...oldColumn, newColumnElem],
-    });
-  };
-
-  // 저장된 장소의 위치 확인
-  const WhereCheckedPlace = (contentId: string, index: number) => {
-    const sps = Object.values(columns);
-
-    const result = sps
-      .find((_, i) => index === i)
-      ?.find((item) => item.place.contentid === contentId);
-
-    if (result) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  // 저장된 장소인지 여부 확인
-  const CheckPlace = (contentId: string) => {
-    const check = selectedPlaces.find((item) => item.contentid === contentId);
-
-    if (check) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const MoveCardUp = (
-    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-    contentId: string
-  ) => {
-    e.stopPropagation();
-
-    // 현재 column 상태를 복사하여 cloneColumn 생성
-    const cloneColumn = [...columns[convertDateTypeToDate2(curDate)]];
-
-    // contentId가 일치하는 아이템을 찾기
-    const itemIndex = cloneColumn.findIndex(
-      (item) => item.place.contentid === contentId
-    );
-
-    // 아이템이 존재하지 않거나, 이미 첫 번째 위치에 있는 경우 처리
-    if (itemIndex === -1 || itemIndex === 0) return;
-
-    // 아이템을 위로 이동시키기 위해 스왑
-    const itemToMove = cloneColumn[itemIndex];
-    cloneColumn.splice(itemIndex, 1); // 해당 아이템 제거
-    cloneColumn.splice(itemIndex - 1, 0, itemToMove); // 새로운 위치에 아이템 삽입
-
-    // 상태 업데이트
-    setColumns({
-      ...columns,
-      [convertDateTypeToDate2(curDate)]: cloneColumn,
-    });
-
-    setMoveClassGroup(["move-up", "move-down"]);
-    setMoveOrderGroup([order, order - 1]);
-  };
-
-  const MoveCardDown = (
-    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-    contentId: string
-  ) => {
-    e.stopPropagation();
-    // 현재 column 상태를 복사하여 cloneColumn 생성
-    const cloneColumn = [...columns[convertDateTypeToDate2(curDate)]];
-
-    // contentId가 일치하는 아이템을 찾기
-    const itemIndex = cloneColumn.findIndex(
-      (item) => item.place.contentid === contentId
-    );
-
-    // 아이템이 존재하지 않거나, 이미 마지막 위치에 있는 경우 처리
-    if (itemIndex === -1 || itemIndex === cloneColumn.length - 1) return;
-
-    // 아이템을 아래로 이동시키기 위해 스왑
-    const itemToMove = cloneColumn[itemIndex];
-    cloneColumn.splice(itemIndex, 1); // 해당 아이템 제거
-    cloneColumn.splice(itemIndex + 1, 0, itemToMove); // 새로운 위치에 아이템 삽입
-
-    // 상태 업데이트
-    setColumns({
-      ...columns,
-      [convertDateTypeToDate2(curDate)]: cloneColumn,
-    });
-
-    setMoveClassGroup(["move-down", "move-up"]);
-    setMoveOrderGroup([order, order + 1]);
-  };
-
-  const handleOverview = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    contentId: string
-  ) => {
-    e.stopPropagation();
-    setOpenOverview(!openOverview);
-
-    if (!openOverview) {
-      getOverview(contentId);
-    }
-  };
-
-  const getOverview = (contentId: string) => {
-    if (selectedPlace?.contentid === contentId) return;
-
-    setLoading(true);
-    if (isRequesting) return;
-
-    setIsRequesting(true);
-
-    fetchPlaceAPI(contentId)
-      .then((res) => {
-        if (!res) return;
-        console.log(res.data);
-
-        setSelectedPlace(res.data[0]);
-        setLoading(false);
-        setIsRequesting(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.code === 0) {
-          console.log("네트워크 오류, 연결 상태 확인 요망");
-        }
-        setLoading(false);
-        setIsRequesting(false);
-      });
-  };
-
-  const handleOpenMap = (
-    e: React.MouseEvent<HTMLParagraphElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    setOpenMap(!openMap);
-  };
   return (
     <>
       <li
@@ -362,8 +189,8 @@ const PlannerPcRegisterCard = ({
         // draggable
         onDragOver={(e) => dragOver(e)}
         onDragStart={(e) => dragStart(e)}
-        onDragEnd={(e) => dragEnd(e)}
-        onDrop={(e) => drop(e)}
+        onDragEnd={(e) => dragEnd(e, setDroppable)}
+        onDrop={(e) => drop(e, columns, setColumns, setDroppable)}
       >
         <div className="planner-pc-register-card-main">
           <span
@@ -376,7 +203,18 @@ const PlannerPcRegisterCard = ({
                 className={`planner-pc-register-card-main-position-up${
                   order === 0 ? " deactive" : ""
                 }`}
-                onClick={(e) => MoveCardUp(e, detail.place.contentid)}
+                onClick={(e) =>
+                  MoveCardUp(
+                    e,
+                    detail.place.contentid,
+                    columns,
+                    setColumns,
+                    curDate,
+                    setMoveClassGroup,
+                    setMoveOrderGroup,
+                    order
+                  )
+                }
               >
                 <LuChevronUp />
               </p>
@@ -384,7 +222,18 @@ const PlannerPcRegisterCard = ({
                 className={`planner-pc-register-card-main-position-down${
                   order === lastOfColumn ? " deactive" : ""
                 }`}
-                onClick={(e) => MoveCardDown(e, detail.place.contentid)}
+                onClick={(e) =>
+                  MoveCardDown(
+                    e,
+                    detail.place.contentid,
+                    columns,
+                    setColumns,
+                    curDate,
+                    setMoveClassGroup,
+                    setMoveOrderGroup,
+                    order
+                  )
+                }
               >
                 <LuChevronDown />
               </p>
@@ -392,7 +241,7 @@ const PlannerPcRegisterCard = ({
           </span>
           <span
             className="planner-pc-register-card-main-info"
-            onClick={(e) => getPlaceDetail(e, detail.place.contentid)}
+            onClick={(e) => getPlaceDetail(e, openDepict, setOpenDepict)}
           >
             <span className="planner-pc-register-card-main-info-photo">
               <img
@@ -461,7 +310,9 @@ const PlannerPcRegisterCard = ({
               openDepict ? " open" : ""
             }`}
             ref={dropdownRef}
-            onClick={(e) => handleOpenDropdown(e)}
+            onClick={(e) =>
+              handleOpenDropdown(e, openDropdown, setOpenDropdown)
+            }
           >
             <p className={`planner-pc-register-card-main-dropdown-title`}>
               {openDropdown ? <LuChevronDown /> : <LuAlignJustify />}
@@ -476,29 +327,56 @@ const PlannerPcRegisterCard = ({
               <li
                 className={`planner-pc-register-card-main-dropdown-item`}
                 onClick={(e) =>
-                  handleDeselect(e, detail.place.contentid, curDate)
+                  handleDeselect(
+                    e,
+                    detail.place.contentid,
+                    curDate,
+                    columns,
+                    setColumns,
+                    openDropdown,
+                    setOpenDropdown
+                  )
                 }
               >
                 삭제
               </li>
               {dates.map((day, index) => {
                 if (day === curDate) return;
-                if (WhereCheckedPlace(detail.place.contentid, index)) {
+                if (WhereCheckedPlace(detail.place.contentid, index, columns)) {
                   return;
                 }
                 return (
                   <li
                     key={convertDateTypeToDate2(day)}
                     className={`planner-pc-register-card-main-dropdown-item${
-                      WhereCheckedPlace(detail.place.contentid, index)
+                      WhereCheckedPlace(detail.place.contentid, index, columns)
                         ? " selected"
                         : ""
                     }`}
                     onClick={
-                      WhereCheckedPlace(detail.place.contentid, index)
-                        ? (e) => handleDeselect(e, detail.place.contentid, day)
+                      WhereCheckedPlace(detail.place.contentid, index, columns)
+                        ? (e) =>
+                            handleDeselect(
+                              e,
+                              detail.place.contentid,
+                              day,
+                              columns,
+                              setColumns,
+                              openDropdown,
+                              setOpenDropdown
+                            )
                         : (e) =>
-                            handleSelect(e, detail.place, day, index, curDate)
+                            handleSelectAndMove(
+                              e,
+                              detail.place,
+                              day,
+                              index,
+                              curDate,
+                              columns,
+                              setColumns,
+                              openDropdown,
+                              setOpenDropdown
+                            )
                     }
                   >
                     {convertDateTypeToDate1(day)}
@@ -516,7 +394,19 @@ const PlannerPcRegisterCard = ({
           <div className="planner-pc-register-card-overview-depict">
             <p
               className="planner-pc-register-card-overview-depict-title"
-              onClick={(e) => handleOverview(e, detail.place.contentid)}
+              onClick={(e) =>
+                handleOverview(
+                  e,
+                  detail.place.contentid,
+                  openOverview,
+                  setOpenOverview,
+                  selectedPlace,
+                  setSelectedPlace,
+                  setLoading,
+                  isRequesting,
+                  setIsRequesting
+                )
+              }
             >
               {openOverview ? "설명 닫기" : "설명 보기"}
             </p>
@@ -538,7 +428,7 @@ const PlannerPcRegisterCard = ({
           <div className={`planner-pc-register-card-overview-map`}>
             <p
               className={`planner-pc-register-card-overview-map-title`}
-              onClick={(e) => handleOpenMap(e)}
+              onClick={(e) => handleOpenMap(e, openMap, setOpenMap)}
             >
               {openMap ? "지도 닫기" : "지도 보기"}
             </p>
@@ -575,8 +465,8 @@ const PlannerPcRegisterCard = ({
         data-col={index + 1}
         onDragOver={(e) => dragOver(e)}
         onDragStart={(e) => dragStart(e)}
-        onDragEnd={(e) => dragEnd(e)}
-        onDrop={(e) => drop(e)}
+        onDragEnd={(e) => dragEnd(e, setDroppable)}
+        onDrop={(e) => drop(e, columns, setColumns, setDroppable)}
       >
         {index !== column.length - 1 && infos[index] ? (
           typeof infos[index]?.duration === "number" ? (

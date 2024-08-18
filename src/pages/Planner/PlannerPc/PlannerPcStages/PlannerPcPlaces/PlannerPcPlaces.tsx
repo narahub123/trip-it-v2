@@ -3,15 +3,14 @@ import "./plannerPcPlaces.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PlaceApiType } from "types/place";
 import { ColumnType } from "types/plan";
-import PlannerPcAPIPlaceCard from "../components/PlannerPcAPIPlaceCard";
 import { convertDateTypeToDate1, convertDateTypeToDate2 } from "utilities/date";
-import PlannerPcDateCard from "../components/PlannerPcDateCard";
 import { LuArrowDown, LuLoader2, LuSearch } from "react-icons/lu";
 import PlannerSearch from "pages/Planner/components/PlannerSearch/PlannerSearch";
 import { debounce } from "utilities/debounce";
 import { useRenderCount } from "@uidotdev/usehooks";
 import { calcMinutes } from "utilities/map";
-import { info } from "console";
+import PlannerPcAPIPlaceCard from "./components/PlannerPcAPIPlaceCard";
+import PlannerPcDateCard from "./components/PlannerPcDateCard";
 
 export interface PlannerPcPlaces {
   metroId: string;
@@ -76,6 +75,13 @@ const PlannerPcPlaces = ({
     debouncedSearch(value);
   };
 
+  // 렌더링을 줄이기 위한 debounce
+  const debouncedSearch = useCallback(
+    debounce((keyword: string) => fetchPlacesByKeyword(keyword), 500),
+    [metroId, pageNo, contentTypeId]
+  );
+
+  // 검색 api
   const fetchPlacesByKeyword = async (keyword: string) => {
     setLoading(true);
     try {
@@ -106,12 +112,6 @@ const PlannerPcPlaces = ({
     }
   };
 
-  // 렌더링을 줄이기 위한 debounce
-  const debouncedSearch = useCallback(
-    debounce((keyword: string) => fetchPlacesByKeyword(keyword), 500),
-    [metroId, pageNo, contentTypeId]
-  );
-
   const column = date ? columns[convertDateTypeToDate2(date)] : [];
 
   // 무한 스크롤링을 위한 useEffect
@@ -121,6 +121,7 @@ const PlannerPcPlaces = ({
     observer.observe(targetRef.current);
   }, []);
 
+  // 장소 정보 받기
   useEffect(() => {
     if (contentTypeId.length === 0) return;
     if (pageNo === "0") {
@@ -146,6 +147,7 @@ const PlannerPcPlaces = ({
       .finally(() => setLoading(false));
   }, [metroId, contentTypeId, pageNo]);
 
+  // 무한 스크롤링을 위한 셋팅
   const options = {
     threshold: 1.0,
   };
@@ -173,6 +175,7 @@ const PlannerPcPlaces = ({
     },
     [contentTypeId]
   );
+
   return (
     <div className="planner-pc-places">
       {/* api */}

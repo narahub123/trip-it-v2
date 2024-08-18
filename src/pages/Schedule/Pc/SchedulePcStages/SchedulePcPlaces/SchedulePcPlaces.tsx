@@ -9,9 +9,8 @@ import PlannerSearch from "pages/Planner/components/PlannerSearch/PlannerSearch"
 import { debounce } from "utilities/debounce";
 import { useRenderCount } from "@uidotdev/usehooks";
 import { calcMinutes } from "utilities/map";
-import { info } from "console";
-import PlannerPcDateCard from "pages/Planner/PlannerPc/PlannerPcStages/components/PlannerPcDateCard";
-import PlannerPcAPIPlaceCard from "pages/Planner/PlannerPc/PlannerPcStages/components/PlannerPcAPIPlaceCard";
+import PlannerPcDateCard from "pages/Planner/PlannerPc/PlannerPcStages/PlannerPcPlaces/components/PlannerPcDateCard";
+import PlannerPcAPIPlaceCard from "pages/Planner/PlannerPc/PlannerPcStages/PlannerPcPlaces/components/PlannerPcAPIPlaceCard";
 
 export interface SchedulePcPlaces {
   metroId: string;
