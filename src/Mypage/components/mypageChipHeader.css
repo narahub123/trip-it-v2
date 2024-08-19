@@ -1,0 +1,52 @@
+.mypage-header-chip {
+  padding: 0 5px 10px;
+  .mypage-header-chip-container {
+    display: flex;
+    gap: 5px;
+
+    a {
+      padding: 10px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .mypage-header-chip-item {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      color: #ccc;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      background-color: #fff;
+      transition: color, background-color 0.2s ease-in-out;
+      transition: border, color 0.2s ease-in-out;
+    }
+
+    .mypage-header-chip-item.active {
+      border: 1px solid var(--basic-color);
+      border-radius: 5px;
+      background-color: var(--basic-color);
+      color: #fff;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      transition: color, background-color 0.2s ease-in-out;
+    }
+
+    .mypage-header-chip-item:hover {
+      border: 1px solid var(--basic-color);
+      color: var(--basic-color);
+      transition: border, color 0.2s ease-in-out;
+    }
+    .mypage-header-chip-item.active:hover {
+      color: #fff;
+    }
+  }
+}
+
+a {
+  color: black;
+}
+
+a:link {
+  color: black;
+}
+
+a:active {
+  color: black;
+}

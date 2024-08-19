@@ -5,7 +5,7 @@ import useHandleClickImage from "../mypage/hooks/useHandleClickImage";
 import { profileForm, userData } from "test/data/profile";
 import { convertDataToDate } from "utilities/profile";
 import { LuPencil, LuClipboardEdit } from "react-icons/lu";
-import { updateProfileAPI } from "apis/profile";
+import { updatePasswordAPI, updateProfileAPI } from "apis/profile";
 import { MessageType } from "types/template";
 import { fetchMessage } from "templates/utilities/template";
 import { proflieMsgs } from "templates/data/message";
@@ -169,7 +169,27 @@ const ProfileMobile = () => {
     setPassword(value);
   };
 
-  const handleUpdatePassword = () => {};
+  const handleUpdatePassword = () => {
+    if (!window.confirm(`입력한 비밀번호로 변경하시겠습니까?`)) {
+      return;
+    }
+
+    // 비밀번호 업데이트 API 호출
+    updatePasswordAPI(password)
+      .then((res) => {
+        if (!res) {
+          return;
+        }
+
+        if (res.status === 200) {
+          setPassword(`***********************************`); // 비밀번호 입력 필드 초기화
+          setMessage(fetchMessage(4, proflieMsgs)); // 업데이트 성공 알림
+        }
+      })
+      .catch((err) => {
+        setMessage(fetchMessage(err.msgId, proflieMsgs));
+      });
+  };
 
   const handleUpdateProfile = () => {
     if (!window.confirm(`프로필을 수정하시겠습니까?`)) {

@@ -7,7 +7,7 @@ import Normal from "pages/Auth/Normal";
 import Join from "pages/Auth/Join";
 import { useEffect } from "react";
 import refreshAPI from "./utilities/TokenRefresher";
-import MyPage from "pages/mypage/MyPage";
+
 import Profile from "pages/mypage/Profile/Profile";
 import Block from "pages/mypage/Block/Block";
 import Blocks from "pages/Admin/Blocks/Blocks";
@@ -21,13 +21,12 @@ import PostsA from "pages/Admin/PostsA/PostsA";
 import SchedulesM from "pages/mypage/SchedulesM/SchedulesM";
 import SchedulesA from "pages/Admin/SchedulesA/SchedulesA";
 import User from "pages/Admin/Users/User";
-import MypageMobile from "pages/Mobile/Mypage/MypageMobile";
 import Carousel from "test/Carousel";
 import PlanHome from "pages/Plan/PlanHome";
 import Schedule from "pages/Schedule/Schedule";
 import PlannerHome from "pages/Planner/PlannerHome/PlannerHome";
-import PlannerLayout from "layouts/PlannerLayout";
 import Planner from "pages/Planner/Planner";
+import Mypage from "Mypage/Mypage";
 
 const Trip = () => {
   useEffect(() => {
@@ -50,16 +49,16 @@ const Trip = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/login/normal" element={<Normal />} />
           <Route path="/join" element={<Join />} />
-          <Route path="/mypage" element={<MyPage />}>
-            <Route index element={<MypageMobile />} />
-            <Route path="/mypage/profile" element={<Profile />} />
+          <Route path="/mypage" element={<Mypage />}>
+            <Route element={<Mypage />} />
+            <Route path="/mypage" element={<Profile />} />
             <Route path="/mypage/blocks" element={<Block />} />
             <Route path="/mypage/reports" element={<Report />} />
             <Route path="/mypage/posts" element={<PostsM />} />
             <Route path="/mypage/schedules" element={<SchedulesM />} />
           </Route>
-          <Route path="/admin" element={<Admin />}>
-            <Route path="/admin/users" element={<Users />} />
+          <Route element={<Admin />}>
+            <Route path="/admin" element={<Users />} />
             <Route path="/admin/users/:userId" element={<User />} />
             <Route path="/admin/blocks" element={<Blocks />} />
             <Route path="/admin/reports" element={<Reports />} />

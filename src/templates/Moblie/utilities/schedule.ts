@@ -35,7 +35,7 @@ export const handleDeleteSchedules = async (
   try {
     const response = await deleteSchedulesMAPI(scheduleIds);
 
-    console.log(response);
+    
 
     if (response.status === 200) {
       window.alert(`삭제가 성공했습니다.`);
