@@ -28,6 +28,7 @@ import PlannerHome from "pages/Planner/PlannerHome/PlannerHome";
 import Planner from "pages/Planner/Planner";
 import Mypage from "Mypage/Mypage";
 import MyPageSchedule from "Mypage/MypageSchedule/MypageSchedule";
+import MypageBlock from "Mypage/MypageBlock/MypageBlock";
 
 const Trip = () => {
   useEffect(() => {
@@ -54,7 +55,7 @@ const Trip = () => {
             <Route element={<Mypage />} />
             <Route path="/mypage" element={<Profile />} />
             <Route path="/mypage/profile" element={<Profile />} />
-            <Route path="/mypage/blocks" element={<Block />} />
+            <Route path="/mypage/blocks" element={<MypageBlock />} />
             <Route path="/mypage/reports" element={<Report />} />
             <Route path="/mypage/posts" element={<PostsM />} />
             <Route path="/mypage/schedules" element={<MyPageSchedule />} />
