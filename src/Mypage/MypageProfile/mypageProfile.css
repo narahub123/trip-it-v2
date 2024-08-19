@@ -1,0 +1,118 @@
+.mypage-profile {
+  margin-top: 10px;
+  user-select: none;
+
+  .mypage-profile-title {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+  .mypage-profile-container {
+    li {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      display: flex;
+      max-width: 800px;
+      margin: 10px auto;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      box-shadow: rgba(149, 157, 165, 0.2) 4px 4px 8px 4px;
+
+      .mypage-profile-detail {
+        flex-grow: 1;
+        .mypage-profile-detail-title {
+          font-weight: bold;
+          font-size: 14px;
+          padding: 5px;
+        }
+        .mypage-profile-detail-data {
+          font-size: 14px;
+          padding: 5px;
+          outline: none;
+          border: none;
+          width: 100%;
+        }
+      }
+      .mypage-profile-edit {
+        cursor: pointer;
+        font-size: 16px;
+        padding: 5px;
+        color: #444;
+      }
+
+      .mypage-profile-update {
+        cursor: pointer;
+        font-size: 13px;
+        border-radius: 9px;
+        padding: 10px;
+        background-color: var(--basic-color);
+        color: #fff;
+      }
+
+      .mypage-profile-leave {
+        color: red;
+        font-size: 13px;
+        padding: 5px;
+        text-align: right;
+      }
+    }
+
+    li.btn-hidden {
+      visibility: hidden;
+      max-height: 0;
+      opacity: 0;
+      padding: 0px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    li.btn-visible {
+      visibility: visible;
+      max-height: 100px;
+      opacity: 1;
+      padding: 10px;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .leave {
+      justify-content: right;
+    }
+    .mypage-profile-photo {
+      justify-content: center;
+      .mypage-profile-photo-container {
+        display: inline-flex;
+        position: relative;
+
+        img {
+          border-radius: 50%;
+          width: 150px;
+          height: 150px;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        }
+        .mypage-profile-photo-icon {
+          cursor: pointer;
+          background-color: #fff;
+          font-size: 20px;
+          text-align: center;
+          line-height: 30px;
+          position: absolute;
+          right: 10px;
+          bottom: 0;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          color: #666;
+        }
+      }
+    }
+  }
+}
+
+.mypage-profile-loading {
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

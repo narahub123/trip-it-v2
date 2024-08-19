@@ -30,6 +30,7 @@ import Mypage from "Mypage/Mypage";
 import MyPageSchedule from "Mypage/MypageSchedule/MypageSchedule";
 import MypageBlock from "Mypage/MypageBlock/MypageBlock";
 import MypageReport from "Mypage/MypageReport/MypageReport";
+import MypageProfile from "Mypage/MypageProfile/MypageProfile";
 
 const Trip = () => {
   useEffect(() => {
@@ -54,8 +55,8 @@ const Trip = () => {
           <Route path="/join" element={<Join />} />
           <Route path="/mypage" element={<Mypage />}>
             <Route element={<Mypage />} />
-            <Route path="/mypage" element={<Profile />} />
-            <Route path="/mypage/profile" element={<Profile />} />
+            <Route path="/mypage" element={<MypageProfile />} />
+            <Route path="/mypage/profile" element={<MypageProfile />} />
             <Route path="/mypage/blocks" element={<MypageBlock />} />
             <Route path="/mypage/reports" element={<MypageReport />} />
             <Route path="/mypage/posts" element={<PostsM />} />
