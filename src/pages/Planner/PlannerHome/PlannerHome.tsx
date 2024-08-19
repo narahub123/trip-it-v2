@@ -1,8 +1,11 @@
 import "./plannerHome.css";
-import { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { MessageType } from "types/template";
 import PlannerHomeModal from "./PlannerHomeModal";
 import { metros } from "data/metros";
+import { LuSearch } from "react-icons/lu";
+import { debounce } from "utilities/debounce";
+import { includeByChoJungJong } from "./Utilities/hangul";
 
 const PlannerHome = () => {
   const [message, setMessage] = useState<MessageType>();
@@ -41,19 +44,33 @@ const PlannerHome = () => {
         <PlannerHomeModal message={message} setMessage={setMessage} />
       )}
       <section className="planner-home-title">
-        <h3>지역 검색</h3>
+        <h3>어디로 여행을 떠나시나요?</h3>
       </section>
       <section className="planner-home-search">
-        <input
-          type="text"
-          className="planner-home-search-box"
-          onChange={(e) => handleSearch(e)}
-        />
+        <div className="planner-home-search-container">
+          <input
+            type="text"
+            className="planner-home-search-box"
+            onChange={(e) => handleSearch(e)}
+            placeholder="지역명을 검색해보세요."
+          />
+          <div className="planner-home-search-icon">
+            <LuSearch />
+          </div>
+        </div>
       </section>
       <section className="planner-home-grid">
+        {metros.filter((item) => includeByChoJungJong(search, item.name))
+          .length === 0 && (
+          <React.Fragment>
+            <li className="planner-home-grid-item-empty">
+              검색 결과가 없습니다.
+            </li>
+          </React.Fragment>
+        )}
         <ul className="planner-home-grid-container">
           {metros
-            .filter((item) => item.name.includes(search))
+            .filter((item) => includeByChoJungJong(search, item.name))
             .map((metro) => (
               <li
                 key={metro.areaCode}

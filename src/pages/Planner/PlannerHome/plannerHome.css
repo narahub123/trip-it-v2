@@ -1,25 +1,41 @@
 .planner-home {
   .planner-home-title {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 180px;
   }
   .planner-home-search {
-    text-align: center;
-    margin: 50px 0 60px;
+    .planner-home-search-container {
+      position: relative;
+      margin: 100px auto 120px;
+      width: 50%;
 
-    .planner-home-search-box {
-      width: 70%;
-      padding: 10px 10px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
+      display: flex;
+      align-items: center;
+      .planner-home-search-box {
+        width: 100%;
+        padding: 20px 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: rgba(149, 157, 165, 0.2) 2px 2px 4px 2px;
+      }
+      .planner-home-search-icon {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 0;
+        right: 0;
+        padding: 20px 10px;
+        font-size: 20px;
+      }
     }
   }
   .planner-home-grid {
     padding: 0 10px;
     .planner-home-grid-container {
+      width: 100%;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      grid-template-columns: minmax(270px, 1fr);
       grid-template-rows: auto;
       grid-gap: 24px;
       .planner-home-grid-item {
@@ -34,8 +50,8 @@
         .planner-home-grid-item-image {
           box-sizing: border-box;
           width: 100%;
-          height: 100px;
           object-fit: cover;
+          height: 130px;
           border-radius: 10px 10px 0 0px;
         }
         .planner-home-grid-item-title {
@@ -44,6 +60,55 @@
           margin-bottom: 4px;
           font-weight: bold;
         }
+      }
+      .planner-home-grid-item:hover {
+        transform: scale(1.05);
+        transition: all 0.3s ease-in-out;
+        .planner-home-grid-item-image {
+          object-fit: cover;
+        }
+      }
+    }
+    .planner-home-grid-item-empty {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+@media screen and (max-width: 599px) {
+}
+@media screen and (min-width: 600px) and (max-width: 900px) {
+  .planner-home {
+    .planner-home-grid {
+      .planner-home-grid-container {
+        grid-template-columns: minmax(270px, 1fr) minmax(270px, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 901px) and (max-width: 1160px) {
+  .planner-home {
+    .planner-home-grid {
+      .planner-home-grid-container {
+        grid-template-columns: minmax(270px, 1fr) minmax(270px, 1fr) minmax(
+            270px,
+            1fr
+          );
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1161px) {
+  .planner-home {
+    .planner-home-grid {
+      .planner-home-grid-container {
+        grid-template-columns:
+          minmax(270px, 1fr) minmax(270px, 1fr) minmax(270px, 1fr)
+          minmax(270px, 1fr);
       }
     }
   }
