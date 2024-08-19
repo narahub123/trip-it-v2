@@ -1,11 +1,13 @@
 .mobile-mypage-template {
   padding: 0px 10px 10px;
+
   .mobile-mypage-template-container {
     .mobile-mypage-template-panels {
       display: flex;
       justify-content: space-between;
       padding: 10px 0;
       .mobile-mypage-template-panels-left {
+        display: flex;
         .mobile-mypage-template-panels-left-title {
           font-weight: bold;
         }
@@ -42,6 +44,10 @@
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       grid-template-rows: auto;
       grid-gap: 10px;
+    }
+
+    .mobile-mypage-template-pagination {
+      margin-top: 20px;
     }
   }
 }

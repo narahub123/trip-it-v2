@@ -197,6 +197,14 @@ export const schedulesMsgs: MessageType[] = [
       main: "잠시 후 다시 시도해주세요.",
     },
   },
+  {
+    msgId: 6,
+    type: "confirm",
+    msgs: {
+      header: "해당 일정을 삭제하시겠습니까?",
+      main: "해당 일정을 사용하는 모집글들과 같이 삭제가 됩니다.",
+    },
+  },
 ];
 
 export const proflieMsgs: MessageType[] = [

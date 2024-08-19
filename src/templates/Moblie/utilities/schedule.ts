@@ -24,7 +24,11 @@ export const handleDeleteSchedules = async (
   items: any[],
   setItems: (value: any[]) => void
 ) => {
-  if (!window.confirm(`삭제하시겠습니까?`)) {
+  if (
+    !window.confirm(
+      `삭제하시겠습니까?\n삭제하시면 일정이 포함된 모집글도 삭제되게 됩니다.`
+    )
+  ) {
     return;
   }
 

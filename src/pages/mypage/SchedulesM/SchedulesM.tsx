@@ -14,7 +14,7 @@ const SchedulesM = () => {
         fetchAPI={fetchSchedulesMAPI}
         deleteAPI={deleteSchedulesMAPI}
         defaultSort={["registerDate", "desc"]}
-        defaultSize={10}
+        defaultSize={12}
         defaultField={{ name: "scheduleTitle" }}
         tempArray={scheduleMArray}
         msgArray={schedulesMsgs}

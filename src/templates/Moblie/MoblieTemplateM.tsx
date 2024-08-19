@@ -15,6 +15,9 @@ import MobileBlockCard from "./MobileBlockCard";
 import MobileReportCard from "./MobileReportCard";
 import { fetchMessage } from "templates/utilities/template";
 import { handleDeleteSchedules } from "./utilities/schedule";
+import TemplatePaginationSizeController from "templates/mypage/TemplatePaginationSizeController";
+import TemplatePagination from "templates/mypage/TemplatePagination";
+import MessageModal from "templates/components/MessageModal";
 
 interface MobileTEmplateMProps {
   pageName: string;
@@ -56,7 +59,7 @@ const MoblieTemplateM = ({
   const [total, setTotal] = useState(1); // 총 아이템 수 상태
   const [search, setSearch] = useState(""); // 검색어 상태
   const [field, setField] = useState(defaultField); // 검색 필드 상태
-  const [message, setMessage] = useState<MessageType>();
+  const [message, setMessage] = useState<MessageType | undefined>();
   const numPages = Math.ceil(total / size); // 총 페이지 개수
   const offset = (page - 1) * size;
 
@@ -80,119 +83,136 @@ const MoblieTemplateM = ({
       });
   }, []);
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    setLoading(true);
+  };
 
   return (
-    <div className="mobile-mypage-template">
-      <div className="mobile-mypage-template-container">
-        <section className="mobile-mypage-template-panels">
-          <span className="mobile-mypage-template-panels-left">
-            <p className="mobile-mypage-template-panels-left-title">
-              {/* ` */}
-              {title}
-            </p>
-          </span>
-          <span className="mobile-mypage-template-panels-right">
-            <MobileSearch
-              searchBox={searchBox}
-              setSearchBox={setSearchBox}
-              setField={setField}
-              setSearch={setSearch}
-              setPage={setPage}
-              items={items}
-              field={field}
-              setTotal={setTotal}
-              tempArray={tempArray}
-              pageName={pageName}
-              search={search}
-            />
-            <MobileSort
-              items={items}
-              setItems={setItems}
-              sort={sort}
-              setSort={setSort}
-              tempArray={tempArray}
-              defaultSort={defaultSort}
-            />
-            {settings && <MobileSetting />}
-          </span>
-        </section>
-        <section
-          className={`mobile-mypage-template-setting${
-            selections.length === 0 ? "" : "-active"
-          }`}
-        >
-          {selections.length !== 0 && (
-            <p
-              onClick={
-                pageName === "mypage-schedules"
-                  ? () => handleDeleteSchedules(selections, items, setItems)
-                  : () => handleDelete()
-              }
-            >
-              삭제
-            </p>
-          )}
-        </section>
-        <section className="mobile-mypage-template-list">
-          {items
-            .filter((item) => {
-              return field.nested
-                ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
-                : item[field.name].includes(search);
-            })
-            .slice(offset, offset + size)
-            .map((item) =>
-              pageName === "mypage-block" ? (
-                <MobileBlockCard
-                  selections={selections}
-                  setSelections={setSelections}
-                  item={item}
-                  key={item.blockId}
-                />
-              ) : (
-                pageName === "mypage-report" && (
-                  <MobileReportCard
+    <>
+      <div className="mobile-mypage-template">
+        <div className="mobile-mypage-template-container">
+          <section className="mobile-mypage-template-panels">
+            <span className="mobile-mypage-template-panels-left">
+              <p className="mobile-mypage-template-panels-left-title">
+                {/*  */}
+                {title}
+              </p>
+              <TemplatePaginationSizeController
+                size={size}
+                setSize={setSize}
+                pageName={pageName}
+              />
+            </span>
+            <span className="mobile-mypage-template-panels-right">
+              <MobileSearch
+                searchBox={searchBox}
+                setSearchBox={setSearchBox}
+                setField={setField}
+                setSearch={setSearch}
+                setPage={setPage}
+                items={items}
+                field={field}
+                setTotal={setTotal}
+                tempArray={tempArray}
+                pageName={pageName}
+                search={search}
+              />
+              <MobileSort
+                items={items}
+                setItems={setItems}
+                sort={sort}
+                setSort={setSort}
+                tempArray={tempArray}
+                defaultSort={defaultSort}
+              />
+              {settings && <MobileSetting />}
+            </span>
+          </section>
+          <section
+            className={`mobile-mypage-template-setting${
+              selections.length === 0 ? "" : "-active"
+            }`}
+          >
+            {selections.length !== 0 && (
+              <p
+                onClick={
+                  pageName === "mypage-schedules"
+                    ? () => handleDeleteSchedules(selections, items, setItems)
+                    : () => handleDelete()
+                }
+              >
+                삭제
+              </p>
+            )}
+          </section>
+          <section className="mobile-mypage-template-list">
+            {items
+              .filter((item) => {
+                return field.nested
+                  ? item[field.name][`${field.nested?.[1]}`]?.includes(search)
+                  : item[field.name].includes(search);
+              })
+              .slice(offset, offset + size)
+              .map((item) =>
+                pageName === "mypage-block" ? (
+                  <MobileBlockCard
                     selections={selections}
                     setSelections={setSelections}
                     item={item}
-                    key={item.reportId}
+                    key={item.blockId}
                   />
-                )
-              )
-            )}
-        </section>
-        <section className="mobile-mypage-template-grid">
-          {(pageName === "mypage-schedules" || pageName === "mypage-posts") &&
-            items
-              .filter((item) => {
-                return item[field.name].includes(search);
-              })
-              .slice(offset, offset + size)
-              .map((item, index) => (
-                <div className="mobile-mypage-template-item" key={index}>
-                  {pageName === "mypage-schedules" ? (
-                    <MobileScheduleCard
+                ) : (
+                  pageName === "mypage-report" && (
+                    <MobileReportCard
                       selections={selections}
                       setSelections={setSelections}
                       item={item}
-                      key={item.scheduleId}
+                      key={item.reportId}
                     />
-                  ) : (
-                    pageName === "mypage-posts" && (
-                      <MobilePostCard
+                  )
+                )
+              )}
+          </section>
+          <section className="mobile-mypage-template-grid">
+            {(pageName === "mypage-schedules" || pageName === "mypage-posts") &&
+              items
+                .filter((item) => {
+                  return item[field.name].includes(search);
+                })
+                .slice(offset, offset + size)
+                .map((item, index) => (
+                  <div className="mobile-mypage-template-item" key={index}>
+                    {pageName === "mypage-schedules" ? (
+                      <MobileScheduleCard
                         selections={selections}
                         setSelections={setSelections}
                         item={item}
-                        key={item.postId}
+                        key={item.scheduleId}
                       />
-                    )
-                  )}
-                </div>
-              ))}
-        </section>
+                    ) : (
+                      pageName === "mypage-posts" && (
+                        <MobilePostCard
+                          selections={selections}
+                          setSelections={setSelections}
+                          item={item}
+                          key={item.postId}
+                        />
+                      )
+                    )}
+                  </div>
+                ))}
+          </section>
+          <section className="mobile-mypage-template-pagination">
+            <TemplatePagination
+              pageName={pageName}
+              page={page}
+              setPage={setPage}
+              numPages={numPages}
+            />
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
