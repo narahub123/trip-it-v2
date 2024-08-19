@@ -1,7 +1,7 @@
 import "./mypageSort.css";
 import React, { useState } from "react";
 import { LuArrowDown, LuArrowUp, LuSlidersHorizontal } from "react-icons/lu";
-import { mypageScheduleSnSArray } from "../data/schedule";
+import { mypageScheduleSnSArray } from "../MypageSchedule/data/schedule";
 import { controlSort } from "Mypage/Utilites/mypage";
 
 interface MypageSortProps {

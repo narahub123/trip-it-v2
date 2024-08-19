@@ -1,22 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import MypageScheduleModal from "./components/MypageScheduleModal";
 import "./mypageSchedule.css";
-import { sizeArray } from "Mypage/data/mypage";
-import MypageSizeController from "./components/MypageSizeController";
-import {
-  LuArrowDown,
-  LuArrowUp,
-  LuSearch,
-  LuSlidersHorizontal,
-} from "react-icons/lu";
-import { mypageScheduleSnSArray } from "./data/schedule";
-import {
-  controlSort,
-  debouncedHandleSearchChange,
-} from "Mypage/Utilites/mypage";
+import MypageSizeController from "../components/MypageSizeController";
+
 import { fetchSchedulesMAPI } from "apis/schedule";
-import MypageSort from "./components/MypageSort";
-import MypageSearch from "./components/MypageSearch";
+import MypageSort from "../components/MypageSort";
+import MypageSearch from "../components/MypageSearch";
+import MypageScheduleCard from "./components/MypageScheduleCard";
+import MypagePagination from "Mypage/components/MypagePagination";
 
 const MypageSchedule = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -25,12 +16,14 @@ const MypageSchedule = () => {
   const [size, setSize] = useState(12);
   const [sort, setSort] = useState<string[]>(["registeDate", "desc"]);
   const [open, setOpen] = useState(false);
-
   const [field, setField] = useState<{ name: string; nested?: string[] }>({
     name: "registerDate",
   });
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const numPages = Math.ceil(total / size); // 총 페이지 개수
+  const offset = (page - 1) * size;
+  const [selections, setSelections] = useState<(string | number)[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -50,6 +43,8 @@ const MypageSchedule = () => {
         setLoading(false);
       });
   }, []);
+
+  console.log(items);
 
   return (
     <>
@@ -76,8 +71,28 @@ const MypageSchedule = () => {
               />
             </span>
           </section>
-          <section className="mypage-schedule-main">메인</section>
-          <section className="mypage-schedule-pagination">페이징</section>
+          <section className="mypage-schedule-grid">
+            {items
+              .filter((item) => {
+                return item[field.name].includes(search);
+              })
+              .slice(offset, offset + size)
+              .map((item) => (
+                <MypageScheduleCard
+                  key={item.scheduleId}
+                  selections={selections}
+                  setSelections={setSelections}
+                  item={item}
+                />
+              ))}
+          </section>
+          <section className="mypage-schedule-pagination">
+            <MypagePagination
+              page={page}
+              setPage={setPage}
+              numPages={numPages}
+            />
+          </section>
         </div>
       </div>
     </>

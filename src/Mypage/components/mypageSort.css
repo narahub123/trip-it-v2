@@ -1,11 +1,13 @@
 .mypage-sort {
   position: relative;
+  z-index: 1;
   .mypage-sort-title {
     cursor: pointer;
   }
   .mypage-sort-container {
     position: absolute;
     width: 120px;
+    background-color: #fff;
     text-align: center;
     right: 0;
     visibility: hidden;

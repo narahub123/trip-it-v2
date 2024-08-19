@@ -1,5 +1,8 @@
 .mypage-schedule {
   .mypage-schedule-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     .mypage-schedule-panels {
       display: flex;
       justify-content: space-between;
@@ -13,9 +16,45 @@
         gap: 5px;
       }
     }
-    .mypage-schedule-main {
+    .mypage-schedule-grid {
+      display: grid;
+      /* 1fr의 너비 제한 */
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: auto;
+      grid-gap: 10px;
     }
     .mypage-schedule-pagination {
+    }
+  }
+}
+@media screen and (max-width: 761px) {
+  .mypage-schedule {
+    .mypage-schedule-container {
+      .mypage-schedule-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 761px) and (max-width: 950px) {
+  .mypage-schedule {
+    .mypage-schedule-container {
+      .mypage-schedule-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+  }
+}
+@media screen and (min-width: 951px) {
+  .mypage-schedule {
+    .mypage-schedule-container {
+      .mypage-schedule-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(
+            0,
+            1fr
+          );
+      }
     }
   }
 }

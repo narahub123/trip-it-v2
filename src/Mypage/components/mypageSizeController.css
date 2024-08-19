@@ -1,5 +1,6 @@
 .mypage-size-controller {
   position: relative;
+  z-index: 1;
   .mypage-size-controller-title {
     cursor: pointer;
   }
