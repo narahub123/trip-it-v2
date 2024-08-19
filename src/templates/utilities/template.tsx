@@ -56,7 +56,9 @@ export const getResult = (
     case "reportResult":
       return (
         <p className="text">
-          {item[body.field.name]  === 1 ? '신고 처리' : "허위 신고"|| "내용 없음"}
+          {item[body.field.name] === 1
+            ? "신고 처리"
+            : "허위 신고" || "내용 없음"}
           {/* item에서 body.field.name에 해당하는 값이 있으면 표시, 없으면 "내용 없음" 표시 */}
         </p>
       );
