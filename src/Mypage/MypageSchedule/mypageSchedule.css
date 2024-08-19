@@ -1,0 +1,21 @@
+.mypage-schedule {
+  .mypage-schedule-container {
+    .mypage-schedule-panels {
+      display: flex;
+      justify-content: space-between;
+      .mypage-schedule-panels-left {
+        display: flex;
+        align-items: center;
+      }
+      .mypage-schedule-panels-right {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+    .mypage-schedule-main {
+    }
+    .mypage-schedule-pagination {
+    }
+  }
+}

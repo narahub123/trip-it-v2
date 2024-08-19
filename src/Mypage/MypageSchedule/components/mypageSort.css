@@ -1,0 +1,35 @@
+.mypage-sort {
+  position: relative;
+  .mypage-sort-title {
+    cursor: pointer;
+  }
+  .mypage-sort-container {
+    position: absolute;
+    width: 120px;
+    text-align: center;
+    right: 0;
+    visibility: hidden;
+    max-height: 0;
+    opacity: 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    .mypage-sort-item {
+      padding: 3px 5px;
+      cursor: pointer;
+    }
+  }
+  .mypage-sort-container.open {
+    margin-top: 5px;
+    visibility: visible;
+    max-height: 300px;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+    .mypage-sort-item:hover {
+      color: var(--basic-color);
+    }
+    .mypage-sort-item.active {
+      color: var(--basic-color);
+    }
+  }
+}
