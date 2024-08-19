@@ -24,7 +24,14 @@ const MypageSchedule = () => {
   const numPages = Math.ceil(total / size); // 총 페이지 개수
   const offset = (page - 1) * size;
   const [selections, setSelections] = useState<(string | number)[]>([]);
+  const [message, setMessage] = useState<{
+    type: string;
+    msgs: { title: string; detail: string };
+  }>();
 
+  useEffect(() => {
+    setTotal(items.length);
+  }, [items]);
   useEffect(() => {
     setLoading(true);
     fetchSchedulesMAPI()
@@ -34,9 +41,8 @@ const MypageSchedule = () => {
           return;
         }
         const receivedItems = res.data;
-        const length = res?.data.length;
         setItems(receivedItems);
-        setTotal(length);
+        setTotal(receivedItems.length);
         setLoading(false);
       })
       .catch((err) => {
@@ -44,11 +50,43 @@ const MypageSchedule = () => {
       });
   }, []);
 
-  console.log(items);
+  const handleDelete = () => {
+    setOpen(!open);
+    setMessage({
+      type: "confirm",
+      msgs: {
+        title: "선택한 일정(들)을 삭제하시겠습니까?",
+        detail: "일정을 삭제하면 일정을 사용하는 모든 글들도 같이 삭제됩니다.",
+      },
+    });
+  };
 
+  const handleSelectAll = () => {
+    if (selections.length >= 0 && selections.length < size) {
+      const selectedItems = items
+        .filter((item) => {
+          return item[field.name].includes(search);
+        })
+        .slice(offset, offset + size)
+        .map((item) => item.scheduleId);
+
+      setSelections(selectedItems);
+    } else {
+      setSelections([]);
+    }
+  };
   return (
     <>
-      <MypageScheduleModal />
+      <MypageScheduleModal
+        open={open}
+        setOpen={setOpen}
+        selections={selections}
+        setSelections={setSelections}
+        items={items}
+        setItems={setItems}
+        message={message}
+        setMessage={setMessage}
+      />
       <div className="mypage-schedule">
         <div className="mypage-schedule-container">
           <section className="mypage-schedule-panels">
@@ -71,6 +109,29 @@ const MypageSchedule = () => {
               />
             </span>
           </section>
+          <section
+            className={`mypage-schedule-delete${
+              selections.length > 0 ? " open" : ""
+            }`}
+          >
+            <p
+              className="mypage-schedule-delete-selecteall"
+              onClick={() => handleSelectAll()}
+            >
+              일괄 선택
+            </p>
+            <p
+              className="mypage-schedule-delete-title"
+              onClick={() => handleDelete()}
+            >
+              삭제
+            </p>
+          </section>
+          {items.length === 0 && (
+            <li className="mypage-schedule-grid-empty">
+              검색 결과가 없습니다.
+            </li>
+          )}
           <section className="mypage-schedule-grid">
             {items
               .filter((item) => {

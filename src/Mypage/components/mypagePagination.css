@@ -1,4 +1,5 @@
 .mypage-pagination {
+  margin-top: 20px;
   .mypage-pagination-container {
     display: flex;
     justify-content: center;

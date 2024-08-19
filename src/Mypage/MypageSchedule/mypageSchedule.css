@@ -1,8 +1,5 @@
 .mypage-schedule {
   .mypage-schedule-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
     .mypage-schedule-panels {
       display: flex;
       justify-content: space-between;
@@ -15,6 +12,38 @@
         align-items: center;
         gap: 5px;
       }
+    }
+
+    .mypage-schedule-delete {
+      margin-top: 10px;
+      display: flex;
+      justify-content: right;
+      visibility: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+      .mypage-schedule-delete-selecteall {
+        color: blue;
+        cursor: pointer;
+      }
+      .mypage-schedule-delete-title {
+        color: red;
+        cursor: pointer;
+      }
+    }
+    .mypage-schedule-delete.open {
+      visibility: visible;
+      max-height: 50px;
+      opacity: 1;
+      margin: 10px 0;
+      transition: all 0.3s ease-in-out;
+      display: flex;
+      gap: 5px;
+      font-size: 14px;
+    }
+    .mypage-schedule-grid-empty {
+      text-align: center;
+      margin: 160px auto;
     }
     .mypage-schedule-grid {
       display: grid;

@@ -53,6 +53,7 @@ const Trip = () => {
           <Route path="/mypage" element={<Mypage />}>
             <Route element={<Mypage />} />
             <Route path="/mypage" element={<Profile />} />
+            <Route path="/mypage/profile" element={<Profile />} />
             <Route path="/mypage/blocks" element={<Block />} />
             <Route path="/mypage/reports" element={<Report />} />
             <Route path="/mypage/posts" element={<PostsM />} />
