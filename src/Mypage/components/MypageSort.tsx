@@ -1,17 +1,25 @@
 import "./mypageSort.css";
 import React, { useState } from "react";
 import { LuArrowDown, LuArrowUp, LuSlidersHorizontal } from "react-icons/lu";
-import { mypageScheduleSnSArray } from "../MypageSchedule/data/schedule";
+
 import { controlSort } from "Mypage/Utilites/mypage";
+import { SortandSearchType } from "Mypage/types/mypage";
 
 interface MypageSortProps {
   sort: string[];
   setSort: React.Dispatch<React.SetStateAction<string[]>>;
   items: any[];
   setItems: React.Dispatch<React.SetStateAction<any[]>>;
+  sortNSearchArray: SortandSearchType[];
 }
 
-const MypageSort = ({ sort, setSort, items, setItems }: MypageSortProps) => {
+const MypageSort = ({
+  sort,
+  setSort,
+  items,
+  setItems,
+  sortNSearchArray,
+}: MypageSortProps) => {
   const [open, setOpen] = useState(false);
   return (
     <div className="mypage-sort">
@@ -19,7 +27,7 @@ const MypageSort = ({ sort, setSort, items, setItems }: MypageSortProps) => {
         <LuSlidersHorizontal />
       </div>
       <ul className={`mypage-sort-container${open ? " open" : ""}`}>
-        {mypageScheduleSnSArray
+        {sortNSearchArray
           .filter((item) => item.sort.key !== "")
           .map((i) => (
             <li

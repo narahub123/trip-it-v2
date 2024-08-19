@@ -107,3 +107,24 @@ export const debouncedHandleSearchChange = (
     handleSearchChange(e, setSearch, setPage, items, field, setTotal);
   }, 500); // 500밀리초 지연
 };
+
+// field 변경
+export const handleField = (
+  field: any,
+  setField: (value: { name: string; nested?: string[] }) => void,
+  setSearch: (value: string) => void,
+  setOpen: (value: boolean) => void
+) => {
+  setField(field);
+  setSearch("");
+  setOpen(false);
+};
+
+// 검색 방법 변경
+export const handleSearch = (
+  search: string,
+  select: string,
+  setSearch: (value: string) => void
+) => {
+  setSearch(select);
+};

@@ -40,6 +40,12 @@
       display: flex;
       gap: 5px;
       font-size: 14px;
+      .mypage-schedule-delete-selecteall:hover {
+        font-weight: bold;
+      }
+      .mypage-schedule-delete-title:hover {
+        font-weight: bold;
+      }
     }
     .mypage-schedule-grid-empty {
       text-align: center;
@@ -53,6 +59,7 @@
       grid-gap: 10px;
     }
     .mypage-schedule-pagination {
+      margin: 20px 0 40px;
     }
   }
 }

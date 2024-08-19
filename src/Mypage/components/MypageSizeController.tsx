@@ -9,6 +9,10 @@ interface MypageSizeControllerProps {
 
 const MypageSizeController = ({ size, setSize }: MypageSizeControllerProps) => {
   const [open, setOpen] = useState(false);
+  const handleSize = (size: number) => {
+    setSize(size);
+    setOpen(!open);
+  };
   return (
     <div className="mypage-size-controller">
       <div
@@ -29,7 +33,7 @@ const MypageSizeController = ({ size, setSize }: MypageSizeControllerProps) => {
             }`}
             key={curSize}
             value={curSize}
-            onClick={() => setSize(curSize)}
+            onClick={() => handleSize(curSize)}
           >
             {curSize}
           </li>

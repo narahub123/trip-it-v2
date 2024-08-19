@@ -8,6 +8,7 @@ import MypageSort from "../components/MypageSort";
 import MypageSearch from "../components/MypageSearch";
 import MypageScheduleCard from "./components/MypageScheduleCard";
 import MypagePagination from "Mypage/components/MypagePagination";
+import { mypageScheduleSnSArray } from "Mypage/data/mypage";
 
 const MypageSchedule = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -94,18 +95,12 @@ const MypageSchedule = () => {
               <MypageSizeController size={size} setSize={setSize} />
             </span>
             <span className="mypage-schedule-panels-right">
-              <MypageSearch
-                field={field}
-                items={items}
-                setPage={setPage}
-                setSearch={setSearch}
-                setTotal={setTotal}
-              />
               <MypageSort
                 sort={sort}
                 setSort={setSort}
                 items={items}
                 setItems={setItems}
+                sortNSearchArray={mypageScheduleSnSArray}
               />
             </span>
           </section>
@@ -146,6 +141,18 @@ const MypageSchedule = () => {
                   item={item}
                 />
               ))}
+          </section>
+          <section className="mypage-schedule-search">
+            <MypageSearch
+              sortNSearchArray={mypageScheduleSnSArray}
+              search={search}
+              setSearch={setSearch}
+              setPage={setPage}
+              items={items}
+              field={field}
+              setField={setField}
+              setTotal={setTotal}
+            />
           </section>
           <section className="mypage-schedule-pagination">
             <MypagePagination

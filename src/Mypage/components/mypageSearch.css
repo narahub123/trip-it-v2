@@ -1,29 +1,67 @@
 .mypage-search {
+  margin-top: 40px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   position: relative;
 
-  .mypage-search-box {
-    width: 20px;
-    opacity: 1;
-    padding: 2px 0px;
-    border-radius: 7px;
-    border: 0px solid #ccc;
-    transition: all 0.4s ease-in-out;
+  .mypage-search-field {
+    position: relative;
+    width: 100px;
+    .mypage-search-field-title {
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 10px 0 0 10px;
+      padding: 7px;
+      text-align: center;
+      font-size: 14px;
+      transition: border-radius 0.3s ease-in-out;
+    }
+    .mypage-search-field-title.open {
+      border-radius: 10px 0 0 0px;
+      transition: border-radius 0.3s ease-in-out;
+    }
+    .mypage-search-field-container {
+      position: absolute;
+      box-sizing: border-box;
+      visibility: hidden;
+      max-height: 0;
+      opacity: 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      width: 100px;
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+      .mypage-search-field-item {
+        padding: 5px;
+      }
+      .mypage-search-field-item.active {
+        color: var(--basic-color);
+      }
+      .mypage-search-field-item:hover {
+        color: var(--basic-color);
+      }
+    }
+
+    .mypage-search-field-container.open {
+      visibility: visible;
+      max-height: 300px;
+      border-radius: 0px 0px 10px 10px;
+      opacity: 1;
+      transition: all 0.3s ease-in-out;
+    }
   }
-  .mypage-search-box.open {
-    width: 140px;
-    opacity: 1;
-    padding: 2px 5px;
-    border-radius: 7px;
-    border: 1px solid black;
-    transition: all 0.4s ease-in-out;
-  }
-  .mypage-search-icon {
-    position: absolute;
-    right: 4px;
-    text-align: right;
-    width: 20px;
+  .mypage-search-keyword {
+    .mypage-search-keyword-box {
+      box-sizing: border-box;
+      width: 300px;
+      opacity: 1;
+      padding: 7px 10px;
+      border-radius: 0px 10px 10px 0px;
+      border: 1px solid #ccc;
+      line-height: 19px;
+      font-size: 14px;
+    }
   }
 }
