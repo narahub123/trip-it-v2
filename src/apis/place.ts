@@ -13,14 +13,17 @@ export const fetchPlacesAPI = async (
     const url = `${baseURL}/home/apiList/${metroId}/${pageNo}/${contentTypeId}`;
     console.log(url);
 
-    const res = await axios.get(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Access: `${localStorage.getItem("access")}`,
-        Refresh: `${getCookie("refresh")}`,
-      },
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      url
+      //   {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Access: `${localStorage.getItem("access")}`,
+      //     Refresh: `${getCookie("refresh")}`,
+      //   },
+      //   withCredentials: true,
+      // }
+    );
 
     const response = res.data;
 
@@ -41,14 +44,17 @@ export const fetchPlaceAPI = async (contentId: string) => {
   const url = `${baseURL}/home/apiDetail/${contentId}`;
   console.log(url);
   try {
-    const place = await axios.get(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Access: `${localStorage.getItem("access")}`,
-        Refresh: `${getCookie("refresh")}`,
-      },
-      withCredentials: true,
-    });
+    const place = await axios.get(
+      url
+      //   , {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Access: `${localStorage.getItem("access")}`,
+      //     Refresh: `${getCookie("refresh")}`,
+      //   },
+      //   withCredentials: true,
+      // }
+    );
 
     return place;
   } catch (err: any) {
@@ -72,14 +78,17 @@ export const fetchPlacesByKeywordAPI = async (
   try {
     const url = `${baseURL}/home/apiSearch/${metroId}/${pageNo}/${contentTypeId}/${keyword}`;
     console.log(url);
-    const res = await axios.get(url, {
-      headers: {
-        "Content-Type": "application/json",
-        Access: `${localStorage.getItem("access")}`,
-        Refresh: `${getCookie("refresh")}`,
-      },
-      withCredentials: true,
-    });
+    const res = await axios.get(
+      url
+      //   , {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Access: `${localStorage.getItem("access")}`,
+      //     Refresh: `${getCookie("refresh")}`,
+      //   },
+      //   withCredentials: true,
+      // }
+    );
 
     const response = res.data;
 

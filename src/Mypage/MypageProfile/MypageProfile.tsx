@@ -289,8 +289,8 @@ const MypageProfile = () => {
                         ? ""
                         : item.title === "birth" && user
                         ? convertDataToDate(user[`birth`])
-                        : item.title === "regdate" && user
-                        ? convertDataToDate(user[`regdate`])
+                        // : item.title === "regdate" && user
+                        // ? convertDataToDate(user[`regdate`])
                         : item.title === "role" &&
                           user?.[`role`] === "ROLE_USER"
                         ? "일반회원"

@@ -98,10 +98,10 @@ function Header() {
                 }
                 onClick={() => {
                   setClicked(1);
-                  navigate("/community");
+                  navigate("/planner");
                 }}
               >
-                커뮤니티
+                플레너
               </button>
             </div>
             {localStorage.key(0) != null ? (

@@ -6,7 +6,6 @@ import Login from "pages/Auth/Login";
 import Normal from "pages/Auth/Normal";
 import Join from "pages/Auth/Join";
 import { useEffect } from "react";
-import refreshAPI from "./utilities/TokenRefresher";
 
 import Profile from "pages/mypage/Profile/Profile";
 import Block from "pages/mypage/Block/Block";
@@ -31,6 +30,7 @@ import MyPageSchedule from "Mypage/MypageSchedule/MypageSchedule";
 import MypageBlock from "Mypage/MypageBlock/MypageBlock";
 import MypageReport from "Mypage/MypageReport/MypageReport";
 import MypageProfile from "Mypage/MypageProfile/MypageProfile";
+import refreshAPI from "Utility/TokenRefresher";
 
 const Trip = () => {
   useEffect(() => {
