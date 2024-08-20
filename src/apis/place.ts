@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "utilities/Cookie";
+import { getCookie } from "Utility/Cookie";
 import { convertStringToJson } from "utilities/place";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ProfileType } from "types/users";
-import { getCookie } from "utilities/Cookie";
+import { getCookie } from "Utility/Cookie";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ScheduleDtoInputType, ScheduleDetailDtoInputType } from "types/plan";
-import { getCookie } from "utilities/Cookie";
+import { getCookie } from "Utility/Cookie";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 

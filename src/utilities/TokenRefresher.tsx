@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie, removeCookie, setCookie } from "./Cookie";
+import { getCookie, removeCookie, setCookie } from "../Utility/Cookie";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;
 

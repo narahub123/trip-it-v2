@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Find from "./Find";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { getCookie, removeCookie, setCookie } from "../../utilities/Cookie";
+import { getCookie, removeCookie, setCookie } from "../../Utility/Cookie";
 import Try from "./TryNormal";
 
 const baseURL = process.env.REACT_APP_SERVER_URL;

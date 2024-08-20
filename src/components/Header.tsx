@@ -1,28 +1,78 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { removeCookie } from "../utilities/Cookie";
-// import Write from "../Community/Write";
+
+// import Write from "../pages/Community/Write";
+import axios from "axios";
+import Alert from "./Alert";
+import { removeCookie } from "Utility/Cookie";
 
 function Header() {
-  const headerLeftButtonList = [
-    "홈",
-    "플레너",
-    "커뮤니티",
-    "마이페이지",
-    "관리자페이지",
-    "테스트",
-  ];
-  const nav = ["/", "/planner", "/community", "/mypage", "/admin", "/test"];
-  const [clicked, setClicked] = useState(0);
+  const baseUrl = "http://172.16.1.115:8080";
+
+  async function comList() {
+    await axios
+      .post(
+        baseUrl + "/communityList",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        setuserId(response.data.userId);
+        setNickname(response.data.nickname);
+        setGender(response.data.gender);
+        setBirth(response.data.birth);
+        setStartDate(response.data.startDate);
+        setEndDate(response.data.endDate);
+        setMetroId(response.data.metroId);
+        setPostId(response.data.postId);
+        setPostTitle(response.data.postTitle);
+        setPostContent(response.data.postContent);
+        setPersonnel(response.data.personnel);
+        setPostPic(response.data.postPic);
+        setExposureStatus(response.data.exposureStatus);
+        setViewCount(response.data.viewCount);
+        console.log(userId);
+      })
+      .catch((err) => {
+        console.log("err " + err);
+      });
+  }
+
+  const [userId, setuserId] = useState();
+  const [nickname, setNickname] = useState();
+  const [gender, setGender] = useState();
+  const [birth, setBirth] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [metroId, setMetroId] = useState();
+  const [postId, setPostId] = useState();
+  const [postTitle, setPostTitle] = useState();
+  const [postContent, setPostContent] = useState();
+  const [personnel, setPersonnel] = useState();
+  const [postPic, setPostPic] = useState();
+  const [exposureStatus, setExposureStatus] = useState();
+  const [viewCount, setViewCount] = useState();
+
+  const [clicked, setClicked] = useState(3);
   const [write, setWrite] = useState(0);
 
   let navigate = useNavigate();
 
-  const toggleActive = (e: any) => {
-    setClicked(() => {
-      return e.target.value;
-    });
-    navigate(nav[e.target.value]);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleShowAlert = () => {
+    setShowAlert(true);
+  };
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
+    navigate("/login");
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -31,20 +81,28 @@ function Header() {
         <div className="header">
           <div className="header-nav">
             <div className="header-nav-left">
-              {headerLeftButtonList.map(function (a, i) {
-                return (
-                  <button
-                    value={i}
-                    className={
-                      "header-left-button" + (i == clicked ? "active" : "")
-                    }
-                    key={i}
-                    onClick={toggleActive}
-                  >
-                    {a}
-                  </button>
-                );
-              })}
+              <button
+                className={
+                  "header-left-button" + (clicked == 0 ? "active" : "")
+                }
+                onClick={() => {
+                  setClicked(0);
+                  navigate("/");
+                }}
+              >
+                홈
+              </button>
+              <button
+                className={
+                  "header-left-button" + (clicked == 1 ? "active" : "")
+                }
+                onClick={() => {
+                  setClicked(1);
+                  navigate("/community");
+                }}
+              >
+                커뮤니티
+              </button>
             </div>
             {localStorage.key(0) != null ? (
               <div className="header-nav-right">
@@ -112,8 +170,7 @@ function Header() {
                 <button
                   className="header-nav-right-write"
                   onClick={() => {
-                    alert("로그인");
-                    navigate("/login");
+                    handleShowAlert();
                   }}
                 >
                   글쓰기
@@ -123,7 +180,17 @@ function Header() {
           </div>
         </div>
       </div>
-      {/* {write == 1 ? <Write write={write} setWrite={setWrite}></Write> : null} */}
+      {/* {write == 1 ? (
+        <Write
+          write={write}
+          setWrite={setWrite}
+          Nav={clicked}
+          setNav={setClicked}
+        ></Write>
+      ) : null} */}
+      {showAlert && (
+        <Alert message="로그인 후 이용가능합니다" onClose={handleCloseAlert} />
+      )}
     </>
   );
 }
